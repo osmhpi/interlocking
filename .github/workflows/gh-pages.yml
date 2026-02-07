@@ -47,6 +47,8 @@ jobs:
         run: cd geographical_interlocking/simulator/react && npm ci
 
       - name: Geographical Interlocking
+        environment:
+          GH_PAGES: true
         run: cd geographical_interlocking && make build
 
       - name: Locking Table Interlocking NPM
