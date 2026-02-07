@@ -1,0 +1,17 @@
+@startuml Point
+
+[*] --> LEFT: [1] PointDetectedLeft
+[*] --> RIGHT: [2] PointDetectedRight
+[*] --> UNDETERMINED: [3]
+
+UNDETERMINED --> LEFT: [1] RouteAuthorizedMoveLeft && !RouteAuthorizedMoveRight
+UNDETERMINED --> RIGHT: [2] RouteAuthorizedMoveRight && !RouteAuthorizedMoveLeft
+
+LEFT -right-> RIGHT: [1] RouteAuthorizedMoveRight && !(RouteAuthorizedMoveLeft || PointLockedLeft)
+RIGHT -left-> LEFT: [2] RouteAuthorizedMoveLeft && !(RouteAuthorizedMoveRight || PointLockedRight)
+
+LEFT: State = PointState::LEFT
+RIGHT: State = PointState::RIGHT
+UNDETERMINED: State = PointState::UNDETERMINED
+
+@enduml

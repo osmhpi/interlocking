@@ -1,0 +1,12 @@
+@startuml PointLockRight
+
+[*] --> NOT_LOCKED: [1] PointInOppositePosition
+[*] --> LOCKED: [2]
+
+NOT_LOCKED -right-> LOCKED: [1] ZoneRequestsLock || PointIsMoving || TransitRequestsLock
+LOCKED -left-> NOT_LOCKED: [1] !ZoneRequestsLock && !PointIsMoving && !TransitRequestsLock
+
+NOT_LOCKED: State = ActiveInactive::INACTIVE
+LOCKED: State = ActiveInactive::ACTIVE
+
+@enduml

@@ -1,0 +1,10 @@
+@startuml Zone
+
+[*] --> OCCUPIED: [1]
+OCCUPIED --> VACANT : [1] !ZoneOccupied
+VACANT --> OCCUPIED : [1] ZoneOccupied
+
+OCCUPIED: State = OccupancyStatus::OCCUPIED
+VACANT: State = OccupancyStatus::VACANT
+
+@enduml

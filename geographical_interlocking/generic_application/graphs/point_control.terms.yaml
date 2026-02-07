@@ -1,0 +1,23 @@
+entity_type: Point
+terms:
+  EndPositionLeftDetected:
+    expression: SCIP.DetectedEndPosition == EulynxEndPosition::LEFT
+    default: false
+  EndPositionRightDetected:
+    expression: SCIP.DetectedEndPosition == EulynxEndPosition::RIGHT
+    default: false
+  CommandedLeft:
+    expression: Point.State == PointState::LEFT
+    default: false
+  CommandedRight:
+    expression: Point.State == PointState::RIGHT
+    default: false
+variables:
+  Left:
+    type: ActiveInactive
+    description: Indicates whether the point is locked to left end position.
+    default: ActiveInactive::INACTIVE
+  Right:
+    type: ActiveInactive
+    description: Indicates whether the point is locked to right end position.
+    default: ActiveInactive::INACTIVE

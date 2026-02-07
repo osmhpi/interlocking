@@ -1,0 +1,10 @@
+entity_type: Zone
+terms:
+  ZoneOccupied:
+    expression: SCITDS.OccupancyStatus != OccupancyStatus::VACANT
+    default: true
+variables:
+  State:
+    type: OccupancyStatus
+    description: Indicates whether the zone is occupied.
+    default: OccupancyStatus::OCCUPIED

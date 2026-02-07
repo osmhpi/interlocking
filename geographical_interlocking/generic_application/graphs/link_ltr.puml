@@ -1,0 +1,20 @@
+@startuml LinkLTR
+
+[*] --> IDLE: [1]
+
+IDLE --> CHECKING: [1] IsChecking && !IsCheckingOpposite
+IDLE --> ADMIT: [2] IsAdmit
+CHECKING --> ROUTE_SET: [1] IsRouteSet && IsAdmitOpposite
+CHECKING --> IDLE: [2] !IsChecking
+ADMIT --> ROUTE_MONITORED: [1] IsRouteSetDownstream
+ADMIT --> IDLE: [2] !IsAdmit
+ROUTE_MONITORED --> ADMIT: [1] !IsRouteSetDownstream
+ROUTE_SET --> IDLE: [1] !IsRouteSet
+
+IDLE: State = RouteSearch::INACTIVE
+CHECKING: State = RouteSearch::SEARCH
+ADMIT: State = RouteSearch::RESPONSE
+ROUTE_SET: State = RouteSearch::ROUTE_SET
+ROUTE_MONITORED: State = RouteSearch::ROUTE_MONITORED
+
+@enduml

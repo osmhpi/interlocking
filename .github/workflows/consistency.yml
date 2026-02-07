@@ -1,0 +1,42 @@
+name: Generated Files Consistency
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Setup ANTLR
+        uses: StoneMoe/setup-antlr4@v4.13.2
+
+      - name: Setup wasm pack
+        uses: jetli/wasm-pack-action@v0.4.0
+
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v2
+
+      - name: Geographical Interlocking NPM
+        run: cd geographical_interlocking/simulator/react && npm ci
+
+      - name: Geographical Interlocking
+        run: cd geographical_interlocking && make clean && make puml && make build
+
+      - name: Locking Table Interlocking NPM
+        run: cd locking_table_interlocking/simulator/react && npm ci
+
+      - name: Locking Table Interlocking
+        run: cd locking_table_interlocking && make clean && make puml && make build
+
+      - name: Assert working directory clean
+        run: git diff --exit-code

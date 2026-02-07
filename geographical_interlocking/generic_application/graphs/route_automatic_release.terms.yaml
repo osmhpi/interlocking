@@ -1,0 +1,16 @@
+entity_type: Transit
+terms:
+  RouteIsSet:
+    expression: Route.State == RouteState::SET
+    default: false
+  OppositeTransitsInactive:
+    expression: All(transit in @trigger_zone_opposite_transits | Transit[transit].State == ActiveInactive::INACTIVE)
+    default: true
+  TriggerZoneFree:
+    expression: Zone[@trigger_zone].State == OccupancyStatus::VACANT
+    default: false
+variables:
+  State:
+    type: ActiveInactive
+    description: Indicates whether the route automatic release is active or not.
+    default: ActiveInactive::INACTIVE

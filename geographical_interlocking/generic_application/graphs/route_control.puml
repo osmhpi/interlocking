@@ -1,0 +1,10 @@
+@startuml RouteControl
+
+[*] --> CLOSED: [1]
+CLOSED --> OPEN: [1] RouteMonitored
+OPEN --> CLOSED: [1] !RouteMonitored
+
+CLOSED: State = OpenCloseState::CLOSED
+OPEN: State = OpenCloseState::OPEN
+
+@enduml

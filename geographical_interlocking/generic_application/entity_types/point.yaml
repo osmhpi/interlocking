@@ -1,0 +1,62 @@
+name: Point
+description: Point
+interfaces:
+  SCIP:
+    inputs:
+      DetectedEndPosition:
+        description: Indicates whether the point is detected in left or right position.
+        type: EulynxEndPosition
+        default: EulynxEndPosition::NO_END_POSITION
+        kind: continuous
+    outputs:
+      CommandedEndPosition:
+        description: Triggers a Eulynx move point command with the specified end position.
+        type: EulynxCommandedEndPosition
+        default: EulynxCommandedEndPosition::NOT_COMMANDED
+        mapping:
+          EulynxCommandedEndPosition::LEFT: PointOperation.State == EulynxCommandedEndPosition::LEFT
+          EulynxCommandedEndPosition::RIGHT: PointOperation.State == EulynxCommandedEndPosition::RIGHT
+          EulynxCommandedEndPosition::NOT_COMMANDED: PointOperation.State == EulynxCommandedEndPosition::NOT_COMMANDED
+        kind: discrete
+  SCICC:
+    outputs:
+      CurrentPosition:
+        description: Indicates the current position of the point.
+        type: EulynxEndPosition
+        mapping:
+          EulynxEndPosition::LEFT: SCIP.DetectedEndPosition == EulynxEndPosition::LEFT
+          EulynxEndPosition::RIGHT: SCIP.DetectedEndPosition == EulynxEndPosition::RIGHT
+          EulynxEndPosition::NO_END_POSITION: SCIP.DetectedEndPosition == EulynxEndPosition::NO_END_POSITION
+        default: EulynxEndPosition::NO_END_POSITION
+        kind: continuous
+properties:
+  ise:
+    description: ISE that this point belongs to.
+    type: ise
+    min: !!int 1
+    max: !!int 1
+  all_points:
+    description: All points in the interlocking.
+    type: point
+    min: !!int 1
+    max: unbounded
+  locked_left_by_transits:
+    description: Transits that require the point to be set to left.
+    type: transit
+    min: !!int 0
+    max: unbounded
+  locked_right_by_transits:
+    description: Transits that require the point to be set to right.
+    type: transit
+    min: !!int 0
+    max: unbounded
+  locked_left_by_zones:
+    description: Zones that require the point to be set to left.
+    type: zone
+    min: !!int 0
+    max: unbounded
+  locked_right_by_zones:
+    description: Zones that require the point to be set to right.
+    type: zone
+    min: !!int 0
+    max: unbounded

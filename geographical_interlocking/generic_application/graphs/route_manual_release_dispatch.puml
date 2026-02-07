@@ -1,0 +1,10 @@
+@startuml RouteManualReleaseDispatch
+
+[*] --> IDLE: [1]
+IDLE --> ACTIVE: [1] RouteReleaseRequested
+ACTIVE --> IDLE: [1] !RouteReleaseRequested
+
+IDLE: State = ActiveInactive::INACTIVE
+ACTIVE: State = ActiveInactive::ACTIVE
+
+@enduml

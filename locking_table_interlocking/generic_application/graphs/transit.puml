@@ -1,0 +1,15 @@
+@startuml Transit
+
+[*] --> INITIALIZING: [1]
+
+INITIALIZING -right-> IDLE : [1] InitializationTimeoutExpired && UpstreamTransitsIdle && ZoneFree && !RequestedByRoute
+
+IDLE --> ACTIVE : [1] RequestedByRoute
+ACTIVE --> IDLE : [1] UpstreamTransitsIdle && ZoneFree && !RequestedByRoute
+
+INITIALIZING: State = ActiveInactive::ACTIVE
+INITIALIZING: StartInitialization = now
+IDLE: State = ActiveInactive::INACTIVE
+ACTIVE: State = ActiveInactive::ACTIVE
+
+@enduml

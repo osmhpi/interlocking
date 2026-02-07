@@ -1,0 +1,25 @@
+entity_type: Point
+terms:
+  PointDetectedLeft:
+    expression: SCIP.DetectedEndPosition == EulynxEndPosition::LEFT
+    default: false
+  PointDetectedRight:
+    expression: SCIP.DetectedEndPosition == EulynxEndPosition::RIGHT
+    default: false
+  RouteAuthorizedMoveLeft:
+    expression: Any(route in @requested_left_by_routes | Route[route].State == RouteState::PREPARING)
+    default: false
+  RouteAuthorizedMoveRight:
+    expression: Any(route in @requested_right_by_routes | Route[route].State == RouteState::PREPARING)
+    default: false
+  PointLockedLeft:
+    expression: PointLockLeft.State == ActiveInactive::ACTIVE
+    default: false
+  PointLockedRight:
+    expression: PointLockRight.State == ActiveInactive::ACTIVE
+    default: false
+variables:
+  State:
+    type: PointState
+    description: Indicates whether the point is in left, right or undetermined position.
+    default: PointState::UNDETERMINED

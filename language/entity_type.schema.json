@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EntityType",
+  "type": "object",
+  "required": ["name", "description"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the entity type."
+    },
+    "description": {
+      "type": "string",
+      "description": "A description of the entity type."
+    },
+    "properties": {
+      "type": "object",
+      "description": "Properties of the entity type.",
+      "additionalProperties": { "$ref": "#/definitions/ConceptProperty" }
+    },
+    "interfaces": {
+      "type": "object",
+      "description": "Interface assignments for this entity type.",
+      "additionalProperties": { "$ref": "#/definitions/InterfaceAssignment" }
+    }
+  },
+  "definitions": {
+    "InterfaceAssignment": {
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/InterfaceInputField" }
+        },
+        "outputs": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/InterfaceOutputField" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "InterfaceInputField": {
+      "type": "object",
+      "properties": {
+        "description": { "type": "string" },
+        "type": { "type": "string" },
+        "default": { "type": ["string", "number", "boolean"], "description": "Default value for the input." },
+        "kind": {
+          "type": "string",
+          "enum": ["discrete", "continuous"],
+          "description": "The type of interface: 'discrete' or 'continuous'."
+        }
+      },
+      "required": ["description", "type", "default", "kind"],
+      "additionalProperties": false
+    },
+    "InterfaceOutputField": {
+      "type": "object",
+      "properties": {
+        "description": { "type": "string" },
+        "type": { "type": "string" },
+        "kind": {
+          "type": "string",
+          "enum": ["discrete", "continuous"],
+          "description": "The type of interface: 'discrete' or 'continuous'."
+        },
+        "mapping": {
+          "type": "object",
+          "description": "Map from possible output values to expressions.",
+          "additionalProperties": { "type": "string" }
+        },
+        "default": { "type": ["string", "number", "boolean"], "description": "Default value for the output." }
+      },
+      "required": ["description", "type", "kind"],
+      "additionalProperties": false
+    },
+    "ConceptProperty": {
+      "title": "ConceptProperty",
+      "type": "object",
+      "required": ["description", "type"],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "Description of the property."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of the property (e.g., boolean, time, or name of a concept)."
+        },
+        "min": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0},
+            {"type": "string", "enum": ["unbounded"]}
+          ],
+          "description": "Minimum cardinality."
+        },
+        "max": {
+          "oneOf": [
+            {"type": "integer", "minimum": 0},
+            {"type": "string", "enum": ["unbounded"]}
+          ],
+          "description": "Maximum cardinality."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

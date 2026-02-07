@@ -1,0 +1,18 @@
+entity_type: Point
+terms:
+  PointInOppositePosition:
+    expression: SCIP.DetectedEndPosition == EulynxEndPosition::RIGHT
+    default: false
+  ZoneRequestsLock:
+    expression: Any(zone in @locked_right_by_zones | Zone[zone].State == OccupancyStatus::OCCUPIED)
+    default: false
+  PointIsMoving:
+    default: false
+  TransitRequestsLock:
+    expression: Any(transit in @locked_right_by_transits | Transit[transit].State == ActiveInactive::ACTIVE)
+    default: false
+variables:
+  State:
+    type: ActiveInactive
+    description: Indicates whether the point is locked to right end position.
+    default: ActiveInactive::INACTIVE

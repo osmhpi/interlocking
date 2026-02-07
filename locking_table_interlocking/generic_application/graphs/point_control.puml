@@ -1,0 +1,20 @@
+@startuml PointControl
+
+[*] -left-> CONTROLLED_LEFT: [1] EndPositionLeftDetected
+[*] -right-> CONTROLLED_RIGHT: [2] EndPositionRightDetected
+[*] --> NOT_CONTROLLED: [3]
+
+NOT_CONTROLLED -left-> CONTROLLED_LEFT: [1] EndPositionLeftDetected && CommandedLeft
+NOT_CONTROLLED -right-> CONTROLLED_RIGHT: [2] EndPositionRightDetected && CommandedRight
+
+CONTROLLED_LEFT --> NOT_CONTROLLED: [1] !EndPositionLeftDetected || !CommandedLeft
+CONTROLLED_RIGHT --> NOT_CONTROLLED: [1] !EndPositionRightDetected || !CommandedRight
+
+CONTROLLED_LEFT: Left = ActiveInactive::ACTIVE
+CONTROLLED_LEFT: Right = ActiveInactive::INACTIVE
+CONTROLLED_RIGHT: Right = ActiveInactive::ACTIVE
+CONTROLLED_RIGHT: Left = ActiveInactive::INACTIVE
+NOT_CONTROLLED: Left = ActiveInactive::INACTIVE
+NOT_CONTROLLED: Right = ActiveInactive::INACTIVE
+
+@enduml

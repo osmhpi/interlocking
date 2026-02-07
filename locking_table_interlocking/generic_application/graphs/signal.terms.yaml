@@ -1,0 +1,10 @@
+entity_type: Signal
+terms:
+  RouteIsSet:
+    expression: Any(route in @routes_starting_here | Route[route].State == RouteState::SET)
+    default: false
+variables:
+  State:
+    type: ActiveInactive
+    description: Indicates whether the signal is currently the start of a route.
+    default: ActiveInactive::INACTIVE

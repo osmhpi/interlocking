@@ -1,0 +1,283 @@
+{
+  "Signal": [
+    {
+      "name": "A",
+      "routes_starting_here": ["G11+"]
+    },
+    {
+      "name": "N1",
+      "routes_starting_here": []
+    },
+    {
+      "name": "N2",
+      "routes_starting_here": []
+    }
+  ],
+  "Ise": [
+    {
+      "name": "A",
+      "is_start_of_route_admission_check": ["A.N1", "A.N2"],
+      "is_end_of_route_admission_check": [],
+      "link_b_left": ["link_1"],
+      "transits": ["G11+", "G11-"]
+    },
+    {
+      "name": "W1",
+      "is_start_of_route_admission_check": [],
+      "is_end_of_route_admission_check": [],
+      "link_a_right": ["link_1"],
+      "link_b_left": ["link_2"],
+      "link_c_left": ["link_3"],
+      "point": "W1",
+      "transits": ["W1_R+", "W1_R-", "W1_L+", "W1_L-"]
+    },
+    {
+      "name": "W2",
+      "is_start_of_route_admission_check": [],
+      "is_end_of_route_admission_check": [],
+      "link_a_left": ["link_4"],
+      "link_c_right": ["link_3"],
+      "point": "W2",
+      "transits": ["W2_R+", "W2_R-", "W2_L+", "W2_L-"]
+    },
+    {
+      "name": "N1",
+      "is_start_of_route_admission_check": [],
+      "is_end_of_route_admission_check": ["A.N1"],
+      "link_a_right": ["link_2"],
+      "transits": ["G12+", "G12-"]
+    },
+    {
+      "name": "N2",
+      "is_start_of_route_admission_check": [],
+      "is_end_of_route_admission_check": ["A.N2"],
+      "link_a_right": ["link_4"],
+      "transits": ["G21+", "G21-"]
+    }
+  ],
+  "Link": [
+    {
+      "name": "link_1",
+      "ise_left_port_b": ["A"],
+      "ise_right_port_a": ["W1"]
+    },
+    {
+      "name": "link_2",
+      "ise_left_port_b": ["W1"],
+      "ise_right_port_a": ["N1"]
+    },
+    {
+      "name": "link_3",
+      "ise_left_port_c": ["W1"],
+      "ise_right_port_c": ["W2"]
+    },
+    {
+      "name": "link_4",
+      "ise_left_port_a": ["W2"],
+      "ise_right_port_a": ["N2"]
+    }
+  ],
+  "Route": [
+    {
+      "name": "A.N1",
+      "start_ise_left": "A",
+      "all_routes": [
+        "A.N1"
+      ]
+    },
+    {
+      "name": "A.N2",
+      "start_ise_left": "A",
+      "all_routes": [
+        "A.N2"
+      ]
+    }
+  ],
+  "Point": [
+    {
+      "name": "W1",
+      "ise": "W1",
+      "locked_left_by_transits": ["W1_L+", "W1_L-"],
+      "locked_right_by_transits": ["W1_R+", "W1_R-"],
+      "all_points": [
+        "W1",
+        "W2"
+      ]
+    },
+    {
+      "name": "W2",
+      "ise": "W2",
+      "locked_left_by_transits": ["W2_L+", "W2_L-"],
+      "locked_right_by_transits": ["W2_R+", "W2_R-"],
+      "all_points": [
+        "W1",
+        "W2"
+      ]
+    }
+  ],
+  "Station": [
+    {
+      "name": "Example",
+      "all_routes": [
+        "A.N1",
+        "A.N2"
+      ]
+    }
+  ],
+  "Transit": [
+    {
+      "name": "G11+",
+      "ise": "A",
+      "underlying_zone": "G11",
+      "upstream_transits": [],
+      "downstream_link_left": ["link_1"],
+      "transit_in_opposite_direction": "G11-",
+      "trigger_zone": "W1",
+      "trigger_zone_opposite_transits": ["W1_R-", "W1_L-"],
+      "approach_zone": "G11",
+      "signal": "A",
+      "time_delay_etcs_approach_locking": 1000,
+      "time_delay_unsupervised_train_approach_locking": 1000
+    },
+    {
+      "name": "G11-",
+      "ise": "A",
+      "underlying_zone": "G11",
+      "upstream_transits": ["W1_R-", "W1_L-"],
+      "upstream_link_left": ["link_1"],
+      "transit_in_opposite_direction": "G11+"
+    },
+    {
+      "name": "W1_R+",
+      "ise": "W1",
+      "underlying_zone": "W1",
+      "upstream_transits": [],
+      "requires_point_right": ["W1"],
+      "upstream_link_right": ["link_1"],
+      "downstream_link_left": ["link_2"],
+      "transit_in_opposite_direction": "W1_R-"
+    },
+    {
+      "name": "W1_R-",
+      "ise": "W1",
+      "underlying_zone": "W1",
+      "upstream_transits": ["G12-"],
+      "requires_point_right": ["W1"],
+      "upstream_link_left": ["link_2"],
+      "downstream_link_right": ["link_1"],
+      "transit_in_opposite_direction": "W1_R+"
+    },
+    {
+      "name": "W1_L+",
+      "ise": "W1",
+      "underlying_zone": "W1",
+      "upstream_transits": [],
+      "requires_point_left": ["W1"],
+      "upstream_link_right": ["link_1"],
+      "downstream_link_left": ["link_3"],
+      "transit_in_opposite_direction": "W1_L-"
+    },
+    {
+      "name": "W1_L-",
+      "ise": "W1",
+      "underlying_zone": "W1",
+      "upstream_transits": ["W2_L+"],
+      "requires_point_left": ["W1"],
+      "upstream_link_left": ["link_3"],
+      "downstream_link_right": ["link_1"],
+      "transit_in_opposite_direction": "W1_L+"
+    },
+    {
+      "name": "W2_R+",
+      "ise": "W2",
+      "underlying_zone": "W2",
+      "upstream_transits": ["G21-"],
+      "requires_point_right": ["W2"],
+      "upstream_link_left": ["link_4"],
+      "transit_in_opposite_direction": "W2_R-"
+    },
+    {
+      "name": "W2_R-",
+      "ise": "W2",
+      "underlying_zone": "W2",
+      "upstream_transits": [],
+      "requires_point_right": ["W2"],
+      "downstream_link_left": ["link_4"],
+      "transit_in_opposite_direction": "W2_R+"
+    },
+    {
+      "name": "W2_L+",
+      "ise": "W2",
+      "underlying_zone": "W2",
+      "upstream_transits": ["G21-"],
+      "requires_point_left": ["W2"],
+      "upstream_link_left": ["link_4"],
+      "downstream_link_right": ["link_3"],
+      "transit_in_opposite_direction": "W2_L-"
+    },
+    {
+      "name": "W2_L-",
+      "ise": "W2",
+      "underlying_zone": "W2",
+      "upstream_transits": ["W1_L+"],
+      "requires_point_left": ["W2"],
+      "upstream_link_right": ["link_3"],
+      "downstream_link_left": ["link_4"],
+      "transit_in_opposite_direction": "W2_L+"
+    },
+    {
+      "name": "G12+",
+      "ise": "N1",
+      "underlying_zone": "G12",
+      "upstream_transits": ["W1_R+"],
+      "upstream_link_right": ["link_2"],
+      "transit_in_opposite_direction": "G12-"
+    },
+    {
+      "name": "G12-",
+      "ise": "N1",
+      "underlying_zone": "G12",
+      "upstream_transits": [],
+      "downstream_link_right": ["link_2"],
+      "transit_in_opposite_direction": "G12+"
+    },
+    {
+      "name": "G21+",
+      "ise": "N2",
+      "underlying_zone": "G21",
+      "upstream_transits": ["W2_R-", "W2_L-"],
+      "upstream_link_right": ["link_3"],
+      "transit_in_opposite_direction": "G21-"
+    },
+    {
+      "name": "G21-",
+      "ise": "N2",
+      "upstream_transits": [],
+      "underlying_zone": "G21",
+      "downstream_link_right": ["link_3"],
+      "transit_in_opposite_direction": "G21+"
+    }
+  ],
+  "Zone": [
+    {
+      "name": "G11",
+      "ise": "A"
+    },
+    {
+      "name": "W1",
+      "ise": "W1"
+    },
+    {
+      "name": "W2",
+      "ise": "W2"
+    },
+    {
+      "name": "G12",
+      "ise": "N1"
+    },
+    {
+      "name": "G21",
+      "ise": "N2"
+    }
+  ]
+}

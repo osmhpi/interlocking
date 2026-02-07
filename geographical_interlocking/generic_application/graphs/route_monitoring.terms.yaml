@@ -1,0 +1,23 @@
+entity_type: Transit
+terms:
+  PointsControlled:
+    expression: All(point in @requires_point_right | PointControl[point].Right == ActiveInactive::ACTIVE) &&
+                All(point in @requires_point_left | PointControl[point].Left == ActiveInactive::ACTIVE)
+    default: false
+  RouteSet:
+    expression: Route.State == RouteState::SET
+    default: false
+  InverseTransitInactive:
+    expression: Transit[@transit_in_opposite_direction].State == ActiveInactive::INACTIVE
+    default: false
+  MonitoringComplete:
+    expression: Any(link in @downstream_link_right | LinkLTR[link].State == RouteSearch::ROUTE_MONITORED) ||
+      Any(link in @downstream_link_left | LinkRTL[link].State == RouteSearch::ROUTE_MONITORED) ||
+      RouteFindingResponse[@ise].Admit == RouteAdmission::ADMIT_END ||
+      RouteFindingResponse[@ise].Admit == RouteAdmission::ROUTE_END
+    default: false
+variables:
+  State:
+    type: ActiveInactive
+    description: Indicates whether the route is controlled or not.
+    default: ActiveInactive::INACTIVE

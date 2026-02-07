@@ -1,0 +1,34 @@
+@startuml RouteFindingSearch
+
+[*] --> IDLE: [1]
+
+IDLE --> CHECKING_START: RouteRequested
+IDLE --> CHECKING_FROM_A: [1]  CheckingFromA
+IDLE --> CHECKING_FROM_B: [1] CheckingFromB
+IDLE --> CHECKING_FROM_C: [1] CheckingFromC
+
+CHECKING_START --> ROUTE_SET_FROM_START: [1] RouteSet
+CHECKING_START --> IDLE: [2] !RouteRequested
+CHECKING_FROM_A --> ROUTE_SET_FROM_A: [1] RouteSet
+CHECKING_FROM_A --> IDLE: [2] !Checking && !SettingRoute
+CHECKING_FROM_B --> ROUTE_SET_FROM_B: [1] RouteSet
+CHECKING_FROM_B --> IDLE: [2] !Checking && !SettingRoute
+CHECKING_FROM_C --> ROUTE_SET_FROM_C: [1] RouteSet
+CHECKING_FROM_C --> IDLE: [2] !Checking && !SettingRoute
+
+IDLE: Check = RouteChecking::INACTIVE
+CHECKING_START: Check = RouteChecking::CHECK_START
+CHECKING_FROM_A: Check = RouteChecking::CHECK_FROM_A
+CHECKING_FROM_B: Check = RouteChecking::CHECK_FROM_B
+CHECKING_FROM_C: Check = RouteChecking::CHECK_FROM_C
+ROUTE_SET_FROM_START: Check = RouteChecking::ROUTE_SET_FROM_START
+ROUTE_SET_FROM_A: Check = RouteChecking::ROUTE_SET_FROM_A
+ROUTE_SET_FROM_B: Check = RouteChecking::ROUTE_SET_FROM_B
+ROUTE_SET_FROM_C: Check = RouteChecking::ROUTE_SET_FROM_C
+
+ROUTE_SET_FROM_START --> IDLE: [1] !RouteSet
+ROUTE_SET_FROM_A --> IDLE: [1] !RouteSet
+ROUTE_SET_FROM_B --> IDLE: [1] !RouteSet
+ROUTE_SET_FROM_C --> IDLE: [1] !RouteSet
+
+@enduml

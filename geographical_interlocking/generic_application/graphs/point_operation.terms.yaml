@@ -1,0 +1,35 @@
+entity_type: Point
+terms:
+  PointTriggered:
+    expression: (Point.State == PointState::LEFT && PreviousPointState != PointState::LEFT && SCIP.DetectedEndPosition != EulynxEndPosition::LEFT) ||
+                (Point.State == PointState::RIGHT && PreviousPointState != PointState::RIGHT && SCIP.DetectedEndPosition != EulynxEndPosition::RIGHT)
+    default: false
+  PointLeft:
+    expression: Point.State == PointState::LEFT
+    default: false
+  PointRight:
+    expression: Point.State == PointState::RIGHT
+    default: false
+  IsTop:
+    expression: All(point in @all_points | PointOperation[point].Top == ActiveInactive::ACTIVE)
+    default: false
+  TopTimeout:
+    expression: now >= TopStart + 300ms
+    default: false
+variables:
+  PreviousPointState:
+    type: PointState
+    description: The state of the point graph of the previous cycle.
+    default: PointState::UNDETERMINED
+  Top:
+    type: ActiveInactive
+    description: Whether the current point is the topmost point in the stack.
+    default: ActiveInactive::ACTIVE
+  TopStart:
+    type: timestamp
+    description: The timestamp when the point movement was commanded.
+    default: None
+  State:
+    type: EulynxCommandedEndPosition
+    description: Indicates whether the point should be commanded to left or right end position.
+    default: EulynxCommandedEndPosition::NOT_COMMANDED

@@ -1,0 +1,80 @@
+entity_type: Transit
+terms:
+  RouteRequested:
+    expression: (
+        RouteFindingSearch[@ise].Check == RouteChecking::CHECK_START &&
+        RouteFindingResponse[@ise].Admit != RouteAdmission::INACTIVE
+      ) || (
+        Any(link in @upstream_link_right | LinkLTR[link].State == RouteSearch::ROUTE_SET) ||
+        Any(link in @upstream_link_left | LinkRTL[link].State == RouteSearch::ROUTE_SET)
+      )
+    default: false
+  MatchesDiversion:
+    # (Check == A|C && Admit == A|C) == !empty(requires_point_left)
+    expression: (
+        (
+          (
+            RouteFindingSearch[@ise].Check == RouteChecking::CHECK_FROM_B &&
+            RouteFindingResponse[@ise].Admit == RouteAdmission::ADMIT_TO_A
+          ) || (
+            (
+              RouteFindingSearch[@ise].Check == RouteChecking::CHECK_START ||
+              RouteFindingSearch[@ise].Check == RouteChecking::CHECK_FROM_A
+            ) && (
+              RouteFindingResponse[@ise].Admit == RouteAdmission::ADMIT_TO_B ||
+              RouteFindingResponse[@ise].Admit == RouteAdmission::ADMIT_END
+            )
+          )
+        ) && (
+            All(point in @requires_point_left | Point[point].State != PointState::LEFT) &&
+            All(point in @requires_point_left | Point[point].State != PointState::RIGHT) &&
+            All(point in @requires_point_left | Point[point].State != PointState::UNDETERMINED)
+        )
+      ) || (
+        (
+          (
+            RouteFindingSearch[@ise].Check == RouteChecking::CHECK_FROM_A &&
+            RouteFindingResponse[@ise].Admit == RouteAdmission::ADMIT_TO_C
+          ) || (
+            RouteFindingSearch[@ise].Check == RouteChecking::CHECK_FROM_C &&
+            RouteFindingResponse[@ise].Admit == RouteAdmission::ADMIT_TO_A
+          )
+        ) && (
+          Any(point in @requires_point_left | Point[point].State == PointState::LEFT) ||
+          Any(point in @requires_point_left | Point[point].State == PointState::RIGHT) ||
+          Any(point in @requires_point_left | Point[point].State == PointState::UNDETERMINED)
+        )
+      )
+    default: false
+  MatchesDirection:
+    expression: Any(link in @upstream_link_left | LinkRTL[link].State == RouteSearch::ROUTE_SET) ||
+        Any(link in @upstream_link_right | LinkLTR[link].State == RouteSearch::ROUTE_SET) ||
+        Any(link in @downstream_link_left | LinkRTL[link].State == RouteSearch::RESPONSE) ||
+        Any(link in @downstream_link_right | LinkLTR[link].State == RouteSearch::RESPONSE)
+    default: false
+  PointsAvailable:
+    expression: All(point in @requires_point_right | Point[point].State == PointState::RIGHT) &&
+                All(point in @requires_point_left | Point[point].State == PointState::LEFT)
+    default: true
+  # RoutePrepared:
+  #   expression: Any(link_ltr[@downstream_link_right].State == RouteSearch::ROUTE_SET_DOWNSTREAM) ||
+  #     Any(link_rtl[@downstream_link_left].State == RouteSearch::ROUTE_SET_DOWNSTREAM) ||
+  #     RouteFindingResponse[@ise].Admit == RouteAdmission::ADMIT_END
+  #   default: false
+  NoIncompatibleRoutes:
+    default: true
+  AutomaticReleaseEffective:
+    expression: RouteAutomaticRelease.State == ActiveInactive::ACTIVE
+    default: false
+  ManualReleaseEffective:
+    expression: RouteManualRelease.ManualReleaseRequested == ActiveInactive::ACTIVE
+    default: false
+  RouteBecameUnset:
+    expression: Any(link in @upstream_link_right | LinkLTR[link].State == RouteSearch::INACTIVE) ||
+        Any(link in @upstream_link_left | LinkRTL[link].State == RouteSearch::INACTIVE)
+    default: false
+variables:
+  State:
+    type: RouteState
+    description: Indicates whether the route is released or set.
+    default: RouteState::RELEASED

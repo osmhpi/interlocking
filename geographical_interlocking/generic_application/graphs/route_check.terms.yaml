@@ -1,0 +1,17 @@
+entity_type: Route
+terms:
+  RouteRequested:
+    expression: SCICC.MsgRequestRoute == true
+    default: false
+  IsTop:
+    expression: All(route in @all_routes | RouteCheck[route].Top == ActiveInactive::ACTIVE)
+    default: false
+variables:
+  Top:
+    type: ActiveInactive
+    description: Indicates whether the route is the top route in the station.
+    default: ActiveInactive::ACTIVE
+  State:
+    type: ActiveInactive
+    description: Indicates whether the route checking is active or inactive.
+    default: ActiveInactive::INACTIVE

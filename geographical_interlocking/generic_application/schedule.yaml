@@ -1,0 +1,56 @@
+groups:
+  - grouping: by_instance
+    entries:
+    - entity_type: Zone
+      graph: Zone
+  - grouping: by_graph
+    entries:
+    - entity_type: Transit
+      graph: Transit
+  - grouping: by_instance
+    entries:
+    - entity_type: Point
+      graph: Point
+    - entity_type: Point
+      graph: PointLockLeft
+    - entity_type: Point
+      graph: PointLockRight
+    - entity_type: Point
+      graph: PointControl
+    - entity_type: Point
+      graph: PointOperation
+  - grouping: by_graph
+    entries:
+    - entity_type: Route
+      graph: RouteCheck
+  - grouping: by_graph
+    iterations: 10
+    entries:
+    - entity_type: Ise
+      graph: RouteFindingSearch
+    - entity_type: Ise
+      graph: RouteFindingResponse
+    - entity_type: Ise
+      graph: RouteManualReleaseDispatch
+    - entity_type: Link
+      graph: LinkLTR
+    - entity_type: Link
+      graph: LinkRTL
+    - entity_type: Transit
+      graph: RouteMonitoring
+  - grouping: by_graph
+    entries:
+    - entity_type: Transit
+      graph: RouteAutomaticRelease
+    - entity_type: Transit
+      graph: RouteManualRelease
+    - entity_type: Transit
+      graph: Route
+    - entity_type: Transit
+      graph: RouteControl
+  - grouping: by_graph
+    entries:
+    - entity_type: Signal
+      graph: Signal
+    - entity_type: Signal
+      graph: SignalControl

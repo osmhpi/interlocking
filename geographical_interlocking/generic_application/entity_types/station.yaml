@@ -1,0 +1,9 @@
+name: Station
+description: Station
+interfaces: {}
+properties:
+  all_routes:
+    description: All routes that are part of this station.
+    type: route
+    min: !!int 0
+    max: unbounded

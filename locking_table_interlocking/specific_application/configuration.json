@@ -1,0 +1,163 @@
+{
+  "Route": [
+    {
+      "name": "A.N1",
+      "request_points_right": ["W1"],
+      "request_points_left": [],
+      "request_points_controlled_right": ["W1"],
+      "request_points_controlled_left": [],
+      "transits_in_opposite_route_direction": ["W1_R-", "G12-"],
+      "trigger_zone": "W1",
+      "trigger_zone_opposite_transit": "W1_R-",
+      "start_signal": "A",
+      "approach_zone": "G11",
+      "time_delay_etcs_approach_locking": 1000,
+      "time_delay_unsupervised_train_approach_locking": 1000
+    },
+    {
+      "name": "A.N2",
+      "request_points_right": [],
+      "request_points_left": ["W1", "W2"],
+      "request_points_controlled_right": [],
+      "request_points_controlled_left": ["W1", "W2"],
+      "transits_in_opposite_route_direction": ["W1_L-", "G21-"],
+      "trigger_zone": "W1",
+      "trigger_zone_opposite_transit": "W1_L-",
+      "start_signal": "A",
+      "approach_zone": "G11",
+      "time_delay_etcs_approach_locking": 1000,
+      "time_delay_unsupervised_train_approach_locking": 1000
+    }
+  ],
+  "Point": [
+    {
+      "name": "W1",
+      "requested_left_by_routes": ["A.N2"],
+      "requested_right_by_routes": ["A.N1"],
+      "all_points": ["W1", "W2"]
+    },
+    {
+      "name": "W2",
+      "requested_left_by_routes": ["A.N2"],
+      "requested_right_by_routes": [],
+      "all_points": ["W1", "W2"]
+    }
+  ],
+  "Zone": [
+    {
+      "name": "G11"
+    },
+    {
+      "name": "W1"
+    },
+    {
+      "name": "W2"
+    },
+    {
+      "name": "G12"
+    },
+    {
+      "name": "G21"
+    }
+  ],
+  "Transit": [
+    {
+      "name": "G11+",
+      "underlying_zone": "G11",
+      "upstream_transits": [],
+      "activating_routes": ["A.N1", "A.N2"]
+    },
+    {
+      "name": "G11-",
+      "underlying_zone": "G11",
+      "upstream_transits": ["W1_R-", "W1_L-"],
+      "activating_routes": []
+    },
+    {
+      "name": "W1_R+",
+      "underlying_zone": "W1",
+      "upstream_transits": [],
+      "activating_routes": ["A.N1"]
+    },
+    {
+      "name": "W1_R-",
+      "underlying_zone": "W1",
+      "upstream_transits": ["G12-"],
+      "activating_routes": []
+    },
+    {
+      "name": "W1_L+",
+      "underlying_zone": "W1",
+      "upstream_transits": [],
+      "activating_routes": ["A.N2"]
+    },
+    {
+      "name": "W1_L-",
+      "underlying_zone": "W1",
+      "upstream_transits": ["W2_L+"],
+      "activating_routes": []
+    },
+    {
+      "name": "W2_R+",
+      "underlying_zone": "W2",
+      "upstream_transits": ["G21-"],
+      "activating_routes": []
+    },
+    {
+      "name": "W2_R-",
+      "underlying_zone": "W2",
+      "upstream_transits": [],
+      "activating_routes": []
+    },
+    {
+      "name": "W2_L+",
+      "underlying_zone": "W2",
+      "upstream_transits": ["G21-"],
+      "activating_routes": []
+    },
+    {
+      "name": "W2_L-",
+      "underlying_zone": "W2",
+      "upstream_transits": ["W1_L+"],
+      "activating_routes": ["A.N2"]
+    },
+    {
+      "name": "G12+",
+      "underlying_zone": "G12",
+      "upstream_transits": ["W1_R+"],
+      "activating_routes": ["A.N1"]
+    },
+    {
+      "name": "G12-",
+      "underlying_zone": "G12",
+      "upstream_transits": [],
+      "activating_routes": []
+    },
+    {
+      "name": "G21+",
+      "underlying_zone": "G21",
+      "upstream_transits": ["W2_R-", "W2_L-"],
+      "activating_routes": ["A.N2"]
+    },
+    {
+      "name": "G21-",
+      "underlying_zone": "G21",
+      "upstream_transits": [],
+      "activating_routes": []
+    }
+  ],
+  "Signal": [
+    {
+      "name": "A",
+      "routes_starting_here": ["A.N1", "A.N2"]
+    },
+    {
+      "name": "N1",
+      "routes_starting_here": []
+    },
+    {
+      "name": "N2",
+      "routes_starting_here": []
+    }
+  ]
+}

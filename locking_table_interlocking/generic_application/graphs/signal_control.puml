@@ -1,0 +1,10 @@
+@startuml SignalControl
+
+[*] --> CLOSED: [1]
+CLOSED -right-> OPEN : [1] RouteOpening
+OPEN -left-> CLOSED : [1] !RouteOpening
+
+CLOSED: State = OpenCloseState::CLOSED
+OPEN: State = OpenCloseState::OPEN
+
+@enduml

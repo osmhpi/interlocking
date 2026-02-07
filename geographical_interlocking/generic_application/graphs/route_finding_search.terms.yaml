@@ -1,0 +1,44 @@
+entity_type: Ise
+terms:
+  RouteRequested:
+    expression: Any(route in @is_start_of_route_admission_check | RouteCheck[route].State == ActiveInactive::ACTIVE)
+    default: false
+  TerminatesRouteRequested:
+    expression: Any(route in @is_end_of_route_admission_check | RouteCheck[route].State == ActiveInactive::ACTIVE)
+    default: false
+  Checking:
+    expression: Any(link in @link_a_left | LinkRTL[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_a_right | LinkLTR[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_b_left | LinkRTL[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_b_right | LinkLTR[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_c_left | LinkRTL[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_c_right | LinkLTR[link].State == RouteSearch::SEARCH)
+    default: false
+  SettingRoute:
+    expression: Any(link in @link_a_left | LinkRTL[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_a_right | LinkLTR[link].State == RouteSearch::ROUTE_SET) ||
+      Any(link in @link_b_left | LinkRTL[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_b_right | LinkLTR[link].State == RouteSearch::ROUTE_SET) ||
+      Any(link in @link_c_left | LinkRTL[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_c_right | LinkLTR[link].State == RouteSearch::ROUTE_SET)
+    default: false
+  CheckingFromA:
+    expression: Any(link in @link_a_left | LinkRTL[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_a_right | LinkLTR[link].State == RouteSearch::SEARCH)
+    default: false
+  CheckingFromB:
+    expression: Any(link in @link_b_left | LinkRTL[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_b_right | LinkLTR[link].State == RouteSearch::SEARCH)
+    default: false
+  CheckingFromC:
+    expression: Any(link in @link_c_left | LinkRTL[link].State == RouteSearch::SEARCH) ||
+      Any(link in @link_c_right | LinkLTR[link].State == RouteSearch::SEARCH)
+    default: false
+  RouteSet:
+    expression: Any(transit in @transits | Route[transit].State != RouteState::RELEASED)
+    default: false
+variables:
+  Check:
+    type: RouteChecking
+    description: Indicates whether the left side of the ISE is being checked.
+    default: RouteChecking::INACTIVE

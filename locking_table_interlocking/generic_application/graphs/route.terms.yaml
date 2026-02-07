@@ -1,0 +1,22 @@
+entity_type: Route
+terms:
+  RouteRequested:
+    expression: SCICC.MsgRequestRoute == true
+    default: false
+  PointsAvailable:
+    expression: All(point in @request_points_right | Point[point].State == PointState::RIGHT) &&
+                All(point in @request_points_left | Point[point].State == PointState::LEFT)
+    default: false
+  NoIncompatibleRoutes:
+    default: true
+  AutomaticReleaseEffective:
+    expression: RouteAutomaticRelease.State == ActiveInactive::ACTIVE
+    default: false
+  ManualReleaseEffective:
+    expression: RouteManualRelease.ManualReleaseRequested == ActiveInactive::ACTIVE
+    default: false
+variables:
+  State:
+    type: RouteState
+    description: Indicates whether the route is released or set.
+    default: RouteState::RELEASED

@@ -1,0 +1,17 @@
+entity_type: Route
+terms:
+  PointsControlled:
+    expression: All(point in @request_points_controlled_right | PointControl[point].Right == ActiveInactive::ACTIVE) &&
+                All(point in @request_points_controlled_left | PointControl[point].Left == ActiveInactive::ACTIVE)
+    default: false
+  RouteSet:
+    expression: Route.State == RouteState::SET
+    default: false
+  InverseTransitsInactive:
+    expression: All(transit in @transits_in_opposite_route_direction | Transit[transit].State == ActiveInactive::INACTIVE)
+    default: false
+variables:
+  State:
+    type: ActiveInactive
+    description: Indicates whether the route is controlled or not.
+    default: ActiveInactive::INACTIVE

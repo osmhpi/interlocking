@@ -1,0 +1,82 @@
+@startuml RouteManualRelease
+
+[*] --> ROUTE_RELEASED: [1]
+
+ROUTE_RELEASED --> ETCS_APPROACH_LOCKING: [1] RouteIsSet
+ETCS_APPROACH_LOCKING --> ROUTE_RELEASED: [1] !RouteIsSet
+
+state ETCS_APPROACH_LOCKING {
+    [*] --> MARKER_BOARD_OPEN: [1] RouteIsLocked
+    [*] --> ROUTE_SET: [2]
+
+    ROUTE_SET --> MARKER_BOARD_OPEN: [1] RouteIsLocked
+    ROUTE_SET --> MANUAL_RELEASE_ACTIVE: [2] CommandReleaseRoute
+
+    MARKER_BOARD_OPEN --> WITHHOLD_MA: [1] !ApproachTaken && !ApproachZoneOccupied && CommandReleaseRoute
+    MARKER_BOARD_OPEN --> TRAIN_APPROACHING: [2] ApproachTaken && ManualSignalClose && CommandReleaseRoute
+    MARKER_BOARD_OPEN --> TRAIN_APPROACHING_ZONE: [3] !ApproachTaken && ApproachZoneOccupied && ManualSignalClose && CommandReleaseRoute
+
+    WITHHOLD_MA --> MARKER_BOARD_OPEN: [1] ApproachTaken || ApproachZoneOccupied
+    WITHHOLD_MA --> MANUAL_RELEASE_ACTIVE: [2] TimeoutWithholdMovementAuthorityExpired
+
+    TRAIN_APPROACHING --> MARKER_BOARD_OPEN: [1] !ManualSignalClose
+    TRAIN_APPROACHING --> APPROACH_FREE: [2] !ApproachTaken
+
+    APPROACH_FREE --> MARKER_BOARD_OPEN: [1] RouteIsLocked
+    APPROACH_FREE --> MANUAL_RELEASE_ACTIVE: [2] !ApproachTaken && CommandReleaseRoute
+
+    TRAIN_APPROACHING_ZONE --> MARKER_BOARD_OPEN: [1] !ManualSignalClose
+    TRAIN_APPROACHING_ZONE --> APPROACH_ZONE_TIMEOUT: [2] TimeoutUnsupervisedTrainApproachExpired
+
+    APPROACH_ZONE_TIMEOUT --> MARKER_BOARD_OPEN: [1] RouteIsLocked
+    APPROACH_ZONE_TIMEOUT --> MANUAL_RELEASE_ACTIVE: [2] CommandReleaseRoute
+
+    ROUTE_SET: ManualReleaseRequested = ActiveInactive::INACTIVE
+    ROUTE_SET: HoldApproachLocking = OpenCloseState::CLOSED
+    ROUTE_SET: ManualReleaseWithholdMovementAuthority = ActiveInactive::INACTIVE
+    ROUTE_SET: ManualReleasePrevention = ActiveInactive::INACTIVE
+
+    MARKER_BOARD_OPEN: ManualReleaseRequested = ActiveInactive::INACTIVE
+    MARKER_BOARD_OPEN: HoldApproachLocking = OpenCloseState::OPEN
+    MARKER_BOARD_OPEN: ManualReleaseWithholdMovementAuthority = ActiveInactive::INACTIVE
+    MARKER_BOARD_OPEN: ManualReleasePrevention = ActiveInactive::INACTIVE
+
+    WITHHOLD_MA: ManualReleaseRequested = ActiveInactive::INACTIVE
+    WITHHOLD_MA: HoldApproachLocking = OpenCloseState::OPEN
+    WITHHOLD_MA: ManualReleaseWithholdMovementAuthority = ActiveInactive::ACTIVE
+    WITHHOLD_MA: ManualReleasePrevention = ActiveInactive::INACTIVE
+    WITHHOLD_MA: StartWithholdMovementAuthority = now
+
+    TRAIN_APPROACHING: ManualReleaseRequested = ActiveInactive::INACTIVE
+    TRAIN_APPROACHING: HoldApproachLocking = OpenCloseState::OPEN
+    TRAIN_APPROACHING: ManualReleaseWithholdMovementAuthority = ActiveInactive::INACTIVE
+    TRAIN_APPROACHING: ManualReleasePrevention = ActiveInactive::ACTIVE
+
+    APPROACH_FREE: ManualReleaseRequested = ActiveInactive::INACTIVE
+    APPROACH_FREE: HoldApproachLocking = OpenCloseState::CLOSED
+    APPROACH_FREE: ManualReleaseWithholdMovementAuthority = ActiveInactive::INACTIVE
+    APPROACH_FREE: ManualReleasePrevention = ActiveInactive::ACTIVE
+
+    TRAIN_APPROACHING_ZONE: ManualReleaseRequested = ActiveInactive::INACTIVE
+    TRAIN_APPROACHING_ZONE: HoldApproachLocking = OpenCloseState::OPEN
+    TRAIN_APPROACHING_ZONE: ManualReleaseWithholdMovementAuthority = ActiveInactive::INACTIVE
+    TRAIN_APPROACHING_ZONE: ManualReleasePrevention = ActiveInactive::INACTIVE
+    TRAIN_APPROACHING_ZONE: StartUnsupervisedTrainApproach = now
+
+    APPROACH_ZONE_TIMEOUT: ManualReleaseRequested = ActiveInactive::INACTIVE
+    APPROACH_ZONE_TIMEOUT: HoldApproachLocking = OpenCloseState::OPEN
+    APPROACH_ZONE_TIMEOUT: ManualReleaseWithholdMovementAuthority = ActiveInactive::INACTIVE
+    APPROACH_ZONE_TIMEOUT: ManualReleasePrevention = ActiveInactive::INACTIVE
+
+    MANUAL_RELEASE_ACTIVE: ManualReleaseRequested = ActiveInactive::ACTIVE
+    MANUAL_RELEASE_ACTIVE: HoldApproachLocking = OpenCloseState::CLOSED
+    MANUAL_RELEASE_ACTIVE: ManualReleaseWithholdMovementAuthority = ActiveInactive::INACTIVE
+    MANUAL_RELEASE_ACTIVE: ManualReleasePrevention = ActiveInactive::INACTIVE
+}
+
+ROUTE_RELEASED: ManualReleaseRequested = ActiveInactive::INACTIVE
+ROUTE_RELEASED: HoldApproachLocking = OpenCloseState::CLOSED
+ROUTE_RELEASED: ManualReleaseWithholdMovementAuthority = ActiveInactive::INACTIVE
+ROUTE_RELEASED: ManualReleasePrevention = ActiveInactive::INACTIVE
+
+@enduml

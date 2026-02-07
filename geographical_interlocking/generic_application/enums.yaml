@@ -1,0 +1,73 @@
+enums:
+  EulynxEndPosition:
+    description: Indicates the end position of a point.
+    enum:
+      - LEFT
+      - RIGHT
+      - NO_END_POSITION
+      - UNINTENDED
+  EulynxCommandedEndPosition:
+    description: Indicates the commanded end position of a point.
+    enum:
+      - NOT_COMMANDED
+      - LEFT
+      - RIGHT
+  OccupancyStatus:
+    description: Indicates whether a zone is occupied or vacant.
+    enum:
+      - OCCUPIED
+      - VACANT
+  RouteState:
+    description: Indicates the state of a route.
+    enum:
+      - SET
+      - PREPARING
+      - RELEASED
+  ActiveInactive:
+    description: Indicates whether a logical entity is active or inactive.
+    enum:
+      - INACTIVE
+      - ACTIVE
+  PointState:
+    description: Indicates the state of a point.
+    enum:
+      - LEFT
+      - RIGHT
+      - UNDETERMINED
+  OpenCloseState:
+    description: Indicates whether a signal is open or closed.
+    enum:
+      - OPEN
+      - CLOSED
+  RouteAdmission:
+    description: Indicates the admission state of a route.
+    enum:
+      - INACTIVE
+      - ADMIT_TO_A
+      - ADMIT_TO_B
+      - ADMIT_TO_C
+      - ADMIT_END
+      - ROUTE_TO_A
+      - ROUTE_TO_B
+      - ROUTE_TO_C
+      - ROUTE_END
+  RouteChecking:
+    description: Indicates the checking state of a route.
+    enum:
+      - INACTIVE
+      - CHECK_START
+      - CHECK_FROM_A
+      - CHECK_FROM_B
+      - CHECK_FROM_C
+      - ROUTE_SET_FROM_START
+      - ROUTE_SET_FROM_A
+      - ROUTE_SET_FROM_B
+      - ROUTE_SET_FROM_C
+  RouteSearch:
+    description: Indicates the search state of a route.
+    enum:
+      - INACTIVE
+      - SEARCH
+      - RESPONSE
+      - ROUTE_SET
+      - ROUTE_MONITORED

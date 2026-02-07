@@ -1,0 +1,49 @@
+@startuml PointOperation
+
+[*] --> IDLE_LEFT: [1] PointLeft
+[*] --> IDLE_RIGHT: [2] PointRight
+[*] --> IDLE_UNDETERMINED: [3]
+
+IDLE_LEFT --> WAITING_COMMAND_RIGHT: [1] PointTriggered
+IDLE_RIGHT --> WAITING_COMMAND_LEFT: [1] PointTriggered
+IDLE_UNDETERMINED --> WAITING_COMMAND_RIGHT: [1] PointTriggered && PointRight
+IDLE_UNDETERMINED --> WAITING_COMMAND_LEFT: [2] PointTriggered && PointLeft
+
+WAITING_COMMAND_RIGHT --> TOP_COMMAND_RIGHT: [1] IsTop
+WAITING_COMMAND_RIGHT --> IDLE_LEFT: [2] PointTriggered
+WAITING_COMMAND_LEFT --> TOP_COMMAND_LEFT: [1] IsTop
+WAITING_COMMAND_LEFT --> IDLE_RIGHT: [2] PointTriggered
+
+TOP_COMMAND_LEFT --> DELAY_TOP: [1]
+TOP_COMMAND_RIGHT --> DELAY_TOP: [1]
+
+DELAY_TOP --> IDLE_LEFT: [1] TopTimeout && PointLeft
+DELAY_TOP --> IDLE_RIGHT: [2] TopTimeout && PointRight
+DELAY_TOP --> IDLE_UNDETERMINED: [3] TopTimeout
+
+IDLE_LEFT: PreviousPointState = PointState::LEFT
+IDLE_LEFT: Top = ActiveInactive::ACTIVE
+IDLE_LEFT: State = EulynxCommandedEndPosition::NOT_COMMANDED
+IDLE_RIGHT: PreviousPointState = PointState::RIGHT
+IDLE_RIGHT: Top = ActiveInactive::ACTIVE
+IDLE_RIGHT: State = EulynxCommandedEndPosition::NOT_COMMANDED
+IDLE_UNDETERMINED: PreviousPointState = PointState::UNDETERMINED
+IDLE_UNDETERMINED: Top = ActiveInactive::ACTIVE
+IDLE_UNDETERMINED: State = EulynxCommandedEndPosition::NOT_COMMANDED
+
+WAITING_COMMAND_RIGHT: PreviousPointState = PointState::RIGHT
+WAITING_COMMAND_RIGHT: Top = ActiveInactive::ACTIVE
+WAITING_COMMAND_LEFT: PreviousPointState = PointState::LEFT
+WAITING_COMMAND_LEFT: Top = ActiveInactive::ACTIVE
+
+TOP_COMMAND_LEFT: Top = ActiveInactive::INACTIVE
+TOP_COMMAND_LEFT: TopStart = now
+TOP_COMMAND_LEFT: State = EulynxCommandedEndPosition::LEFT
+TOP_COMMAND_RIGHT: Top = ActiveInactive::INACTIVE
+TOP_COMMAND_RIGHT: TopStart = now
+TOP_COMMAND_RIGHT: State = EulynxCommandedEndPosition::RIGHT
+
+DELAY_TOP: Top = ActiveInactive::INACTIVE
+DELAY_TOP: State = EulynxCommandedEndPosition::NOT_COMMANDED
+
+@enduml

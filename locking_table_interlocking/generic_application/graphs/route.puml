@@ -1,0 +1,16 @@
+@startuml Route
+
+state c <<choice>>
+
+[*] --> RELEASED: [1]
+RELEASED -right-> c : [1] RouteRequested
+c --> SET : [1] PointsAvailable && NoIncompatibleRoutes
+c -right-> PREPARING : [2]
+PREPARING --> SET : [1] PointsAvailable && NoIncompatibleRoutes
+SET --> RELEASED : [1] AutomaticReleaseEffective || ManualReleaseEffective
+
+RELEASED: State = RouteState::RELEASED
+SET: State = RouteState::SET
+PREPARING: State = RouteState::PREPARING
+
+@enduml

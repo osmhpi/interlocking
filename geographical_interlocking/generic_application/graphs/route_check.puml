@@ -1,0 +1,24 @@
+@startuml RouteCheck
+
+state c <<choice>>
+
+[*] --> INACTIVE: [1]
+
+INACTIVE --> c: [1] RouteRequested
+c --> CHECKING: [1] IsTop
+c --> WAITING: [2]
+
+WAITING --> CHECKING: [1] IsTop
+
+CHECKING --> INACTIVE: [1]
+
+INACTIVE: Top = ActiveInactive::ACTIVE
+INACTIVE: State = ActiveInactive::INACTIVE
+
+WAITING: Top = ActiveInactive::ACTIVE
+WAITING: State = ActiveInactive::INACTIVE
+
+CHECKING: Top = ActiveInactive::INACTIVE
+CHECKING: State = ActiveInactive::ACTIVE
+
+@enduml

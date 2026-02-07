@@ -1,0 +1,9 @@
+{
+    "profiles": {
+        "InterlockingCodegen": {
+            "workingDirectory": ".",
+            "commandName": "Project",
+            "commandLineArgs": "../../locking_table_interlocking"
+        }
+    }
+}

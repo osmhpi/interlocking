@@ -1,0 +1,31 @@
+entity_type: Ise
+terms:
+  Checking:
+    expression: RouteFindingSearch.Check != RouteChecking::INACTIVE
+    default: false
+  CheckingFromA:
+    expression: RouteFindingSearch.Check == RouteChecking::CHECK_FROM_A
+    default: false
+  TerminatesRouteRequested:
+    expression: Any(route in @is_end_of_route_admission_check | RouteCheck[route].State == ActiveInactive::ACTIVE)
+    default: false
+  AdmittingToA:
+    expression: Any(link in @link_a_left | LinkRTL[link].State == RouteSearch::RESPONSE) ||
+      Any(link in @link_a_right | LinkLTR[link].State == RouteSearch::RESPONSE)
+    default: false
+  AdmittingToB:
+    expression: Any(link in @link_b_left | LinkRTL[link].State == RouteSearch::RESPONSE) ||
+      Any(link in @link_b_right | LinkLTR[link].State == RouteSearch::RESPONSE)
+    default: false
+  AdmittingToC:
+    expression: Any(link in @link_c_left | LinkRTL[link].State == RouteSearch::RESPONSE) ||
+      Any(link in @link_c_right | LinkLTR[link].State == RouteSearch::RESPONSE)
+    default: false
+  RouteMonitored:
+    expression: Any(transit in @transits | RouteMonitoring[transit].State == ActiveInactive::ACTIVE)
+    default: false
+variables:
+  Admit:
+    type: RouteAdmission
+    description: Indicates whether the left side of the ISE is being admitted.
+    default: RouteAdmission::INACTIVE

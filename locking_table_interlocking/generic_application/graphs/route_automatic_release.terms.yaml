@@ -1,0 +1,20 @@
+entity_type: Route
+terms:
+  RouteIsSet:
+    expression: Route.State == RouteState::SET
+    default: false
+  OppositeTransitsInactive:
+    expression: Transit[@trigger_zone_opposite_transit].State == ActiveInactive::INACTIVE
+    default: false
+  TriggerZoneFree:
+    expression: Zone[@trigger_zone].State == OccupancyStatus::VACANT
+    default: false
+variables:
+  State:
+    type: ActiveInactive
+    description: Indicates whether the route automatic release is active or not.
+    default: ActiveInactive::INACTIVE
+  PassageLock:
+    type: ActiveInactive
+    description: Indicates whether the passage is in progress.
+    default: ActiveInactive::INACTIVE

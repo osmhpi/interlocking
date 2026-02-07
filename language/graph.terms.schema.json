@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GraphTerms",
+  "type": "object",
+  "properties": {
+    "entity_type": {
+      "type": "string",
+      "description": "The name of the entity type this terms file is associated with.",
+      "minLength": 1
+    },
+    "terms": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z_][A-Za-z0-9_]*$": {
+          "$ref": "#/definitions/Term"
+        }
+      },
+      "additionalProperties": false
+    },
+    "variables": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z_][A-Za-z0-9_]*$": {
+          "$ref": "#/definitions/Variable"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "entity_type",
+    "terms"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "Term": {
+      "type": "object",
+      "properties": {
+        "expression": {
+          "type": "string"
+        },
+        "default": {
+          "type": "boolean",
+          "description": "Default value for the term."
+        }
+      },
+      "required": [
+        "default"
+      ],
+      "additionalProperties": true
+    },
+    "Variable": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "default": {
+          "type": "string",
+          "description": "Default value for the variable."
+        }
+      },
+      "required": [
+        "type",
+        "default"
+      ],
+      "additionalProperties": true
+    }
+  }
+}

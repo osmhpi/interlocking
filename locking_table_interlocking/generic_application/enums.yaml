@@ -1,0 +1,41 @@
+enums:
+  EulynxEndPosition:
+    description: Indicates the end position of a point.
+    enum:
+      - LEFT
+      - RIGHT
+      - NO_END_POSITION
+      - UNINTENDED
+  EulynxCommandedEndPosition:
+    description: Indicates the commanded end position of a point.
+    enum:
+      - NOT_COMMANDED
+      - LEFT
+      - RIGHT
+  OccupancyStatus:
+    description: Indicates whether a zone is occupied or vacant.
+    enum:
+      - OCCUPIED
+      - VACANT
+  RouteState:
+    description: Indicates the state of a route.
+    enum:
+      - SET
+      - PREPARING
+      - RELEASED
+  ActiveInactive:
+    description: Indicates whether a logical entity is active or inactive.
+    enum:
+      - INACTIVE
+      - ACTIVE
+  PointState:
+    description: Indicates the state of a point.
+    enum:
+      - LEFT
+      - RIGHT
+      - UNDETERMINED
+  OpenCloseState:
+    description: Indicates whether a signal is open or closed.
+    enum:
+      - OPEN
+      - CLOSED

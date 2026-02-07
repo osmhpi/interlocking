@@ -1,0 +1,10 @@
+@startuml Signal
+
+[*] --> SIGNAL_NOT_START: [1]
+SIGNAL_NOT_START -right-> SIGNAL_IS_START : [1] RouteIsSet
+SIGNAL_IS_START -left-> SIGNAL_NOT_START : [1] !RouteIsSet
+
+SIGNAL_NOT_START: State = ActiveInactive::INACTIVE
+SIGNAL_IS_START: State = ActiveInactive::ACTIVE
+
+@enduml

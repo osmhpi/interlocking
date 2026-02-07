@@ -1,0 +1,36 @@
+@startuml RouteFindingResponse
+
+state c <<choice>>
+
+[*] --> IDLE: [1]
+
+IDLE --> ADMIT_END: [1] CheckingFromA && TerminatesRouteRequested
+IDLE --> ADMIT_TO_A: [2] Checking && AdmittingToA
+IDLE --> ADMIT_TO_B: [3] Checking && AdmittingToB
+IDLE --> ADMIT_TO_C: [4] Checking && AdmittingToC
+
+ADMIT_END --> ROUTE_TO_END: [1] RouteMonitored
+ADMIT_END --> IDLE: [2] !Checking
+ADMIT_TO_A --> ROUTE_TO_A: [1] RouteMonitored
+ADMIT_TO_A --> IDLE: [2] !Checking
+ADMIT_TO_B --> ROUTE_TO_B: [1] RouteMonitored
+ADMIT_TO_B --> IDLE: [2] !Checking
+ADMIT_TO_C --> ROUTE_TO_C: [1] RouteMonitored
+ADMIT_TO_C --> IDLE: [2] !Checking
+
+ROUTE_TO_A --> IDLE: [1] !RouteMonitored
+ROUTE_TO_B --> IDLE: [1] !RouteMonitored
+ROUTE_TO_C --> IDLE: [1] !RouteMonitored
+ROUTE_TO_END --> IDLE: [1] !RouteMonitored
+
+IDLE: Admit = RouteAdmission::INACTIVE
+ADMIT_END: Admit = RouteAdmission::ADMIT_END
+ADMIT_TO_A: Admit = RouteAdmission::ADMIT_TO_A
+ADMIT_TO_B: Admit = RouteAdmission::ADMIT_TO_B
+ADMIT_TO_C: Admit = RouteAdmission::ADMIT_TO_C
+ROUTE_TO_END: Admit = RouteAdmission::ROUTE_END
+ROUTE_TO_A: Admit = RouteAdmission::ROUTE_TO_A
+ROUTE_TO_B: Admit = RouteAdmission::ROUTE_TO_B
+ROUTE_TO_C: Admit = RouteAdmission::ROUTE_TO_C
+
+@enduml

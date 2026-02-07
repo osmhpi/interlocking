@@ -1,0 +1,53 @@
+entity_type: Route
+terms:
+  CommandReleaseRoute:
+    expression: SCICC.MsgReleaseRoute == true
+    default: false
+  ApproachTaken:
+    expression: SCIRBC[@start_signal].ApproachLockingActive == true
+    default: true
+  ManualSignalClose:
+    default: false
+  TimeoutWithholdMovementAuthorityExpired:
+    expression: now >= StartWithholdMovementAuthority + @time_delay_etcs_approach_locking
+    default: false
+  TimeoutUnsupervisedTrainApproachExpired:
+    expression: now >= StartUnsupervisedTrainApproach + @time_delay_unsupervised_train_approach_locking
+    default: false
+  RouteIsSet:
+    expression: Route.State == RouteState::SET
+    default: false
+  RouteIsLocked:
+    expression: RouteMonitoring.State == ActiveInactive::ACTIVE
+    default: false
+  PassageLock:
+    expression: RouteAutomaticRelease.PassageLock == ActiveInactive::ACTIVE
+    default: false
+  ApproachZoneOccupied:
+    expression: Zone[@approach_zone].State == OccupancyStatus::OCCUPIED
+    default: true
+variables:
+  ManualReleaseRequested:
+    type: ActiveInactive
+    description: Indicates whether the route manual release is active or not.
+    default: ActiveInactive::INACTIVE
+  HoldApproachLocking:
+    type: OpenCloseState
+    description: Indicates whether the route approach locking is held or not.
+    default: OpenCloseState::CLOSED
+  ManualReleaseWithholdMovementAuthority:
+    type: ActiveInactive
+    description: Indicates whether the route manual release withholds movement authority or not.
+    default: ActiveInactive::INACTIVE
+  ManualReleasePrevention:
+    type: ActiveInactive
+    description: Indicates whether the route manual release prevention is active or not.
+    default: ActiveInactive::INACTIVE
+  StartUnsupervisedTrainApproach:
+    type: timestamp
+    description: The timestamp when the unsupervised train approach started.
+    default: None
+  StartWithholdMovementAuthority:
+    type: timestamp
+    description: The timestamp when the movement authority withholding started.
+    default: None

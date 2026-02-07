@@ -1,0 +1,35 @@
+name: Signal
+description: Signal
+properties:
+  routes_starting_here:
+    description: Routes that start at this signal.
+    type: route
+    min: !!int 0
+    max: unbounded
+interfaces:
+  SCICC:
+    outputs:
+      signal_open:
+        description: Indicates whether a signal is open.
+        type: boolean
+        mapping:
+          true: SignalControl.State == OpenCloseState::OPEN
+          false: SignalControl.State != OpenCloseState::OPEN
+        default: false
+        kind: continuous
+  SCIRBC:
+    inputs:
+      ApproachLockingActive:
+        description: Indicates whether approach locking is active.
+        type: boolean
+        default: true
+        kind: discrete
+    outputs:
+      ApproachStatusRequested:
+        description: Indicates whether approach status is requested.
+        type: boolean
+        mapping:
+          true: Any(route in @routes_starting_here | RouteManualRelease[route].ManualReleaseWithholdMovementAuthority == ActiveInactive::ACTIVE)
+          false: All(route in @routes_starting_here | RouteManualRelease[route].ManualReleaseWithholdMovementAuthority == ActiveInactive::INACTIVE)
+        default: false
+        kind: discrete

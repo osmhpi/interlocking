@@ -1,0 +1,69 @@
+name: Route
+description: Route
+interfaces:
+  SCICC:
+    inputs:
+      MsgRequestRoute:
+        description: Indicates whether the route is requested.
+        type: boolean
+        default: false
+        kind: discrete
+      MsgReleaseRoute:
+        description: Indicates whether the route is released.
+        type: boolean
+        default: false
+        kind: discrete
+properties:
+  request_points_right:
+    description: Points that are requested to be set to right.
+    type: Point
+    min: !!int 0
+    max: unbounded
+  request_points_left:
+    description: Points that are requested to be set to left.
+    type: Point
+    min: !!int 0
+    max: unbounded
+  request_points_controlled_right:
+    description: Points that must be controlled in right end position.
+    type: Point
+    min: !!int 0
+    max: unbounded
+  request_points_controlled_left:
+    description: Points that must be controlled in left end position.
+    type: Point
+    min: !!int 0
+    max: unbounded
+  transits_in_opposite_route_direction:
+    description: Transits that are in opposite direction of the route.
+    type: Transit
+    min: !!int 0
+    max: unbounded
+  trigger_zone:
+    description: Trigger zone that is used to release the route.
+    type: Zone
+    min: !!int 1
+    max: !!int 1
+  trigger_zone_opposite_transit:
+    description: Transit of the trigger zone in opposite direction of the route.
+    type: Transit
+    min: !!int 1
+    max: !!int 1
+  start_signal:
+    description: Start signal of the route.
+    type: Signal
+    min: !!int 1
+    max: !!int 1
+  approach_zone:
+    description: Approach zone of the route.
+    type: Zone
+    min: !!int 1
+    max: !!int 1
+  time_delay_etcs_approach_locking:
+    description: Time delay for ETCS approach locking.
+    type: duration
+    default: 120000ms
+  time_delay_unsupervised_train_approach_locking:
+    description: Time delay for unsupervised train approach locking.
+    type: duration
+    default: 30000ms

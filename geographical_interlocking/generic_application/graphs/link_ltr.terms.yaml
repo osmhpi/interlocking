@@ -1,0 +1,49 @@
+entity_type: Link
+terms:
+  IsChecking:
+    expression: Any(route in @ise_left_port_a | RouteFindingSearch[route].Check == RouteChecking::CHECK_FROM_B) ||
+      Any(route in @ise_left_port_a | RouteFindingSearch[route].Check == RouteChecking::CHECK_FROM_C) ||
+      Any(route in @ise_left_port_b | RouteFindingSearch[route].Check == RouteChecking::CHECK_FROM_A) ||
+      Any(route in @ise_left_port_c | RouteFindingSearch[route].Check == RouteChecking::CHECK_FROM_A) ||
+      Any(route in @ise_left_port_b | RouteFindingSearch[route].Check == RouteChecking::CHECK_START)
+    default: false
+  IsCheckingOpposite:
+    expression: Any(route in @ise_right_port_a | RouteFindingSearch[route].Check == RouteChecking::CHECK_FROM_B) ||
+      Any(route in @ise_right_port_a | RouteFindingSearch[route].Check == RouteChecking::CHECK_FROM_C) ||
+      Any(route in @ise_right_port_b | RouteFindingSearch[route].Check == RouteChecking::CHECK_FROM_A) ||
+      Any(route in @ise_right_port_c | RouteFindingSearch[route].Check == RouteChecking::CHECK_FROM_A) ||
+      Any(route in @ise_right_port_b | RouteFindingSearch[route].Check == RouteChecking::CHECK_START)
+    default: false
+  IsAdmit:
+    expression: Any(route in @ise_left_port_a | RouteFindingResponse[route].Admit == RouteAdmission::ADMIT_TO_B) ||
+      Any(route in @ise_left_port_a | RouteFindingResponse[route].Admit == RouteAdmission::ADMIT_TO_C) ||
+      Any(route in @ise_left_port_a | RouteFindingResponse[route].Admit == RouteAdmission::ADMIT_END) ||
+      Any(route in @ise_left_port_b | RouteFindingResponse[route].Admit == RouteAdmission::ADMIT_TO_A) ||
+      Any(route in @ise_left_port_c | RouteFindingResponse[route].Admit == RouteAdmission::ADMIT_TO_A)
+    default: false
+  IsAdmitOpposite:
+    expression: Any(route in @ise_right_port_a | RouteFindingResponse[route].Admit == RouteAdmission::ADMIT_TO_B) ||
+      Any(route in @ise_right_port_a | RouteFindingResponse[route].Admit == RouteAdmission::ADMIT_TO_C) ||
+      Any(route in @ise_right_port_a | RouteFindingResponse[route].Admit == RouteAdmission::ADMIT_END) ||
+      Any(route in @ise_right_port_b | RouteFindingResponse[route].Admit == RouteAdmission::ADMIT_TO_A) ||
+      Any(route in @ise_right_port_c | RouteFindingResponse[route].Admit == RouteAdmission::ADMIT_TO_A)
+    default: false
+  IsRouteSet:
+    expression: Any(route in @ise_left_port_a | RouteFindingSearch[route].Check == RouteChecking::ROUTE_SET_FROM_B) ||
+      Any(route in @ise_left_port_a | RouteFindingSearch[route].Check == RouteChecking::ROUTE_SET_FROM_C) ||
+      Any(route in @ise_left_port_b | RouteFindingSearch[route].Check == RouteChecking::ROUTE_SET_FROM_A) ||
+      Any(route in @ise_left_port_c | RouteFindingSearch[route].Check == RouteChecking::ROUTE_SET_FROM_A) ||
+      Any(route in @ise_left_port_b | RouteFindingSearch[route].Check == RouteChecking::ROUTE_SET_FROM_START)
+    default: false
+  IsRouteSetDownstream:
+    expression: Any(route in @ise_left_port_a | RouteFindingResponse[route].Admit == RouteAdmission::ROUTE_TO_B) ||
+      Any(route in @ise_left_port_a | RouteFindingResponse[route].Admit == RouteAdmission::ROUTE_TO_C) ||
+      Any(route in @ise_left_port_a | RouteFindingResponse[route].Admit == RouteAdmission::ROUTE_END) ||
+      Any(route in @ise_left_port_b | RouteFindingResponse[route].Admit == RouteAdmission::ROUTE_TO_A) ||
+      Any(route in @ise_left_port_c | RouteFindingResponse[route].Admit == RouteAdmission::ROUTE_TO_A)
+    default: false
+variables:
+  State:
+    type: RouteSearch
+    description: Indicates whether the right side of the link is being checked.
+    default: RouteSearch::INACTIVE

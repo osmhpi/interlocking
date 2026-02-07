@@ -1,0 +1,59 @@
+entity_type: Transit
+terms:
+  CommandReleaseRoute:
+    expression: RouteManualReleaseDispatch[@ise].State == ActiveInactive::ACTIVE
+    default: false
+  CommandUnsetManualReleaseRestriction:
+    # expression: sci_cc.msg_unset_manual_release_restriction == true
+    default: false
+  ApproachTaken:
+    expression: SCIRBC[@signal].ApproachLockingActive == true
+    default: true
+  ManualSignalClose:
+    default: false
+  TimeoutWithholdMovementAuthorityExpired:
+    expression: now >= StartWithholdMovementAuthority + @time_delay_etcs_approach_locking
+    default: false
+  TimeoutUnsupervisedTrainApproachExpired:
+    expression: now >= StartUnsupervisedTrainApproach + @time_delay_unsupervised_train_approach_locking
+    default: false
+  ReleasePrevention:
+    # expression: ManualReleasePrevention == ActiveInactive::ACTIVE
+    default: false
+  RouteIsSet:
+    expression: Route.State == RouteState::SET
+    default: false
+  RouteIsLocked:
+    expression: RouteMonitoring.State == ActiveInactive::ACTIVE
+    default: false
+  PassageLock:
+    # expression: RouteMonitoring.PassageLock == OpenCloseState::OPEN
+    default: false
+  ApproachZoneOccupied:
+    expression: Zone[@approach_zone].State == OccupancyStatus::OCCUPIED
+    default: true
+variables:
+  ManualReleaseRequested:
+    type: ActiveInactive
+    description: Indicates whether the route manual release is active or not.
+    default: ActiveInactive::INACTIVE
+  HoldApproachLocking:
+    type: OpenCloseState
+    description: Indicates whether the route approach locking is held or not.
+    default: OpenCloseState::CLOSED
+  ManualReleaseWithholdMovementAuthority:
+    type: ActiveInactive
+    description: Indicates whether the route manual release withholds movement authority or not.
+    default: ActiveInactive::INACTIVE
+  ManualReleasePrevention:
+    type: ActiveInactive
+    description: Indicates whether the route manual release prevention is active or not.
+    default: ActiveInactive::INACTIVE
+  StartUnsupervisedTrainApproach:
+    type: timestamp
+    description: The timestamp when the unsupervised train approach started.
+    default: None
+  StartWithholdMovementAuthority:
+    type: timestamp
+    description: The timestamp when the movement authority withholding started.
+    default: None

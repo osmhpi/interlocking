@@ -1,0 +1,272 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Entities",
+  "type": "object",
+  "properties": {
+    "Point": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "requested_left_by_routes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Routes that request the point to be set to left.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "requested_right_by_routes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Routes that request the point to be set to right.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "locked_left_by_transits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Transits that require the point to be set to left.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "locked_right_by_transits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Transits that require the point to be set to right.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "locked_left_by_zones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Zones that require the point to be set to left.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "locked_right_by_zones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Zones that require the point to be set to right.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "all_points": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "All points in the interlocking.",
+            "minItems": 1,
+            "maxItems": null
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "all_points",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Route": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "request_points_right": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Points that are requested to be set to right.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "request_points_left": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Points that are requested to be set to left.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "request_points_controlled_right": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Points that must be controlled in right end position.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "request_points_controlled_left": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Points that must be controlled in left end position.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "transits_in_opposite_route_direction": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Transits that are in opposite direction of the route.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "trigger_zone": {
+            "type": "string",
+            "description": "Trigger zone that is used to release the route."
+          },
+          "trigger_zone_opposite_transit": {
+            "type": "string",
+            "description": "Transit of the trigger zone in opposite direction of the route."
+          },
+          "start_signal": {
+            "type": "string",
+            "description": "Start signal of the route."
+          },
+          "approach_zone": {
+            "type": "string",
+            "description": "Approach zone of the route."
+          },
+          "time_delay_etcs_approach_locking": {
+            "type": "integer",
+            "description": "Time delay for ETCS approach locking."
+          },
+          "time_delay_unsupervised_train_approach_locking": {
+            "type": "integer",
+            "description": "Time delay for unsupervised train approach locking."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "trigger_zone",
+          "trigger_zone_opposite_transit",
+          "start_signal",
+          "approach_zone",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Signal": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "routes_starting_here": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Routes that start at this signal.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Transit": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "activating_routes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Routes that activate this transit.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "underlying_zone": {
+            "type": "string",
+            "description": "The underlying zone that forms this transit."
+          },
+          "upstream_transits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Transits that lead to this transit.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "underlying_zone",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Zone": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    }
+  },
+  "additionalProperties": false
+}

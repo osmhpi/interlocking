@@ -1,0 +1,41 @@
+groups:
+  - grouping: by_graph
+    entries:
+    - entity_type: Zone
+      graph: Zone
+  - grouping: by_graph
+    entries:
+    - entity_type: Route
+      graph: RouteAutomaticRelease
+    - entity_type: Route
+      graph: RouteManualRelease
+    - entity_type: Route
+      graph: Route
+  - grouping: by_graph
+    entries:
+    - entity_type: Transit
+      graph: Transit
+  - grouping: by_instance
+    entries:
+    - entity_type: Point
+      graph: PointLockLeft
+    - entity_type: Point
+      graph: PointLockRight
+    - entity_type: Point
+      graph: Point
+    - entity_type: Point
+      graph: PointControl
+    - entity_type: Point
+      graph: PointOperation
+  - grouping: by_graph
+    entries:
+    - entity_type: Route
+      graph: RouteMonitoring
+    - entity_type: Route
+      graph: RouteControl
+  - grouping: by_graph
+    entries:
+    - entity_type: Signal
+      graph: Signal
+    - entity_type: Signal
+      graph: SignalControl

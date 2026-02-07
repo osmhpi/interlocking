@@ -1,0 +1,34 @@
+name: Link
+description: Linking between two infrastructure elements
+interfaces: {}
+properties:
+  ise_left_port_a:
+    description: Left ISE of the link, connected at port A.
+    type: ise
+    min: !!int 0
+    max: unbounded
+  ise_left_port_b:
+    description: Left ISE of the link, connected at port B.
+    type: ise
+    min: !!int 0
+    max: unbounded
+  ise_left_port_c:
+    description: Left ISE of the link, connected at port C.
+    type: ise
+    min: !!int 0
+    max: unbounded
+  ise_right_port_a:
+    description: Right ISE of the link, connected at port A.
+    type: ise
+    min: !!int 0
+    max: unbounded
+  ise_right_port_b:
+    description: Right ISE of the link, connected at port B.
+    type: ise
+    min: !!int 0
+    max: unbounded
+  ise_right_port_c:
+    description: Right ISE of the link, connected at port C.
+    type: ise
+    min: !!int 0
+    max: unbounded

@@ -1,0 +1,5 @@
+[workspace]
+members = [
+  "geographical_interlocking/simulator",
+  "locking_table_interlocking/simulator",
+]

@@ -1,0 +1,92 @@
+name: Transit
+description: Zone with a direction.
+interfaces:
+  SCICC:
+    outputs:
+      Active:
+        description: Indicates if the transit is currently active.
+        type: boolean
+        mapping:
+          true: Transit.State == ActiveInactive::ACTIVE
+          false: Transit.State != ActiveInactive::ACTIVE
+        default: true
+        kind: continuous
+properties:
+  ise:
+    description: ISE that this transit belongs to.
+    type: ise
+    min: !!int 1
+    max: !!int 1
+  underlying_zone:
+    description: The underlying zone that forms this transit.
+    type: zone
+    min: !!int 1
+    max: !!int 1
+  upstream_transits:
+    description: Transits that lead to this transit.
+    type: transit
+    min: !!int 0
+    max: unbounded
+  requires_point_left:
+    description: The point that is required to be in the left position.
+    type: point
+    min: !!int 0
+    max: unbounded
+  requires_point_right:
+    description: The point that is required to be in the right position.
+    type: point
+    min: !!int 0
+    max: unbounded
+  upstream_link_left:
+    description: The link that leads to this transit, connected to its left end.
+    type: link
+    min: !!int 0
+    max: unbounded
+  upstream_link_right:
+    description: The link that leads to this transit, connected to its right end.
+    type: link
+    min: !!int 0
+    max: unbounded
+  downstream_link_left:
+    description: The link that leads from this transit, connected to its left end.
+    type: link
+    min: !!int 0
+    max: unbounded
+  downstream_link_right:
+    description: The link that leads from this transit, connected to its right end.
+    type: link
+    min: !!int 0
+    max: unbounded
+  transit_in_opposite_direction:
+    description: The transit that is in the opposite direction.
+    type: transit
+    min: !!int 1
+    max: !!int 1
+  trigger_zone:
+    description: Trigger zone that is used to release a route that starts from this transit.
+    type: zone
+    min: !!int 0
+    max: !!int 1
+  trigger_zone_opposite_transits:
+    description: Transits of the route release trigger zone in opposite direction of the route.
+    type: transit
+    min: !!int 0
+    max: unbounded
+  approach_zone:
+    description: Approach zone of the route that starts from this transit.
+    type: zone
+    min: !!int 0
+    max: !!int 1
+  time_delay_etcs_approach_locking:
+    description: Time delay for ETCS approach locking.
+    type: duration
+    default: 120000ms
+  time_delay_unsupervised_train_approach_locking:
+    description: Time delay for unsupervised train approach locking.
+    type: duration
+    default: 30000ms
+  signal:
+    description: Signal that directly protects this transit.
+    type: Signal
+    min: !!int 0
+    max: !!int 1

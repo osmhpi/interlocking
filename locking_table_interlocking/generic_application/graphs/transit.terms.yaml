@@ -1,0 +1,23 @@
+entity_type: Transit
+terms:
+  InitializationTimeoutExpired:
+    expression: now >= StartInitialization + 1000ms
+    default: false
+  ZoneFree:
+    expression: Zone[@underlying_zone].State == OccupancyStatus::VACANT
+    default: false
+  UpstreamTransitsIdle:
+    expression: All(transit in @upstream_transits | Transit[transit].State == ActiveInactive::INACTIVE)
+    default: false
+  RequestedByRoute:
+    expression: Any(route in @activating_routes | Route[route].State == RouteState::SET)
+    default: false
+variables:
+  State:
+    type: ActiveInactive
+    description: Indicates whether the transit is idle or active.
+    default: ActiveInactive::INACTIVE
+  StartInitialization:
+    type: timestamp
+    description: The timestamp when the initialization started.
+    default: None

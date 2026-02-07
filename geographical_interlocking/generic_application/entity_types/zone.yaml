@@ -1,0 +1,35 @@
+name: Zone
+description: Section of track that can be occupied or vacant.
+interfaces:
+  SCITDS:
+    inputs:
+      OccupancyStatus:
+        description: Indicates whether the zone is occupied or vacant.
+        type: OccupancyStatus
+        default: OccupancyStatus::OCCUPIED
+        kind: continuous
+    outputs:
+      ResetSection:
+        description: Indicates whether a section reset should be triggered.
+        type: boolean
+        mapping:
+          true: Zone.State == OccupancyStatus::VACANT
+          false: Zone.State != OccupancyStatus::VACANT
+        default: false
+        kind: discrete
+  SCICC:
+    outputs:
+      CurrentOccupancy:
+        description: Indicates the current occupancy status of the zone.
+        type: OccupancyStatus
+        mapping:
+          OccupancyStatus::OCCUPIED: Zone.State == OccupancyStatus::OCCUPIED
+          OccupancyStatus::VACANT: Zone.State == OccupancyStatus::VACANT
+        default: OccupancyStatus::VACANT
+        kind: continuous
+properties:
+  ise:
+    description: ISE that this zone belongs to.
+    type: ise
+    min: !!int 1
+    max: !!int 1

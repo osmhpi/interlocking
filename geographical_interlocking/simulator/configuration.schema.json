@@ -1,0 +1,497 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Entities",
+  "type": "object",
+  "properties": {
+    "Ise": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "is_start_of_route_admission_check": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Indicates whether this ISE is the start of a route admission checking.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "is_end_of_route_admission_check": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Indicates whether this ISE is the end of a route admission checking.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "link_a_left": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Link with left side connected to port A.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "link_a_right": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Link with right side connected to port A.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "link_b_left": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Link with left side connected to port B.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "link_b_right": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Link with right side connected to port B.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "link_c_left": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Link with left side connected to port C.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "link_c_right": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Link with right side connected to port C.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "point": {
+            "type": "string",
+            "description": "Point that this ISE refers to."
+          },
+          "zone": {
+            "type": "string",
+            "description": "Zone that this ISE refers to."
+          },
+          "transits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Transits that this ISE refers to.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Link": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ise_left_port_a": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Left ISE of the link, connected at port A.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "ise_left_port_b": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Left ISE of the link, connected at port B.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "ise_left_port_c": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Left ISE of the link, connected at port C.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "ise_right_port_a": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Right ISE of the link, connected at port A.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "ise_right_port_b": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Right ISE of the link, connected at port B.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "ise_right_port_c": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Right ISE of the link, connected at port C.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Point": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ise": {
+            "type": "string",
+            "description": "ISE that this point belongs to."
+          },
+          "all_points": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "All points in the interlocking.",
+            "minItems": 1,
+            "maxItems": null
+          },
+          "locked_left_by_transits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Transits that require the point to be set to left.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "locked_right_by_transits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Transits that require the point to be set to right.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "locked_left_by_zones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Zones that require the point to be set to left.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "locked_right_by_zones": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Zones that require the point to be set to right.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "ise",
+          "all_points",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Route": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "all_routes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "All routes that are part of this station.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "start_ise_left": {
+            "type": "string",
+            "description": "The start ISE of the route."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Signal": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "routes_starting_here": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Routes that start at this signal.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Station": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "all_routes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "All routes that are part of this station.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Transit": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ise": {
+            "type": "string",
+            "description": "ISE that this transit belongs to."
+          },
+          "underlying_zone": {
+            "type": "string",
+            "description": "The underlying zone that forms this transit."
+          },
+          "upstream_transits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Transits that lead to this transit.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "requires_point_left": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The point that is required to be in the left position.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "requires_point_right": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The point that is required to be in the right position.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "upstream_link_left": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The link that leads to this transit, connected to its left end.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "upstream_link_right": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The link that leads to this transit, connected to its right end.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "downstream_link_left": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The link that leads from this transit, connected to its left end.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "downstream_link_right": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The link that leads from this transit, connected to its right end.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "transit_in_opposite_direction": {
+            "type": "string",
+            "description": "The transit that is in the opposite direction."
+          },
+          "trigger_zone": {
+            "type": "string",
+            "description": "Trigger zone that is used to release a route that starts from this transit."
+          },
+          "trigger_zone_opposite_transits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Transits of the route release trigger zone in opposite direction of the route.",
+            "minItems": 0,
+            "maxItems": null
+          },
+          "approach_zone": {
+            "type": "string",
+            "description": "Approach zone of the route that starts from this transit."
+          },
+          "time_delay_etcs_approach_locking": {
+            "type": "integer",
+            "description": "Time delay for ETCS approach locking."
+          },
+          "time_delay_unsupervised_train_approach_locking": {
+            "type": "integer",
+            "description": "Time delay for unsupervised train approach locking."
+          },
+          "signal": {
+            "type": "string",
+            "description": "Signal that directly protects this transit."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "ise",
+          "underlying_zone",
+          "transit_in_opposite_direction",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "Zone": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ise": {
+            "type": "string",
+            "description": "ISE that this zone belongs to."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the concept instance.",
+            "minItems": 1,
+            "maxItems": 1
+          }
+        },
+        "required": [
+          "ise",
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    }
+  },
+  "additionalProperties": false
+}

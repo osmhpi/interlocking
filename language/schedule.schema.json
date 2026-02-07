@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Schedule",
+  "type": "object",
+  "properties": {
+    "groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "grouping": { "type": "string", "enum": ["by_graph", "by_instance"] },
+          "iterations": { "type": "integer", "minimum": 1 },
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "entity_type": { "type": "string" },
+                "graph": { "type": "string" }
+              },
+              "required": ["entity_type", "graph"]
+            }
+          }
+        },
+        "required": ["grouping", "entries"]
+      }
+    }
+  },
+  "required": ["groups"],
+  "additionalProperties": false
+}

@@ -1,0 +1,26 @@
+name: Route
+description: Route
+interfaces:
+  SCICC:
+    inputs:
+      MsgRequestRoute:
+        description: Indicates whether the route is requested.
+        type: boolean
+        default: false
+        kind: discrete
+      MsgReleaseRoute:
+        description: Indicates whether the route is released.
+        type: boolean
+        default: false
+        kind: discrete
+properties:
+  all_routes:
+    description: All routes that are part of this station.
+    type: route
+    min: !!int 0
+    max: unbounded
+  start_ise_left:
+    description: The start ISE of the route.
+    type: ise
+    min: !!int 0
+    max: !!int 1

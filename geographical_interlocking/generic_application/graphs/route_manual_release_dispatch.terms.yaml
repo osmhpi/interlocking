@@ -1,0 +1,10 @@
+entity_type: Ise
+terms:
+  RouteReleaseRequested:
+    expression: Any(route in @is_start_of_route_admission_check | SCICC[route].MsgReleaseRoute == true)
+    default: false
+variables:
+  State:
+    type: ActiveInactive
+    description: Indicates whether route release is active.
+    default: ActiveInactive::INACTIVE

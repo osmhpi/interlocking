@@ -1,0 +1,10 @@
+entity_type: Route
+terms:
+  RouteMonitored:
+    expression: RouteMonitoring.State == ActiveInactive::ACTIVE
+    default: false
+variables:
+  State:
+    type: OpenCloseState
+    description: Indicates whether the route is open or closed.
+    default: OpenCloseState::CLOSED

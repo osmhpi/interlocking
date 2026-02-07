@@ -1,0 +1,64 @@
+name: Ise
+description: Infrastructure Element
+interfaces: {}
+properties:
+  is_start_of_route_admission_check:
+    description: Indicates whether this ISE is the start of a route admission checking.
+    type: Route
+    min: !!int 0
+    max: unbounded
+  is_end_of_route_admission_check:
+    description: Indicates whether this ISE is the end of a route admission checking.
+    type: Route
+    min: !!int 0
+    max: unbounded
+  link_a_left:
+    description: Link with left side connected to port A.
+    type: Link
+    min: !!int 0
+    max: unbounded
+  link_a_right:
+    description: Link with right side connected to port A.
+    type: Link
+    min: !!int 0
+    max: unbounded
+  link_b_left:
+    description: Link with left side connected to port B.
+    type: Link
+    min: !!int 0
+    max: unbounded
+  link_b_right:
+    description: Link with right side connected to port B.
+    type: Link
+    min: !!int 0
+    max: unbounded
+  link_c_left:
+    description: Link with left side connected to port C.
+    type: Link
+    min: !!int 0
+    max: unbounded
+  link_c_right:
+    description: Link with right side connected to port C.
+    type: Link
+    min: !!int 0
+    max: unbounded
+  point:
+    description: Point that this ISE refers to.
+    type: Point
+    min: !!int 0
+    max: !!int 1
+  zone:
+    description: Zone that this ISE refers to.
+    type: Zone
+    min: !!int 0
+    max: !!int 1
+  # signal:
+  #   description: Signal that this ISE refers to.
+  #   type: signal
+  #   min: !!int 0
+  #   max: !!int 1
+  transits:
+    description: Transits that this ISE refers to.
+    type: transit
+    min: !!int 0
+    max: unbounded

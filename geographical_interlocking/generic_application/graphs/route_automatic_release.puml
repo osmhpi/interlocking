@@ -1,0 +1,14 @@
+@startuml RouteAutomaticRelease
+
+[*] --> INACTIVE: [1]
+
+INACTIVE --> ACTIVE: [1] RouteIsSet && OppositeTransitsInactive && !TriggerZoneFree
+ACTIVE --> INACTIVE: [1] !RouteIsSet
+ACTIVE --> EFFECTIVE: [1] TriggerZoneFree
+EFFECTIVE --> INACTIVE: [1] !RouteIsSet
+
+INACTIVE: State = ActiveInactive::INACTIVE
+ACTIVE: State = ActiveInactive::INACTIVE
+EFFECTIVE: State = ActiveInactive::ACTIVE
+
+@enduml

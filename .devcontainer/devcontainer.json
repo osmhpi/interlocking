@@ -1,0 +1,23 @@
+{
+	"name": "C# (.NET)",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+	"features": {
+		"ghcr.io/devcontainers/features/node:1": {},
+		"ghcr.io/devcontainers/features/rust:1": {},
+		"ghcr.io/lumenpink/devcontainer-features/wasm-pack:0": {},
+		"ghcr.io/devcontainers/features/java:1": {},
+		"ghcr.io/nikiforovall/devcontainer-features/antlr4:1": {
+			"version": "4.13.2"
+		},
+		"ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+			"packages": "graphviz"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"jebbs.plantuml"
+			]
+		}
+	}
+}
