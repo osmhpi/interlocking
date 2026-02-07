@@ -25,10 +25,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4
         with:
@@ -58,10 +58,10 @@ jobs:
       - name: Copy output artifacts
         run: |
           mkdir -p _site/locking_table_interlocking
-          cp -r locking_table_interlocking/simulator/react/build/client/ _site/locking_table_interlocking/
+          cp -r locking_table_interlocking/simulator/react/build/client _site/locking_table_interlocking/
           mkdir -p _site/geographical_interlocking
-          cp -r geographical_interlocking/simulator/react/build/client/ _site/geographical_interlocking/
-          
+          cp -r geographical_interlocking/simulator/react/build/client _site/geographical_interlocking/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
