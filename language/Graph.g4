@@ -36,7 +36,7 @@ atom
 // Lexer rules
 STARTUML     : '@startuml' WS* ;
 ENDUML       : '@enduml' WS* ;
-ARROW        : '-->' | '-left->' | '-right->' | '\u2192' ;
+ARROW        : '-->' | '-left->' | '-right->'  | '-up->' | '-down->' | '\u2192' ;
 COLON        : ':' ;
 LBRACK       : '[' ;
 RBRACK       : ']' ;
