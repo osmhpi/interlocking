@@ -26,7 +26,7 @@ In each invocation of a state machine by the scheduler, only a single transition
 The use of choice pseudo-states is allowed and presents an exception to this rule.
 When taking a transition, the state machine enters the target state, and any provided variable assignment statements are executed top to bottom.
 
-Each graph is accompanied by a [terms definition file](../locking_table_interlocking/generic_application/graphs/point.terms.puml), which provides a boolean expression for each of the identifiers that are used as part of the transition guards.
+Each graph is accompanied by a [terms definition file](../locking_table_interlocking/generic_application/graphs/point.terms.yaml), which provides a boolean expression for each of the identifiers that are used as part of the transition guards.
 As part of boolean expressions, quantifier expressions (`All`, `Any`) allow operating with value sets.
 The `All` expression evaluates to true, iff all elements within the set equal to the provided expression value.
 `All` evaluates to false if the set is empty.
