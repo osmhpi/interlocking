@@ -13,7 +13,7 @@ Entity types, system interfaces and enumeration data types build the framework f
 
 The following image shows a graphical representation of the [point](../locking_table_interlocking/generic_application/graphs/point.puml) graph.
 
-![Point State Machine Graph](../resources/point_plantuml.png)
+![Point State Machine Graph](../locking_table_interlocking/generic_application/graphs/point.svg)
 
 A graph has a single initial state.
 Transitions are checked in the order that is given by the transition priority (`[1]`, `[2]`, `[3]`, etc.), from lowest to highest.
