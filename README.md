@@ -48,7 +48,7 @@ Hence, although a staggered point machine operation is not a safety-related func
 
 **ANTLR Language Grammars**
 
- - [Expression](language/Expression.g4)
+ - [Expression](language/Expression.g4) ([Syntax Diagram](https://osmhpi.github.io/interlocking/rrd/))
  - [Graph](language/Graph.g4), subset of PlantUML State Diagrams
 
 **JSON Schema Definitions**
