@@ -39,8 +39,8 @@ public partial class ExpressionParser : Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		AND=10, OR=11, NOT=12, EQUAL=13, NOTEQUAL=14, LBRACK=15, RBRACK=16, DOT=17, 
 		DCOLON=18, AT=19, NOW=20, MILLISECONDS=21, GTE=22, PLUS=23, NAME_ALL_LOWERCASE=24, 
-		NAME_ALL_UPPERCASE=25, NAME_LOWER_SNAKE_CASE=26, NAME_CAMELCASE=27, NAME_UPPER_SNAKE_CASE=28, 
-		NAME_PASCALCASE=29, NUMBER=30, ASSIGN=31, PUMLNEWLINE=32, WS=33;
+		NAME_ALL_UPPERCASE=25, NAME_LOWER_SNAKE_CASE=26, NAME_CAMEL_CASE=27, NAME_UPPER_SNAKE_CASE=28, 
+		NAME_PASCAL_CASE=29, NUMBER=30, ASSIGN=31, PUMLNEWLINE=32, WS=33;
 	public const int
 		RULE_assignment = 0, RULE_expression = 1, RULE_orExpr = 2, RULE_andExpr = 3, 
 		RULE_notExpr = 4, RULE_atom = 5, RULE_timeoutExpression = 6, RULE_quantifierExpression = 7, 
@@ -67,7 +67,7 @@ public partial class ExpressionParser : Parser {
 		null, null, null, null, null, null, null, null, null, null, "AND", "OR", 
 		"NOT", "EQUAL", "NOTEQUAL", "LBRACK", "RBRACK", "DOT", "DCOLON", "AT", 
 		"NOW", "MILLISECONDS", "GTE", "PLUS", "NAME_ALL_LOWERCASE", "NAME_ALL_UPPERCASE", 
-		"NAME_LOWER_SNAKE_CASE", "NAME_CAMELCASE", "NAME_UPPER_SNAKE_CASE", "NAME_PASCALCASE", 
+		"NAME_LOWER_SNAKE_CASE", "NAME_CAMEL_CASE", "NAME_UPPER_SNAKE_CASE", "NAME_PASCAL_CASE", 
 		"NUMBER", "ASSIGN", "PUMLNEWLINE", "WS"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
@@ -407,7 +407,7 @@ public partial class ExpressionParser : Parser {
 			case T__3:
 			case NOW:
 			case NAME_ALL_UPPERCASE:
-			case NAME_PASCALCASE:
+			case NAME_PASCAL_CASE:
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 68;
@@ -474,7 +474,7 @@ public partial class ExpressionParser : Parser {
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case NAME_ALL_UPPERCASE:
-			case NAME_PASCALCASE:
+			case NAME_PASCAL_CASE:
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 71;
@@ -856,7 +856,7 @@ public partial class ExpressionParser : Parser {
 	}
 
 	public partial class GraphOrInterfaceNameContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCALCASE() { return GetToken(ExpressionParser.NAME_PASCALCASE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCAL_CASE() { return GetToken(ExpressionParser.NAME_PASCAL_CASE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_ALL_UPPERCASE() { return GetToken(ExpressionParser.NAME_ALL_UPPERCASE, 0); }
 		public GraphOrInterfaceNameContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -891,7 +891,7 @@ public partial class ExpressionParser : Parser {
 			{
 			State = 107;
 			_la = TokenStream.LA(1);
-			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCALCASE) ) {
+			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCAL_CASE) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -912,7 +912,7 @@ public partial class ExpressionParser : Parser {
 	}
 
 	public partial class VariableNameContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCALCASE() { return GetToken(ExpressionParser.NAME_PASCALCASE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCAL_CASE() { return GetToken(ExpressionParser.NAME_PASCAL_CASE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_ALL_UPPERCASE() { return GetToken(ExpressionParser.NAME_ALL_UPPERCASE, 0); }
 		public VariableNameContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -947,7 +947,7 @@ public partial class ExpressionParser : Parser {
 			{
 			State = 109;
 			_la = TokenStream.LA(1);
-			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCALCASE) ) {
+			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCAL_CASE) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -968,7 +968,7 @@ public partial class ExpressionParser : Parser {
 	}
 
 	public partial class QuantifierVariableNameContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_CAMELCASE() { return GetToken(ExpressionParser.NAME_CAMELCASE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_CAMEL_CASE() { return GetToken(ExpressionParser.NAME_CAMEL_CASE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_ALL_LOWERCASE() { return GetToken(ExpressionParser.NAME_ALL_LOWERCASE, 0); }
 		public QuantifierVariableNameContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1003,7 +1003,7 @@ public partial class ExpressionParser : Parser {
 			{
 			State = 111;
 			_la = TokenStream.LA(1);
-			if ( !(_la==NAME_ALL_LOWERCASE || _la==NAME_CAMELCASE) ) {
+			if ( !(_la==NAME_ALL_LOWERCASE || _la==NAME_CAMEL_CASE) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -1093,7 +1093,7 @@ public partial class ExpressionParser : Parser {
 						}
 						break;
 					case NAME_ALL_LOWERCASE:
-					case NAME_CAMELCASE:
+					case NAME_CAMEL_CASE:
 						{
 						State = 116;
 						quantifierVariableName();
@@ -1181,7 +1181,7 @@ public partial class ExpressionParser : Parser {
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case NAME_ALL_UPPERCASE:
-			case NAME_PASCALCASE:
+			case NAME_PASCAL_CASE:
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 129;
@@ -1457,7 +1457,7 @@ public partial class ExpressionParser : Parser {
 	}
 
 	public partial class EnumerationTypeNameContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCALCASE() { return GetToken(ExpressionParser.NAME_PASCALCASE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCAL_CASE() { return GetToken(ExpressionParser.NAME_PASCAL_CASE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_ALL_UPPERCASE() { return GetToken(ExpressionParser.NAME_ALL_UPPERCASE, 0); }
 		public EnumerationTypeNameContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1492,7 +1492,7 @@ public partial class ExpressionParser : Parser {
 			{
 			State = 149;
 			_la = TokenStream.LA(1);
-			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCALCASE) ) {
+			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCAL_CASE) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {

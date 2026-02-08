@@ -51,15 +51,15 @@ propertyName
     ;
 
 graphOrInterfaceName
-    : (NAME_PASCALCASE | NAME_ALL_UPPERCASE)
+    : (NAME_PASCAL_CASE | NAME_ALL_UPPERCASE)
     ;
 
 variableName
-    : (NAME_PASCALCASE | NAME_ALL_UPPERCASE)
+    : (NAME_PASCAL_CASE | NAME_ALL_UPPERCASE)
     ;
 
 quantifierVariableName
-    : (NAME_CAMELCASE | NAME_ALL_LOWERCASE)
+    : (NAME_CAMEL_CASE | NAME_ALL_LOWERCASE)
     ;
 
 // Graph or interface variable reference: NAME optionally followed by [NAME], then dot, then variable NAME
@@ -97,7 +97,7 @@ noneLiteral
     ;
 
 enumerationTypeName
-    : (NAME_PASCALCASE | NAME_ALL_UPPERCASE)
+    : (NAME_PASCAL_CASE | NAME_ALL_UPPERCASE)
     ;
 
 enumerationLiteralName
@@ -122,9 +122,9 @@ PLUS: '+';
 NAME_ALL_LOWERCASE: [a-z][a-z0-9]*;
 NAME_ALL_UPPERCASE: [A-Z][A-Z0-9]*;
 NAME_LOWER_SNAKE_CASE: [a-z][a-z0-9_]*;
-NAME_CAMELCASE: [a-z][A-Za-z0-9]*;
+NAME_CAMEL_CASE: [a-z][A-Za-z0-9]*;
 NAME_UPPER_SNAKE_CASE: [A-Z][A-Z0-9_]*;
-NAME_PASCALCASE: [A-Z][A-Za-z0-9]*;
+NAME_PASCAL_CASE: [A-Z][A-Za-z0-9]*;
 NUMBER: [0-9]+;
 ASSIGN: '=';
 PUMLNEWLINE: ('\\n') -> skip;

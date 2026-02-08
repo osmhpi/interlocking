@@ -13,7 +13,7 @@ stateDeclaration : stateReference COLON assignment NEWLINE
                  ;
 
 pseudostateDeclaration : 'state' pseudostateName PSEUDOSTATE NEWLINE ;
-pseudostateName        : NAME_CAMELCASE | NAME_ALL_LOWERCASE ;
+pseudostateName        : NAME_CAMEL_CASE | NAME_ALL_LOWERCASE ;
 
 stateReference : INITIAL_STATE_NAME | pseudostateName | stateName ;
 stateName      : NAME_UPPER_SNAKE_CASE | NAME_ALL_UPPERCASE ;
@@ -24,7 +24,7 @@ labelText       : expression? ;
 
 comment      : COMMENT ;
 
-termReference : (NAME_PASCALCASE | NAME_ALL_UPPERCASE) ;
+termReference : (NAME_PASCAL_CASE | NAME_ALL_UPPERCASE) ;
 
 // Override the atom rule to allow a direct term name (NAME)
 atom

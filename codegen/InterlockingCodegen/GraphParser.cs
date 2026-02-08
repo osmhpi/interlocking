@@ -41,8 +41,8 @@ public partial class GraphParser : Parser {
 		LBRACE=17, RBRACE=18, INITIAL_STATE_NAME=19, INT=20, COMMENT=21, NEWLINE=22, 
 		WS=23, PSEUDOSTATE=24, AND=25, OR=26, NOT=27, EQUAL=28, NOTEQUAL=29, DOT=30, 
 		DCOLON=31, AT=32, NOW=33, MILLISECONDS=34, GTE=35, PLUS=36, NAME_ALL_LOWERCASE=37, 
-		NAME_ALL_UPPERCASE=38, NAME_LOWER_SNAKE_CASE=39, NAME_CAMELCASE=40, NAME_UPPER_SNAKE_CASE=41, 
-		NAME_PASCALCASE=42, NUMBER=43, ASSIGN=44, PUMLNEWLINE=45;
+		NAME_ALL_UPPERCASE=38, NAME_LOWER_SNAKE_CASE=39, NAME_CAMEL_CASE=40, NAME_UPPER_SNAKE_CASE=41, 
+		NAME_PASCAL_CASE=42, NUMBER=43, ASSIGN=44, PUMLNEWLINE=45;
 	public const int
 		RULE_diagram = 0, RULE_diagramName = 1, RULE_diagramBody = 2, RULE_transition = 3, 
 		RULE_stateDeclaration = 4, RULE_pseudostateDeclaration = 5, RULE_pseudostateName = 6, 
@@ -79,7 +79,7 @@ public partial class GraphParser : Parser {
 		"INT", "COMMENT", "NEWLINE", "WS", "PSEUDOSTATE", "AND", "OR", "NOT", 
 		"EQUAL", "NOTEQUAL", "DOT", "DCOLON", "AT", "NOW", "MILLISECONDS", "GTE", 
 		"PLUS", "NAME_ALL_LOWERCASE", "NAME_ALL_UPPERCASE", "NAME_LOWER_SNAKE_CASE", 
-		"NAME_CAMELCASE", "NAME_UPPER_SNAKE_CASE", "NAME_PASCALCASE", "NUMBER", 
+		"NAME_CAMEL_CASE", "NAME_UPPER_SNAKE_CASE", "NAME_PASCAL_CASE", "NUMBER", 
 		"ASSIGN", "PUMLNEWLINE"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
@@ -473,7 +473,7 @@ public partial class GraphParser : Parser {
 			case INITIAL_STATE_NAME:
 			case NAME_ALL_LOWERCASE:
 			case NAME_ALL_UPPERCASE:
-			case NAME_CAMELCASE:
+			case NAME_CAMEL_CASE:
 			case NAME_UPPER_SNAKE_CASE:
 				EnterOuterAlt(_localctx, 1);
 				{
@@ -577,7 +577,7 @@ public partial class GraphParser : Parser {
 	}
 
 	public partial class PseudostateNameContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_CAMELCASE() { return GetToken(GraphParser.NAME_CAMELCASE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_CAMEL_CASE() { return GetToken(GraphParser.NAME_CAMEL_CASE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_ALL_LOWERCASE() { return GetToken(GraphParser.NAME_ALL_LOWERCASE, 0); }
 		public PseudostateNameContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -612,7 +612,7 @@ public partial class GraphParser : Parser {
 			{
 			State = 119;
 			_la = TokenStream.LA(1);
-			if ( !(_la==NAME_ALL_LOWERCASE || _la==NAME_CAMELCASE) ) {
+			if ( !(_la==NAME_ALL_LOWERCASE || _la==NAME_CAMEL_CASE) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -679,7 +679,7 @@ public partial class GraphParser : Parser {
 				}
 				break;
 			case NAME_ALL_LOWERCASE:
-			case NAME_CAMELCASE:
+			case NAME_CAMEL_CASE:
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 122;
@@ -987,7 +987,7 @@ public partial class GraphParser : Parser {
 	}
 
 	public partial class TermReferenceContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCALCASE() { return GetToken(GraphParser.NAME_PASCALCASE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCAL_CASE() { return GetToken(GraphParser.NAME_PASCAL_CASE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_ALL_UPPERCASE() { return GetToken(GraphParser.NAME_ALL_UPPERCASE, 0); }
 		public TermReferenceContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1022,7 +1022,7 @@ public partial class GraphParser : Parser {
 			{
 			State = 142;
 			_la = TokenStream.LA(1);
-			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCALCASE) ) {
+			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCAL_CASE) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -1423,7 +1423,7 @@ public partial class GraphParser : Parser {
 				break;
 			case T__1:
 			case NAME_ALL_UPPERCASE:
-			case NAME_PASCALCASE:
+			case NAME_PASCAL_CASE:
 				EnterOuterAlt(_localctx, 2);
 				{
 				State = 176;
@@ -1779,7 +1779,7 @@ public partial class GraphParser : Parser {
 	}
 
 	public partial class GraphOrInterfaceNameContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCALCASE() { return GetToken(GraphParser.NAME_PASCALCASE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCAL_CASE() { return GetToken(GraphParser.NAME_PASCAL_CASE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_ALL_UPPERCASE() { return GetToken(GraphParser.NAME_ALL_UPPERCASE, 0); }
 		public GraphOrInterfaceNameContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1814,7 +1814,7 @@ public partial class GraphParser : Parser {
 			{
 			State = 206;
 			_la = TokenStream.LA(1);
-			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCALCASE) ) {
+			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCAL_CASE) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -1835,7 +1835,7 @@ public partial class GraphParser : Parser {
 	}
 
 	public partial class VariableNameContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCALCASE() { return GetToken(GraphParser.NAME_PASCALCASE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCAL_CASE() { return GetToken(GraphParser.NAME_PASCAL_CASE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_ALL_UPPERCASE() { return GetToken(GraphParser.NAME_ALL_UPPERCASE, 0); }
 		public VariableNameContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1870,7 +1870,7 @@ public partial class GraphParser : Parser {
 			{
 			State = 208;
 			_la = TokenStream.LA(1);
-			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCALCASE) ) {
+			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCAL_CASE) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -1891,7 +1891,7 @@ public partial class GraphParser : Parser {
 	}
 
 	public partial class QuantifierVariableNameContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_CAMELCASE() { return GetToken(GraphParser.NAME_CAMELCASE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_CAMEL_CASE() { return GetToken(GraphParser.NAME_CAMEL_CASE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_ALL_LOWERCASE() { return GetToken(GraphParser.NAME_ALL_LOWERCASE, 0); }
 		public QuantifierVariableNameContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1926,7 +1926,7 @@ public partial class GraphParser : Parser {
 			{
 			State = 210;
 			_la = TokenStream.LA(1);
-			if ( !(_la==NAME_ALL_LOWERCASE || _la==NAME_CAMELCASE) ) {
+			if ( !(_la==NAME_ALL_LOWERCASE || _la==NAME_CAMEL_CASE) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
@@ -2016,7 +2016,7 @@ public partial class GraphParser : Parser {
 						}
 						break;
 					case NAME_ALL_LOWERCASE:
-					case NAME_CAMELCASE:
+					case NAME_CAMEL_CASE:
 						{
 						State = 215;
 						quantifierVariableName();
@@ -2104,7 +2104,7 @@ public partial class GraphParser : Parser {
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
 			case NAME_ALL_UPPERCASE:
-			case NAME_PASCALCASE:
+			case NAME_PASCAL_CASE:
 				EnterOuterAlt(_localctx, 1);
 				{
 				State = 228;
@@ -2380,7 +2380,7 @@ public partial class GraphParser : Parser {
 	}
 
 	public partial class EnumerationTypeNameContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCALCASE() { return GetToken(GraphParser.NAME_PASCALCASE, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_PASCAL_CASE() { return GetToken(GraphParser.NAME_PASCAL_CASE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NAME_ALL_UPPERCASE() { return GetToken(GraphParser.NAME_ALL_UPPERCASE, 0); }
 		public EnumerationTypeNameContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -2415,7 +2415,7 @@ public partial class GraphParser : Parser {
 			{
 			State = 248;
 			_la = TokenStream.LA(1);
-			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCALCASE) ) {
+			if ( !(_la==NAME_ALL_UPPERCASE || _la==NAME_PASCAL_CASE) ) {
 			ErrorHandler.RecoverInline(this);
 			}
 			else {
