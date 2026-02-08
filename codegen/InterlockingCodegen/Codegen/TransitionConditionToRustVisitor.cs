@@ -30,8 +30,8 @@ public class TransitionConditionToRustVisitor : GraphBaseVisitor<string>
   }
   public override string VisitAtom(GraphParser.AtomContext context)
   {
-    if (context.termRef() != null)
-      return Visit(context.termRef());
+    if (context.termReference() != null)
+      return Visit(context.termReference());
     if (context.expression() != null)
       return $"({Visit(context.expression())})";
     if (context.comparison() != null)
@@ -40,7 +40,7 @@ public class TransitionConditionToRustVisitor : GraphBaseVisitor<string>
   }
   public override string VisitComparison(GraphParser.ComparisonContext context)
   {
-    var left = Visit(context.refVar());
+    var left = Visit(context.variableReference());
     var op = Visit(context.compOp());
     var right = Visit(context.valueReference());
     return $"{left} {op} {right}";
@@ -51,7 +51,7 @@ public class TransitionConditionToRustVisitor : GraphBaseVisitor<string>
     if (context.NOTEQUAL() != null) return "!=";
     return "/* unsupported op */";
   }
-  public override string VisitTermRef(GraphParser.TermRefContext context)
+  public override string VisitTermReference(GraphParser.TermReferenceContext context)
   {
     // Always use the _value field for the term
     var names = context;
@@ -59,7 +59,7 @@ public class TransitionConditionToRustVisitor : GraphBaseVisitor<string>
     return $"self.{names.GetText()}_value";
   }
 
-  public override string VisitRefVar(GraphParser.RefVarContext context)
+  public override string VisitVariableReference(GraphParser.VariableReferenceContext context)
   {
     // Always use the _value field for the term
     if (context.graphOrInterfaceName() == null)

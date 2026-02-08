@@ -68,17 +68,17 @@ public interface IExpressionVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitAtom([NotNull] ExpressionParser.AtomContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.timeoutExpr"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.timeoutExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitTimeoutExpr([NotNull] ExpressionParser.TimeoutExprContext context);
+	Result VisitTimeoutExpression([NotNull] ExpressionParser.TimeoutExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.quantifierExpr"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.quantifierExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitQuantifierExpr([NotNull] ExpressionParser.QuantifierExprContext context);
+	Result VisitQuantifierExpression([NotNull] ExpressionParser.QuantifierExpressionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ExpressionParser.comparison"/>.
 	/// </summary>
@@ -116,11 +116,11 @@ public interface IExpressionVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitQuantifierVariableName([NotNull] ExpressionParser.QuantifierVariableNameContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.refVar"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.variableReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitRefVar([NotNull] ExpressionParser.RefVarContext context);
+	Result VisitVariableReference([NotNull] ExpressionParser.VariableReferenceContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ExpressionParser.valueReference"/>.
 	/// </summary>

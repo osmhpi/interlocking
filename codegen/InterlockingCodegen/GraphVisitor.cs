@@ -56,17 +56,17 @@ public interface IGraphVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitTransition([NotNull] GraphParser.TransitionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.stateDecl"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.stateDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitStateDecl([NotNull] GraphParser.StateDeclContext context);
+	Result VisitStateDeclaration([NotNull] GraphParser.StateDeclarationContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.pseudostateDecl"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.pseudostateDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitPseudostateDecl([NotNull] GraphParser.PseudostateDeclContext context);
+	Result VisitPseudostateDeclaration([NotNull] GraphParser.PseudostateDeclarationContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GraphParser.pseudostateName"/>.
 	/// </summary>
@@ -74,11 +74,11 @@ public interface IGraphVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitPseudostateName([NotNull] GraphParser.PseudostateNameContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.stateRef"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.stateReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitStateRef([NotNull] GraphParser.StateRefContext context);
+	Result VisitStateReference([NotNull] GraphParser.StateReferenceContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GraphParser.stateName"/>.
 	/// </summary>
@@ -110,11 +110,11 @@ public interface IGraphVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitComment([NotNull] GraphParser.CommentContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.termRef"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.termReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitTermRef([NotNull] GraphParser.TermRefContext context);
+	Result VisitTermReference([NotNull] GraphParser.TermReferenceContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GraphParser.atom"/>.
 	/// </summary>
@@ -152,17 +152,17 @@ public interface IGraphVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitNotExpr([NotNull] GraphParser.NotExprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.timeoutExpr"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.timeoutExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitTimeoutExpr([NotNull] GraphParser.TimeoutExprContext context);
+	Result VisitTimeoutExpression([NotNull] GraphParser.TimeoutExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.quantifierExpr"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.quantifierExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitQuantifierExpr([NotNull] GraphParser.QuantifierExprContext context);
+	Result VisitQuantifierExpression([NotNull] GraphParser.QuantifierExpressionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GraphParser.comparison"/>.
 	/// </summary>
@@ -200,11 +200,11 @@ public interface IGraphVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitQuantifierVariableName([NotNull] GraphParser.QuantifierVariableNameContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.refVar"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.variableReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitRefVar([NotNull] GraphParser.RefVarContext context);
+	Result VisitVariableReference([NotNull] GraphParser.VariableReferenceContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GraphParser.valueReference"/>.
 	/// </summary>

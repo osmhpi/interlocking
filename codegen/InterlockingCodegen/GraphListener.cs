@@ -71,25 +71,25 @@ public interface IGraphListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitTransition([NotNull] GraphParser.TransitionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.stateDecl"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.stateDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterStateDecl([NotNull] GraphParser.StateDeclContext context);
+	void EnterStateDeclaration([NotNull] GraphParser.StateDeclarationContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.stateDecl"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.stateDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitStateDecl([NotNull] GraphParser.StateDeclContext context);
+	void ExitStateDeclaration([NotNull] GraphParser.StateDeclarationContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.pseudostateDecl"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.pseudostateDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterPseudostateDecl([NotNull] GraphParser.PseudostateDeclContext context);
+	void EnterPseudostateDeclaration([NotNull] GraphParser.PseudostateDeclarationContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.pseudostateDecl"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.pseudostateDeclaration"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitPseudostateDecl([NotNull] GraphParser.PseudostateDeclContext context);
+	void ExitPseudostateDeclaration([NotNull] GraphParser.PseudostateDeclarationContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.pseudostateName"/>.
 	/// </summary>
@@ -101,15 +101,15 @@ public interface IGraphListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitPseudostateName([NotNull] GraphParser.PseudostateNameContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.stateRef"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.stateReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterStateRef([NotNull] GraphParser.StateRefContext context);
+	void EnterStateReference([NotNull] GraphParser.StateReferenceContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.stateRef"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.stateReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitStateRef([NotNull] GraphParser.StateRefContext context);
+	void ExitStateReference([NotNull] GraphParser.StateReferenceContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.stateName"/>.
 	/// </summary>
@@ -161,15 +161,15 @@ public interface IGraphListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitComment([NotNull] GraphParser.CommentContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.termRef"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.termReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterTermRef([NotNull] GraphParser.TermRefContext context);
+	void EnterTermReference([NotNull] GraphParser.TermReferenceContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.termRef"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.termReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitTermRef([NotNull] GraphParser.TermRefContext context);
+	void ExitTermReference([NotNull] GraphParser.TermReferenceContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.atom"/>.
 	/// </summary>
@@ -231,25 +231,25 @@ public interface IGraphListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitNotExpr([NotNull] GraphParser.NotExprContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.timeoutExpr"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.timeoutExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterTimeoutExpr([NotNull] GraphParser.TimeoutExprContext context);
+	void EnterTimeoutExpression([NotNull] GraphParser.TimeoutExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.timeoutExpr"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.timeoutExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitTimeoutExpr([NotNull] GraphParser.TimeoutExprContext context);
+	void ExitTimeoutExpression([NotNull] GraphParser.TimeoutExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.quantifierExpr"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.quantifierExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterQuantifierExpr([NotNull] GraphParser.QuantifierExprContext context);
+	void EnterQuantifierExpression([NotNull] GraphParser.QuantifierExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.quantifierExpr"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.quantifierExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitQuantifierExpr([NotNull] GraphParser.QuantifierExprContext context);
+	void ExitQuantifierExpression([NotNull] GraphParser.QuantifierExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.comparison"/>.
 	/// </summary>
@@ -311,15 +311,15 @@ public interface IGraphListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitQuantifierVariableName([NotNull] GraphParser.QuantifierVariableNameContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.refVar"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.variableReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterRefVar([NotNull] GraphParser.RefVarContext context);
+	void EnterVariableReference([NotNull] GraphParser.VariableReferenceContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.refVar"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.variableReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitRefVar([NotNull] GraphParser.RefVarContext context);
+	void ExitVariableReference([NotNull] GraphParser.VariableReferenceContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.valueReference"/>.
 	/// </summary>

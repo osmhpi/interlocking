@@ -15,7 +15,7 @@ public record Subgraph(
   {
     // Parse the pseudostate definitions
     var pseudostates = new List<string>();
-    foreach (var pseudo in diagramBody.pseudostateDecl())
+    foreach (var pseudo in diagramBody.pseudostateDeclaration())
     {
       var name = pseudo.pseudostateName()?.GetText();
       var type = pseudo.PSEUDOSTATE()?.GetText();
@@ -29,8 +29,8 @@ public record Subgraph(
     var transitions = new List<TransitionInfo>();
     foreach (var transition in diagramBody.transition())
     {
-      var from = transition.stateRef(0)?.GetText();
-      var to = transition.stateRef(1)?.GetText();
+      var from = transition.stateReference(0)?.GetText();
+      var to = transition.stateReference(1)?.GetText();
 
       int? priority = null;
       if (transition.transitionLabel().priority() != null)
@@ -58,9 +58,9 @@ public record Subgraph(
     var subgraphs = new Dictionary<string, Subgraph>();
 
     // Parse repeated state assignments (e.g., OCCUPIED: State = ...)
-    foreach (var stateAssignment in diagramBody.stateDecl())
+    foreach (var stateAssignment in diagramBody.stateDeclaration())
     {
-      var stateName = stateAssignment.stateRef()?.GetText();
+      var stateName = stateAssignment.stateReference()?.GetText();
       var assignment = stateAssignment.assignment();
       if (!string.IsNullOrEmpty(stateName) && assignment != null)
       {

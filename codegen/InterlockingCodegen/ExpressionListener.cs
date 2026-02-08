@@ -91,25 +91,25 @@ public interface IExpressionListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitAtom([NotNull] ExpressionParser.AtomContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ExpressionParser.timeoutExpr"/>.
+	/// Enter a parse tree produced by <see cref="ExpressionParser.timeoutExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterTimeoutExpr([NotNull] ExpressionParser.TimeoutExprContext context);
+	void EnterTimeoutExpression([NotNull] ExpressionParser.TimeoutExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ExpressionParser.timeoutExpr"/>.
+	/// Exit a parse tree produced by <see cref="ExpressionParser.timeoutExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitTimeoutExpr([NotNull] ExpressionParser.TimeoutExprContext context);
+	void ExitTimeoutExpression([NotNull] ExpressionParser.TimeoutExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ExpressionParser.quantifierExpr"/>.
+	/// Enter a parse tree produced by <see cref="ExpressionParser.quantifierExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterQuantifierExpr([NotNull] ExpressionParser.QuantifierExprContext context);
+	void EnterQuantifierExpression([NotNull] ExpressionParser.QuantifierExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ExpressionParser.quantifierExpr"/>.
+	/// Exit a parse tree produced by <see cref="ExpressionParser.quantifierExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitQuantifierExpr([NotNull] ExpressionParser.QuantifierExprContext context);
+	void ExitQuantifierExpression([NotNull] ExpressionParser.QuantifierExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ExpressionParser.comparison"/>.
 	/// </summary>
@@ -171,15 +171,15 @@ public interface IExpressionListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitQuantifierVariableName([NotNull] ExpressionParser.QuantifierVariableNameContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ExpressionParser.refVar"/>.
+	/// Enter a parse tree produced by <see cref="ExpressionParser.variableReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterRefVar([NotNull] ExpressionParser.RefVarContext context);
+	void EnterVariableReference([NotNull] ExpressionParser.VariableReferenceContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ExpressionParser.refVar"/>.
+	/// Exit a parse tree produced by <see cref="ExpressionParser.variableReference"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitRefVar([NotNull] ExpressionParser.RefVarContext context);
+	void ExitVariableReference([NotNull] ExpressionParser.VariableReferenceContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ExpressionParser.valueReference"/>.
 	/// </summary>

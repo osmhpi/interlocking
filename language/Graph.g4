@@ -5,32 +5,32 @@ import Expression;
 
 diagram      : STARTUML diagramName? diagramBody ENDUML ;
 diagramName  : graphOrInterfaceName ;
-diagramBody  : (transition | stateDecl | pseudostateDecl | comment | NEWLINE)* ;
+diagramBody  : (transition | stateDeclaration | pseudostateDeclaration | comment | NEWLINE)* ;
 
-transition   : stateRef ARROW stateRef (COLON transitionLabel)? NEWLINE ;
-stateDecl    : stateRef COLON assignment NEWLINE
-            | 'state' stateRef LBRACE diagramBody RBRACE NEWLINE
-            ;
+transition       : stateReference ARROW stateReference (COLON transitionLabel)? NEWLINE ;
+stateDeclaration : stateReference COLON assignment NEWLINE
+                 | 'state' stateReference LBRACE diagramBody RBRACE NEWLINE
+                 ;
 
-pseudostateDecl : 'state' pseudostateName PSEUDOSTATE NEWLINE ;
-pseudostateName : NAME_CAMELCASE | NAME_ALL_LOWERCASE ;
+pseudostateDeclaration : 'state' pseudostateName PSEUDOSTATE NEWLINE ;
+pseudostateName        : NAME_CAMELCASE | NAME_ALL_LOWERCASE ;
 
-stateRef     : INITIAL_STATE_NAME | pseudostateName | stateName ;
-stateName    : NAME_UPPER_SNAKE_CASE | NAME_ALL_UPPERCASE ;
+stateReference : INITIAL_STATE_NAME | pseudostateName | stateName ;
+stateName      : NAME_UPPER_SNAKE_CASE | NAME_ALL_UPPERCASE ;
 
 transitionLabel : priority? labelText ;
-priority     : LBRACK INT RBRACK ;
-labelText    : expression? ;
+priority        : LBRACK INT RBRACK ;
+labelText       : expression? ;
 
 comment      : COMMENT ;
 
-termRef      : (NAME_PASCALCASE | NAME_ALL_UPPERCASE) ;
+termReference : (NAME_PASCALCASE | NAME_ALL_UPPERCASE) ;
 
 // Override the atom rule to allow a direct term name (NAME)
 atom
     : '(' expression ')'
     | comparison
-    | termRef
+    | termReference
     ;
 
 // Lexer rules

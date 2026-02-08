@@ -62,16 +62,16 @@ public class ExpressionToRustVisitor : ExpressionBaseVisitor<string>
       return $"({Visit(context.expression())})";
     if (context.comparison() != null)
       return Visit(context.comparison());
-    if (context.quantifierExpr() != null)
-      return Visit(context.quantifierExpr());
-    if (context.timeoutExpr() != null)
-      return Visit(context.timeoutExpr());
+    if (context.quantifierExpression() != null)
+      return Visit(context.quantifierExpression());
+    if (context.timeoutExpression() != null)
+      return Visit(context.timeoutExpression());
     throw new TransformerException("Unsupported atom expression");
   }
 
-  public override string VisitTimeoutExpr(ExpressionParser.TimeoutExprContext context)
+  public override string VisitTimeoutExpression(ExpressionParser.TimeoutExpressionContext context)
   {
-    var right = $"{Visit(context.refVar())}.unwrap_or(timestamp {{ milliseconds: None }})";
+    var right = $"{Visit(context.variableReference())}.unwrap_or(timestamp {{ milliseconds: None }})";
 
     var valueReference = context.valueReference();
     if (valueReference != null)
@@ -83,13 +83,13 @@ public class ExpressionToRustVisitor : ExpressionBaseVisitor<string>
     return $"match ({right}.milliseconds) {{\n    Some(t) => Some(now.milliseconds.unwrap_or(0) >= t),\n    _ => None\n  }}";
   }
 
-  public override string VisitQuantifierExpr(ExpressionParser.QuantifierExprContext context)
+  public override string VisitQuantifierExpression(ExpressionParser.QuantifierExpressionContext context)
   {
     // Example: Any(r in @requested_left_by_routes | Route[r].State == RouteState::PREPARING)
     var quantifier = context.GetChild(0).GetText(); // Any
     var indexerName = context.quantifierVariableName().GetText(); // r
     var propertyName = context.propertyName().NAME_LOWER_SNAKE_CASE()?.GetText() ?? context.propertyName().NAME_ALL_LOWERCASE()?.GetText() ?? throw new TransformerException("Property name not found"); // requested_left_by_routes
-    var refVar = context.refVar(); // Route[r].State
+    var refVar = context.variableReference(); // Route[r].State
     var valueReference = context.valueReference(); // RouteState::Preparing
 
     var rustQuant = quantifier == "Any" ? "any" : "all";
@@ -111,11 +111,11 @@ public class ExpressionToRustVisitor : ExpressionBaseVisitor<string>
 
   public override string VisitComparison(ExpressionParser.ComparisonContext context)
   {
-    var left = Visit(context.refVar());
+    var left = Visit(context.variableReference());
     var op = Visit(context.compOp());
     var right = Visit(context.valueReference());
 
-    var leftRefersToInterface = context.refVar().graphOrInterfaceName() != null && _allInterfaces?.ContainsKey(context.refVar().graphOrInterfaceName().GetText()) == true;
+    var leftRefersToInterface = context.variableReference().graphOrInterfaceName() != null && _allInterfaces?.ContainsKey(context.variableReference().graphOrInterfaceName().GetText()) == true;
     if (leftRefersToInterface)
     {
       // If either side is None, yield None; otherwise compare and wrap in Some(...)
@@ -131,11 +131,11 @@ public class ExpressionToRustVisitor : ExpressionBaseVisitor<string>
     if (context.NOTEQUAL() != null) return "!=";
     throw new TransformerException("Unsupported comparison operator");
   }
-  public override string VisitRefVar(ExpressionParser.RefVarContext context)
+  public override string VisitVariableReference(ExpressionParser.VariableReferenceContext context)
   {
     if (context.quantifierVariableName() != null)
     {
-        throw new TransformerException("Quantifier variable references should be handled in VisitQuantifierExpr");
+        throw new TransformerException("Quantifier variable references should be handled in VisitQuantifierExpression");
     }
 
     if ((context.propertyName() != null || context.quantifierVariableName() != null) && _useContext)

@@ -98,15 +98,15 @@ impl Graph for {structName} {{
 
     var diagramBody = graph.ParseTree.diagramBody();
     // Collect states from state declarations
-    foreach (var stateDecl in diagramBody.stateDecl())
+    foreach (var stateDecl in diagramBody.stateDeclaration())
     {
-      var stateName = stateDecl.stateRef().stateName()?.GetText();
+      var stateName = stateDecl.stateReference().stateName()?.GetText();
       if (!string.IsNullOrEmpty(stateName)) {
         states.Add(stateName);
         continue;
       }
 
-      var pseudostateName = stateDecl.stateRef().pseudostateName()?.GetText();
+      var pseudostateName = stateDecl.stateReference().pseudostateName()?.GetText();
       if (!string.IsNullOrEmpty(pseudostateName))
       {
         states.Add(pseudostateName);
@@ -173,7 +173,7 @@ impl Graph for {structName} {{
         {
           assignmentCode = string.Join("\n", assignments.Select(a =>
           {
-            var variable = a.refVar()?.GetText() ?? "";
+            var variable = a.variableReference()?.GetText() ?? "";
             var value = a.valueReference()?.GetText() ?? "";
             return $"            self.{variable} = {value};";
           }));

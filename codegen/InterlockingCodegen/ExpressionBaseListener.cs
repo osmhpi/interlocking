@@ -108,29 +108,29 @@ public partial class ExpressionBaseListener : IExpressionListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitAtom([NotNull] ExpressionParser.AtomContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ExpressionParser.timeoutExpr"/>.
+	/// Enter a parse tree produced by <see cref="ExpressionParser.timeoutExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterTimeoutExpr([NotNull] ExpressionParser.TimeoutExprContext context) { }
+	public virtual void EnterTimeoutExpression([NotNull] ExpressionParser.TimeoutExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ExpressionParser.timeoutExpr"/>.
+	/// Exit a parse tree produced by <see cref="ExpressionParser.timeoutExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitTimeoutExpr([NotNull] ExpressionParser.TimeoutExprContext context) { }
+	public virtual void ExitTimeoutExpression([NotNull] ExpressionParser.TimeoutExpressionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ExpressionParser.quantifierExpr"/>.
+	/// Enter a parse tree produced by <see cref="ExpressionParser.quantifierExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterQuantifierExpr([NotNull] ExpressionParser.QuantifierExprContext context) { }
+	public virtual void EnterQuantifierExpression([NotNull] ExpressionParser.QuantifierExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ExpressionParser.quantifierExpr"/>.
+	/// Exit a parse tree produced by <see cref="ExpressionParser.quantifierExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitQuantifierExpr([NotNull] ExpressionParser.QuantifierExprContext context) { }
+	public virtual void ExitQuantifierExpression([NotNull] ExpressionParser.QuantifierExpressionContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ExpressionParser.comparison"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -204,17 +204,17 @@ public partial class ExpressionBaseListener : IExpressionListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitQuantifierVariableName([NotNull] ExpressionParser.QuantifierVariableNameContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ExpressionParser.refVar"/>.
+	/// Enter a parse tree produced by <see cref="ExpressionParser.variableReference"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterRefVar([NotNull] ExpressionParser.RefVarContext context) { }
+	public virtual void EnterVariableReference([NotNull] ExpressionParser.VariableReferenceContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ExpressionParser.refVar"/>.
+	/// Exit a parse tree produced by <see cref="ExpressionParser.variableReference"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitRefVar([NotNull] ExpressionParser.RefVarContext context) { }
+	public virtual void ExitVariableReference([NotNull] ExpressionParser.VariableReferenceContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ExpressionParser.valueReference"/>.
 	/// <para>The default implementation does nothing.</para>

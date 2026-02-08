@@ -84,29 +84,29 @@ public partial class GraphBaseListener : IGraphListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitTransition([NotNull] GraphParser.TransitionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.stateDecl"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.stateDeclaration"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterStateDecl([NotNull] GraphParser.StateDeclContext context) { }
+	public virtual void EnterStateDeclaration([NotNull] GraphParser.StateDeclarationContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.stateDecl"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.stateDeclaration"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitStateDecl([NotNull] GraphParser.StateDeclContext context) { }
+	public virtual void ExitStateDeclaration([NotNull] GraphParser.StateDeclarationContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.pseudostateDecl"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.pseudostateDeclaration"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterPseudostateDecl([NotNull] GraphParser.PseudostateDeclContext context) { }
+	public virtual void EnterPseudostateDeclaration([NotNull] GraphParser.PseudostateDeclarationContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.pseudostateDecl"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.pseudostateDeclaration"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitPseudostateDecl([NotNull] GraphParser.PseudostateDeclContext context) { }
+	public virtual void ExitPseudostateDeclaration([NotNull] GraphParser.PseudostateDeclarationContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.pseudostateName"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -120,17 +120,17 @@ public partial class GraphBaseListener : IGraphListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitPseudostateName([NotNull] GraphParser.PseudostateNameContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.stateRef"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.stateReference"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterStateRef([NotNull] GraphParser.StateRefContext context) { }
+	public virtual void EnterStateReference([NotNull] GraphParser.StateReferenceContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.stateRef"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.stateReference"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitStateRef([NotNull] GraphParser.StateRefContext context) { }
+	public virtual void ExitStateReference([NotNull] GraphParser.StateReferenceContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.stateName"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -192,17 +192,17 @@ public partial class GraphBaseListener : IGraphListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitComment([NotNull] GraphParser.CommentContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.termRef"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.termReference"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterTermRef([NotNull] GraphParser.TermRefContext context) { }
+	public virtual void EnterTermReference([NotNull] GraphParser.TermReferenceContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.termRef"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.termReference"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitTermRef([NotNull] GraphParser.TermRefContext context) { }
+	public virtual void ExitTermReference([NotNull] GraphParser.TermReferenceContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.atom"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -276,29 +276,29 @@ public partial class GraphBaseListener : IGraphListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitNotExpr([NotNull] GraphParser.NotExprContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.timeoutExpr"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.timeoutExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterTimeoutExpr([NotNull] GraphParser.TimeoutExprContext context) { }
+	public virtual void EnterTimeoutExpression([NotNull] GraphParser.TimeoutExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.timeoutExpr"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.timeoutExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitTimeoutExpr([NotNull] GraphParser.TimeoutExprContext context) { }
+	public virtual void ExitTimeoutExpression([NotNull] GraphParser.TimeoutExpressionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.quantifierExpr"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.quantifierExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterQuantifierExpr([NotNull] GraphParser.QuantifierExprContext context) { }
+	public virtual void EnterQuantifierExpression([NotNull] GraphParser.QuantifierExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.quantifierExpr"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.quantifierExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitQuantifierExpr([NotNull] GraphParser.QuantifierExprContext context) { }
+	public virtual void ExitQuantifierExpression([NotNull] GraphParser.QuantifierExpressionContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.comparison"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -372,17 +372,17 @@ public partial class GraphBaseListener : IGraphListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitQuantifierVariableName([NotNull] GraphParser.QuantifierVariableNameContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.refVar"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.variableReference"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterRefVar([NotNull] GraphParser.RefVarContext context) { }
+	public virtual void EnterVariableReference([NotNull] GraphParser.VariableReferenceContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.refVar"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.variableReference"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitRefVar([NotNull] GraphParser.RefVarContext context) { }
+	public virtual void ExitVariableReference([NotNull] GraphParser.VariableReferenceContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.valueReference"/>.
 	/// <para>The default implementation does nothing.</para>

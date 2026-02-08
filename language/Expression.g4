@@ -3,7 +3,7 @@ grammar Expression;
 
 // Parser rules
 assignment
-    : refVar ASSIGN valueReference
+    : variableReference ASSIGN valueReference
     ;
 
 expression
@@ -13,32 +13,33 @@ expression
 orExpr
     : andExpr (OR andExpr)*
     ;
+
 andExpr
     : notExpr (AND notExpr)*
     ;
+
 notExpr
     : NOT notExpr
     | atom
     ;
+
 atom
     : comparison
     | '(' expression ')'
-    | quantifierExpr
-    | timeoutExpr
+    | quantifierExpression
+    | timeoutExpression
     ;
 
-// Timeout expression: now >= refVar (+ valueReference)?
-timeoutExpr
-    : NOW GTE refVar (PLUS valueReference)?
+timeoutExpression
+    : NOW GTE variableReference (PLUS valueReference)?
     ;
 
-// Any(r in @requested_left_by_routes | Route[r].State == RouteState::PREPARING)
-quantifierExpr
-    : ('Any' | 'All') '(' quantifierVariableName 'in' propertyName '|' refVar compOp valueReference ')'
+quantifierExpression
+    : ('Any' | 'All') '(' quantifierVariableName 'in' propertyName '|' variableReference compOp valueReference ')'
     ;
 
 comparison
-    : refVar compOp valueReference
+    : variableReference compOp valueReference
     ;
 compOp
     : EQUAL
@@ -63,7 +64,7 @@ quantifierVariableName
 
 // Graph or interface variable reference: NAME optionally followed by [NAME], then dot, then variable NAME
 // e.g. SCI_TDS.occupancy_status or Zone[@underlying_zone].State
-refVar
+variableReference
     : graphOrInterfaceName (LBRACK (propertyName | quantifierVariableName) RBRACK)? DOT variableName
     | variableName
     ;
