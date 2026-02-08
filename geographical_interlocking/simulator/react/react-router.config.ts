@@ -4,5 +4,5 @@ export default {
   // Config options...
   // Server-side render by default, to enable SPA mode set this to `false`
   ssr: false,
-  basename: process.env.GH_PAGES ? "/interlocking/geographical-interlocking/" : "/",
+  basename: process.env.GH_PAGES ? "/interlocking/geographical_interlocking/" : "/",
 } satisfies Config;

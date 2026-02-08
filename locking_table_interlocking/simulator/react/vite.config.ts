@@ -6,4 +6,5 @@ import wasm from "vite-plugin-wasm";
 
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths(), wasm()],
+  base: process.env.GH_PAGES ? "/interlocking/locking_table_interlocking/" : "/",
 });
