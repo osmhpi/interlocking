@@ -22,6 +22,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GH_PAGES: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,8 +49,6 @@ jobs:
         run: cd geographical_interlocking/simulator/react && npm ci
 
       - name: Geographical Interlocking
-        environment:
-          GH_PAGES: true
         run: cd geographical_interlocking && make build
 
       - name: Locking Table Interlocking NPM
