@@ -1,7 +1,7 @@
 # OSM Interlocking
 Design framework and examples for software-based railway interlocking logic.
 
-![Interactive Interlocking UI](resources/interlocking.png)
+[![Interactive Interlocking UI](resources/interlocking.png)](https://osmhpi.github.io/interlocking/locking_table_interlocking/)
 
 This repository contains a framework for designing railway interlocking software.
 It consists of a state machine language definition (syntax and semantics), compilers and simulators.
@@ -42,20 +42,6 @@ Often, many point machines share the same power supply.
 When multiple point machines are powered on at the same time due to the commanding of a route, a current spike can cause damage to the power supply.
 Hence, although a staggered point machine operation is not a safety-related function, it is present within the core logic of many interlocking systems.
 
-## Setup and Development
-
-Prerequisites (as tested, newer versions may work as well):
- - .NET 8.0 SDK
- - Rust 1.91.1
- - Node.js 22 and npm
- - Antlr 4.13.2
- - wasm-pack 0.13.1
- - make
-
-For a simplified setup, a VS Code Devcontainer configuration file is provided.
-
-To compile and run the web-based debugging interface, run `make web` from the [locking_table_interlocking](locking_table_interlocking) or [geographical_interlocking](geographical_interlocking) directories, then open http://localhost:3000/.
-
 ## Interlocking Software Design Language (Meta Model)
 
 [Language Semantics Documentation](language/README.md)
@@ -76,6 +62,7 @@ To compile and run the web-based debugging interface, run `make web` from the [l
 
 | | Locking Table Interlocking | Geographical Interlocking |
 |-|-|-|
+| | [🌍 Simulator](https://osmhpi.github.io/interlocking/locking_table_interlocking/) | [🌍 Simulator](https://osmhpi.github.io/interlocking/geographical_interlocking/) |
 | **Generic Application** |
 | Entity Types | [entity_types](locking_table_interlocking/generic_application/entity_types) | [entity_types](geographical_interlocking/generic_application/entity_types)
 | Graphs | [graphs](locking_table_interlocking/generic_application/graphs) | [graphs](geographical_interlocking/generic_application/graphs) |
@@ -86,3 +73,17 @@ To compile and run the web-based debugging interface, run `make web` from the [l
 | **Specific Application** |
 | Configuration JSON | [configuration.json](locking_table_interlocking/specific_application/configuration.json) | [configuration.json](geographical_interlocking/specific_application/configuration.json) |
 | Web-based Simulator | [simulator](locking_table_interlocking/simulator) | [simulator](geographical_interlocking/simulator) |
+
+## Setup and Development
+
+Prerequisites (as tested, newer versions may work as well):
+ - .NET 8.0 SDK
+ - Rust 1.91.1
+ - Node.js 22 and npm
+ - Antlr 4.13.2
+ - wasm-pack 0.13.1
+ - make
+
+For a simplified setup, a VS Code Devcontainer configuration file is provided.
+
+To compile and run the web-based debugging interface, run `make web` from the [locking_table_interlocking](locking_table_interlocking) or [geographical_interlocking](geographical_interlocking) directories, then open http://localhost:3000/.

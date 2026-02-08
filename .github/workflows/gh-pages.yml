@@ -45,6 +45,11 @@ jobs:
       - name: Setup Graphviz
         uses: ts-graphviz/setup-graphviz@v2
 
+      - name: Railroad Diagrams
+        run: |
+          cd language/rrd
+          make
+
       - name: Geographical Interlocking NPM
         run: cd geographical_interlocking/simulator/react && npm ci
 
@@ -59,6 +64,8 @@ jobs:
 
       - name: Copy output artifacts
         run: |
+          mkdir -p _site/rrd
+          cp -r language/rrd/out/* _site/rrd/
           mkdir -p _site/locking_table_interlocking
           cp -r locking_table_interlocking/simulator/react/build/client/* _site/locking_table_interlocking/
           mkdir -p _site/geographical_interlocking
