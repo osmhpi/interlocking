@@ -51,35 +51,35 @@ public interface IExpressionListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitExpression([NotNull] ExpressionParser.ExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ExpressionParser.orExpr"/>.
+	/// Enter a parse tree produced by <see cref="ExpressionParser.orExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterOrExpr([NotNull] ExpressionParser.OrExprContext context);
+	void EnterOrExpression([NotNull] ExpressionParser.OrExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ExpressionParser.orExpr"/>.
+	/// Exit a parse tree produced by <see cref="ExpressionParser.orExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitOrExpr([NotNull] ExpressionParser.OrExprContext context);
+	void ExitOrExpression([NotNull] ExpressionParser.OrExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ExpressionParser.andExpr"/>.
+	/// Enter a parse tree produced by <see cref="ExpressionParser.andExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterAndExpr([NotNull] ExpressionParser.AndExprContext context);
+	void EnterAndExpression([NotNull] ExpressionParser.AndExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ExpressionParser.andExpr"/>.
+	/// Exit a parse tree produced by <see cref="ExpressionParser.andExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitAndExpr([NotNull] ExpressionParser.AndExprContext context);
+	void ExitAndExpression([NotNull] ExpressionParser.AndExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ExpressionParser.notExpr"/>.
+	/// Enter a parse tree produced by <see cref="ExpressionParser.notExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterNotExpr([NotNull] ExpressionParser.NotExprContext context);
+	void EnterNotExpression([NotNull] ExpressionParser.NotExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ExpressionParser.notExpr"/>.
+	/// Exit a parse tree produced by <see cref="ExpressionParser.notExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitNotExpr([NotNull] ExpressionParser.NotExprContext context);
+	void ExitNotExpression([NotNull] ExpressionParser.NotExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ExpressionParser.atom"/>.
 	/// </summary>
@@ -121,15 +121,15 @@ public interface IExpressionListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitComparison([NotNull] ExpressionParser.ComparisonContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="ExpressionParser.compOp"/>.
+	/// Enter a parse tree produced by <see cref="ExpressionParser.comparisonOperator"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterCompOp([NotNull] ExpressionParser.CompOpContext context);
+	void EnterComparisonOperator([NotNull] ExpressionParser.ComparisonOperatorContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="ExpressionParser.compOp"/>.
+	/// Exit a parse tree produced by <see cref="ExpressionParser.comparisonOperator"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitCompOp([NotNull] ExpressionParser.CompOpContext context);
+	void ExitComparisonOperator([NotNull] ExpressionParser.ComparisonOperatorContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="ExpressionParser.propertyName"/>.
 	/// </summary>

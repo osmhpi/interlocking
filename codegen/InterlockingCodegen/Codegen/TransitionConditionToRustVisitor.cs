@@ -10,22 +10,22 @@ public class TransitionConditionToRustVisitor : GraphBaseVisitor<string>
 
   public override string VisitExpression(GraphParser.ExpressionContext context)
   {
-    return Visit(context.orExpr());
+    return Visit(context.orExpression());
   }
-  public override string VisitOrExpr(GraphParser.OrExprContext context)
+  public override string VisitOrExpression(GraphParser.OrExpressionContext context)
   {
-    var parts = context.andExpr().Select(Visit).ToList();
+    var parts = context.andExpression().Select(Visit).ToList();
     return string.Join(" || ", parts);
   }
-  public override string VisitAndExpr(GraphParser.AndExprContext context)
+  public override string VisitAndExpression(GraphParser.AndExpressionContext context)
   {
-    var parts = context.notExpr().Select(Visit).ToList();
+    var parts = context.notExpression().Select(Visit).ToList();
     return string.Join(" && ", parts);
   }
-  public override string VisitNotExpr(GraphParser.NotExprContext context)
+  public override string VisitNotExpression(GraphParser.NotExpressionContext context)
   {
     if (context.NOT() != null)
-      return $"!({Visit(context.notExpr())})";
+      return $"!({Visit(context.notExpression())})";
     return Visit(context.atom());
   }
   public override string VisitAtom(GraphParser.AtomContext context)
@@ -41,11 +41,11 @@ public class TransitionConditionToRustVisitor : GraphBaseVisitor<string>
   public override string VisitComparison(GraphParser.ComparisonContext context)
   {
     var left = Visit(context.variableReference());
-    var op = Visit(context.compOp());
+    var op = Visit(context.comparisonOperator());
     var right = Visit(context.valueReference());
     return $"{left} {op} {right}";
   }
-  public override string VisitCompOp(GraphParser.CompOpContext context)
+  public override string VisitComparisonOperator(GraphParser.ComparisonOperatorContext context)
   {
     if (context.EQUAL() != null) return "==";
     if (context.NOTEQUAL() != null) return "!=";

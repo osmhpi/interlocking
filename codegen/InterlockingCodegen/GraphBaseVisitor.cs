@@ -205,7 +205,7 @@ public partial class GraphBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitExpression([NotNull] GraphParser.ExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.orExpr"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.orExpression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -213,9 +213,9 @@ public partial class GraphBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitOrExpr([NotNull] GraphParser.OrExprContext context) { return VisitChildren(context); }
+	public virtual Result VisitOrExpression([NotNull] GraphParser.OrExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.andExpr"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.andExpression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -223,9 +223,9 @@ public partial class GraphBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitAndExpr([NotNull] GraphParser.AndExprContext context) { return VisitChildren(context); }
+	public virtual Result VisitAndExpression([NotNull] GraphParser.AndExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.notExpr"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.notExpression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -233,7 +233,7 @@ public partial class GraphBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitNotExpr([NotNull] GraphParser.NotExprContext context) { return VisitChildren(context); }
+	public virtual Result VisitNotExpression([NotNull] GraphParser.NotExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GraphParser.timeoutExpression"/>.
 	/// <para>
@@ -265,7 +265,7 @@ public partial class GraphBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitComparison([NotNull] GraphParser.ComparisonContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.compOp"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.comparisonOperator"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -273,7 +273,7 @@ public partial class GraphBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitCompOp([NotNull] GraphParser.CompOpContext context) { return VisitChildren(context); }
+	public virtual Result VisitComparisonOperator([NotNull] GraphParser.ComparisonOperatorContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GraphParser.propertyName"/>.
 	/// <para>

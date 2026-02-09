@@ -7,19 +7,19 @@ assignment
     ;
 
 expression
-    : orExpr
+    : orExpression
     ;
 
-orExpr
-    : andExpr (OR andExpr)*
+orExpression
+    : andExpression (OR andExpression)*
     ;
 
-andExpr
-    : notExpr (AND notExpr)*
+andExpression
+    : notExpression (AND notExpression)*
     ;
 
-notExpr
-    : NOT notExpr
+notExpression
+    : NOT notExpression
     | atom
     ;
 
@@ -35,13 +35,13 @@ timeoutExpression
     ;
 
 quantifierExpression
-    : ('Any' | 'All') '(' quantifierVariableName 'in' propertyName '|' variableReference compOp valueReference ')'
+    : ('Any' | 'All') '(' quantifierVariableName 'in' propertyName '|' variableReference comparisonOperator valueReference ')'
     ;
 
 comparison
-    : variableReference compOp valueReference
+    : variableReference comparisonOperator valueReference
     ;
-compOp
+comparisonOperator
     : EQUAL
     | NOTEQUAL
     ;

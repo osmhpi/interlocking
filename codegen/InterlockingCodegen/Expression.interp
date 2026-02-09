@@ -73,14 +73,14 @@ WS
 rule names:
 assignment
 expression
-orExpr
-andExpr
-notExpr
+orExpression
+andExpression
+notExpression
 atom
 timeoutExpression
 quantifierExpression
 comparison
-compOp
+comparisonOperator
 propertyName
 graphOrInterfaceName
 variableName

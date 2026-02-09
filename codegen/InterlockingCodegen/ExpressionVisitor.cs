@@ -44,23 +44,23 @@ public interface IExpressionVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitExpression([NotNull] ExpressionParser.ExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.orExpr"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.orExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitOrExpr([NotNull] ExpressionParser.OrExprContext context);
+	Result VisitOrExpression([NotNull] ExpressionParser.OrExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.andExpr"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.andExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAndExpr([NotNull] ExpressionParser.AndExprContext context);
+	Result VisitAndExpression([NotNull] ExpressionParser.AndExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.notExpr"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.notExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitNotExpr([NotNull] ExpressionParser.NotExprContext context);
+	Result VisitNotExpression([NotNull] ExpressionParser.NotExpressionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ExpressionParser.atom"/>.
 	/// </summary>
@@ -86,11 +86,11 @@ public interface IExpressionVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitComparison([NotNull] ExpressionParser.ComparisonContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.compOp"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.comparisonOperator"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitCompOp([NotNull] ExpressionParser.CompOpContext context);
+	Result VisitComparisonOperator([NotNull] ExpressionParser.ComparisonOperatorContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ExpressionParser.propertyName"/>.
 	/// </summary>

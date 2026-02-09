@@ -112,13 +112,13 @@ termReference
 atom
 assignment
 expression
-orExpr
-andExpr
-notExpr
+orExpression
+andExpression
+notExpression
 timeoutExpression
 quantifierExpression
 comparison
-compOp
+comparisonOperator
 propertyName
 graphOrInterfaceName
 variableName

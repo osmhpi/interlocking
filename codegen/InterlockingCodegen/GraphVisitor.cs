@@ -134,23 +134,23 @@ public interface IGraphVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitExpression([NotNull] GraphParser.ExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.orExpr"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.orExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitOrExpr([NotNull] GraphParser.OrExprContext context);
+	Result VisitOrExpression([NotNull] GraphParser.OrExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.andExpr"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.andExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAndExpr([NotNull] GraphParser.AndExprContext context);
+	Result VisitAndExpression([NotNull] GraphParser.AndExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.notExpr"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.notExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitNotExpr([NotNull] GraphParser.NotExprContext context);
+	Result VisitNotExpression([NotNull] GraphParser.NotExpressionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GraphParser.timeoutExpression"/>.
 	/// </summary>
@@ -170,11 +170,11 @@ public interface IGraphVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitComparison([NotNull] GraphParser.ComparisonContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GraphParser.compOp"/>.
+	/// Visit a parse tree produced by <see cref="GraphParser.comparisonOperator"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitCompOp([NotNull] GraphParser.CompOpContext context);
+	Result VisitComparisonOperator([NotNull] GraphParser.ComparisonOperatorContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GraphParser.propertyName"/>.
 	/// </summary>

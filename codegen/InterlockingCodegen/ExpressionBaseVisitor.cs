@@ -55,7 +55,7 @@ public partial class ExpressionBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// <return>The visitor result.</return>
 	public virtual Result VisitExpression([NotNull] ExpressionParser.ExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.orExpr"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.orExpression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -63,9 +63,9 @@ public partial class ExpressionBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitOrExpr([NotNull] ExpressionParser.OrExprContext context) { return VisitChildren(context); }
+	public virtual Result VisitOrExpression([NotNull] ExpressionParser.OrExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.andExpr"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.andExpression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -73,9 +73,9 @@ public partial class ExpressionBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitAndExpr([NotNull] ExpressionParser.AndExprContext context) { return VisitChildren(context); }
+	public virtual Result VisitAndExpression([NotNull] ExpressionParser.AndExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.notExpr"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.notExpression"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -83,7 +83,7 @@ public partial class ExpressionBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitNotExpr([NotNull] ExpressionParser.NotExprContext context) { return VisitChildren(context); }
+	public virtual Result VisitNotExpression([NotNull] ExpressionParser.NotExpressionContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ExpressionParser.atom"/>.
 	/// <para>
@@ -125,7 +125,7 @@ public partial class ExpressionBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// <return>The visitor result.</return>
 	public virtual Result VisitComparison([NotNull] ExpressionParser.ComparisonContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="ExpressionParser.compOp"/>.
+	/// Visit a parse tree produced by <see cref="ExpressionParser.comparisonOperator"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -133,7 +133,7 @@ public partial class ExpressionBaseVisitor<Result> : AbstractParseTreeVisitor<Re
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitCompOp([NotNull] ExpressionParser.CompOpContext context) { return VisitChildren(context); }
+	public virtual Result VisitComparisonOperator([NotNull] ExpressionParser.ComparisonOperatorContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="ExpressionParser.propertyName"/>.
 	/// <para>

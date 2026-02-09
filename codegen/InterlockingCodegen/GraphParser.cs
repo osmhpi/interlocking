@@ -48,22 +48,22 @@ public partial class GraphParser : Parser {
 		RULE_stateDeclaration = 4, RULE_pseudostateDeclaration = 5, RULE_pseudostateName = 6, 
 		RULE_stateReference = 7, RULE_stateName = 8, RULE_transitionLabel = 9, 
 		RULE_priority = 10, RULE_labelText = 11, RULE_comment = 12, RULE_termReference = 13, 
-		RULE_atom = 14, RULE_assignment = 15, RULE_expression = 16, RULE_orExpr = 17, 
-		RULE_andExpr = 18, RULE_notExpr = 19, RULE_timeoutExpression = 20, RULE_quantifierExpression = 21, 
-		RULE_comparison = 22, RULE_compOp = 23, RULE_propertyName = 24, RULE_graphOrInterfaceName = 25, 
-		RULE_variableName = 26, RULE_quantifierVariableName = 27, RULE_variableReference = 28, 
-		RULE_valueReference = 29, RULE_qualifiedName = 30, RULE_durationLiteral = 31, 
-		RULE_booleanLiteral = 32, RULE_noneLiteral = 33, RULE_enumerationTypeName = 34, 
-		RULE_enumerationLiteralName = 35;
+		RULE_atom = 14, RULE_assignment = 15, RULE_expression = 16, RULE_orExpression = 17, 
+		RULE_andExpression = 18, RULE_notExpression = 19, RULE_timeoutExpression = 20, 
+		RULE_quantifierExpression = 21, RULE_comparison = 22, RULE_comparisonOperator = 23, 
+		RULE_propertyName = 24, RULE_graphOrInterfaceName = 25, RULE_variableName = 26, 
+		RULE_quantifierVariableName = 27, RULE_variableReference = 28, RULE_valueReference = 29, 
+		RULE_qualifiedName = 30, RULE_durationLiteral = 31, RULE_booleanLiteral = 32, 
+		RULE_noneLiteral = 33, RULE_enumerationTypeName = 34, RULE_enumerationLiteralName = 35;
 	public static readonly string[] ruleNames = {
 		"diagram", "diagramName", "diagramBody", "transition", "stateDeclaration", 
 		"pseudostateDeclaration", "pseudostateName", "stateReference", "stateName", 
 		"transitionLabel", "priority", "labelText", "comment", "termReference", 
-		"atom", "assignment", "expression", "orExpr", "andExpr", "notExpr", "timeoutExpression", 
-		"quantifierExpression", "comparison", "compOp", "propertyName", "graphOrInterfaceName", 
-		"variableName", "quantifierVariableName", "variableReference", "valueReference", 
-		"qualifiedName", "durationLiteral", "booleanLiteral", "noneLiteral", "enumerationTypeName", 
-		"enumerationLiteralName"
+		"atom", "assignment", "expression", "orExpression", "andExpression", "notExpression", 
+		"timeoutExpression", "quantifierExpression", "comparison", "comparisonOperator", 
+		"propertyName", "graphOrInterfaceName", "variableName", "quantifierVariableName", 
+		"variableReference", "valueReference", "qualifiedName", "durationLiteral", 
+		"booleanLiteral", "noneLiteral", "enumerationTypeName", "enumerationLiteralName"
 	};
 
 	private static readonly string[] _LiteralNames = {
@@ -1179,8 +1179,8 @@ public partial class GraphParser : Parser {
 	}
 
 	public partial class ExpressionContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public OrExprContext orExpr() {
-			return GetRuleContext<OrExprContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public OrExpressionContext orExpression() {
+			return GetRuleContext<OrExpressionContext>(0);
 		}
 		public ExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
@@ -1213,7 +1213,7 @@ public partial class GraphParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 156;
-			orExpr();
+			orExpression();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1227,50 +1227,50 @@ public partial class GraphParser : Parser {
 		return _localctx;
 	}
 
-	public partial class OrExprContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public AndExprContext[] andExpr() {
-			return GetRuleContexts<AndExprContext>();
+	public partial class OrExpressionContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public AndExpressionContext[] andExpression() {
+			return GetRuleContexts<AndExpressionContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public AndExprContext andExpr(int i) {
-			return GetRuleContext<AndExprContext>(i);
+		[System.Diagnostics.DebuggerNonUserCode] public AndExpressionContext andExpression(int i) {
+			return GetRuleContext<AndExpressionContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] OR() { return GetTokens(GraphParser.OR); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OR(int i) {
 			return GetToken(GraphParser.OR, i);
 		}
-		public OrExprContext(ParserRuleContext parent, int invokingState)
+		public OrExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_orExpr; } }
+		public override int RuleIndex { get { return RULE_orExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IGraphListener typedListener = listener as IGraphListener;
-			if (typedListener != null) typedListener.EnterOrExpr(this);
+			if (typedListener != null) typedListener.EnterOrExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IGraphListener typedListener = listener as IGraphListener;
-			if (typedListener != null) typedListener.ExitOrExpr(this);
+			if (typedListener != null) typedListener.ExitOrExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IGraphVisitor<TResult> typedVisitor = visitor as IGraphVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitOrExpr(this);
+			if (typedVisitor != null) return typedVisitor.VisitOrExpression(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public OrExprContext orExpr() {
-		OrExprContext _localctx = new OrExprContext(Context, State);
-		EnterRule(_localctx, 34, RULE_orExpr);
+	public OrExpressionContext orExpression() {
+		OrExpressionContext _localctx = new OrExpressionContext(Context, State);
+		EnterRule(_localctx, 34, RULE_orExpression);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 158;
-			andExpr();
+			andExpression();
 			State = 163;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
@@ -1280,7 +1280,7 @@ public partial class GraphParser : Parser {
 				State = 159;
 				Match(OR);
 				State = 160;
-				andExpr();
+				andExpression();
 				}
 				}
 				State = 165;
@@ -1300,50 +1300,50 @@ public partial class GraphParser : Parser {
 		return _localctx;
 	}
 
-	public partial class AndExprContext : ParserRuleContext {
-		[System.Diagnostics.DebuggerNonUserCode] public NotExprContext[] notExpr() {
-			return GetRuleContexts<NotExprContext>();
+	public partial class AndExpressionContext : ParserRuleContext {
+		[System.Diagnostics.DebuggerNonUserCode] public NotExpressionContext[] notExpression() {
+			return GetRuleContexts<NotExpressionContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public NotExprContext notExpr(int i) {
-			return GetRuleContext<NotExprContext>(i);
+		[System.Diagnostics.DebuggerNonUserCode] public NotExpressionContext notExpression(int i) {
+			return GetRuleContext<NotExpressionContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode[] AND() { return GetTokens(GraphParser.AND); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode AND(int i) {
 			return GetToken(GraphParser.AND, i);
 		}
-		public AndExprContext(ParserRuleContext parent, int invokingState)
+		public AndExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_andExpr; } }
+		public override int RuleIndex { get { return RULE_andExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IGraphListener typedListener = listener as IGraphListener;
-			if (typedListener != null) typedListener.EnterAndExpr(this);
+			if (typedListener != null) typedListener.EnterAndExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IGraphListener typedListener = listener as IGraphListener;
-			if (typedListener != null) typedListener.ExitAndExpr(this);
+			if (typedListener != null) typedListener.ExitAndExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IGraphVisitor<TResult> typedVisitor = visitor as IGraphVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitAndExpr(this);
+			if (typedVisitor != null) return typedVisitor.VisitAndExpression(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public AndExprContext andExpr() {
-		AndExprContext _localctx = new AndExprContext(Context, State);
-		EnterRule(_localctx, 36, RULE_andExpr);
+	public AndExpressionContext andExpression() {
+		AndExpressionContext _localctx = new AndExpressionContext(Context, State);
+		EnterRule(_localctx, 36, RULE_andExpression);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 166;
-			notExpr();
+			notExpression();
 			State = 171;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
@@ -1353,7 +1353,7 @@ public partial class GraphParser : Parser {
 				State = 167;
 				Match(AND);
 				State = 168;
-				notExpr();
+				notExpression();
 				}
 				}
 				State = 173;
@@ -1373,41 +1373,41 @@ public partial class GraphParser : Parser {
 		return _localctx;
 	}
 
-	public partial class NotExprContext : ParserRuleContext {
+	public partial class NotExpressionContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NOT() { return GetToken(GraphParser.NOT, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public NotExprContext notExpr() {
-			return GetRuleContext<NotExprContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public NotExpressionContext notExpression() {
+			return GetRuleContext<NotExpressionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public AtomContext atom() {
 			return GetRuleContext<AtomContext>(0);
 		}
-		public NotExprContext(ParserRuleContext parent, int invokingState)
+		public NotExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_notExpr; } }
+		public override int RuleIndex { get { return RULE_notExpression; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IGraphListener typedListener = listener as IGraphListener;
-			if (typedListener != null) typedListener.EnterNotExpr(this);
+			if (typedListener != null) typedListener.EnterNotExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IGraphListener typedListener = listener as IGraphListener;
-			if (typedListener != null) typedListener.ExitNotExpr(this);
+			if (typedListener != null) typedListener.ExitNotExpression(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IGraphVisitor<TResult> typedVisitor = visitor as IGraphVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitNotExpr(this);
+			if (typedVisitor != null) return typedVisitor.VisitNotExpression(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public NotExprContext notExpr() {
-		NotExprContext _localctx = new NotExprContext(Context, State);
-		EnterRule(_localctx, 38, RULE_notExpr);
+	public NotExpressionContext notExpression() {
+		NotExpressionContext _localctx = new NotExpressionContext(Context, State);
+		EnterRule(_localctx, 38, RULE_notExpression);
 		try {
 			State = 177;
 			ErrorHandler.Sync(this);
@@ -1418,7 +1418,7 @@ public partial class GraphParser : Parser {
 				State = 174;
 				Match(NOT);
 				State = 175;
-				notExpr();
+				notExpression();
 				}
 				break;
 			case T__1:
@@ -1527,8 +1527,8 @@ public partial class GraphParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public VariableReferenceContext variableReference() {
 			return GetRuleContext<VariableReferenceContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CompOpContext compOp() {
-			return GetRuleContext<CompOpContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ComparisonOperatorContext comparisonOperator() {
+			return GetRuleContext<ComparisonOperatorContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ValueReferenceContext valueReference() {
 			return GetRuleContext<ValueReferenceContext>(0);
@@ -1586,7 +1586,7 @@ public partial class GraphParser : Parser {
 			State = 192;
 			variableReference();
 			State = 193;
-			compOp();
+			comparisonOperator();
 			State = 194;
 			valueReference();
 			State = 195;
@@ -1608,8 +1608,8 @@ public partial class GraphParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public VariableReferenceContext variableReference() {
 			return GetRuleContext<VariableReferenceContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public CompOpContext compOp() {
-			return GetRuleContext<CompOpContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ComparisonOperatorContext comparisonOperator() {
+			return GetRuleContext<ComparisonOperatorContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ValueReferenceContext valueReference() {
 			return GetRuleContext<ValueReferenceContext>(0);
@@ -1647,7 +1647,7 @@ public partial class GraphParser : Parser {
 			State = 197;
 			variableReference();
 			State = 198;
-			compOp();
+			comparisonOperator();
 			State = 199;
 			valueReference();
 			}
@@ -1663,36 +1663,36 @@ public partial class GraphParser : Parser {
 		return _localctx;
 	}
 
-	public partial class CompOpContext : ParserRuleContext {
+	public partial class ComparisonOperatorContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode EQUAL() { return GetToken(GraphParser.EQUAL, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NOTEQUAL() { return GetToken(GraphParser.NOTEQUAL, 0); }
-		public CompOpContext(ParserRuleContext parent, int invokingState)
+		public ComparisonOperatorContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
-		public override int RuleIndex { get { return RULE_compOp; } }
+		public override int RuleIndex { get { return RULE_comparisonOperator; } }
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void EnterRule(IParseTreeListener listener) {
 			IGraphListener typedListener = listener as IGraphListener;
-			if (typedListener != null) typedListener.EnterCompOp(this);
+			if (typedListener != null) typedListener.EnterComparisonOperator(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override void ExitRule(IParseTreeListener listener) {
 			IGraphListener typedListener = listener as IGraphListener;
-			if (typedListener != null) typedListener.ExitCompOp(this);
+			if (typedListener != null) typedListener.ExitComparisonOperator(this);
 		}
 		[System.Diagnostics.DebuggerNonUserCode]
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IGraphVisitor<TResult> typedVisitor = visitor as IGraphVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitCompOp(this);
+			if (typedVisitor != null) return typedVisitor.VisitComparisonOperator(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
 
 	[RuleVersion(0)]
-	public CompOpContext compOp() {
-		CompOpContext _localctx = new CompOpContext(Context, State);
-		EnterRule(_localctx, 46, RULE_compOp);
+	public ComparisonOperatorContext comparisonOperator() {
+		ComparisonOperatorContext _localctx = new ComparisonOperatorContext(Context, State);
+		EnterRule(_localctx, 46, RULE_comparisonOperator);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);

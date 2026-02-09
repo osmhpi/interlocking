@@ -22,11 +22,11 @@ public class ExpressionToRustVisitor : ExpressionBaseVisitor<string>
 
   public override string VisitExpression(ExpressionParser.ExpressionContext context)
   {
-    return Visit(context.orExpr());
+    return Visit(context.orExpression());
   }
-  public override string VisitOrExpr(ExpressionParser.OrExprContext context)
+  public override string VisitOrExpression(ExpressionParser.OrExpressionContext context)
   {
-    var parts = context.andExpr().Select(Visit).ToList();
+    var parts = context.andExpression().Select(Visit).ToList();
     if (parts.Count == 1)
       return parts[0];
     // Chain Option logic: propagate None if any part is None
@@ -37,9 +37,9 @@ public class ExpressionToRustVisitor : ExpressionBaseVisitor<string>
     }
     return expr;
   }
-  public override string VisitAndExpr(ExpressionParser.AndExprContext context)
+  public override string VisitAndExpression(ExpressionParser.AndExpressionContext context)
   {
-    var parts = context.notExpr().Select(Visit).ToList();
+    var parts = context.notExpression().Select(Visit).ToList();
     if (parts.Count == 1)
       return parts[0];
     // Chain Option logic: propagate None if any part is None
@@ -50,10 +50,10 @@ public class ExpressionToRustVisitor : ExpressionBaseVisitor<string>
     }
     return expr;
   }
-  public override string VisitNotExpr(ExpressionParser.NotExprContext context)
+  public override string VisitNotExpression(ExpressionParser.NotExpressionContext context)
   {
     if (context.NOT() != null)
-      return $"!({Visit(context.notExpr())})";
+      return $"!({Visit(context.notExpression())})";
     return Visit(context.atom());
   }
   public override string VisitAtom(ExpressionParser.AtomContext context)
@@ -98,7 +98,7 @@ public class ExpressionToRustVisitor : ExpressionBaseVisitor<string>
     var variable = refVar.variableName().GetText();
     // self.entity.<indexField>.iter().any/all(|name| ctx.<collection>.get(name).unwrap().<variable> == ...)
     var isInterface = refVar.graphOrInterfaceName() != null && _allInterfaces.ContainsKey(refVar.graphOrInterfaceName().GetText());
-    var op = context.compOp().GetText();
+    var op = context.comparisonOperator().GetText();
     var right = Visit(valueReference);
     if (isInterface)
     {
@@ -112,7 +112,7 @@ public class ExpressionToRustVisitor : ExpressionBaseVisitor<string>
   public override string VisitComparison(ExpressionParser.ComparisonContext context)
   {
     var left = Visit(context.variableReference());
-    var op = Visit(context.compOp());
+    var op = Visit(context.comparisonOperator());
     var right = Visit(context.valueReference());
 
     var leftRefersToInterface = context.variableReference().graphOrInterfaceName() != null && _allInterfaces?.ContainsKey(context.variableReference().graphOrInterfaceName().GetText()) == true;
@@ -125,7 +125,7 @@ public class ExpressionToRustVisitor : ExpressionBaseVisitor<string>
     // General case: if either side is None, yield None; otherwise compare and wrap in Some(...)
     return $"match ({left}, Some({right})) {{\n    (Some(l), Some(r)) => Some(l {op} r),\n    _ => None\n  }}";
   }
-  public override string VisitCompOp(ExpressionParser.CompOpContext context)
+  public override string VisitComparisonOperator(ExpressionParser.ComparisonOperatorContext context)
   {
     if (context.EQUAL() != null) return "==";
     if (context.NOTEQUAL() != null) return "!=";

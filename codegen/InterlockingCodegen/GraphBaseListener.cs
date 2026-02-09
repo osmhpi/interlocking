@@ -240,41 +240,41 @@ public partial class GraphBaseListener : IGraphListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitExpression([NotNull] GraphParser.ExpressionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.orExpr"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.orExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterOrExpr([NotNull] GraphParser.OrExprContext context) { }
+	public virtual void EnterOrExpression([NotNull] GraphParser.OrExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.orExpr"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.orExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitOrExpr([NotNull] GraphParser.OrExprContext context) { }
+	public virtual void ExitOrExpression([NotNull] GraphParser.OrExpressionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.andExpr"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.andExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterAndExpr([NotNull] GraphParser.AndExprContext context) { }
+	public virtual void EnterAndExpression([NotNull] GraphParser.AndExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.andExpr"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.andExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitAndExpr([NotNull] GraphParser.AndExprContext context) { }
+	public virtual void ExitAndExpression([NotNull] GraphParser.AndExpressionContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.notExpr"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.notExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterNotExpr([NotNull] GraphParser.NotExprContext context) { }
+	public virtual void EnterNotExpression([NotNull] GraphParser.NotExpressionContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.notExpr"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.notExpression"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitNotExpr([NotNull] GraphParser.NotExprContext context) { }
+	public virtual void ExitNotExpression([NotNull] GraphParser.NotExpressionContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.timeoutExpression"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -312,17 +312,17 @@ public partial class GraphBaseListener : IGraphListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitComparison([NotNull] GraphParser.ComparisonContext context) { }
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.compOp"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.comparisonOperator"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterCompOp([NotNull] GraphParser.CompOpContext context) { }
+	public virtual void EnterComparisonOperator([NotNull] GraphParser.ComparisonOperatorContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.compOp"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.comparisonOperator"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitCompOp([NotNull] GraphParser.CompOpContext context) { }
+	public virtual void ExitComparisonOperator([NotNull] GraphParser.ComparisonOperatorContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.propertyName"/>.
 	/// <para>The default implementation does nothing.</para>

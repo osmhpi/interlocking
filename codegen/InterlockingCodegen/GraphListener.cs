@@ -201,35 +201,35 @@ public interface IGraphListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitExpression([NotNull] GraphParser.ExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.orExpr"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.orExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterOrExpr([NotNull] GraphParser.OrExprContext context);
+	void EnterOrExpression([NotNull] GraphParser.OrExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.orExpr"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.orExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitOrExpr([NotNull] GraphParser.OrExprContext context);
+	void ExitOrExpression([NotNull] GraphParser.OrExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.andExpr"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.andExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterAndExpr([NotNull] GraphParser.AndExprContext context);
+	void EnterAndExpression([NotNull] GraphParser.AndExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.andExpr"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.andExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitAndExpr([NotNull] GraphParser.AndExprContext context);
+	void ExitAndExpression([NotNull] GraphParser.AndExpressionContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.notExpr"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.notExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterNotExpr([NotNull] GraphParser.NotExprContext context);
+	void EnterNotExpression([NotNull] GraphParser.NotExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.notExpr"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.notExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitNotExpr([NotNull] GraphParser.NotExprContext context);
+	void ExitNotExpression([NotNull] GraphParser.NotExpressionContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.timeoutExpression"/>.
 	/// </summary>
@@ -261,15 +261,15 @@ public interface IGraphListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitComparison([NotNull] GraphParser.ComparisonContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="GraphParser.compOp"/>.
+	/// Enter a parse tree produced by <see cref="GraphParser.comparisonOperator"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterCompOp([NotNull] GraphParser.CompOpContext context);
+	void EnterComparisonOperator([NotNull] GraphParser.ComparisonOperatorContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="GraphParser.compOp"/>.
+	/// Exit a parse tree produced by <see cref="GraphParser.comparisonOperator"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitCompOp([NotNull] GraphParser.CompOpContext context);
+	void ExitComparisonOperator([NotNull] GraphParser.ComparisonOperatorContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="GraphParser.propertyName"/>.
 	/// </summary>
