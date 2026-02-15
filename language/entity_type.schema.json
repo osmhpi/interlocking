@@ -15,7 +15,7 @@
     "properties": {
       "type": "object",
       "description": "Properties of the entity type.",
-      "additionalProperties": { "$ref": "#/definitions/ConceptProperty" }
+      "additionalProperties": { "$ref": "#/definitions/EntityProperty" }
     },
     "interfaces": {
       "type": "object",
@@ -73,8 +73,8 @@
       "required": ["description", "type", "kind"],
       "additionalProperties": false
     },
-    "ConceptProperty": {
-      "title": "ConceptProperty",
+    "EntityProperty": {
+      "title": "EntityProperty",
       "type": "object",
       "required": ["description", "type"],
       "properties": {
@@ -84,7 +84,7 @@
         },
         "type": {
           "type": "string",
-          "description": "Type of the property (e.g., boolean, time, or name of a concept)."
+          "description": "Type of the property (e.g., boolean, time, or name of an entity type)."
         },
         "min": {
           "oneOf": [

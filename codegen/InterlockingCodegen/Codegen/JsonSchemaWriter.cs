@@ -4,19 +4,19 @@ public static class JsonSchemaWriter
 {
   public static void WriteJsonSchema(string outputPath, Model.Specification specification)
   {
-    var builtinProperties = new Dictionary<string, Model.ConceptProperty>
+    var builtinProperties = new Dictionary<string, Model.EntityProperty>
     {
-      ["name"] = new Model.ConceptProperty
+      ["name"] = new Model.EntityProperty
       {
-        Description = "The name of the concept instance.",
+        Description = "The name of the entity instance.",
         Type = "string",
         Min = new Model.Cardinality(1),
         Max = new Model.Cardinality(1)
       }
     };
 
-    // Build a JSON schema that allows an object with one property per concept
-    // Each property is an object with the concept's parameters as properties
+    // Build a JSON schema that allows an object with one property per entity type
+    // Each property is an object with the entity type's parameters as properties
     var schema = new Dictionary<string, object?>
     {
       ["$schema"] = "http://json-schema.org/draft-07/schema#",
@@ -28,7 +28,7 @@ public static class JsonSchemaWriter
           type = "array",
           items = new {
             type = "object",
-            properties = (concept.Properties ?? new Dictionary<string, Model.ConceptProperty>())
+            properties = (concept.Properties ?? new Dictionary<string, Model.EntityProperty>())
               .Concat(builtinProperties).ToDictionary(
               p => p.Key,
               p => {
