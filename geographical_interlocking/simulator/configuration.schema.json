@@ -99,7 +99,7 @@
           },
           "name": {
             "type": "string",
-            "description": "The name of the concept instance.",
+            "description": "The name of the entity instance.",
             "minItems": 1,
             "maxItems": 1
           }
@@ -172,7 +172,7 @@
           },
           "name": {
             "type": "string",
-            "description": "The name of the concept instance.",
+            "description": "The name of the entity instance.",
             "minItems": 1,
             "maxItems": 1
           }
@@ -240,7 +240,7 @@
           },
           "name": {
             "type": "string",
-            "description": "The name of the concept instance.",
+            "description": "The name of the entity instance.",
             "minItems": 1,
             "maxItems": 1
           }
@@ -274,7 +274,7 @@
           },
           "name": {
             "type": "string",
-            "description": "The name of the concept instance.",
+            "description": "The name of the entity instance.",
             "minItems": 1,
             "maxItems": 1
           }
@@ -302,7 +302,7 @@
           },
           "name": {
             "type": "string",
-            "description": "The name of the concept instance.",
+            "description": "The name of the entity instance.",
             "minItems": 1,
             "maxItems": 1
           }
@@ -330,7 +330,7 @@
           },
           "name": {
             "type": "string",
-            "description": "The name of the concept instance.",
+            "description": "The name of the entity instance.",
             "minItems": 1,
             "maxItems": 1
           }
@@ -453,7 +453,7 @@
           },
           "name": {
             "type": "string",
-            "description": "The name of the concept instance.",
+            "description": "The name of the entity instance.",
             "minItems": 1,
             "maxItems": 1
           }
@@ -479,7 +479,7 @@
           },
           "name": {
             "type": "string",
-            "description": "The name of the concept instance.",
+            "description": "The name of the entity instance.",
             "minItems": 1,
             "maxItems": 1
           }

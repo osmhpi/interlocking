@@ -16,11 +16,11 @@ interfaces:
 properties:
   all_routes:
     description: All routes that are part of this station.
-    type: route
+    type: Route
     min: !!int 0
     max: unbounded
   start_ise_left:
     description: The start ISE of the route.
-    type: ise
+    type: Ise
     min: !!int 0
     max: !!int 1

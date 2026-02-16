@@ -30,6 +30,6 @@ interfaces:
 properties:
   ise:
     description: ISE that this zone belongs to.
-    type: ise
+    type: Ise
     min: !!int 1
     max: !!int 1

@@ -52,13 +52,8 @@ properties:
     type: Zone
     min: !!int 0
     max: !!int 1
-  # signal:
-  #   description: Signal that this ISE refers to.
-  #   type: signal
-  #   min: !!int 0
-  #   max: !!int 1
   transits:
     description: Transits that this ISE refers to.
-    type: transit
+    type: Transit
     min: !!int 0
     max: unbounded

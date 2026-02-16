@@ -14,16 +14,16 @@ interfaces:
 properties:
   activating_routes:
     description: Routes that activate this transit.
-    type: route
+    type: Route
     min: !!int 0
     max: unbounded
   underlying_zone:
     description: The underlying zone that forms this transit.
-    type: zone
+    type: Zone
     min: !!int 1
     max: !!int 1
   upstream_transits:
     description: Transits that lead to this transit.
-    type: transit
+    type: Transit
     min: !!int 0
     max: unbounded

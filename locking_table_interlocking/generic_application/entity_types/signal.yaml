@@ -3,7 +3,7 @@ description: Signal
 properties:
   routes_starting_here:
     description: Routes that start at this signal.
-    type: route
+    type: Route
     min: !!int 0
     max: unbounded
 interfaces:

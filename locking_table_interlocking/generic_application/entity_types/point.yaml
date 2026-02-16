@@ -32,36 +32,36 @@ interfaces:
 properties:
   requested_left_by_routes:
     description: Routes that request the point to be set to left.
-    type: route
+    type: Route
     min: !!int 0
     max: unbounded
   requested_right_by_routes:
     description: Routes that request the point to be set to right.
-    type: route
+    type: Route
     min: !!int 0
     max: unbounded
   locked_left_by_transits:
     description: Transits that require the point to be set to left.
-    type: transit
+    type: Transit
     min: !!int 0
     max: unbounded
   locked_right_by_transits:
     description: Transits that require the point to be set to right.
-    type: transit
+    type: Transit
     min: !!int 0
     max: unbounded
   locked_left_by_zones:
     description: Zones that require the point to be set to left.
-    type: zone
+    type: Zone
     min: !!int 0
     max: unbounded
   locked_right_by_zones:
     description: Zones that require the point to be set to right.
-    type: zone
+    type: Zone
     min: !!int 0
     max: unbounded
   all_points:
     description: All points in the interlocking.
-    type: point
+    type: Point
     min: !!int 1
     max: unbounded
