@@ -58,11 +58,6 @@
       "properties": {
         "description": { "type": "string" },
         "type": { "type": "string" },
-        "kind": {
-          "type": "string",
-          "enum": ["discrete", "continuous"],
-          "description": "The type of interface: 'discrete' or 'continuous'."
-        },
         "mapping": {
           "type": "object",
           "description": "Map from possible output values to expressions.",

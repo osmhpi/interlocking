@@ -16,7 +16,6 @@ interfaces:
           true: SignalControl.State == OpenCloseState::OPEN
           false: SignalControl.State != OpenCloseState::OPEN
         default: false
-        kind: continuous
   SCIRBC:
     inputs:
       ApproachLockingActive:
@@ -32,4 +31,3 @@ interfaces:
           true: Any(route in @routes_starting_here | RouteManualRelease[route].ManualReleaseWithholdMovementAuthority == ActiveInactive::ACTIVE)
           false: All(route in @routes_starting_here | RouteManualRelease[route].ManualReleaseWithholdMovementAuthority == ActiveInactive::INACTIVE)
         default: false
-        kind: discrete

@@ -17,7 +17,6 @@ interfaces:
           EulynxCommandedEndPosition::LEFT: PointOperation.State == EulynxCommandedEndPosition::LEFT
           EulynxCommandedEndPosition::RIGHT: PointOperation.State == EulynxCommandedEndPosition::RIGHT
           EulynxCommandedEndPosition::NOT_COMMANDED: PointOperation.State == EulynxCommandedEndPosition::NOT_COMMANDED
-        kind: discrete
   SCICC:
     outputs:
       CurrentPosition:
@@ -28,7 +27,6 @@ interfaces:
           EulynxEndPosition::RIGHT: SCIP.DetectedEndPosition == EulynxEndPosition::RIGHT
           EulynxEndPosition::NO_END_POSITION: SCIP.DetectedEndPosition == EulynxEndPosition::NO_END_POSITION
         default: EulynxEndPosition::NO_END_POSITION
-        kind: continuous
 properties:
   requested_left_by_routes:
     description: Routes that request the point to be set to left.

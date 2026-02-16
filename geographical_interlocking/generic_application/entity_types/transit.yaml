@@ -10,7 +10,6 @@ interfaces:
           true: Transit.State == ActiveInactive::ACTIVE
           false: Transit.State != ActiveInactive::ACTIVE
         default: true
-        kind: continuous
 properties:
   ise:
     description: ISE that this transit belongs to.

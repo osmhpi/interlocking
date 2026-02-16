@@ -16,7 +16,6 @@ interfaces:
           true: Zone.State == OccupancyStatus::VACANT
           false: Zone.State != OccupancyStatus::VACANT
         default: false
-        kind: discrete
   SCICC:
     outputs:
       CurrentOccupancy:
@@ -26,5 +25,4 @@ interfaces:
           OccupancyStatus::OCCUPIED: Zone.State == OccupancyStatus::OCCUPIED
           OccupancyStatus::VACANT: Zone.State == OccupancyStatus::VACANT
         default: OccupancyStatus::VACANT
-        kind: continuous
 properties: {}

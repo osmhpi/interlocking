@@ -62,14 +62,6 @@ namespace FormalInterlocking.Model
         public string Type { get; set; }
 
         /// <summary>
-        /// The type of interface: 'discrete' or 'continuous'.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("kind", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public InterfaceOutputFieldKind Kind { get; set; }
-
-        /// <summary>
         /// Map from possible output values to expressions.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("mapping", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
@@ -150,20 +142,6 @@ namespace FormalInterlocking.Model
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.3.2.0 (Newtonsoft.Json v13.0.0.0)")]
     public enum InterfaceInputFieldKind
-    {
-
-        [System.Runtime.Serialization.EnumMember(Value = @"discrete")]
-        Discrete = 0,
-
-
-        [System.Runtime.Serialization.EnumMember(Value = @"continuous")]
-        Continuous = 1,
-
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "11.3.2.0 (Newtonsoft.Json v13.0.0.0)")]
-    public enum InterfaceOutputFieldKind
     {
 
         [System.Runtime.Serialization.EnumMember(Value = @"discrete")]

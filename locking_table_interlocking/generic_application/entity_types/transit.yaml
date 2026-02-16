@@ -10,7 +10,6 @@ interfaces:
           true: Transit.State == ActiveInactive::ACTIVE
           false: Transit.State != ActiveInactive::ACTIVE
         default: true
-        kind: continuous
 properties:
   activating_routes:
     description: Routes that activate this transit.
