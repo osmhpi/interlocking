@@ -7,4 +7,8 @@ import wasm from "vite-plugin-wasm";
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths(), wasm()],
   base: process.env.GH_PAGES ? "/interlocking/geographical_interlocking/" : "/",
+  server: {
+    port: 5173,
+    host: '127.0.0.1'
+  }
 });
