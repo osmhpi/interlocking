@@ -1,6 +1,4 @@
 using FormalInterlocking.Model;
-using static ExpressionParser;
-using FormalInterlocking.Codegen;
 
 static partial class BWriter
 {
@@ -19,28 +17,66 @@ static partial class BWriter
     File.WriteAllText(outputPath, content);
   }
 
+  private static List<string> CollectAllInputsToGraph(Specification spec, Graph graph)
+  {
+      var inputs = new List<string>();
+
+      // From terms
+      foreach (var term in graph.Terms.Terms)
+      {
+          var theTerm = term.Value.ParsedTree;
+          if (theTerm == null) continue;
+          foreach (var input in new ReferenceExtractor().Visit(theTerm) ?? [])
+          {
+              inputs.Add(input);
+          }
+      }
+
+      // Remove duplicates but keep defined order
+      return inputs.Distinct().ToList();
+  }
+
   private static string? GenerateGraphContent(Specification spec, Graph graph, EntityType entityType)
   {
     var states = GenerateGraphContentPrivate(spec, graph, entityType, graph.Subgraph, "root");
+    var allInputs = CollectAllInputsToGraph(spec, graph);
 
     return @$"MACHINE {graph.Name}
 SEES Enums
 SETS
   STATE_{graph.Name}_root = {{ {string.Join(", ", states.Select(x => $"STATE_{graph.Name}_root_{x}"))} }}
 VARIABLES
-  GraphState
+  {graph.Terms.Terms.Select(t => $"{t.Key}")
+    .Concat(graph.Terms.Variables.Select(v => $"{v.Key}"))
+    .Concat(["GraphState"]).Aggregate((a, b) => a + ",\n  " + b)}
 INVARIANT
-  GraphState : STATE_{graph.Name}_root
+  {graph.Terms.Terms.Select(t => $"{t.Key} : BOOL")
+    .Concat(graph.Terms.Variables.Select(v => $"{v.Key} : {v.Value.Type}"))
+    .Concat(["GraphState : STATE_" + graph.Name + "_root"])
+    .Aggregate((a, b) => a + " &\n  " + b)}
 INITIALIZATION
-  GraphState := STATE_{graph.Name}_root___initial
+  {graph.Terms.Terms.Select(t => $"{t.Key} := {t.Value.Default.ToString().ToUpper()}")
+    .Concat(graph.Terms.Variables.Select(v => $"{v.Key} := {v.Value.ParsedDefault?.qualifiedName()?.enumerationTypeName().GetText()}_{v.Value.ParsedDefault?.qualifiedName()?.enumerationLiteralName().GetText()}"))
+    .Concat(["GraphState := STATE_" + graph.Name + "_root___initial"])
+    .Aggregate((a, b) => a + ";\n  " + b)}
 OPERATIONS
   InitialTransition =
-    SELECT GraphState = STATE_{graph.Name}_root___initial THEN
-      GraphState := STATE_{graph.Name}_root___initial
-    END;
-  Transition =
-    SELECT GraphState = STATE_{graph.Name}_root___initial THEN
-      GraphState := STATE_{graph.Name}_root___initial
+    BEGIN
+      // Update Terms
+      {graph.Terms.Terms.Select(t => $"{t.Key} := {(t.Value.ParsedTree != null ? new TermWriter().Visit(t.Value.ParsedTree) : t.Value.Default.ToString().ToUpper())}").Aggregate((a, b) => a + " ||\n      " + b)};
+      // Perform transition
+      SELECT GraphState = STATE_{graph.Name}_root___initial THEN
+        GraphState := STATE_{graph.Name}_root___initial
+      END;
+    END
+  Transition({string.Join(", ", allInputs)}) =
+    BEGIN
+      // Update Terms
+      {graph.Terms.Terms.Select(t => $"{t.Key} := {(t.Value.ParsedTree != null ? new TermWriter().Visit(t.Value.ParsedTree) : t.Value.Default.ToString().ToUpper())}").Aggregate((a, b) => a + " ||\n      " + b)};
+      // Perform transition
+      SELECT GraphState = STATE_{graph.Name}_root___initial THEN
+        GraphState := STATE_{graph.Name}_root___initial
+      END
     END
 END//MACHINE
 ";
