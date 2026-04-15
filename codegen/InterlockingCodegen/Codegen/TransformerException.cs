@@ -1,7 +1,7 @@
 namespace FormalInterlocking.Codegen;
 
 [Serializable]
-internal class TransformerException : Exception
+public class TransformerException : Exception
 {
   public TransformerException()
   {

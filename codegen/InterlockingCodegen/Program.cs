@@ -1,6 +1,5 @@
 ﻿using FormalInterlocking.Model;
 using FormalInterlocking.Codegen;
-using Antlr4.Runtime.Atn;
 
 try
 {

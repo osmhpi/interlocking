@@ -14,8 +14,7 @@
               "type": "string"
             },
             "description": "Indicates whether this ISE is the start of a route admission checking.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "is_end_of_route_admission_check": {
             "type": "array",
@@ -23,8 +22,7 @@
               "type": "string"
             },
             "description": "Indicates whether this ISE is the end of a route admission checking.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "link_a_left": {
             "type": "array",
@@ -32,8 +30,7 @@
               "type": "string"
             },
             "description": "Link with left side connected to port A.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "link_a_right": {
             "type": "array",
@@ -41,8 +38,7 @@
               "type": "string"
             },
             "description": "Link with right side connected to port A.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "link_b_left": {
             "type": "array",
@@ -50,8 +46,7 @@
               "type": "string"
             },
             "description": "Link with left side connected to port B.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "link_b_right": {
             "type": "array",
@@ -59,8 +54,7 @@
               "type": "string"
             },
             "description": "Link with right side connected to port B.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "link_c_left": {
             "type": "array",
@@ -68,8 +62,7 @@
               "type": "string"
             },
             "description": "Link with left side connected to port C.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "link_c_right": {
             "type": "array",
@@ -77,8 +70,7 @@
               "type": "string"
             },
             "description": "Link with right side connected to port C.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "point": {
             "type": "string",
@@ -94,8 +86,7 @@
               "type": "string"
             },
             "description": "Transits that this ISE refers to.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "name": {
             "type": "string",
@@ -122,8 +113,7 @@
               "type": "string"
             },
             "description": "Left ISE of the link, connected at port A.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "ise_left_port_b": {
             "type": "array",
@@ -131,8 +121,7 @@
               "type": "string"
             },
             "description": "Left ISE of the link, connected at port B.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "ise_left_port_c": {
             "type": "array",
@@ -140,8 +129,7 @@
               "type": "string"
             },
             "description": "Left ISE of the link, connected at port C.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "ise_right_port_a": {
             "type": "array",
@@ -149,8 +137,7 @@
               "type": "string"
             },
             "description": "Right ISE of the link, connected at port A.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "ise_right_port_b": {
             "type": "array",
@@ -158,8 +145,7 @@
               "type": "string"
             },
             "description": "Right ISE of the link, connected at port B.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "ise_right_port_c": {
             "type": "array",
@@ -167,8 +153,7 @@
               "type": "string"
             },
             "description": "Right ISE of the link, connected at port C.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "name": {
             "type": "string",
@@ -199,8 +184,7 @@
               "type": "string"
             },
             "description": "All points in the interlocking.",
-            "minItems": 1,
-            "maxItems": null
+            "minItems": 1
           },
           "locked_left_by_transits": {
             "type": "array",
@@ -208,8 +192,7 @@
               "type": "string"
             },
             "description": "Transits that require the point to be set to left.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "locked_right_by_transits": {
             "type": "array",
@@ -217,8 +200,7 @@
               "type": "string"
             },
             "description": "Transits that require the point to be set to right.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "locked_left_by_zones": {
             "type": "array",
@@ -226,8 +208,7 @@
               "type": "string"
             },
             "description": "Zones that require the point to be set to left.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "locked_right_by_zones": {
             "type": "array",
@@ -235,8 +216,7 @@
               "type": "string"
             },
             "description": "Zones that require the point to be set to right.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "name": {
             "type": "string",
@@ -265,8 +245,7 @@
               "type": "string"
             },
             "description": "All routes that are part of this station.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "start_ise_left": {
             "type": "string",
@@ -297,8 +276,7 @@
               "type": "string"
             },
             "description": "Routes that start at this signal.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "name": {
             "type": "string",
@@ -325,8 +303,7 @@
               "type": "string"
             },
             "description": "All routes that are part of this station.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "name": {
             "type": "string",
@@ -361,8 +338,7 @@
               "type": "string"
             },
             "description": "Transits that lead to this transit.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "requires_point_left": {
             "type": "array",
@@ -370,8 +346,7 @@
               "type": "string"
             },
             "description": "The point that is required to be in the left position.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "requires_point_right": {
             "type": "array",
@@ -379,8 +354,7 @@
               "type": "string"
             },
             "description": "The point that is required to be in the right position.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "upstream_link_left": {
             "type": "array",
@@ -388,8 +362,7 @@
               "type": "string"
             },
             "description": "The link that leads to this transit, connected to its left end.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "upstream_link_right": {
             "type": "array",
@@ -397,8 +370,7 @@
               "type": "string"
             },
             "description": "The link that leads to this transit, connected to its right end.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "downstream_link_left": {
             "type": "array",
@@ -406,8 +378,7 @@
               "type": "string"
             },
             "description": "The link that leads from this transit, connected to its left end.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "downstream_link_right": {
             "type": "array",
@@ -415,8 +386,7 @@
               "type": "string"
             },
             "description": "The link that leads from this transit, connected to its right end.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "transit_in_opposite_direction": {
             "type": "string",
@@ -432,8 +402,7 @@
               "type": "string"
             },
             "description": "Transits of the route release trigger zone in opposite direction of the route.",
-            "minItems": 0,
-            "maxItems": null
+            "minItems": 0
           },
           "approach_zone": {
             "type": "string",
