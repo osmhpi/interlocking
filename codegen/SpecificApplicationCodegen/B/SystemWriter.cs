@@ -120,6 +120,11 @@ static partial class BWriter
                      join graph in spec.Graphs on entity.EntityType.Name equals graph.Terms.Entity_type
                      select (Graph: graph, InstanceName: entity.InstanceName, GraphInstanceName: $"{graph.Name}_{entity.InstanceName}");
 
+        var interfaces = from entity in entities
+                         from intf in entity.EntityType.Interfaces
+                         join systemIntf in spec.Interfaces on intf.Key equals systemIntf.Name
+                         select (Interface: systemIntf, EntityType: entity.EntityType, InterfaceInstanceName: entity.InstanceName);
+
         var schedule = new List<(Graph graph, string instanceName, string graphInstanceName)>();
 
         foreach (var schedulerGroup in spec.Schedule.Groups)
@@ -156,7 +161,8 @@ static partial class BWriter
         }
 
         return @$"MACHINE Interlocking
-INCLUDES {string.Join(", ", graphs.Select(g => $"{g.Graph.Name}_{g.InstanceName}.{g.Graph.Name}"))}
+INCLUDES
+  {string.Join(", ", graphs.Select(g => $"{g.Graph.Name}_{g.InstanceName}.{g.Graph.Name}").Concat(interfaces.Select(i => $"{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}.{i.Interface.Name}_{i.EntityType.Name}")))}
 DEFINITIONS
   VISB_SVG_FILE == ""trackplan.svg"";
   VISB_SVG_UPDATES1== rec(`id`:""W1R"",visibility: bool(W1.State = RIGHT));
