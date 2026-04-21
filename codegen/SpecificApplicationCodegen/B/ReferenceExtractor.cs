@@ -124,5 +124,15 @@ static partial class BWriter
 
       return [new Reference(context.graphOrInterfaceName().GetText(), context.variableName().GetText(), null, false)];
     }
+
+    public override List<Reference> VisitValueReference([NotNull] ExpressionParser.ValueReferenceContext context)
+    {
+      if (context.durationLiteral()?.NOW() != null)
+      {
+          return [new Reference(null, "", null, true)];
+      }
+
+      return new List<Reference>();
+    }
   }
 }

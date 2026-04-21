@@ -73,6 +73,12 @@ static partial class BWriter
         var parameters = new List<string>();
         foreach (var input in orderedInputs)
         {
+            var graphOrInterfaceName = input.GraphOrInterfaceName;
+            if (input.GraphOrInterfaceName != null && spec.Interfaces.Any(i => i.Name == input.GraphOrInterfaceName))
+            {
+                graphOrInterfaceName = $"{input.GraphOrInterfaceName}_{entityType.Name}";
+            }
+
             if (input.PropertyName != null)
             {
                 // Resolve property value from map above
@@ -87,11 +93,11 @@ static partial class BWriter
                 }
                 else if (propertyValue.reference != null)
                 {
-                    parameters.Add($"{input.GraphOrInterfaceName}_{SanitizeBIdentifier(propertyValue.reference)}.{input.VariableName}");
+                    parameters.Add($"{graphOrInterfaceName}_{SanitizeBIdentifier(propertyValue.reference)}.{input.VariableName}");
                 }
                 else if (propertyValue.referenceList != null)
                 {
-                    parameters.Add("{" + string.Join(", ", propertyValue.referenceList.Select(x => $"{input.GraphOrInterfaceName}_{SanitizeBIdentifier(x)}.{input.VariableName}")) + "}");
+                    parameters.Add("{" + string.Join(", ", propertyValue.referenceList.Select(x => $"{graphOrInterfaceName}_{SanitizeBIdentifier(x)}.{input.VariableName}")) + "}");
                 }
                 else
                 {
@@ -106,11 +112,111 @@ static partial class BWriter
             else
             {
                 // Input refers to graph or interface belonging to the same entity instance
-                parameters.Add($"{input.GraphOrInterfaceName}_{entity}.{input.VariableName}");
+                parameters.Add($"{graphOrInterfaceName}_{entity}.{input.VariableName}");
             }
         }
 
         return string.Join(", ", parameters);
+    }
+    private static string ProvideInputsToInterfaceInstance(Specification spec, string entityTypeName, string interfaceName, string entity, JObject specificAppConfig)
+    {
+        var entityType = spec.EntityTypes.Single(e => e.Name == entityTypeName);
+        var intf = entityType.Interfaces[interfaceName];
+        var propertyMap = new Dictionary<string, PropertyValue>();
+
+        foreach (var property in entityType.Properties)
+        {
+            if (property.Value.Type == "duration")
+            {
+                var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.ToObject<int?>();
+                propertyMap[property.Key] = new PropertyValue(duration: propertyValueOfInstance ?? 0, boolean: null, reference: null, referenceList: null);
+            }
+            else if (property.Value.Type == "boolean")
+            {
+                var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.ToObject<bool?>();
+                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: propertyValueOfInstance ?? false, reference: null, referenceList: null);
+            }
+            else
+            {
+              var linkedEntityType = spec.EntityTypes.Single(e => e.Name == property.Value.Type);
+              if (!property.Value.Max.IsUnbounded)
+              {
+                var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.ToString();
+                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: null, reference: propertyValueOfInstance, referenceList: null);
+              }
+              else
+              {
+                var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.Select(x => x.ToString());
+                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: null, reference: null, referenceList: propertyValueOfInstance?.ToList());
+              }
+            }
+        }
+
+        var inputs = new List<Reference>();
+        foreach (var term in (intf.Outputs ?? new Dictionary<string, InterfaceOutputField>()).SelectMany(x => x.Value.ParsedMapping))
+        {
+            var theTerm = term.Value;
+            if (theTerm == null) continue;
+            foreach (var input in new ReferenceExtractor().Visit(theTerm) ?? [])
+            {
+                inputs.Add(input);
+            }
+        }
+
+        // Remove duplicates but keep defined order
+        var orderedInputs = inputs.Distinct().ToList();
+        var parameters = new List<string>();
+        foreach (var input in orderedInputs)
+        {
+            var graphOrInterfaceName = input.GraphOrInterfaceName;
+            if (input.GraphOrInterfaceName != null && spec.Interfaces.Any(i => i.Name == input.GraphOrInterfaceName))
+            {
+                graphOrInterfaceName = $"{input.GraphOrInterfaceName}_{entityType.Name}";
+            }
+
+            if (input.PropertyName != null)
+            {
+                // Resolve property value from map above
+                var propertyValue = propertyMap[input.PropertyName];
+                if (propertyValue.duration.HasValue)
+                {
+                    parameters.Add(propertyValue.duration.Value.ToString());
+                }
+                else if (propertyValue.boolean.HasValue)
+                {
+                    parameters.Add(propertyValue.boolean.Value ? "TRUE" : "FALSE");
+                }
+                else if (propertyValue.reference != null)
+                {
+                    parameters.Add($"{graphOrInterfaceName}_{SanitizeBIdentifier(propertyValue.reference)}.{input.VariableName}");
+                }
+                else if (propertyValue.referenceList != null)
+                {
+                    parameters.Add("{" + string.Join(", ", propertyValue.referenceList.Select(x => $"{graphOrInterfaceName}_{SanitizeBIdentifier(x)}.{input.VariableName}")) + "}");
+                }
+                else
+                {
+                    // Empty set
+                    parameters.Add("{}");
+                }
+            }
+            else if (input.IsNow)
+            {
+                parameters.Add(input.ToBString());
+            }
+            else
+            {
+                // Input refers to graph or interface belonging to the same entity instance
+                parameters.Add($"{graphOrInterfaceName}_{entity}.{input.VariableName}");
+            }
+        }
+
+        if (parameters.Count == 0)
+        {
+            return ""; // No inputs, return empty string instead of ()
+        }
+
+        return $"({string.Join(", ", parameters)})";
     }
 
     private static string GenerateSystemContent(Specification spec, JObject specificAppConfig)
@@ -162,7 +268,8 @@ static partial class BWriter
 
         return @$"MACHINE Interlocking
 INCLUDES
-  {string.Join(", ", graphs.Select(g => $"{g.Graph.Name}_{g.InstanceName}.{g.Graph.Name}").Concat(interfaces.Select(i => $"{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}.{i.Interface.Name}_{i.EntityType.Name}")))}
+  {string.Join(", ", graphs.Select(g => $"{g.Graph.Name}_{g.InstanceName}.{g.Graph.Name}")
+    .Concat(interfaces.Select(i => $"{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}.{i.Interface.Name}_{i.EntityType.Name}")))}
 DEFINITIONS
   VISB_SVG_FILE == ""trackplan.svg"";
   VISB_SVG_UPDATES1== rec(`id`:""W1R"",visibility: bool(W1.State = RIGHT));
@@ -178,7 +285,8 @@ OPERATIONS
   BigStep =
     BEGIN
       NOW := NOW + 150;
-      {schedule.Select(graph => $"{graph.graphInstanceName}.Transition({ProvideInputsToGraphInstance(spec, graph.graph, graph.instanceName, specificAppConfig)})").Aggregate((a, b) => a + ";\n      " + b)}
+      {schedule.Select(graph => $"{graph.graphInstanceName}.Transition({ProvideInputsToGraphInstance(spec, graph.graph, graph.instanceName, specificAppConfig)})").Aggregate((a, b) => a + ";\n      " + b)};
+      {interfaces.Select(i => $"{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}.ComputeOutputs{ProvideInputsToInterfaceInstance(spec, i.EntityType.Name, i.Interface.Name, i.InterfaceInstanceName, specificAppConfig)}").Aggregate((a, b) => a + " ||\n      " + b)}
     END
 END//MACHINE";
     }
