@@ -4,602 +4,608 @@ DEFINITIONS
   VISB_SVG_FILE == "trackplan.svg";
   VISB_SVG_UPDATES1== rec(`id`:"W1R",visibility: bool(W1.State = RIGHT));
   VISB_SVG_UPDATES2== rec(`id`:"W2R",visibility: bool(W2.State = RIGHT));
+VARIABLES
+  NOW
+INVARIANT
+  NOW : INT
 INITIALISATION
-  RouteFindingResponse_A.InitialTransition ||
-  RouteFindingSearch_A.InitialTransition ||
-  RouteManualReleaseDispatch_A.InitialTransition ||
-  RouteFindingResponse_W1.InitialTransition ||
-  RouteFindingSearch_W1.InitialTransition ||
-  RouteManualReleaseDispatch_W1.InitialTransition ||
-  RouteFindingResponse_W2.InitialTransition ||
-  RouteFindingSearch_W2.InitialTransition ||
-  RouteManualReleaseDispatch_W2.InitialTransition ||
-  RouteFindingResponse_N1.InitialTransition ||
-  RouteFindingSearch_N1.InitialTransition ||
-  RouteManualReleaseDispatch_N1.InitialTransition ||
-  RouteFindingResponse_N2.InitialTransition ||
-  RouteFindingSearch_N2.InitialTransition ||
-  RouteManualReleaseDispatch_N2.InitialTransition ||
-  LinkLTR_link_1.InitialTransition ||
-  LinkRTL_link_1.InitialTransition ||
-  LinkLTR_link_2.InitialTransition ||
-  LinkRTL_link_2.InitialTransition ||
-  LinkLTR_link_3.InitialTransition ||
-  LinkRTL_link_3.InitialTransition ||
-  LinkLTR_link_4.InitialTransition ||
-  LinkRTL_link_4.InitialTransition ||
-  PointControl_W1.InitialTransition ||
-  PointLockLeft_W1.InitialTransition ||
-  PointLockRight_W1.InitialTransition ||
-  PointOperation_W1.InitialTransition ||
-  Point_W1.InitialTransition ||
-  PointControl_W2.InitialTransition ||
-  PointLockLeft_W2.InitialTransition ||
-  PointLockRight_W2.InitialTransition ||
-  PointOperation_W2.InitialTransition ||
-  Point_W2.InitialTransition ||
-  RouteCheck_A_DOT_N1.InitialTransition ||
-  RouteCheck_A_DOT_N2.InitialTransition ||
-  SignalControl_A.InitialTransition ||
-  Signal_A.InitialTransition ||
-  SignalControl_N1.InitialTransition ||
-  Signal_N1.InitialTransition ||
-  SignalControl_N2.InitialTransition ||
-  Signal_N2.InitialTransition ||
-  RouteAutomaticRelease_G11_PLUS_.InitialTransition ||
-  RouteControl_G11_PLUS_.InitialTransition ||
-  RouteManualRelease_G11_PLUS_.InitialTransition ||
-  RouteMonitoring_G11_PLUS_.InitialTransition ||
-  Route_G11_PLUS_.InitialTransition ||
-  Transit_G11_PLUS_.InitialTransition ||
-  RouteAutomaticRelease_G11_MINUS_.InitialTransition ||
-  RouteControl_G11_MINUS_.InitialTransition ||
-  RouteManualRelease_G11_MINUS_.InitialTransition ||
-  RouteMonitoring_G11_MINUS_.InitialTransition ||
-  Route_G11_MINUS_.InitialTransition ||
-  Transit_G11_MINUS_.InitialTransition ||
-  RouteAutomaticRelease_W1_R_PLUS_.InitialTransition ||
-  RouteControl_W1_R_PLUS_.InitialTransition ||
-  RouteManualRelease_W1_R_PLUS_.InitialTransition ||
-  RouteMonitoring_W1_R_PLUS_.InitialTransition ||
-  Route_W1_R_PLUS_.InitialTransition ||
-  Transit_W1_R_PLUS_.InitialTransition ||
-  RouteAutomaticRelease_W1_R_MINUS_.InitialTransition ||
-  RouteControl_W1_R_MINUS_.InitialTransition ||
-  RouteManualRelease_W1_R_MINUS_.InitialTransition ||
-  RouteMonitoring_W1_R_MINUS_.InitialTransition ||
-  Route_W1_R_MINUS_.InitialTransition ||
-  Transit_W1_R_MINUS_.InitialTransition ||
-  RouteAutomaticRelease_W1_L_PLUS_.InitialTransition ||
-  RouteControl_W1_L_PLUS_.InitialTransition ||
-  RouteManualRelease_W1_L_PLUS_.InitialTransition ||
-  RouteMonitoring_W1_L_PLUS_.InitialTransition ||
-  Route_W1_L_PLUS_.InitialTransition ||
-  Transit_W1_L_PLUS_.InitialTransition ||
-  RouteAutomaticRelease_W1_L_MINUS_.InitialTransition ||
-  RouteControl_W1_L_MINUS_.InitialTransition ||
-  RouteManualRelease_W1_L_MINUS_.InitialTransition ||
-  RouteMonitoring_W1_L_MINUS_.InitialTransition ||
-  Route_W1_L_MINUS_.InitialTransition ||
-  Transit_W1_L_MINUS_.InitialTransition ||
-  RouteAutomaticRelease_W2_R_PLUS_.InitialTransition ||
-  RouteControl_W2_R_PLUS_.InitialTransition ||
-  RouteManualRelease_W2_R_PLUS_.InitialTransition ||
-  RouteMonitoring_W2_R_PLUS_.InitialTransition ||
-  Route_W2_R_PLUS_.InitialTransition ||
-  Transit_W2_R_PLUS_.InitialTransition ||
-  RouteAutomaticRelease_W2_R_MINUS_.InitialTransition ||
-  RouteControl_W2_R_MINUS_.InitialTransition ||
-  RouteManualRelease_W2_R_MINUS_.InitialTransition ||
-  RouteMonitoring_W2_R_MINUS_.InitialTransition ||
-  Route_W2_R_MINUS_.InitialTransition ||
-  Transit_W2_R_MINUS_.InitialTransition ||
-  RouteAutomaticRelease_W2_L_PLUS_.InitialTransition ||
-  RouteControl_W2_L_PLUS_.InitialTransition ||
-  RouteManualRelease_W2_L_PLUS_.InitialTransition ||
-  RouteMonitoring_W2_L_PLUS_.InitialTransition ||
-  Route_W2_L_PLUS_.InitialTransition ||
-  Transit_W2_L_PLUS_.InitialTransition ||
-  RouteAutomaticRelease_W2_L_MINUS_.InitialTransition ||
-  RouteControl_W2_L_MINUS_.InitialTransition ||
-  RouteManualRelease_W2_L_MINUS_.InitialTransition ||
-  RouteMonitoring_W2_L_MINUS_.InitialTransition ||
-  Route_W2_L_MINUS_.InitialTransition ||
-  Transit_W2_L_MINUS_.InitialTransition ||
-  RouteAutomaticRelease_G12_PLUS_.InitialTransition ||
-  RouteControl_G12_PLUS_.InitialTransition ||
-  RouteManualRelease_G12_PLUS_.InitialTransition ||
-  RouteMonitoring_G12_PLUS_.InitialTransition ||
-  Route_G12_PLUS_.InitialTransition ||
-  Transit_G12_PLUS_.InitialTransition ||
-  RouteAutomaticRelease_G12_MINUS_.InitialTransition ||
-  RouteControl_G12_MINUS_.InitialTransition ||
-  RouteManualRelease_G12_MINUS_.InitialTransition ||
-  RouteMonitoring_G12_MINUS_.InitialTransition ||
-  Route_G12_MINUS_.InitialTransition ||
-  Transit_G12_MINUS_.InitialTransition ||
-  RouteAutomaticRelease_G21_PLUS_.InitialTransition ||
-  RouteControl_G21_PLUS_.InitialTransition ||
-  RouteManualRelease_G21_PLUS_.InitialTransition ||
-  RouteMonitoring_G21_PLUS_.InitialTransition ||
-  Route_G21_PLUS_.InitialTransition ||
-  Transit_G21_PLUS_.InitialTransition ||
-  RouteAutomaticRelease_G21_MINUS_.InitialTransition ||
-  RouteControl_G21_MINUS_.InitialTransition ||
-  RouteManualRelease_G21_MINUS_.InitialTransition ||
-  RouteMonitoring_G21_MINUS_.InitialTransition ||
-  Route_G21_MINUS_.InitialTransition ||
-  Transit_G21_MINUS_.InitialTransition ||
-  Zone_G11.InitialTransition ||
-  Zone_W1.InitialTransition ||
-  Zone_W2.InitialTransition ||
-  Zone_G12.InitialTransition ||
-  Zone_G21.InitialTransition
+  NOW := 0;
+  RouteFindingResponse_A.InitialTransition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State}) ||
+  RouteFindingSearch_A.InitialTransition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State}) ||
+  RouteManualReleaseDispatch_A.InitialTransition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute}) ||
+  RouteFindingResponse_W1.InitialTransition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State}) ||
+  RouteFindingSearch_W1.InitialTransition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State}) ||
+  RouteManualReleaseDispatch_W1.InitialTransition({}) ||
+  RouteFindingResponse_W2.InitialTransition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State}) ||
+  RouteFindingSearch_W2.InitialTransition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State}) ||
+  RouteManualReleaseDispatch_W2.InitialTransition({}) ||
+  RouteFindingResponse_N1.InitialTransition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State}) ||
+  RouteFindingSearch_N1.InitialTransition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State}) ||
+  RouteManualReleaseDispatch_N1.InitialTransition({}) ||
+  RouteFindingResponse_N2.InitialTransition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State}) ||
+  RouteFindingSearch_N2.InitialTransition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State}) ||
+  RouteManualReleaseDispatch_N2.InitialTransition({}) ||
+  LinkLTR_link_1.InitialTransition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {}) ||
+  LinkRTL_link_1.InitialTransition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}) ||
+  LinkLTR_link_2.InitialTransition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {}) ||
+  LinkRTL_link_2.InitialTransition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}) ||
+  LinkLTR_link_3.InitialTransition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}) ||
+  LinkRTL_link_3.InitialTransition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit}) ||
+  LinkLTR_link_4.InitialTransition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}) ||
+  LinkRTL_link_4.InitialTransition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}) ||
+  PointControl_W1.InitialTransition(SCIP_W1.DetectedEndPosition, Point_W1.State) ||
+  PointLockLeft_W1.InitialTransition(SCIP_W1.DetectedEndPosition, {}, {Transit_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State}) ||
+  PointLockRight_W1.InitialTransition(SCIP_W1.DetectedEndPosition, {}, {Transit_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State}) ||
+  PointOperation_W1.InitialTransition(Point_W1.State, SCIP_W1.DetectedEndPosition, {PointOperation_W1.Top, PointOperation_W2.Top}, NOW) ||
+  Point_W1.InitialTransition(SCIP_W1.DetectedEndPosition, {Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State}, PointLockLeft_W1.State, PointLockRight_W1.State) ||
+  PointControl_W2.InitialTransition(SCIP_W2.DetectedEndPosition, Point_W2.State) ||
+  PointLockLeft_W2.InitialTransition(SCIP_W2.DetectedEndPosition, {}, {Transit_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State}) ||
+  PointLockRight_W2.InitialTransition(SCIP_W2.DetectedEndPosition, {}, {Transit_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State}) ||
+  PointOperation_W2.InitialTransition(Point_W2.State, SCIP_W2.DetectedEndPosition, {PointOperation_W1.Top, PointOperation_W2.Top}, NOW) ||
+  Point_W2.InitialTransition(SCIP_W2.DetectedEndPosition, {Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State}, PointLockLeft_W2.State, PointLockRight_W2.State) ||
+  RouteCheck_A_DOT_N1.InitialTransition(SCICC_A_DOT_N1.MsgRequestRoute, {RouteCheck_A_DOT_N1.Top}) ||
+  RouteCheck_A_DOT_N2.InitialTransition(SCICC_A_DOT_N2.MsgRequestRoute, {RouteCheck_A_DOT_N2.Top}) ||
+  SignalControl_A.InitialTransition({RouteControl_G11_PLUS_.State}) ||
+  Signal_A.InitialTransition({Route_G11_PLUS_.State}) ||
+  SignalControl_N1.InitialTransition({}) ||
+  Signal_N1.InitialTransition({}) ||
+  SignalControl_N2.InitialTransition({}) ||
+  Signal_N2.InitialTransition({}) ||
+  RouteAutomaticRelease_G11_PLUS_.InitialTransition(Route_G11_PLUS_.State, {Transit_W1_R_MINUS_.State, Transit_W1_L_MINUS_.State}, Zone_W1.State) ||
+  RouteControl_G11_PLUS_.InitialTransition(RouteMonitoring_G11_PLUS_.State) ||
+  RouteManualRelease_G11_PLUS_.InitialTransition(RouteManualReleaseDispatch_A.State, SCIRBC_A.ApproachLockingActive, Route_G11_PLUS_.State, RouteMonitoring_G11_PLUS_.State, Zone_G11.State, NOW) ||
+  RouteMonitoring_G11_PLUS_.InitialTransition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit) ||
+  Route_G11_PLUS_.InitialTransition(RouteFindingSearch_A.Check, RouteFindingResponse_A.Admit, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, RouteAutomaticRelease_G11_PLUS_.State, RouteManualRelease_G11_PLUS_.ManualReleaseRequested) ||
+  Transit_G11_PLUS_.InitialTransition(Zone_G11.State, {}, Route_G11_PLUS_.State, NOW) ||
+  RouteAutomaticRelease_G11_MINUS_.InitialTransition(Route_G11_MINUS_.State, {}, {}) ||
+  RouteControl_G11_MINUS_.InitialTransition(RouteMonitoring_G11_MINUS_.State) ||
+  RouteManualRelease_G11_MINUS_.InitialTransition(RouteManualReleaseDispatch_A.State, {}, Route_G11_MINUS_.State, RouteMonitoring_G11_MINUS_.State, {}, NOW) ||
+  RouteMonitoring_G11_MINUS_.InitialTransition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit) ||
+  Route_G11_MINUS_.InitialTransition(RouteFindingSearch_A.Check, RouteFindingResponse_A.Admit, {}, {LinkRTL_link_1.State}, {}, {}, {}, {}, RouteAutomaticRelease_G11_MINUS_.State, RouteManualRelease_G11_MINUS_.ManualReleaseRequested) ||
+  Transit_G11_MINUS_.InitialTransition(Zone_G11.State, {Transit_W1_R_MINUS_.State, Transit_W1_L_MINUS_.State}, Route_G11_MINUS_.State, NOW) ||
+  RouteAutomaticRelease_W1_R_PLUS_.InitialTransition(Route_W1_R_PLUS_.State, {}, {}) ||
+  RouteControl_W1_R_PLUS_.InitialTransition(RouteMonitoring_W1_R_PLUS_.State) ||
+  RouteManualRelease_W1_R_PLUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, Route_W1_R_PLUS_.State, RouteMonitoring_W1_R_PLUS_.State, {}, NOW) ||
+  RouteMonitoring_W1_R_PLUS_.InitialTransition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit) ||
+  Route_W1_R_PLUS_.InitialTransition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {LinkLTR_link_1.State}, {}, {}, {LinkRTL_link_2.State}, {}, {Point_W1.State}, RouteAutomaticRelease_W1_R_PLUS_.State, RouteManualRelease_W1_R_PLUS_.ManualReleaseRequested) ||
+  Transit_W1_R_PLUS_.InitialTransition(Zone_W1.State, {}, Route_W1_R_PLUS_.State, NOW) ||
+  RouteAutomaticRelease_W1_R_MINUS_.InitialTransition(Route_W1_R_MINUS_.State, {}, {}) ||
+  RouteControl_W1_R_MINUS_.InitialTransition(RouteMonitoring_W1_R_MINUS_.State) ||
+  RouteManualRelease_W1_R_MINUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, Route_W1_R_MINUS_.State, RouteMonitoring_W1_R_MINUS_.State, {}, NOW) ||
+  RouteMonitoring_W1_R_MINUS_.InitialTransition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit) ||
+  Route_W1_R_MINUS_.InitialTransition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {}, {LinkRTL_link_2.State}, {}, {}, {LinkLTR_link_1.State}, {Point_W1.State}, RouteAutomaticRelease_W1_R_MINUS_.State, RouteManualRelease_W1_R_MINUS_.ManualReleaseRequested) ||
+  Transit_W1_R_MINUS_.InitialTransition(Zone_W1.State, {Transit_G12_MINUS_.State}, Route_W1_R_MINUS_.State, NOW) ||
+  RouteAutomaticRelease_W1_L_PLUS_.InitialTransition(Route_W1_L_PLUS_.State, {}, {}) ||
+  RouteControl_W1_L_PLUS_.InitialTransition(RouteMonitoring_W1_L_PLUS_.State) ||
+  RouteManualRelease_W1_L_PLUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, Route_W1_L_PLUS_.State, RouteMonitoring_W1_L_PLUS_.State, {}, NOW) ||
+  RouteMonitoring_W1_L_PLUS_.InitialTransition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit) ||
+  Route_W1_L_PLUS_.InitialTransition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {LinkLTR_link_1.State}, {}, {Point_W1.State}, {LinkRTL_link_3.State}, {}, {}, RouteAutomaticRelease_W1_L_PLUS_.State, RouteManualRelease_W1_L_PLUS_.ManualReleaseRequested) ||
+  Transit_W1_L_PLUS_.InitialTransition(Zone_W1.State, {}, Route_W1_L_PLUS_.State, NOW) ||
+  RouteAutomaticRelease_W1_L_MINUS_.InitialTransition(Route_W1_L_MINUS_.State, {}, {}) ||
+  RouteControl_W1_L_MINUS_.InitialTransition(RouteMonitoring_W1_L_MINUS_.State) ||
+  RouteManualRelease_W1_L_MINUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, Route_W1_L_MINUS_.State, RouteMonitoring_W1_L_MINUS_.State, {}, NOW) ||
+  RouteMonitoring_W1_L_MINUS_.InitialTransition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit) ||
+  Route_W1_L_MINUS_.InitialTransition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {}, {LinkRTL_link_3.State}, {Point_W1.State}, {}, {LinkLTR_link_1.State}, {}, RouteAutomaticRelease_W1_L_MINUS_.State, RouteManualRelease_W1_L_MINUS_.ManualReleaseRequested) ||
+  Transit_W1_L_MINUS_.InitialTransition(Zone_W1.State, {Transit_W2_L_PLUS_.State}, Route_W1_L_MINUS_.State, NOW) ||
+  RouteAutomaticRelease_W2_R_PLUS_.InitialTransition(Route_W2_R_PLUS_.State, {}, {}) ||
+  RouteControl_W2_R_PLUS_.InitialTransition(RouteMonitoring_W2_R_PLUS_.State) ||
+  RouteManualRelease_W2_R_PLUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, Route_W2_R_PLUS_.State, RouteMonitoring_W2_R_PLUS_.State, {}, NOW) ||
+  RouteMonitoring_W2_R_PLUS_.InitialTransition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit) ||
+  Route_W2_R_PLUS_.InitialTransition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {}, {LinkRTL_link_4.State}, {}, {}, {}, {Point_W2.State}, RouteAutomaticRelease_W2_R_PLUS_.State, RouteManualRelease_W2_R_PLUS_.ManualReleaseRequested) ||
+  Transit_W2_R_PLUS_.InitialTransition(Zone_W2.State, {Transit_G21_MINUS_.State}, Route_W2_R_PLUS_.State, NOW) ||
+  RouteAutomaticRelease_W2_R_MINUS_.InitialTransition(Route_W2_R_MINUS_.State, {}, {}) ||
+  RouteControl_W2_R_MINUS_.InitialTransition(RouteMonitoring_W2_R_MINUS_.State) ||
+  RouteManualRelease_W2_R_MINUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, Route_W2_R_MINUS_.State, RouteMonitoring_W2_R_MINUS_.State, {}, NOW) ||
+  RouteMonitoring_W2_R_MINUS_.InitialTransition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit) ||
+  Route_W2_R_MINUS_.InitialTransition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {}, {}, {}, {LinkRTL_link_4.State}, {}, {Point_W2.State}, RouteAutomaticRelease_W2_R_MINUS_.State, RouteManualRelease_W2_R_MINUS_.ManualReleaseRequested) ||
+  Transit_W2_R_MINUS_.InitialTransition(Zone_W2.State, {}, Route_W2_R_MINUS_.State, NOW) ||
+  RouteAutomaticRelease_W2_L_PLUS_.InitialTransition(Route_W2_L_PLUS_.State, {}, {}) ||
+  RouteControl_W2_L_PLUS_.InitialTransition(RouteMonitoring_W2_L_PLUS_.State) ||
+  RouteManualRelease_W2_L_PLUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, Route_W2_L_PLUS_.State, RouteMonitoring_W2_L_PLUS_.State, {}, NOW) ||
+  RouteMonitoring_W2_L_PLUS_.InitialTransition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit) ||
+  Route_W2_L_PLUS_.InitialTransition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {}, {LinkRTL_link_4.State}, {Point_W2.State}, {}, {LinkLTR_link_3.State}, {}, RouteAutomaticRelease_W2_L_PLUS_.State, RouteManualRelease_W2_L_PLUS_.ManualReleaseRequested) ||
+  Transit_W2_L_PLUS_.InitialTransition(Zone_W2.State, {Transit_G21_MINUS_.State}, Route_W2_L_PLUS_.State, NOW) ||
+  RouteAutomaticRelease_W2_L_MINUS_.InitialTransition(Route_W2_L_MINUS_.State, {}, {}) ||
+  RouteControl_W2_L_MINUS_.InitialTransition(RouteMonitoring_W2_L_MINUS_.State) ||
+  RouteManualRelease_W2_L_MINUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, Route_W2_L_MINUS_.State, RouteMonitoring_W2_L_MINUS_.State, {}, NOW) ||
+  RouteMonitoring_W2_L_MINUS_.InitialTransition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit) ||
+  Route_W2_L_MINUS_.InitialTransition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {LinkLTR_link_3.State}, {}, {Point_W2.State}, {LinkRTL_link_4.State}, {}, {}, RouteAutomaticRelease_W2_L_MINUS_.State, RouteManualRelease_W2_L_MINUS_.ManualReleaseRequested) ||
+  Transit_W2_L_MINUS_.InitialTransition(Zone_W2.State, {Transit_W1_L_PLUS_.State}, Route_W2_L_MINUS_.State, NOW) ||
+  RouteAutomaticRelease_G12_PLUS_.InitialTransition(Route_G12_PLUS_.State, {}, {}) ||
+  RouteControl_G12_PLUS_.InitialTransition(RouteMonitoring_G12_PLUS_.State) ||
+  RouteManualRelease_G12_PLUS_.InitialTransition(RouteManualReleaseDispatch_N1.State, {}, Route_G12_PLUS_.State, RouteMonitoring_G12_PLUS_.State, {}, NOW) ||
+  RouteMonitoring_G12_PLUS_.InitialTransition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit) ||
+  Route_G12_PLUS_.InitialTransition(RouteFindingSearch_N1.Check, RouteFindingResponse_N1.Admit, {LinkLTR_link_2.State}, {}, {}, {}, {}, {}, RouteAutomaticRelease_G12_PLUS_.State, RouteManualRelease_G12_PLUS_.ManualReleaseRequested) ||
+  Transit_G12_PLUS_.InitialTransition(Zone_G12.State, {Transit_W1_R_PLUS_.State}, Route_G12_PLUS_.State, NOW) ||
+  RouteAutomaticRelease_G12_MINUS_.InitialTransition(Route_G12_MINUS_.State, {}, {}) ||
+  RouteControl_G12_MINUS_.InitialTransition(RouteMonitoring_G12_MINUS_.State) ||
+  RouteManualRelease_G12_MINUS_.InitialTransition(RouteManualReleaseDispatch_N1.State, {}, Route_G12_MINUS_.State, RouteMonitoring_G12_MINUS_.State, {}, NOW) ||
+  RouteMonitoring_G12_MINUS_.InitialTransition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit) ||
+  Route_G12_MINUS_.InitialTransition(RouteFindingSearch_N1.Check, RouteFindingResponse_N1.Admit, {}, {}, {}, {}, {LinkLTR_link_2.State}, {}, RouteAutomaticRelease_G12_MINUS_.State, RouteManualRelease_G12_MINUS_.ManualReleaseRequested) ||
+  Transit_G12_MINUS_.InitialTransition(Zone_G12.State, {}, Route_G12_MINUS_.State, NOW) ||
+  RouteAutomaticRelease_G21_PLUS_.InitialTransition(Route_G21_PLUS_.State, {}, {}) ||
+  RouteControl_G21_PLUS_.InitialTransition(RouteMonitoring_G21_PLUS_.State) ||
+  RouteManualRelease_G21_PLUS_.InitialTransition(RouteManualReleaseDispatch_N2.State, {}, Route_G21_PLUS_.State, RouteMonitoring_G21_PLUS_.State, {}, NOW) ||
+  RouteMonitoring_G21_PLUS_.InitialTransition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit) ||
+  Route_G21_PLUS_.InitialTransition(RouteFindingSearch_N2.Check, RouteFindingResponse_N2.Admit, {LinkLTR_link_3.State}, {}, {}, {}, {}, {}, RouteAutomaticRelease_G21_PLUS_.State, RouteManualRelease_G21_PLUS_.ManualReleaseRequested) ||
+  Transit_G21_PLUS_.InitialTransition(Zone_G21.State, {Transit_W2_R_MINUS_.State, Transit_W2_L_MINUS_.State}, Route_G21_PLUS_.State, NOW) ||
+  RouteAutomaticRelease_G21_MINUS_.InitialTransition(Route_G21_MINUS_.State, {}, {}) ||
+  RouteControl_G21_MINUS_.InitialTransition(RouteMonitoring_G21_MINUS_.State) ||
+  RouteManualRelease_G21_MINUS_.InitialTransition(RouteManualReleaseDispatch_N2.State, {}, Route_G21_MINUS_.State, RouteMonitoring_G21_MINUS_.State, {}, NOW) ||
+  RouteMonitoring_G21_MINUS_.InitialTransition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit) ||
+  Route_G21_MINUS_.InitialTransition(RouteFindingSearch_N2.Check, RouteFindingResponse_N2.Admit, {}, {}, {}, {}, {LinkLTR_link_3.State}, {}, RouteAutomaticRelease_G21_MINUS_.State, RouteManualRelease_G21_MINUS_.ManualReleaseRequested) ||
+  Transit_G21_MINUS_.InitialTransition(Zone_G21.State, {}, Route_G21_MINUS_.State, NOW) ||
+  Zone_G11.InitialTransition(SCITDS_G11.OccupancyStatus) ||
+  Zone_W1.InitialTransition(SCITDS_W1.OccupancyStatus) ||
+  Zone_W2.InitialTransition(SCITDS_W2.OccupancyStatus) ||
+  Zone_G12.InitialTransition(SCITDS_G12.OccupancyStatus) ||
+  Zone_G21.InitialTransition(SCITDS_G21.OccupancyStatus)
 OPERATIONS
   BigStep =
     BEGIN
-      Zone_G11.Transition;
-      Zone_W1.Transition;
-      Zone_W2.Transition;
-      Zone_G12.Transition;
-      Zone_G21.Transition;
-      Transit_G11_PLUS_.Transition;
-      Transit_G11_MINUS_.Transition;
-      Transit_W1_R_PLUS_.Transition;
-      Transit_W1_R_MINUS_.Transition;
-      Transit_W1_L_PLUS_.Transition;
-      Transit_W1_L_MINUS_.Transition;
-      Transit_W2_R_PLUS_.Transition;
-      Transit_W2_R_MINUS_.Transition;
-      Transit_W2_L_PLUS_.Transition;
-      Transit_W2_L_MINUS_.Transition;
-      Transit_G12_PLUS_.Transition;
-      Transit_G12_MINUS_.Transition;
-      Transit_G21_PLUS_.Transition;
-      Transit_G21_MINUS_.Transition;
-      Point_W1.Transition;
-      PointLockLeft_W1.Transition;
-      PointLockRight_W1.Transition;
-      PointControl_W1.Transition;
-      PointOperation_W1.Transition;
-      Point_W2.Transition;
-      PointLockLeft_W2.Transition;
-      PointLockRight_W2.Transition;
-      PointControl_W2.Transition;
-      PointOperation_W2.Transition;
-      RouteCheck_A_DOT_N1.Transition;
-      RouteCheck_A_DOT_N2.Transition;
-      RouteFindingSearch_A.Transition;
-      RouteFindingSearch_W1.Transition;
-      RouteFindingSearch_W2.Transition;
-      RouteFindingSearch_N1.Transition;
-      RouteFindingSearch_N2.Transition;
-      RouteFindingResponse_A.Transition;
-      RouteFindingResponse_W1.Transition;
-      RouteFindingResponse_W2.Transition;
-      RouteFindingResponse_N1.Transition;
-      RouteFindingResponse_N2.Transition;
-      RouteManualReleaseDispatch_A.Transition;
-      RouteManualReleaseDispatch_W1.Transition;
-      RouteManualReleaseDispatch_W2.Transition;
-      RouteManualReleaseDispatch_N1.Transition;
-      RouteManualReleaseDispatch_N2.Transition;
-      LinkLTR_link_1.Transition;
-      LinkLTR_link_2.Transition;
-      LinkLTR_link_3.Transition;
-      LinkLTR_link_4.Transition;
-      LinkRTL_link_1.Transition;
-      LinkRTL_link_2.Transition;
-      LinkRTL_link_3.Transition;
-      LinkRTL_link_4.Transition;
-      RouteMonitoring_G11_PLUS_.Transition;
-      RouteMonitoring_G11_MINUS_.Transition;
-      RouteMonitoring_W1_R_PLUS_.Transition;
-      RouteMonitoring_W1_R_MINUS_.Transition;
-      RouteMonitoring_W1_L_PLUS_.Transition;
-      RouteMonitoring_W1_L_MINUS_.Transition;
-      RouteMonitoring_W2_R_PLUS_.Transition;
-      RouteMonitoring_W2_R_MINUS_.Transition;
-      RouteMonitoring_W2_L_PLUS_.Transition;
-      RouteMonitoring_W2_L_MINUS_.Transition;
-      RouteMonitoring_G12_PLUS_.Transition;
-      RouteMonitoring_G12_MINUS_.Transition;
-      RouteMonitoring_G21_PLUS_.Transition;
-      RouteMonitoring_G21_MINUS_.Transition;
-      RouteFindingSearch_A.Transition;
-      RouteFindingSearch_W1.Transition;
-      RouteFindingSearch_W2.Transition;
-      RouteFindingSearch_N1.Transition;
-      RouteFindingSearch_N2.Transition;
-      RouteFindingResponse_A.Transition;
-      RouteFindingResponse_W1.Transition;
-      RouteFindingResponse_W2.Transition;
-      RouteFindingResponse_N1.Transition;
-      RouteFindingResponse_N2.Transition;
-      RouteManualReleaseDispatch_A.Transition;
-      RouteManualReleaseDispatch_W1.Transition;
-      RouteManualReleaseDispatch_W2.Transition;
-      RouteManualReleaseDispatch_N1.Transition;
-      RouteManualReleaseDispatch_N2.Transition;
-      LinkLTR_link_1.Transition;
-      LinkLTR_link_2.Transition;
-      LinkLTR_link_3.Transition;
-      LinkLTR_link_4.Transition;
-      LinkRTL_link_1.Transition;
-      LinkRTL_link_2.Transition;
-      LinkRTL_link_3.Transition;
-      LinkRTL_link_4.Transition;
-      RouteMonitoring_G11_PLUS_.Transition;
-      RouteMonitoring_G11_MINUS_.Transition;
-      RouteMonitoring_W1_R_PLUS_.Transition;
-      RouteMonitoring_W1_R_MINUS_.Transition;
-      RouteMonitoring_W1_L_PLUS_.Transition;
-      RouteMonitoring_W1_L_MINUS_.Transition;
-      RouteMonitoring_W2_R_PLUS_.Transition;
-      RouteMonitoring_W2_R_MINUS_.Transition;
-      RouteMonitoring_W2_L_PLUS_.Transition;
-      RouteMonitoring_W2_L_MINUS_.Transition;
-      RouteMonitoring_G12_PLUS_.Transition;
-      RouteMonitoring_G12_MINUS_.Transition;
-      RouteMonitoring_G21_PLUS_.Transition;
-      RouteMonitoring_G21_MINUS_.Transition;
-      RouteFindingSearch_A.Transition;
-      RouteFindingSearch_W1.Transition;
-      RouteFindingSearch_W2.Transition;
-      RouteFindingSearch_N1.Transition;
-      RouteFindingSearch_N2.Transition;
-      RouteFindingResponse_A.Transition;
-      RouteFindingResponse_W1.Transition;
-      RouteFindingResponse_W2.Transition;
-      RouteFindingResponse_N1.Transition;
-      RouteFindingResponse_N2.Transition;
-      RouteManualReleaseDispatch_A.Transition;
-      RouteManualReleaseDispatch_W1.Transition;
-      RouteManualReleaseDispatch_W2.Transition;
-      RouteManualReleaseDispatch_N1.Transition;
-      RouteManualReleaseDispatch_N2.Transition;
-      LinkLTR_link_1.Transition;
-      LinkLTR_link_2.Transition;
-      LinkLTR_link_3.Transition;
-      LinkLTR_link_4.Transition;
-      LinkRTL_link_1.Transition;
-      LinkRTL_link_2.Transition;
-      LinkRTL_link_3.Transition;
-      LinkRTL_link_4.Transition;
-      RouteMonitoring_G11_PLUS_.Transition;
-      RouteMonitoring_G11_MINUS_.Transition;
-      RouteMonitoring_W1_R_PLUS_.Transition;
-      RouteMonitoring_W1_R_MINUS_.Transition;
-      RouteMonitoring_W1_L_PLUS_.Transition;
-      RouteMonitoring_W1_L_MINUS_.Transition;
-      RouteMonitoring_W2_R_PLUS_.Transition;
-      RouteMonitoring_W2_R_MINUS_.Transition;
-      RouteMonitoring_W2_L_PLUS_.Transition;
-      RouteMonitoring_W2_L_MINUS_.Transition;
-      RouteMonitoring_G12_PLUS_.Transition;
-      RouteMonitoring_G12_MINUS_.Transition;
-      RouteMonitoring_G21_PLUS_.Transition;
-      RouteMonitoring_G21_MINUS_.Transition;
-      RouteFindingSearch_A.Transition;
-      RouteFindingSearch_W1.Transition;
-      RouteFindingSearch_W2.Transition;
-      RouteFindingSearch_N1.Transition;
-      RouteFindingSearch_N2.Transition;
-      RouteFindingResponse_A.Transition;
-      RouteFindingResponse_W1.Transition;
-      RouteFindingResponse_W2.Transition;
-      RouteFindingResponse_N1.Transition;
-      RouteFindingResponse_N2.Transition;
-      RouteManualReleaseDispatch_A.Transition;
-      RouteManualReleaseDispatch_W1.Transition;
-      RouteManualReleaseDispatch_W2.Transition;
-      RouteManualReleaseDispatch_N1.Transition;
-      RouteManualReleaseDispatch_N2.Transition;
-      LinkLTR_link_1.Transition;
-      LinkLTR_link_2.Transition;
-      LinkLTR_link_3.Transition;
-      LinkLTR_link_4.Transition;
-      LinkRTL_link_1.Transition;
-      LinkRTL_link_2.Transition;
-      LinkRTL_link_3.Transition;
-      LinkRTL_link_4.Transition;
-      RouteMonitoring_G11_PLUS_.Transition;
-      RouteMonitoring_G11_MINUS_.Transition;
-      RouteMonitoring_W1_R_PLUS_.Transition;
-      RouteMonitoring_W1_R_MINUS_.Transition;
-      RouteMonitoring_W1_L_PLUS_.Transition;
-      RouteMonitoring_W1_L_MINUS_.Transition;
-      RouteMonitoring_W2_R_PLUS_.Transition;
-      RouteMonitoring_W2_R_MINUS_.Transition;
-      RouteMonitoring_W2_L_PLUS_.Transition;
-      RouteMonitoring_W2_L_MINUS_.Transition;
-      RouteMonitoring_G12_PLUS_.Transition;
-      RouteMonitoring_G12_MINUS_.Transition;
-      RouteMonitoring_G21_PLUS_.Transition;
-      RouteMonitoring_G21_MINUS_.Transition;
-      RouteFindingSearch_A.Transition;
-      RouteFindingSearch_W1.Transition;
-      RouteFindingSearch_W2.Transition;
-      RouteFindingSearch_N1.Transition;
-      RouteFindingSearch_N2.Transition;
-      RouteFindingResponse_A.Transition;
-      RouteFindingResponse_W1.Transition;
-      RouteFindingResponse_W2.Transition;
-      RouteFindingResponse_N1.Transition;
-      RouteFindingResponse_N2.Transition;
-      RouteManualReleaseDispatch_A.Transition;
-      RouteManualReleaseDispatch_W1.Transition;
-      RouteManualReleaseDispatch_W2.Transition;
-      RouteManualReleaseDispatch_N1.Transition;
-      RouteManualReleaseDispatch_N2.Transition;
-      LinkLTR_link_1.Transition;
-      LinkLTR_link_2.Transition;
-      LinkLTR_link_3.Transition;
-      LinkLTR_link_4.Transition;
-      LinkRTL_link_1.Transition;
-      LinkRTL_link_2.Transition;
-      LinkRTL_link_3.Transition;
-      LinkRTL_link_4.Transition;
-      RouteMonitoring_G11_PLUS_.Transition;
-      RouteMonitoring_G11_MINUS_.Transition;
-      RouteMonitoring_W1_R_PLUS_.Transition;
-      RouteMonitoring_W1_R_MINUS_.Transition;
-      RouteMonitoring_W1_L_PLUS_.Transition;
-      RouteMonitoring_W1_L_MINUS_.Transition;
-      RouteMonitoring_W2_R_PLUS_.Transition;
-      RouteMonitoring_W2_R_MINUS_.Transition;
-      RouteMonitoring_W2_L_PLUS_.Transition;
-      RouteMonitoring_W2_L_MINUS_.Transition;
-      RouteMonitoring_G12_PLUS_.Transition;
-      RouteMonitoring_G12_MINUS_.Transition;
-      RouteMonitoring_G21_PLUS_.Transition;
-      RouteMonitoring_G21_MINUS_.Transition;
-      RouteFindingSearch_A.Transition;
-      RouteFindingSearch_W1.Transition;
-      RouteFindingSearch_W2.Transition;
-      RouteFindingSearch_N1.Transition;
-      RouteFindingSearch_N2.Transition;
-      RouteFindingResponse_A.Transition;
-      RouteFindingResponse_W1.Transition;
-      RouteFindingResponse_W2.Transition;
-      RouteFindingResponse_N1.Transition;
-      RouteFindingResponse_N2.Transition;
-      RouteManualReleaseDispatch_A.Transition;
-      RouteManualReleaseDispatch_W1.Transition;
-      RouteManualReleaseDispatch_W2.Transition;
-      RouteManualReleaseDispatch_N1.Transition;
-      RouteManualReleaseDispatch_N2.Transition;
-      LinkLTR_link_1.Transition;
-      LinkLTR_link_2.Transition;
-      LinkLTR_link_3.Transition;
-      LinkLTR_link_4.Transition;
-      LinkRTL_link_1.Transition;
-      LinkRTL_link_2.Transition;
-      LinkRTL_link_3.Transition;
-      LinkRTL_link_4.Transition;
-      RouteMonitoring_G11_PLUS_.Transition;
-      RouteMonitoring_G11_MINUS_.Transition;
-      RouteMonitoring_W1_R_PLUS_.Transition;
-      RouteMonitoring_W1_R_MINUS_.Transition;
-      RouteMonitoring_W1_L_PLUS_.Transition;
-      RouteMonitoring_W1_L_MINUS_.Transition;
-      RouteMonitoring_W2_R_PLUS_.Transition;
-      RouteMonitoring_W2_R_MINUS_.Transition;
-      RouteMonitoring_W2_L_PLUS_.Transition;
-      RouteMonitoring_W2_L_MINUS_.Transition;
-      RouteMonitoring_G12_PLUS_.Transition;
-      RouteMonitoring_G12_MINUS_.Transition;
-      RouteMonitoring_G21_PLUS_.Transition;
-      RouteMonitoring_G21_MINUS_.Transition;
-      RouteFindingSearch_A.Transition;
-      RouteFindingSearch_W1.Transition;
-      RouteFindingSearch_W2.Transition;
-      RouteFindingSearch_N1.Transition;
-      RouteFindingSearch_N2.Transition;
-      RouteFindingResponse_A.Transition;
-      RouteFindingResponse_W1.Transition;
-      RouteFindingResponse_W2.Transition;
-      RouteFindingResponse_N1.Transition;
-      RouteFindingResponse_N2.Transition;
-      RouteManualReleaseDispatch_A.Transition;
-      RouteManualReleaseDispatch_W1.Transition;
-      RouteManualReleaseDispatch_W2.Transition;
-      RouteManualReleaseDispatch_N1.Transition;
-      RouteManualReleaseDispatch_N2.Transition;
-      LinkLTR_link_1.Transition;
-      LinkLTR_link_2.Transition;
-      LinkLTR_link_3.Transition;
-      LinkLTR_link_4.Transition;
-      LinkRTL_link_1.Transition;
-      LinkRTL_link_2.Transition;
-      LinkRTL_link_3.Transition;
-      LinkRTL_link_4.Transition;
-      RouteMonitoring_G11_PLUS_.Transition;
-      RouteMonitoring_G11_MINUS_.Transition;
-      RouteMonitoring_W1_R_PLUS_.Transition;
-      RouteMonitoring_W1_R_MINUS_.Transition;
-      RouteMonitoring_W1_L_PLUS_.Transition;
-      RouteMonitoring_W1_L_MINUS_.Transition;
-      RouteMonitoring_W2_R_PLUS_.Transition;
-      RouteMonitoring_W2_R_MINUS_.Transition;
-      RouteMonitoring_W2_L_PLUS_.Transition;
-      RouteMonitoring_W2_L_MINUS_.Transition;
-      RouteMonitoring_G12_PLUS_.Transition;
-      RouteMonitoring_G12_MINUS_.Transition;
-      RouteMonitoring_G21_PLUS_.Transition;
-      RouteMonitoring_G21_MINUS_.Transition;
-      RouteFindingSearch_A.Transition;
-      RouteFindingSearch_W1.Transition;
-      RouteFindingSearch_W2.Transition;
-      RouteFindingSearch_N1.Transition;
-      RouteFindingSearch_N2.Transition;
-      RouteFindingResponse_A.Transition;
-      RouteFindingResponse_W1.Transition;
-      RouteFindingResponse_W2.Transition;
-      RouteFindingResponse_N1.Transition;
-      RouteFindingResponse_N2.Transition;
-      RouteManualReleaseDispatch_A.Transition;
-      RouteManualReleaseDispatch_W1.Transition;
-      RouteManualReleaseDispatch_W2.Transition;
-      RouteManualReleaseDispatch_N1.Transition;
-      RouteManualReleaseDispatch_N2.Transition;
-      LinkLTR_link_1.Transition;
-      LinkLTR_link_2.Transition;
-      LinkLTR_link_3.Transition;
-      LinkLTR_link_4.Transition;
-      LinkRTL_link_1.Transition;
-      LinkRTL_link_2.Transition;
-      LinkRTL_link_3.Transition;
-      LinkRTL_link_4.Transition;
-      RouteMonitoring_G11_PLUS_.Transition;
-      RouteMonitoring_G11_MINUS_.Transition;
-      RouteMonitoring_W1_R_PLUS_.Transition;
-      RouteMonitoring_W1_R_MINUS_.Transition;
-      RouteMonitoring_W1_L_PLUS_.Transition;
-      RouteMonitoring_W1_L_MINUS_.Transition;
-      RouteMonitoring_W2_R_PLUS_.Transition;
-      RouteMonitoring_W2_R_MINUS_.Transition;
-      RouteMonitoring_W2_L_PLUS_.Transition;
-      RouteMonitoring_W2_L_MINUS_.Transition;
-      RouteMonitoring_G12_PLUS_.Transition;
-      RouteMonitoring_G12_MINUS_.Transition;
-      RouteMonitoring_G21_PLUS_.Transition;
-      RouteMonitoring_G21_MINUS_.Transition;
-      RouteFindingSearch_A.Transition;
-      RouteFindingSearch_W1.Transition;
-      RouteFindingSearch_W2.Transition;
-      RouteFindingSearch_N1.Transition;
-      RouteFindingSearch_N2.Transition;
-      RouteFindingResponse_A.Transition;
-      RouteFindingResponse_W1.Transition;
-      RouteFindingResponse_W2.Transition;
-      RouteFindingResponse_N1.Transition;
-      RouteFindingResponse_N2.Transition;
-      RouteManualReleaseDispatch_A.Transition;
-      RouteManualReleaseDispatch_W1.Transition;
-      RouteManualReleaseDispatch_W2.Transition;
-      RouteManualReleaseDispatch_N1.Transition;
-      RouteManualReleaseDispatch_N2.Transition;
-      LinkLTR_link_1.Transition;
-      LinkLTR_link_2.Transition;
-      LinkLTR_link_3.Transition;
-      LinkLTR_link_4.Transition;
-      LinkRTL_link_1.Transition;
-      LinkRTL_link_2.Transition;
-      LinkRTL_link_3.Transition;
-      LinkRTL_link_4.Transition;
-      RouteMonitoring_G11_PLUS_.Transition;
-      RouteMonitoring_G11_MINUS_.Transition;
-      RouteMonitoring_W1_R_PLUS_.Transition;
-      RouteMonitoring_W1_R_MINUS_.Transition;
-      RouteMonitoring_W1_L_PLUS_.Transition;
-      RouteMonitoring_W1_L_MINUS_.Transition;
-      RouteMonitoring_W2_R_PLUS_.Transition;
-      RouteMonitoring_W2_R_MINUS_.Transition;
-      RouteMonitoring_W2_L_PLUS_.Transition;
-      RouteMonitoring_W2_L_MINUS_.Transition;
-      RouteMonitoring_G12_PLUS_.Transition;
-      RouteMonitoring_G12_MINUS_.Transition;
-      RouteMonitoring_G21_PLUS_.Transition;
-      RouteMonitoring_G21_MINUS_.Transition;
-      RouteFindingSearch_A.Transition;
-      RouteFindingSearch_W1.Transition;
-      RouteFindingSearch_W2.Transition;
-      RouteFindingSearch_N1.Transition;
-      RouteFindingSearch_N2.Transition;
-      RouteFindingResponse_A.Transition;
-      RouteFindingResponse_W1.Transition;
-      RouteFindingResponse_W2.Transition;
-      RouteFindingResponse_N1.Transition;
-      RouteFindingResponse_N2.Transition;
-      RouteManualReleaseDispatch_A.Transition;
-      RouteManualReleaseDispatch_W1.Transition;
-      RouteManualReleaseDispatch_W2.Transition;
-      RouteManualReleaseDispatch_N1.Transition;
-      RouteManualReleaseDispatch_N2.Transition;
-      LinkLTR_link_1.Transition;
-      LinkLTR_link_2.Transition;
-      LinkLTR_link_3.Transition;
-      LinkLTR_link_4.Transition;
-      LinkRTL_link_1.Transition;
-      LinkRTL_link_2.Transition;
-      LinkRTL_link_3.Transition;
-      LinkRTL_link_4.Transition;
-      RouteMonitoring_G11_PLUS_.Transition;
-      RouteMonitoring_G11_MINUS_.Transition;
-      RouteMonitoring_W1_R_PLUS_.Transition;
-      RouteMonitoring_W1_R_MINUS_.Transition;
-      RouteMonitoring_W1_L_PLUS_.Transition;
-      RouteMonitoring_W1_L_MINUS_.Transition;
-      RouteMonitoring_W2_R_PLUS_.Transition;
-      RouteMonitoring_W2_R_MINUS_.Transition;
-      RouteMonitoring_W2_L_PLUS_.Transition;
-      RouteMonitoring_W2_L_MINUS_.Transition;
-      RouteMonitoring_G12_PLUS_.Transition;
-      RouteMonitoring_G12_MINUS_.Transition;
-      RouteMonitoring_G21_PLUS_.Transition;
-      RouteMonitoring_G21_MINUS_.Transition;
-      RouteAutomaticRelease_G11_PLUS_.Transition;
-      RouteAutomaticRelease_G11_MINUS_.Transition;
-      RouteAutomaticRelease_W1_R_PLUS_.Transition;
-      RouteAutomaticRelease_W1_R_MINUS_.Transition;
-      RouteAutomaticRelease_W1_L_PLUS_.Transition;
-      RouteAutomaticRelease_W1_L_MINUS_.Transition;
-      RouteAutomaticRelease_W2_R_PLUS_.Transition;
-      RouteAutomaticRelease_W2_R_MINUS_.Transition;
-      RouteAutomaticRelease_W2_L_PLUS_.Transition;
-      RouteAutomaticRelease_W2_L_MINUS_.Transition;
-      RouteAutomaticRelease_G12_PLUS_.Transition;
-      RouteAutomaticRelease_G12_MINUS_.Transition;
-      RouteAutomaticRelease_G21_PLUS_.Transition;
-      RouteAutomaticRelease_G21_MINUS_.Transition;
-      RouteManualRelease_G11_PLUS_.Transition;
-      RouteManualRelease_G11_MINUS_.Transition;
-      RouteManualRelease_W1_R_PLUS_.Transition;
-      RouteManualRelease_W1_R_MINUS_.Transition;
-      RouteManualRelease_W1_L_PLUS_.Transition;
-      RouteManualRelease_W1_L_MINUS_.Transition;
-      RouteManualRelease_W2_R_PLUS_.Transition;
-      RouteManualRelease_W2_R_MINUS_.Transition;
-      RouteManualRelease_W2_L_PLUS_.Transition;
-      RouteManualRelease_W2_L_MINUS_.Transition;
-      RouteManualRelease_G12_PLUS_.Transition;
-      RouteManualRelease_G12_MINUS_.Transition;
-      RouteManualRelease_G21_PLUS_.Transition;
-      RouteManualRelease_G21_MINUS_.Transition;
-      Route_G11_PLUS_.Transition;
-      Route_G11_MINUS_.Transition;
-      Route_W1_R_PLUS_.Transition;
-      Route_W1_R_MINUS_.Transition;
-      Route_W1_L_PLUS_.Transition;
-      Route_W1_L_MINUS_.Transition;
-      Route_W2_R_PLUS_.Transition;
-      Route_W2_R_MINUS_.Transition;
-      Route_W2_L_PLUS_.Transition;
-      Route_W2_L_MINUS_.Transition;
-      Route_G12_PLUS_.Transition;
-      Route_G12_MINUS_.Transition;
-      Route_G21_PLUS_.Transition;
-      Route_G21_MINUS_.Transition;
-      RouteControl_G11_PLUS_.Transition;
-      RouteControl_G11_MINUS_.Transition;
-      RouteControl_W1_R_PLUS_.Transition;
-      RouteControl_W1_R_MINUS_.Transition;
-      RouteControl_W1_L_PLUS_.Transition;
-      RouteControl_W1_L_MINUS_.Transition;
-      RouteControl_W2_R_PLUS_.Transition;
-      RouteControl_W2_R_MINUS_.Transition;
-      RouteControl_W2_L_PLUS_.Transition;
-      RouteControl_W2_L_MINUS_.Transition;
-      RouteControl_G12_PLUS_.Transition;
-      RouteControl_G12_MINUS_.Transition;
-      RouteControl_G21_PLUS_.Transition;
-      RouteControl_G21_MINUS_.Transition;
-      Signal_A.Transition;
-      Signal_N1.Transition;
-      Signal_N2.Transition;
-      SignalControl_A.Transition;
-      SignalControl_N1.Transition;
-      SignalControl_N2.Transition
+      NOW := NOW + 150;
+      Zone_G11.Transition(SCITDS_G11.OccupancyStatus);
+      Zone_W1.Transition(SCITDS_W1.OccupancyStatus);
+      Zone_W2.Transition(SCITDS_W2.OccupancyStatus);
+      Zone_G12.Transition(SCITDS_G12.OccupancyStatus);
+      Zone_G21.Transition(SCITDS_G21.OccupancyStatus);
+      Transit_G11_PLUS_.Transition(Zone_G11.State, {}, Route_G11_PLUS_.State, NOW);
+      Transit_G11_MINUS_.Transition(Zone_G11.State, {Transit_W1_R_MINUS_.State, Transit_W1_L_MINUS_.State}, Route_G11_MINUS_.State, NOW);
+      Transit_W1_R_PLUS_.Transition(Zone_W1.State, {}, Route_W1_R_PLUS_.State, NOW);
+      Transit_W1_R_MINUS_.Transition(Zone_W1.State, {Transit_G12_MINUS_.State}, Route_W1_R_MINUS_.State, NOW);
+      Transit_W1_L_PLUS_.Transition(Zone_W1.State, {}, Route_W1_L_PLUS_.State, NOW);
+      Transit_W1_L_MINUS_.Transition(Zone_W1.State, {Transit_W2_L_PLUS_.State}, Route_W1_L_MINUS_.State, NOW);
+      Transit_W2_R_PLUS_.Transition(Zone_W2.State, {Transit_G21_MINUS_.State}, Route_W2_R_PLUS_.State, NOW);
+      Transit_W2_R_MINUS_.Transition(Zone_W2.State, {}, Route_W2_R_MINUS_.State, NOW);
+      Transit_W2_L_PLUS_.Transition(Zone_W2.State, {Transit_G21_MINUS_.State}, Route_W2_L_PLUS_.State, NOW);
+      Transit_W2_L_MINUS_.Transition(Zone_W2.State, {Transit_W1_L_PLUS_.State}, Route_W2_L_MINUS_.State, NOW);
+      Transit_G12_PLUS_.Transition(Zone_G12.State, {Transit_W1_R_PLUS_.State}, Route_G12_PLUS_.State, NOW);
+      Transit_G12_MINUS_.Transition(Zone_G12.State, {}, Route_G12_MINUS_.State, NOW);
+      Transit_G21_PLUS_.Transition(Zone_G21.State, {Transit_W2_R_MINUS_.State, Transit_W2_L_MINUS_.State}, Route_G21_PLUS_.State, NOW);
+      Transit_G21_MINUS_.Transition(Zone_G21.State, {}, Route_G21_MINUS_.State, NOW);
+      Point_W1.Transition(SCIP_W1.DetectedEndPosition, {Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State}, PointLockLeft_W1.State, PointLockRight_W1.State);
+      PointLockLeft_W1.Transition(SCIP_W1.DetectedEndPosition, {}, {Transit_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State});
+      PointLockRight_W1.Transition(SCIP_W1.DetectedEndPosition, {}, {Transit_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State});
+      PointControl_W1.Transition(SCIP_W1.DetectedEndPosition, Point_W1.State);
+      PointOperation_W1.Transition(Point_W1.State, SCIP_W1.DetectedEndPosition, {PointOperation_W1.Top, PointOperation_W2.Top}, NOW);
+      Point_W2.Transition(SCIP_W2.DetectedEndPosition, {Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State}, PointLockLeft_W2.State, PointLockRight_W2.State);
+      PointLockLeft_W2.Transition(SCIP_W2.DetectedEndPosition, {}, {Transit_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State});
+      PointLockRight_W2.Transition(SCIP_W2.DetectedEndPosition, {}, {Transit_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State});
+      PointControl_W2.Transition(SCIP_W2.DetectedEndPosition, Point_W2.State);
+      PointOperation_W2.Transition(Point_W2.State, SCIP_W2.DetectedEndPosition, {PointOperation_W1.Top, PointOperation_W2.Top}, NOW);
+      RouteCheck_A_DOT_N1.Transition(SCICC_A_DOT_N1.MsgRequestRoute, {RouteCheck_A_DOT_N1.Top});
+      RouteCheck_A_DOT_N2.Transition(SCICC_A_DOT_N2.MsgRequestRoute, {RouteCheck_A_DOT_N2.Top});
+      RouteFindingSearch_A.Transition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
+      RouteFindingSearch_W1.Transition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State});
+      RouteFindingSearch_W2.Transition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State});
+      RouteFindingSearch_N1.Transition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State});
+      RouteFindingSearch_N2.Transition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State});
+      RouteFindingResponse_A.Transition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
+      RouteFindingResponse_W1.Transition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State});
+      RouteFindingResponse_W2.Transition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State});
+      RouteFindingResponse_N1.Transition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State});
+      RouteFindingResponse_N2.Transition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State});
+      RouteManualReleaseDispatch_A.Transition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute});
+      RouteManualReleaseDispatch_W1.Transition({});
+      RouteManualReleaseDispatch_W2.Transition({});
+      RouteManualReleaseDispatch_N1.Transition({});
+      RouteManualReleaseDispatch_N2.Transition({});
+      LinkLTR_link_1.Transition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {});
+      LinkLTR_link_2.Transition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {});
+      LinkLTR_link_3.Transition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit});
+      LinkLTR_link_4.Transition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {});
+      LinkRTL_link_1.Transition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {});
+      LinkRTL_link_2.Transition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {});
+      LinkRTL_link_3.Transition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit});
+      LinkRTL_link_4.Transition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {});
+      RouteMonitoring_G11_PLUS_.Transition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_G11_MINUS_.Transition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_W1_R_PLUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_R_MINUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_PLUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_MINUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W2_R_PLUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_R_MINUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_PLUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_MINUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_G12_PLUS_.Transition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G12_MINUS_.Transition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G21_PLUS_.Transition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
+      RouteMonitoring_G21_MINUS_.Transition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
+      RouteFindingSearch_A.Transition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
+      RouteFindingSearch_W1.Transition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State});
+      RouteFindingSearch_W2.Transition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State});
+      RouteFindingSearch_N1.Transition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State});
+      RouteFindingSearch_N2.Transition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State});
+      RouteFindingResponse_A.Transition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
+      RouteFindingResponse_W1.Transition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State});
+      RouteFindingResponse_W2.Transition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State});
+      RouteFindingResponse_N1.Transition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State});
+      RouteFindingResponse_N2.Transition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State});
+      RouteManualReleaseDispatch_A.Transition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute});
+      RouteManualReleaseDispatch_W1.Transition({});
+      RouteManualReleaseDispatch_W2.Transition({});
+      RouteManualReleaseDispatch_N1.Transition({});
+      RouteManualReleaseDispatch_N2.Transition({});
+      LinkLTR_link_1.Transition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {});
+      LinkLTR_link_2.Transition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {});
+      LinkLTR_link_3.Transition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit});
+      LinkLTR_link_4.Transition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {});
+      LinkRTL_link_1.Transition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {});
+      LinkRTL_link_2.Transition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {});
+      LinkRTL_link_3.Transition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit});
+      LinkRTL_link_4.Transition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {});
+      RouteMonitoring_G11_PLUS_.Transition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_G11_MINUS_.Transition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_W1_R_PLUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_R_MINUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_PLUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_MINUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W2_R_PLUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_R_MINUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_PLUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_MINUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_G12_PLUS_.Transition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G12_MINUS_.Transition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G21_PLUS_.Transition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
+      RouteMonitoring_G21_MINUS_.Transition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
+      RouteFindingSearch_A.Transition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
+      RouteFindingSearch_W1.Transition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State});
+      RouteFindingSearch_W2.Transition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State});
+      RouteFindingSearch_N1.Transition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State});
+      RouteFindingSearch_N2.Transition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State});
+      RouteFindingResponse_A.Transition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
+      RouteFindingResponse_W1.Transition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State});
+      RouteFindingResponse_W2.Transition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State});
+      RouteFindingResponse_N1.Transition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State});
+      RouteFindingResponse_N2.Transition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State});
+      RouteManualReleaseDispatch_A.Transition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute});
+      RouteManualReleaseDispatch_W1.Transition({});
+      RouteManualReleaseDispatch_W2.Transition({});
+      RouteManualReleaseDispatch_N1.Transition({});
+      RouteManualReleaseDispatch_N2.Transition({});
+      LinkLTR_link_1.Transition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {});
+      LinkLTR_link_2.Transition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {});
+      LinkLTR_link_3.Transition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit});
+      LinkLTR_link_4.Transition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {});
+      LinkRTL_link_1.Transition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {});
+      LinkRTL_link_2.Transition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {});
+      LinkRTL_link_3.Transition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit});
+      LinkRTL_link_4.Transition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {});
+      RouteMonitoring_G11_PLUS_.Transition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_G11_MINUS_.Transition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_W1_R_PLUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_R_MINUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_PLUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_MINUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W2_R_PLUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_R_MINUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_PLUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_MINUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_G12_PLUS_.Transition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G12_MINUS_.Transition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G21_PLUS_.Transition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
+      RouteMonitoring_G21_MINUS_.Transition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
+      RouteFindingSearch_A.Transition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
+      RouteFindingSearch_W1.Transition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State});
+      RouteFindingSearch_W2.Transition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State});
+      RouteFindingSearch_N1.Transition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State});
+      RouteFindingSearch_N2.Transition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State});
+      RouteFindingResponse_A.Transition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
+      RouteFindingResponse_W1.Transition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State});
+      RouteFindingResponse_W2.Transition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State});
+      RouteFindingResponse_N1.Transition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State});
+      RouteFindingResponse_N2.Transition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State});
+      RouteManualReleaseDispatch_A.Transition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute});
+      RouteManualReleaseDispatch_W1.Transition({});
+      RouteManualReleaseDispatch_W2.Transition({});
+      RouteManualReleaseDispatch_N1.Transition({});
+      RouteManualReleaseDispatch_N2.Transition({});
+      LinkLTR_link_1.Transition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {});
+      LinkLTR_link_2.Transition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {});
+      LinkLTR_link_3.Transition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit});
+      LinkLTR_link_4.Transition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {});
+      LinkRTL_link_1.Transition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {});
+      LinkRTL_link_2.Transition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {});
+      LinkRTL_link_3.Transition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit});
+      LinkRTL_link_4.Transition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {});
+      RouteMonitoring_G11_PLUS_.Transition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_G11_MINUS_.Transition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_W1_R_PLUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_R_MINUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_PLUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_MINUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W2_R_PLUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_R_MINUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_PLUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_MINUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_G12_PLUS_.Transition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G12_MINUS_.Transition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G21_PLUS_.Transition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
+      RouteMonitoring_G21_MINUS_.Transition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
+      RouteFindingSearch_A.Transition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
+      RouteFindingSearch_W1.Transition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State});
+      RouteFindingSearch_W2.Transition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State});
+      RouteFindingSearch_N1.Transition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State});
+      RouteFindingSearch_N2.Transition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State});
+      RouteFindingResponse_A.Transition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
+      RouteFindingResponse_W1.Transition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State});
+      RouteFindingResponse_W2.Transition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State});
+      RouteFindingResponse_N1.Transition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State});
+      RouteFindingResponse_N2.Transition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State});
+      RouteManualReleaseDispatch_A.Transition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute});
+      RouteManualReleaseDispatch_W1.Transition({});
+      RouteManualReleaseDispatch_W2.Transition({});
+      RouteManualReleaseDispatch_N1.Transition({});
+      RouteManualReleaseDispatch_N2.Transition({});
+      LinkLTR_link_1.Transition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {});
+      LinkLTR_link_2.Transition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {});
+      LinkLTR_link_3.Transition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit});
+      LinkLTR_link_4.Transition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {});
+      LinkRTL_link_1.Transition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {});
+      LinkRTL_link_2.Transition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {});
+      LinkRTL_link_3.Transition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit});
+      LinkRTL_link_4.Transition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {});
+      RouteMonitoring_G11_PLUS_.Transition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_G11_MINUS_.Transition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_W1_R_PLUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_R_MINUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_PLUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_MINUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W2_R_PLUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_R_MINUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_PLUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_MINUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_G12_PLUS_.Transition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G12_MINUS_.Transition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G21_PLUS_.Transition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
+      RouteMonitoring_G21_MINUS_.Transition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
+      RouteFindingSearch_A.Transition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
+      RouteFindingSearch_W1.Transition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State});
+      RouteFindingSearch_W2.Transition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State});
+      RouteFindingSearch_N1.Transition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State});
+      RouteFindingSearch_N2.Transition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State});
+      RouteFindingResponse_A.Transition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
+      RouteFindingResponse_W1.Transition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State});
+      RouteFindingResponse_W2.Transition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State});
+      RouteFindingResponse_N1.Transition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State});
+      RouteFindingResponse_N2.Transition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State});
+      RouteManualReleaseDispatch_A.Transition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute});
+      RouteManualReleaseDispatch_W1.Transition({});
+      RouteManualReleaseDispatch_W2.Transition({});
+      RouteManualReleaseDispatch_N1.Transition({});
+      RouteManualReleaseDispatch_N2.Transition({});
+      LinkLTR_link_1.Transition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {});
+      LinkLTR_link_2.Transition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {});
+      LinkLTR_link_3.Transition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit});
+      LinkLTR_link_4.Transition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {});
+      LinkRTL_link_1.Transition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {});
+      LinkRTL_link_2.Transition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {});
+      LinkRTL_link_3.Transition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit});
+      LinkRTL_link_4.Transition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {});
+      RouteMonitoring_G11_PLUS_.Transition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_G11_MINUS_.Transition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_W1_R_PLUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_R_MINUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_PLUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_MINUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W2_R_PLUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_R_MINUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_PLUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_MINUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_G12_PLUS_.Transition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G12_MINUS_.Transition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G21_PLUS_.Transition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
+      RouteMonitoring_G21_MINUS_.Transition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
+      RouteFindingSearch_A.Transition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
+      RouteFindingSearch_W1.Transition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State});
+      RouteFindingSearch_W2.Transition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State});
+      RouteFindingSearch_N1.Transition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State});
+      RouteFindingSearch_N2.Transition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State});
+      RouteFindingResponse_A.Transition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
+      RouteFindingResponse_W1.Transition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State});
+      RouteFindingResponse_W2.Transition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State});
+      RouteFindingResponse_N1.Transition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State});
+      RouteFindingResponse_N2.Transition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State});
+      RouteManualReleaseDispatch_A.Transition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute});
+      RouteManualReleaseDispatch_W1.Transition({});
+      RouteManualReleaseDispatch_W2.Transition({});
+      RouteManualReleaseDispatch_N1.Transition({});
+      RouteManualReleaseDispatch_N2.Transition({});
+      LinkLTR_link_1.Transition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {});
+      LinkLTR_link_2.Transition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {});
+      LinkLTR_link_3.Transition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit});
+      LinkLTR_link_4.Transition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {});
+      LinkRTL_link_1.Transition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {});
+      LinkRTL_link_2.Transition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {});
+      LinkRTL_link_3.Transition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit});
+      LinkRTL_link_4.Transition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {});
+      RouteMonitoring_G11_PLUS_.Transition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_G11_MINUS_.Transition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_W1_R_PLUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_R_MINUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_PLUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_MINUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W2_R_PLUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_R_MINUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_PLUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_MINUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_G12_PLUS_.Transition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G12_MINUS_.Transition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G21_PLUS_.Transition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
+      RouteMonitoring_G21_MINUS_.Transition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
+      RouteFindingSearch_A.Transition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
+      RouteFindingSearch_W1.Transition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State});
+      RouteFindingSearch_W2.Transition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State});
+      RouteFindingSearch_N1.Transition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State});
+      RouteFindingSearch_N2.Transition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State});
+      RouteFindingResponse_A.Transition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
+      RouteFindingResponse_W1.Transition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State});
+      RouteFindingResponse_W2.Transition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State});
+      RouteFindingResponse_N1.Transition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State});
+      RouteFindingResponse_N2.Transition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State});
+      RouteManualReleaseDispatch_A.Transition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute});
+      RouteManualReleaseDispatch_W1.Transition({});
+      RouteManualReleaseDispatch_W2.Transition({});
+      RouteManualReleaseDispatch_N1.Transition({});
+      RouteManualReleaseDispatch_N2.Transition({});
+      LinkLTR_link_1.Transition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {});
+      LinkLTR_link_2.Transition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {});
+      LinkLTR_link_3.Transition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit});
+      LinkLTR_link_4.Transition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {});
+      LinkRTL_link_1.Transition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {});
+      LinkRTL_link_2.Transition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {});
+      LinkRTL_link_3.Transition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit});
+      LinkRTL_link_4.Transition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {});
+      RouteMonitoring_G11_PLUS_.Transition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_G11_MINUS_.Transition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_W1_R_PLUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_R_MINUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_PLUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_MINUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W2_R_PLUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_R_MINUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_PLUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_MINUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_G12_PLUS_.Transition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G12_MINUS_.Transition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G21_PLUS_.Transition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
+      RouteMonitoring_G21_MINUS_.Transition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
+      RouteFindingSearch_A.Transition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
+      RouteFindingSearch_W1.Transition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State});
+      RouteFindingSearch_W2.Transition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State});
+      RouteFindingSearch_N1.Transition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State});
+      RouteFindingSearch_N2.Transition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State});
+      RouteFindingResponse_A.Transition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
+      RouteFindingResponse_W1.Transition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State});
+      RouteFindingResponse_W2.Transition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State});
+      RouteFindingResponse_N1.Transition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State});
+      RouteFindingResponse_N2.Transition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State});
+      RouteManualReleaseDispatch_A.Transition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute});
+      RouteManualReleaseDispatch_W1.Transition({});
+      RouteManualReleaseDispatch_W2.Transition({});
+      RouteManualReleaseDispatch_N1.Transition({});
+      RouteManualReleaseDispatch_N2.Transition({});
+      LinkLTR_link_1.Transition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {});
+      LinkLTR_link_2.Transition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {});
+      LinkLTR_link_3.Transition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit});
+      LinkLTR_link_4.Transition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {});
+      LinkRTL_link_1.Transition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {});
+      LinkRTL_link_2.Transition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {});
+      LinkRTL_link_3.Transition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit});
+      LinkRTL_link_4.Transition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {});
+      RouteMonitoring_G11_PLUS_.Transition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_G11_MINUS_.Transition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_W1_R_PLUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_R_MINUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_PLUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_MINUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W2_R_PLUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_R_MINUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_PLUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_MINUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_G12_PLUS_.Transition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G12_MINUS_.Transition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G21_PLUS_.Transition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
+      RouteMonitoring_G21_MINUS_.Transition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
+      RouteFindingSearch_A.Transition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
+      RouteFindingSearch_W1.Transition({}, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State, Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State});
+      RouteFindingSearch_W2.Transition({}, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State, Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State});
+      RouteFindingSearch_N1.Transition({}, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {Route_G12_PLUS_.State, Route_G12_MINUS_.State});
+      RouteFindingSearch_N2.Transition({}, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {Route_G21_PLUS_.State, Route_G21_MINUS_.State});
+      RouteFindingResponse_A.Transition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
+      RouteFindingResponse_W1.Transition(RouteFindingSearch_W1.Check, {}, {}, {LinkLTR_link_1.State}, {LinkRTL_link_2.State}, {}, {LinkRTL_link_3.State}, {}, {RouteMonitoring_W1_R_PLUS_.State, RouteMonitoring_W1_R_MINUS_.State, RouteMonitoring_W1_L_PLUS_.State, RouteMonitoring_W1_L_MINUS_.State});
+      RouteFindingResponse_W2.Transition(RouteFindingSearch_W2.Check, {}, {LinkRTL_link_4.State}, {}, {}, {}, {}, {LinkLTR_link_3.State}, {RouteMonitoring_W2_R_PLUS_.State, RouteMonitoring_W2_R_MINUS_.State, RouteMonitoring_W2_L_PLUS_.State, RouteMonitoring_W2_L_MINUS_.State});
+      RouteFindingResponse_N1.Transition(RouteFindingSearch_N1.Check, {RouteCheck_A_DOT_N1.State}, {}, {LinkLTR_link_2.State}, {}, {}, {}, {}, {RouteMonitoring_G12_PLUS_.State, RouteMonitoring_G12_MINUS_.State});
+      RouteFindingResponse_N2.Transition(RouteFindingSearch_N2.Check, {RouteCheck_A_DOT_N2.State}, {}, {LinkLTR_link_4.State}, {}, {}, {}, {}, {RouteMonitoring_G21_PLUS_.State, RouteMonitoring_G21_MINUS_.State});
+      RouteManualReleaseDispatch_A.Transition({SCICC_A_DOT_N1.MsgReleaseRoute, SCICC_A_DOT_N2.MsgReleaseRoute});
+      RouteManualReleaseDispatch_W1.Transition({});
+      RouteManualReleaseDispatch_W2.Transition({});
+      RouteManualReleaseDispatch_N1.Transition({});
+      RouteManualReleaseDispatch_N2.Transition({});
+      LinkLTR_link_1.Transition({}, {RouteFindingSearch_A.Check}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {}, {RouteFindingResponse_W1.Admit}, {}, {});
+      LinkLTR_link_2.Transition({}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {RouteFindingResponse_N1.Admit}, {}, {});
+      LinkLTR_link_3.Transition({}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {RouteFindingResponse_W2.Admit});
+      LinkLTR_link_4.Transition({RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {});
+      LinkRTL_link_1.Transition({RouteFindingSearch_W1.Check}, {}, {}, {}, {RouteFindingSearch_A.Check}, {}, {RouteFindingResponse_W1.Admit}, {}, {}, {}, {RouteFindingResponse_A.Admit}, {});
+      LinkRTL_link_2.Transition({RouteFindingSearch_N1.Check}, {}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {RouteFindingResponse_N1.Admit}, {}, {}, {}, {RouteFindingResponse_W1.Admit}, {});
+      LinkRTL_link_3.Transition({}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingSearch_W1.Check}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {}, {RouteFindingResponse_W1.Admit});
+      LinkRTL_link_4.Transition({RouteFindingSearch_N2.Check}, {}, {}, {RouteFindingSearch_W2.Check}, {}, {}, {RouteFindingResponse_N2.Admit}, {}, {}, {RouteFindingResponse_W2.Admit}, {}, {});
+      RouteMonitoring_G11_PLUS_.Transition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_G11_MINUS_.Transition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
+      RouteMonitoring_W1_R_PLUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_R_MINUS_.Transition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_PLUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W1_L_MINUS_.Transition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
+      RouteMonitoring_W2_R_PLUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_R_MINUS_.Transition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_PLUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_W2_L_MINUS_.Transition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
+      RouteMonitoring_G12_PLUS_.Transition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G12_MINUS_.Transition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
+      RouteMonitoring_G21_PLUS_.Transition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
+      RouteMonitoring_G21_MINUS_.Transition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
+      RouteAutomaticRelease_G11_PLUS_.Transition(Route_G11_PLUS_.State, {Transit_W1_R_MINUS_.State, Transit_W1_L_MINUS_.State}, Zone_W1.State);
+      RouteAutomaticRelease_G11_MINUS_.Transition(Route_G11_MINUS_.State, {}, {});
+      RouteAutomaticRelease_W1_R_PLUS_.Transition(Route_W1_R_PLUS_.State, {}, {});
+      RouteAutomaticRelease_W1_R_MINUS_.Transition(Route_W1_R_MINUS_.State, {}, {});
+      RouteAutomaticRelease_W1_L_PLUS_.Transition(Route_W1_L_PLUS_.State, {}, {});
+      RouteAutomaticRelease_W1_L_MINUS_.Transition(Route_W1_L_MINUS_.State, {}, {});
+      RouteAutomaticRelease_W2_R_PLUS_.Transition(Route_W2_R_PLUS_.State, {}, {});
+      RouteAutomaticRelease_W2_R_MINUS_.Transition(Route_W2_R_MINUS_.State, {}, {});
+      RouteAutomaticRelease_W2_L_PLUS_.Transition(Route_W2_L_PLUS_.State, {}, {});
+      RouteAutomaticRelease_W2_L_MINUS_.Transition(Route_W2_L_MINUS_.State, {}, {});
+      RouteAutomaticRelease_G12_PLUS_.Transition(Route_G12_PLUS_.State, {}, {});
+      RouteAutomaticRelease_G12_MINUS_.Transition(Route_G12_MINUS_.State, {}, {});
+      RouteAutomaticRelease_G21_PLUS_.Transition(Route_G21_PLUS_.State, {}, {});
+      RouteAutomaticRelease_G21_MINUS_.Transition(Route_G21_MINUS_.State, {}, {});
+      RouteManualRelease_G11_PLUS_.Transition(RouteManualReleaseDispatch_A.State, SCIRBC_A.ApproachLockingActive, Route_G11_PLUS_.State, RouteMonitoring_G11_PLUS_.State, Zone_G11.State, NOW);
+      RouteManualRelease_G11_MINUS_.Transition(RouteManualReleaseDispatch_A.State, {}, Route_G11_MINUS_.State, RouteMonitoring_G11_MINUS_.State, {}, NOW);
+      RouteManualRelease_W1_R_PLUS_.Transition(RouteManualReleaseDispatch_W1.State, {}, Route_W1_R_PLUS_.State, RouteMonitoring_W1_R_PLUS_.State, {}, NOW);
+      RouteManualRelease_W1_R_MINUS_.Transition(RouteManualReleaseDispatch_W1.State, {}, Route_W1_R_MINUS_.State, RouteMonitoring_W1_R_MINUS_.State, {}, NOW);
+      RouteManualRelease_W1_L_PLUS_.Transition(RouteManualReleaseDispatch_W1.State, {}, Route_W1_L_PLUS_.State, RouteMonitoring_W1_L_PLUS_.State, {}, NOW);
+      RouteManualRelease_W1_L_MINUS_.Transition(RouteManualReleaseDispatch_W1.State, {}, Route_W1_L_MINUS_.State, RouteMonitoring_W1_L_MINUS_.State, {}, NOW);
+      RouteManualRelease_W2_R_PLUS_.Transition(RouteManualReleaseDispatch_W2.State, {}, Route_W2_R_PLUS_.State, RouteMonitoring_W2_R_PLUS_.State, {}, NOW);
+      RouteManualRelease_W2_R_MINUS_.Transition(RouteManualReleaseDispatch_W2.State, {}, Route_W2_R_MINUS_.State, RouteMonitoring_W2_R_MINUS_.State, {}, NOW);
+      RouteManualRelease_W2_L_PLUS_.Transition(RouteManualReleaseDispatch_W2.State, {}, Route_W2_L_PLUS_.State, RouteMonitoring_W2_L_PLUS_.State, {}, NOW);
+      RouteManualRelease_W2_L_MINUS_.Transition(RouteManualReleaseDispatch_W2.State, {}, Route_W2_L_MINUS_.State, RouteMonitoring_W2_L_MINUS_.State, {}, NOW);
+      RouteManualRelease_G12_PLUS_.Transition(RouteManualReleaseDispatch_N1.State, {}, Route_G12_PLUS_.State, RouteMonitoring_G12_PLUS_.State, {}, NOW);
+      RouteManualRelease_G12_MINUS_.Transition(RouteManualReleaseDispatch_N1.State, {}, Route_G12_MINUS_.State, RouteMonitoring_G12_MINUS_.State, {}, NOW);
+      RouteManualRelease_G21_PLUS_.Transition(RouteManualReleaseDispatch_N2.State, {}, Route_G21_PLUS_.State, RouteMonitoring_G21_PLUS_.State, {}, NOW);
+      RouteManualRelease_G21_MINUS_.Transition(RouteManualReleaseDispatch_N2.State, {}, Route_G21_MINUS_.State, RouteMonitoring_G21_MINUS_.State, {}, NOW);
+      Route_G11_PLUS_.Transition(RouteFindingSearch_A.Check, RouteFindingResponse_A.Admit, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, RouteAutomaticRelease_G11_PLUS_.State, RouteManualRelease_G11_PLUS_.ManualReleaseRequested);
+      Route_G11_MINUS_.Transition(RouteFindingSearch_A.Check, RouteFindingResponse_A.Admit, {}, {LinkRTL_link_1.State}, {}, {}, {}, {}, RouteAutomaticRelease_G11_MINUS_.State, RouteManualRelease_G11_MINUS_.ManualReleaseRequested);
+      Route_W1_R_PLUS_.Transition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {LinkLTR_link_1.State}, {}, {}, {LinkRTL_link_2.State}, {}, {Point_W1.State}, RouteAutomaticRelease_W1_R_PLUS_.State, RouteManualRelease_W1_R_PLUS_.ManualReleaseRequested);
+      Route_W1_R_MINUS_.Transition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {}, {LinkRTL_link_2.State}, {}, {}, {LinkLTR_link_1.State}, {Point_W1.State}, RouteAutomaticRelease_W1_R_MINUS_.State, RouteManualRelease_W1_R_MINUS_.ManualReleaseRequested);
+      Route_W1_L_PLUS_.Transition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {LinkLTR_link_1.State}, {}, {Point_W1.State}, {LinkRTL_link_3.State}, {}, {}, RouteAutomaticRelease_W1_L_PLUS_.State, RouteManualRelease_W1_L_PLUS_.ManualReleaseRequested);
+      Route_W1_L_MINUS_.Transition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {}, {LinkRTL_link_3.State}, {Point_W1.State}, {}, {LinkLTR_link_1.State}, {}, RouteAutomaticRelease_W1_L_MINUS_.State, RouteManualRelease_W1_L_MINUS_.ManualReleaseRequested);
+      Route_W2_R_PLUS_.Transition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {}, {LinkRTL_link_4.State}, {}, {}, {}, {Point_W2.State}, RouteAutomaticRelease_W2_R_PLUS_.State, RouteManualRelease_W2_R_PLUS_.ManualReleaseRequested);
+      Route_W2_R_MINUS_.Transition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {}, {}, {}, {LinkRTL_link_4.State}, {}, {Point_W2.State}, RouteAutomaticRelease_W2_R_MINUS_.State, RouteManualRelease_W2_R_MINUS_.ManualReleaseRequested);
+      Route_W2_L_PLUS_.Transition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {}, {LinkRTL_link_4.State}, {Point_W2.State}, {}, {LinkLTR_link_3.State}, {}, RouteAutomaticRelease_W2_L_PLUS_.State, RouteManualRelease_W2_L_PLUS_.ManualReleaseRequested);
+      Route_W2_L_MINUS_.Transition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {LinkLTR_link_3.State}, {}, {Point_W2.State}, {LinkRTL_link_4.State}, {}, {}, RouteAutomaticRelease_W2_L_MINUS_.State, RouteManualRelease_W2_L_MINUS_.ManualReleaseRequested);
+      Route_G12_PLUS_.Transition(RouteFindingSearch_N1.Check, RouteFindingResponse_N1.Admit, {LinkLTR_link_2.State}, {}, {}, {}, {}, {}, RouteAutomaticRelease_G12_PLUS_.State, RouteManualRelease_G12_PLUS_.ManualReleaseRequested);
+      Route_G12_MINUS_.Transition(RouteFindingSearch_N1.Check, RouteFindingResponse_N1.Admit, {}, {}, {}, {}, {LinkLTR_link_2.State}, {}, RouteAutomaticRelease_G12_MINUS_.State, RouteManualRelease_G12_MINUS_.ManualReleaseRequested);
+      Route_G21_PLUS_.Transition(RouteFindingSearch_N2.Check, RouteFindingResponse_N2.Admit, {LinkLTR_link_3.State}, {}, {}, {}, {}, {}, RouteAutomaticRelease_G21_PLUS_.State, RouteManualRelease_G21_PLUS_.ManualReleaseRequested);
+      Route_G21_MINUS_.Transition(RouteFindingSearch_N2.Check, RouteFindingResponse_N2.Admit, {}, {}, {}, {}, {LinkLTR_link_3.State}, {}, RouteAutomaticRelease_G21_MINUS_.State, RouteManualRelease_G21_MINUS_.ManualReleaseRequested);
+      RouteControl_G11_PLUS_.Transition(RouteMonitoring_G11_PLUS_.State);
+      RouteControl_G11_MINUS_.Transition(RouteMonitoring_G11_MINUS_.State);
+      RouteControl_W1_R_PLUS_.Transition(RouteMonitoring_W1_R_PLUS_.State);
+      RouteControl_W1_R_MINUS_.Transition(RouteMonitoring_W1_R_MINUS_.State);
+      RouteControl_W1_L_PLUS_.Transition(RouteMonitoring_W1_L_PLUS_.State);
+      RouteControl_W1_L_MINUS_.Transition(RouteMonitoring_W1_L_MINUS_.State);
+      RouteControl_W2_R_PLUS_.Transition(RouteMonitoring_W2_R_PLUS_.State);
+      RouteControl_W2_R_MINUS_.Transition(RouteMonitoring_W2_R_MINUS_.State);
+      RouteControl_W2_L_PLUS_.Transition(RouteMonitoring_W2_L_PLUS_.State);
+      RouteControl_W2_L_MINUS_.Transition(RouteMonitoring_W2_L_MINUS_.State);
+      RouteControl_G12_PLUS_.Transition(RouteMonitoring_G12_PLUS_.State);
+      RouteControl_G12_MINUS_.Transition(RouteMonitoring_G12_MINUS_.State);
+      RouteControl_G21_PLUS_.Transition(RouteMonitoring_G21_PLUS_.State);
+      RouteControl_G21_MINUS_.Transition(RouteMonitoring_G21_MINUS_.State);
+      Signal_A.Transition({Route_G11_PLUS_.State});
+      Signal_N1.Transition({});
+      Signal_N2.Transition({});
+      SignalControl_A.Transition({RouteControl_G11_PLUS_.State});
+      SignalControl_N1.Transition({});
+      SignalControl_N2.Transition({})
     END
 END//MACHINE

@@ -2,20 +2,43 @@ using Antlr4.Runtime.Misc;
 
 static partial class BWriter
 {
-  private class ReferenceExtractor : ExpressionBaseVisitor<List<string>>
+  record Reference(string? GraphOrInterfaceName, string VariableName, string? PropertyName, bool IsNow)
   {
-    public override List<string> VisitExpression([NotNull] ExpressionParser.ExpressionContext context)
+    public string ToBString()
+    {
+      if (PropertyName != null)
+      {
+        return $"{PropertyName}_{GraphOrInterfaceName}_{VariableName}";
+      }
+      else if (GraphOrInterfaceName != null)
+      {
+        return $"{GraphOrInterfaceName}_{VariableName}";
+      }
+      else if (IsNow)
+      {
+        return "NOW";
+      }
+      else
+      {
+        return VariableName;
+      }
+    }
+  }
+
+  private class ReferenceExtractor : ExpressionBaseVisitor<List<Reference>>
+  {
+    public override List<Reference> VisitExpression([NotNull] ExpressionParser.ExpressionContext context)
     {
       if (context.orExpression() != null)
       {
         return Visit(context.orExpression());
       }
-      return new List<string>();
+      return new List<Reference>();
     }
 
-    public override List<string> VisitOrExpression([NotNull] ExpressionParser.OrExpressionContext context)
+    public override List<Reference> VisitOrExpression([NotNull] ExpressionParser.OrExpressionContext context)
     {
-      var inputs = new List<string>();
+      var inputs = new List<Reference>();
       foreach (var andExpr in context.andExpression())
       {
         inputs.AddRange(Visit(andExpr));
@@ -23,9 +46,9 @@ static partial class BWriter
       return inputs;
     }
 
-    public override List<string> VisitAndExpression([NotNull] ExpressionParser.AndExpressionContext context)
+    public override List<Reference> VisitAndExpression([NotNull] ExpressionParser.AndExpressionContext context)
     {
-      var inputs = new List<string>();
+      var inputs = new List<Reference>();
       foreach (var notExpr in context.notExpression())
       {
         inputs.AddRange(Visit(notExpr));
@@ -33,9 +56,9 @@ static partial class BWriter
       return inputs;
     }
 
-    public override List<string> VisitNotExpression([NotNull] ExpressionParser.NotExpressionContext context)
+    public override List<Reference> VisitNotExpression([NotNull] ExpressionParser.NotExpressionContext context)
     {
-      var inputs = new List<string>();
+      var inputs = new List<Reference>();
       if (context.notExpression() != null)
       {
         inputs.AddRange(Visit(context.notExpression()));
@@ -47,9 +70,9 @@ static partial class BWriter
       return inputs;
     }
 
-    public override List<string> VisitAtom([NotNull] ExpressionParser.AtomContext context)
+    public override List<Reference> VisitAtom([NotNull] ExpressionParser.AtomContext context)
     {
-      var inputs = new List<string>();
+      var inputs = new List<Reference>();
       if (context.comparison() != null)
       {
         inputs.AddRange(Visit(context.comparison()));
@@ -69,25 +92,25 @@ static partial class BWriter
       return inputs;
     }
 
-    public override List<string> VisitComparison([NotNull] ExpressionParser.ComparisonContext context)
+    public override List<Reference> VisitComparison([NotNull] ExpressionParser.ComparisonContext context)
     {
       return Visit(context.variableReference());
     }
 
-    public override List<string> VisitQuantifierExpression([NotNull] ExpressionParser.QuantifierExpressionContext context)
+    public override List<Reference> VisitQuantifierExpression([NotNull] ExpressionParser.QuantifierExpressionContext context)
     {
       var variableReferences = Visit(context.variableReference());
       // Prefix variable references with quantifier property name
       var propertyName = context.propertyName().GetText()[1..];
-      return variableReferences.Select(v => $"{propertyName}_{v}").ToList();
+      return variableReferences.Select(v => new Reference(v.GraphOrInterfaceName, v.VariableName, propertyName, false)).ToList();
     }
 
-    public override List<string> VisitTimeoutExpression([NotNull] ExpressionParser.TimeoutExpressionContext context)
+    public override List<Reference> VisitTimeoutExpression([NotNull] ExpressionParser.TimeoutExpressionContext context)
     {
       return Visit(context.variableReference());
     }
 
-    public override List<string> VisitVariableReference([NotNull] ExpressionParser.VariableReferenceContext context)
+    public override List<Reference> VisitVariableReference([NotNull] ExpressionParser.VariableReferenceContext context)
     {
       if (context.graphOrInterfaceName() == null)
       {
@@ -96,10 +119,10 @@ static partial class BWriter
 
       if (context.propertyName() != null)
       {
-        return [$"{context.propertyName().GetText()[1..]}_{context.graphOrInterfaceName().GetText()}_{context.variableName().GetText()}"];
+        return [new Reference(context.graphOrInterfaceName().GetText(), context.variableName().GetText(), context.propertyName().GetText()[1..], false)];
       }
 
-      return [$"{context.graphOrInterfaceName().GetText()}_{context.variableName().GetText()}"];
+      return [new Reference(context.graphOrInterfaceName().GetText(), context.variableName().GetText(), null, false)];
     }
   }
 }

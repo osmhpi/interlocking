@@ -28,7 +28,7 @@ static partial class BWriter
           if (theTerm == null) continue;
           foreach (var input in new ReferenceExtractor().Visit(theTerm) ?? [])
           {
-              inputs.Add(input);
+              inputs.Add(input.ToBString());
           }
       }
 
