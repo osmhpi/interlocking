@@ -35,8 +35,9 @@ OPERATIONS
       NoIncompatibleRoutes := TRUE ||
       AutomaticReleaseEffective := bool(RouteAutomaticRelease_State = ActiveInactive_ACTIVE) ||
       ManualReleaseEffective := bool(RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE);
-      // Perform transition, todo
-      GraphState_root := STATE_Route_root___initial
+      // Perform transition
+        State := RouteState_RELEASED;
+        GraphState_root := STATE_Route_root_RELEASED
     END;
   Transition(SCICC_MsgRequestRoute, request_points_right_Point_State, request_points_left_Point_State, RouteAutomaticRelease_State, RouteManualRelease_ManualReleaseRequested) =
     BEGIN
@@ -51,18 +52,21 @@ OPERATIONS
         IF RouteRequested = TRUE THEN
 
             return self.transition_from_root_c(now)
+
         END
       END;
       SELECT GraphState_root = STATE_Route_root_SET THEN 
         IF AutomaticReleaseEffective = TRUE or ManualReleaseEffective = TRUE THEN
-          State := RouteState_RELEASED;
+State := RouteState_RELEASED;
           GraphState_root := STATE_Route_root_RELEASED
+
         END
       END;
       SELECT GraphState_root = STATE_Route_root_PREPARING THEN 
         IF PointsAvailable = TRUE & NoIncompatibleRoutes = TRUE THEN
-          State := RouteState_SET;
+State := RouteState_SET;
           GraphState_root := STATE_Route_root_SET
+
         END
       END
     END

@@ -67,8 +67,12 @@ OPERATIONS
       RouteIsLocked := bool(RouteMonitoring_State = ActiveInactive_ACTIVE) ||
       PassageLock := bool(RouteAutomaticRelease_PassageLock = ActiveInactive_ACTIVE) ||
       ApproachZoneOccupied := bool(approach_zone_Zone_State = OccupancyStatus_OCCUPIED);
-      // Perform transition, todo
-      GraphState_root := STATE_RouteManualRelease_root___initial
+      // Perform transition
+        ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_CLOSED;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+        GraphState_root := STATE_RouteManualRelease_root_ROUTE_RELEASED
     END;
   Transition(SCICC_MsgReleaseRoute, start_signal_SCIRBC_ApproachLockingActive, Route_State, RouteMonitoring_State, RouteAutomaticRelease_PassageLock, approach_zone_Zone_State, NOW) =
     BEGIN
@@ -87,15 +91,17 @@ OPERATIONS
         IF RouteIsSet = TRUE THEN
 
           GraphState_root := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING(self.transition_from_root_ETCS_APPROACH_LOCKING___initial(now))
+
         END
       END;
       SELECT GraphState_root = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING(s) THEN 
         IF not(RouteIsSet = TRUE) THEN
-          ManualReleaseRequested := ActiveInactive_INACTIVE;
-          HoldApproachLocking := OpenCloseState_CLOSED;
-          ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
-          ManualReleasePrevention := ActiveInactive_INACTIVE;
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_CLOSED;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteManualRelease_root_ROUTE_RELEASED
+
         END
         root_State::ETCS_APPROACH_LOCKING(self.transition_root_ETCS_APPROACH_LOCKING(s.clone(), now))
       END

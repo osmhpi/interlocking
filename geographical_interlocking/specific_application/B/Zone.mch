@@ -19,8 +19,9 @@ OPERATIONS
     BEGIN
       // Update Terms
       ZoneOccupied := bool(SCITDS_OccupancyStatus /= OccupancyStatus_VACANT);
-      // Perform transition, todo
-      GraphState_root := STATE_Zone_root___initial
+      // Perform transition
+        State := OccupancyStatus_OCCUPIED;
+        GraphState_root := STATE_Zone_root_OCCUPIED
     END;
   Transition(SCITDS_OccupancyStatus) =
     BEGIN
@@ -29,14 +30,16 @@ OPERATIONS
       // Perform transition
       SELECT GraphState_root = STATE_Zone_root_OCCUPIED THEN 
         IF not(ZoneOccupied = TRUE) THEN
-          State := OccupancyStatus_VACANT;
+State := OccupancyStatus_VACANT;
           GraphState_root := STATE_Zone_root_VACANT
+
         END
       END;
       SELECT GraphState_root = STATE_Zone_root_VACANT THEN 
         IF ZoneOccupied = TRUE THEN
-          State := OccupancyStatus_OCCUPIED;
+State := OccupancyStatus_OCCUPIED;
           GraphState_root := STATE_Zone_root_OCCUPIED
+
         END
       END
     END

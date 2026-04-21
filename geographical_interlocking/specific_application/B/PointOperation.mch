@@ -44,8 +44,25 @@ OPERATIONS
       PointRight := bool(Point_State = PointState_RIGHT) ||
       IsTop := bool({ActiveInactive_ACTIVE} = all_points_PointOperation_Top) ||
       TopTimeout := bool(NOW >= TopStart + 300);
-      // Perform transition, todo
-      GraphState_root := STATE_PointOperation_root___initial
+      // Perform transition
+        IF PointLeft = TRUE THEN
+PreviousPointState := PointState_LEFT;
+      Top := ActiveInactive_ACTIVE;
+      State := EulynxCommandedEndPosition_NOT_COMMANDED;
+          GraphState_root := STATE_PointOperation_root_IDLE_LEFT
+
+        ELSIF PointRight = TRUE THEN
+PreviousPointState := PointState_RIGHT;
+      Top := ActiveInactive_ACTIVE;
+      State := EulynxCommandedEndPosition_NOT_COMMANDED;
+          GraphState_root := STATE_PointOperation_root_IDLE_RIGHT
+
+        ELSE
+        PreviousPointState := PointState_UNDETERMINED;
+      Top := ActiveInactive_ACTIVE;
+      State := EulynxCommandedEndPosition_NOT_COMMANDED;
+        GraphState_root := STATE_PointOperation_root_IDLE_UNDETERMINED
+        END
     END;
   Transition(Point_State, SCIP_DetectedEndPosition, all_points_PointOperation_Top, NOW) =
     BEGIN
@@ -58,86 +75,92 @@ OPERATIONS
       // Perform transition
       SELECT GraphState_root = STATE_PointOperation_root_IDLE_LEFT THEN 
         IF PointTriggered = TRUE THEN
-          PreviousPointState := PointState_RIGHT;
-          Top := ActiveInactive_ACTIVE;
+PreviousPointState := PointState_RIGHT;
+      Top := ActiveInactive_ACTIVE;
           GraphState_root := STATE_PointOperation_root_WAITING_COMMAND_RIGHT
+
         END
       END;
       SELECT GraphState_root = STATE_PointOperation_root_IDLE_RIGHT THEN 
         IF PointTriggered = TRUE THEN
-          PreviousPointState := PointState_LEFT;
-          Top := ActiveInactive_ACTIVE;
+PreviousPointState := PointState_LEFT;
+      Top := ActiveInactive_ACTIVE;
           GraphState_root := STATE_PointOperation_root_WAITING_COMMAND_LEFT
+
         END
       END;
       SELECT GraphState_root = STATE_PointOperation_root_IDLE_UNDETERMINED THEN 
         IF PointTriggered = TRUE & PointRight = TRUE THEN
-          PreviousPointState := PointState_RIGHT;
-          Top := ActiveInactive_ACTIVE;
+PreviousPointState := PointState_RIGHT;
+      Top := ActiveInactive_ACTIVE;
           GraphState_root := STATE_PointOperation_root_WAITING_COMMAND_RIGHT
-        END
-        IF PointTriggered = TRUE & PointLeft = TRUE THEN
-          PreviousPointState := PointState_LEFT;
-          Top := ActiveInactive_ACTIVE;
+
+        ELSIF PointTriggered = TRUE & PointLeft = TRUE THEN
+PreviousPointState := PointState_LEFT;
+      Top := ActiveInactive_ACTIVE;
           GraphState_root := STATE_PointOperation_root_WAITING_COMMAND_LEFT
+
         END
       END;
       SELECT GraphState_root = STATE_PointOperation_root_WAITING_COMMAND_RIGHT THEN 
         IF IsTop = TRUE THEN
-          Top := ActiveInactive_INACTIVE;
-          TopStart := now;
-          State := EulynxCommandedEndPosition_RIGHT;
+Top := ActiveInactive_INACTIVE;
+      TopStart := NOW;
+      State := EulynxCommandedEndPosition_RIGHT;
           GraphState_root := STATE_PointOperation_root_TOP_COMMAND_RIGHT
-        END
-        IF PointTriggered = TRUE THEN
-          PreviousPointState := PointState_LEFT;
-          Top := ActiveInactive_ACTIVE;
-          State := EulynxCommandedEndPosition_NOT_COMMANDED;
+
+        ELSIF PointTriggered = TRUE THEN
+PreviousPointState := PointState_LEFT;
+      Top := ActiveInactive_ACTIVE;
+      State := EulynxCommandedEndPosition_NOT_COMMANDED;
           GraphState_root := STATE_PointOperation_root_IDLE_LEFT
+
         END
       END;
       SELECT GraphState_root = STATE_PointOperation_root_WAITING_COMMAND_LEFT THEN 
         IF IsTop = TRUE THEN
-          Top := ActiveInactive_INACTIVE;
-          TopStart := now;
-          State := EulynxCommandedEndPosition_LEFT;
+Top := ActiveInactive_INACTIVE;
+      TopStart := NOW;
+      State := EulynxCommandedEndPosition_LEFT;
           GraphState_root := STATE_PointOperation_root_TOP_COMMAND_LEFT
-        END
-        IF PointTriggered = TRUE THEN
-          PreviousPointState := PointState_RIGHT;
-          Top := ActiveInactive_ACTIVE;
-          State := EulynxCommandedEndPosition_NOT_COMMANDED;
+
+        ELSIF PointTriggered = TRUE THEN
+PreviousPointState := PointState_RIGHT;
+      Top := ActiveInactive_ACTIVE;
+      State := EulynxCommandedEndPosition_NOT_COMMANDED;
           GraphState_root := STATE_PointOperation_root_IDLE_RIGHT
+
         END
       END;
       SELECT GraphState_root = STATE_PointOperation_root_TOP_COMMAND_LEFT THEN 
-                  Top := ActiveInactive_INACTIVE;
-          State := EulynxCommandedEndPosition_NOT_COMMANDED;
+        Top := ActiveInactive_INACTIVE;
+      State := EulynxCommandedEndPosition_NOT_COMMANDED;
         GraphState_root := STATE_PointOperation_root_DELAY_TOP
       END;
       SELECT GraphState_root = STATE_PointOperation_root_TOP_COMMAND_RIGHT THEN 
-                  Top := ActiveInactive_INACTIVE;
-          State := EulynxCommandedEndPosition_NOT_COMMANDED;
+        Top := ActiveInactive_INACTIVE;
+      State := EulynxCommandedEndPosition_NOT_COMMANDED;
         GraphState_root := STATE_PointOperation_root_DELAY_TOP
       END;
       SELECT GraphState_root = STATE_PointOperation_root_DELAY_TOP THEN 
         IF TopTimeout = TRUE & PointLeft = TRUE THEN
-          PreviousPointState := PointState_LEFT;
-          Top := ActiveInactive_ACTIVE;
-          State := EulynxCommandedEndPosition_NOT_COMMANDED;
+PreviousPointState := PointState_LEFT;
+      Top := ActiveInactive_ACTIVE;
+      State := EulynxCommandedEndPosition_NOT_COMMANDED;
           GraphState_root := STATE_PointOperation_root_IDLE_LEFT
-        END
-        IF TopTimeout = TRUE & PointRight = TRUE THEN
-          PreviousPointState := PointState_RIGHT;
-          Top := ActiveInactive_ACTIVE;
-          State := EulynxCommandedEndPosition_NOT_COMMANDED;
+
+        ELSIF TopTimeout = TRUE & PointRight = TRUE THEN
+PreviousPointState := PointState_RIGHT;
+      Top := ActiveInactive_ACTIVE;
+      State := EulynxCommandedEndPosition_NOT_COMMANDED;
           GraphState_root := STATE_PointOperation_root_IDLE_RIGHT
-        END
-        IF TopTimeout = TRUE THEN
-          PreviousPointState := PointState_UNDETERMINED;
-          Top := ActiveInactive_ACTIVE;
-          State := EulynxCommandedEndPosition_NOT_COMMANDED;
+
+        ELSIF TopTimeout = TRUE THEN
+PreviousPointState := PointState_UNDETERMINED;
+      Top := ActiveInactive_ACTIVE;
+      State := EulynxCommandedEndPosition_NOT_COMMANDED;
           GraphState_root := STATE_PointOperation_root_IDLE_UNDETERMINED
+
         END
       END
     END

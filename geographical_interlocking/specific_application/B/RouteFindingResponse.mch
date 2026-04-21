@@ -43,8 +43,9 @@ OPERATIONS
       AdmittingToB := bool(RouteSearch_RESPONSE : link_b_left_LinkRTL_State or RouteSearch_RESPONSE : link_b_right_LinkLTR_State) ||
       AdmittingToC := bool(RouteSearch_RESPONSE : link_c_left_LinkRTL_State or RouteSearch_RESPONSE : link_c_right_LinkLTR_State) ||
       RouteMonitored := bool(ActiveInactive_ACTIVE : transits_RouteMonitoring_State);
-      // Perform transition, todo
-      GraphState_root := STATE_RouteFindingResponse_root___initial
+      // Perform transition
+        Admit := RouteAdmission_INACTIVE;
+        GraphState_root := STATE_RouteFindingResponse_root_IDLE
     END;
   Transition(RouteFindingSearch_Check, is_end_of_route_admission_check_RouteCheck_State, link_a_left_LinkRTL_State, link_a_right_LinkLTR_State, link_b_left_LinkRTL_State, link_b_right_LinkLTR_State, link_c_left_LinkRTL_State, link_c_right_LinkLTR_State, transits_RouteMonitoring_State) =
     BEGIN
@@ -59,84 +60,93 @@ OPERATIONS
       // Perform transition
       SELECT GraphState_root = STATE_RouteFindingResponse_root_IDLE THEN 
         IF CheckingFromA = TRUE & TerminatesRouteRequested = TRUE THEN
-          Admit := RouteAdmission_ADMIT_END;
+Admit := RouteAdmission_ADMIT_END;
           GraphState_root := STATE_RouteFindingResponse_root_ADMIT_END
-        END
-        IF Checking = TRUE & AdmittingToA = TRUE THEN
-          Admit := RouteAdmission_ADMIT_TO_A;
+
+        ELSIF Checking = TRUE & AdmittingToA = TRUE THEN
+Admit := RouteAdmission_ADMIT_TO_A;
           GraphState_root := STATE_RouteFindingResponse_root_ADMIT_TO_A
-        END
-        IF Checking = TRUE & AdmittingToB = TRUE THEN
-          Admit := RouteAdmission_ADMIT_TO_B;
+
+        ELSIF Checking = TRUE & AdmittingToB = TRUE THEN
+Admit := RouteAdmission_ADMIT_TO_B;
           GraphState_root := STATE_RouteFindingResponse_root_ADMIT_TO_B
-        END
-        IF Checking = TRUE & AdmittingToC = TRUE THEN
-          Admit := RouteAdmission_ADMIT_TO_C;
+
+        ELSIF Checking = TRUE & AdmittingToC = TRUE THEN
+Admit := RouteAdmission_ADMIT_TO_C;
           GraphState_root := STATE_RouteFindingResponse_root_ADMIT_TO_C
+
         END
       END;
       SELECT GraphState_root = STATE_RouteFindingResponse_root_ADMIT_END THEN 
         IF RouteMonitored = TRUE THEN
-          Admit := RouteAdmission_ROUTE_END;
+Admit := RouteAdmission_ROUTE_END;
           GraphState_root := STATE_RouteFindingResponse_root_ROUTE_TO_END
-        END
-        IF not(Checking = TRUE) THEN
-          Admit := RouteAdmission_INACTIVE;
+
+        ELSIF not(Checking = TRUE) THEN
+Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
+
         END
       END;
       SELECT GraphState_root = STATE_RouteFindingResponse_root_ADMIT_TO_A THEN 
         IF RouteMonitored = TRUE THEN
-          Admit := RouteAdmission_ROUTE_TO_A;
+Admit := RouteAdmission_ROUTE_TO_A;
           GraphState_root := STATE_RouteFindingResponse_root_ROUTE_TO_A
-        END
-        IF not(Checking = TRUE) THEN
-          Admit := RouteAdmission_INACTIVE;
+
+        ELSIF not(Checking = TRUE) THEN
+Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
+
         END
       END;
       SELECT GraphState_root = STATE_RouteFindingResponse_root_ADMIT_TO_B THEN 
         IF RouteMonitored = TRUE THEN
-          Admit := RouteAdmission_ROUTE_TO_B;
+Admit := RouteAdmission_ROUTE_TO_B;
           GraphState_root := STATE_RouteFindingResponse_root_ROUTE_TO_B
-        END
-        IF not(Checking = TRUE) THEN
-          Admit := RouteAdmission_INACTIVE;
+
+        ELSIF not(Checking = TRUE) THEN
+Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
+
         END
       END;
       SELECT GraphState_root = STATE_RouteFindingResponse_root_ADMIT_TO_C THEN 
         IF RouteMonitored = TRUE THEN
-          Admit := RouteAdmission_ROUTE_TO_C;
+Admit := RouteAdmission_ROUTE_TO_C;
           GraphState_root := STATE_RouteFindingResponse_root_ROUTE_TO_C
-        END
-        IF not(Checking = TRUE) THEN
-          Admit := RouteAdmission_INACTIVE;
+
+        ELSIF not(Checking = TRUE) THEN
+Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
+
         END
       END;
       SELECT GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_END THEN 
         IF not(RouteMonitored = TRUE) THEN
-          Admit := RouteAdmission_INACTIVE;
+Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
+
         END
       END;
       SELECT GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_A THEN 
         IF not(RouteMonitored = TRUE) THEN
-          Admit := RouteAdmission_INACTIVE;
+Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
+
         END
       END;
       SELECT GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_B THEN 
         IF not(RouteMonitored = TRUE) THEN
-          Admit := RouteAdmission_INACTIVE;
+Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
+
         END
       END;
       SELECT GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_C THEN 
         IF not(RouteMonitored = TRUE) THEN
-          Admit := RouteAdmission_INACTIVE;
+Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
+
         END
       END
     END

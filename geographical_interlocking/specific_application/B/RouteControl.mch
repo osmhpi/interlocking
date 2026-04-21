@@ -19,8 +19,9 @@ OPERATIONS
     BEGIN
       // Update Terms
       RouteMonitored := bool(RouteMonitoring_State = ActiveInactive_ACTIVE);
-      // Perform transition, todo
-      GraphState_root := STATE_RouteControl_root___initial
+      // Perform transition
+        State := OpenCloseState_CLOSED;
+        GraphState_root := STATE_RouteControl_root_CLOSED
     END;
   Transition(RouteMonitoring_State) =
     BEGIN
@@ -29,14 +30,16 @@ OPERATIONS
       // Perform transition
       SELECT GraphState_root = STATE_RouteControl_root_CLOSED THEN 
         IF RouteMonitored = TRUE THEN
-          State := OpenCloseState_OPEN;
+State := OpenCloseState_OPEN;
           GraphState_root := STATE_RouteControl_root_OPEN
+
         END
       END;
       SELECT GraphState_root = STATE_RouteControl_root_OPEN THEN 
         IF not(RouteMonitored = TRUE) THEN
-          State := OpenCloseState_CLOSED;
+State := OpenCloseState_CLOSED;
           GraphState_root := STATE_RouteControl_root_CLOSED
+
         END
       END
     END

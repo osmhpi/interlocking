@@ -2,24 +2,24 @@ using Antlr4.Runtime.Misc;
 
 static partial class BWriter
 {
-  private class TermWriter : ExpressionBaseVisitor<string>
+  private class AssignmentWriter : GraphBaseVisitor<string>
   {
-    public override string VisitExpression([NotNull] ExpressionParser.ExpressionContext context)
+    public override string VisitExpression([NotNull] GraphParser.ExpressionContext context)
     {
       return $"bool({Visit(context.orExpression())})";
     }
 
-    public override string VisitOrExpression([NotNull] ExpressionParser.OrExpressionContext context)
+    public override string VisitOrExpression([NotNull] GraphParser.OrExpressionContext context)
     {
       return string.Join(" or ", context.andExpression().Select(Visit));
     }
 
-    override public string VisitAndExpression([NotNull] ExpressionParser.AndExpressionContext context)
+    override public string VisitAndExpression([NotNull] GraphParser.AndExpressionContext context)
     {
       return string.Join(" & ", context.notExpression().Select(Visit));
     }
 
-    public override string VisitNotExpression([NotNull] ExpressionParser.NotExpressionContext context)
+    public override string VisitNotExpression([NotNull] GraphParser.NotExpressionContext context)
     {
       if (context.notExpression() != null)
       {
@@ -32,7 +32,7 @@ static partial class BWriter
       return "";
     }
 
-    public override string VisitAtom([NotNull] ExpressionParser.AtomContext context)
+    public override string VisitAtom([NotNull] GraphParser.AtomContext context)
     {
       if (context.comparison() != null)
       {
@@ -42,18 +42,10 @@ static partial class BWriter
       {
         return "(" + Visit(context.expression()) + ")";
       }
-      else if (context.quantifierExpression() != null)
-      {
-        return Visit(context.quantifierExpression());
-      }
-      else if (context.timeoutExpression() != null)
-      {
-        return Visit(context.timeoutExpression());
-      }
       return "";
     }
 
-    public override string VisitTimeoutExpression([NotNull] ExpressionParser.TimeoutExpressionContext context)
+    public override string VisitTimeoutExpression([NotNull] GraphParser.TimeoutExpressionContext context)
     {
       if (context.valueReference() != null)
       {
@@ -64,7 +56,7 @@ static partial class BWriter
       return $"NOW >= {Visit(context.variableReference())}";
     }
 
-    public override string VisitQuantifierExpression([NotNull] ExpressionParser.QuantifierExpressionContext context)
+    public override string VisitQuantifierExpression([NotNull] GraphParser.QuantifierExpressionContext context)
     {
         var variableReference = $"{context.propertyName().GetText()[1..]}_{context.variableReference().graphOrInterfaceName().GetText()}_{context.variableReference().variableName().GetText()}";
         if (context.GetChild(0).GetText() == "All")
@@ -92,12 +84,12 @@ static partial class BWriter
         return "";
     }
 
-    public override string VisitComparison([NotNull] ExpressionParser.ComparisonContext context)
+    public override string VisitComparison([NotNull] GraphParser.ComparisonContext context)
     {
       return $"{Visit(context.variableReference())} {Visit(context.comparisonOperator())} {Visit(context.valueReference())}";
     }
 
-    public override string VisitVariableReference([NotNull] ExpressionParser.VariableReferenceContext context)
+    public override string VisitVariableReference([NotNull] GraphParser.VariableReferenceContext context)
     {
       if (context.graphOrInterfaceName() == null)
       {
@@ -112,7 +104,7 @@ static partial class BWriter
       return $"{context.propertyName().GetText()[1..]}_{context.graphOrInterfaceName().GetText()}_{context.variableName().GetText()}";
     }
 
-    public override string VisitValueReference([NotNull] ExpressionParser.ValueReferenceContext context)
+    public override string VisitValueReference([NotNull] GraphParser.ValueReferenceContext context)
     {
       if (context.qualifiedName() != null)
       {
@@ -145,22 +137,22 @@ static partial class BWriter
       return context.GetText();
     }
 
-    public override string VisitQualifiedName([NotNull] ExpressionParser.QualifiedNameContext context)
+    public override string VisitQualifiedName([NotNull] GraphParser.QualifiedNameContext context)
     {
       return $"{context.enumerationTypeName().GetText()}_{context.enumerationLiteralName().GetText()}";
     }
 
-    public override string VisitPropertyName([NotNull] ExpressionParser.PropertyNameContext context)
+    public override string VisitPropertyName([NotNull] GraphParser.PropertyNameContext context)
     {
       return context.GetText()[1..];
     }
 
-    public override string VisitAssignment([NotNull] ExpressionParser.AssignmentContext context)
+    public override string VisitAssignment([NotNull] GraphParser.AssignmentContext context)
     {
       return $"{Visit(context.variableReference())} := {Visit(context.valueReference())};";
     }
 
-    public override string VisitComparisonOperator([NotNull] ExpressionParser.ComparisonOperatorContext context)
+    public override string VisitComparisonOperator([NotNull] GraphParser.ComparisonOperatorContext context)
     {
       return context.GetText() switch
       {

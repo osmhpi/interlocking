@@ -31,8 +31,15 @@ OPERATIONS
       ZoneRequestsLock := bool(OccupancyStatus_OCCUPIED : locked_left_by_zones_Zone_State) ||
       PointIsMoving := FALSE ||
       TransitRequestsLock := bool(ActiveInactive_ACTIVE : locked_left_by_transits_Transit_State);
-      // Perform transition, todo
-      GraphState_root := STATE_PointLockLeft_root___initial
+      // Perform transition
+        IF PointInOppositePosition = TRUE THEN
+State := ActiveInactive_INACTIVE;
+          GraphState_root := STATE_PointLockLeft_root_NOT_LOCKED
+
+        ELSE
+        State := ActiveInactive_ACTIVE;
+        GraphState_root := STATE_PointLockLeft_root_LOCKED
+        END
     END;
   Transition(SCIP_DetectedEndPosition, locked_left_by_zones_Zone_State, locked_left_by_transits_Transit_State) =
     BEGIN
@@ -44,14 +51,16 @@ OPERATIONS
       // Perform transition
       SELECT GraphState_root = STATE_PointLockLeft_root_NOT_LOCKED THEN 
         IF ZoneRequestsLock = TRUE or PointIsMoving = TRUE or TransitRequestsLock = TRUE THEN
-          State := ActiveInactive_ACTIVE;
+State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_PointLockLeft_root_LOCKED
+
         END
       END;
       SELECT GraphState_root = STATE_PointLockLeft_root_LOCKED THEN 
         IF not(ZoneRequestsLock = TRUE) & not(PointIsMoving = TRUE) & not(TransitRequestsLock = TRUE) THEN
-          State := ActiveInactive_INACTIVE;
+State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointLockLeft_root_NOT_LOCKED
+
         END
       END
     END

@@ -39,8 +39,9 @@ OPERATIONS
       IsAdmitOpposite := bool(RouteAdmission_ADMIT_TO_B : ise_right_port_a_RouteFindingResponse_Admit or RouteAdmission_ADMIT_TO_C : ise_right_port_a_RouteFindingResponse_Admit or RouteAdmission_ADMIT_END : ise_right_port_a_RouteFindingResponse_Admit or RouteAdmission_ADMIT_TO_A : ise_right_port_b_RouteFindingResponse_Admit or RouteAdmission_ADMIT_TO_A : ise_right_port_c_RouteFindingResponse_Admit) ||
       IsRouteSet := bool(RouteChecking_ROUTE_SET_FROM_B : ise_left_port_a_RouteFindingSearch_Check or RouteChecking_ROUTE_SET_FROM_C : ise_left_port_a_RouteFindingSearch_Check or RouteChecking_ROUTE_SET_FROM_A : ise_left_port_b_RouteFindingSearch_Check or RouteChecking_ROUTE_SET_FROM_A : ise_left_port_c_RouteFindingSearch_Check or RouteChecking_ROUTE_SET_FROM_START : ise_left_port_b_RouteFindingSearch_Check) ||
       IsRouteSetDownstream := bool(RouteAdmission_ROUTE_TO_B : ise_left_port_a_RouteFindingResponse_Admit or RouteAdmission_ROUTE_TO_C : ise_left_port_a_RouteFindingResponse_Admit or RouteAdmission_ROUTE_END : ise_left_port_a_RouteFindingResponse_Admit or RouteAdmission_ROUTE_TO_A : ise_left_port_b_RouteFindingResponse_Admit or RouteAdmission_ROUTE_TO_A : ise_left_port_c_RouteFindingResponse_Admit);
-      // Perform transition, todo
-      GraphState_root := STATE_LinkLTR_root___initial
+      // Perform transition
+        State := RouteSearch_INACTIVE;
+        GraphState_root := STATE_LinkLTR_root_IDLE
     END;
   Transition(ise_left_port_a_RouteFindingSearch_Check, ise_left_port_b_RouteFindingSearch_Check, ise_left_port_c_RouteFindingSearch_Check, ise_right_port_a_RouteFindingSearch_Check, ise_right_port_b_RouteFindingSearch_Check, ise_right_port_c_RouteFindingSearch_Check, ise_left_port_a_RouteFindingResponse_Admit, ise_left_port_b_RouteFindingResponse_Admit, ise_left_port_c_RouteFindingResponse_Admit, ise_right_port_a_RouteFindingResponse_Admit, ise_right_port_b_RouteFindingResponse_Admit, ise_right_port_c_RouteFindingResponse_Admit) =
     BEGIN
@@ -54,44 +55,49 @@ OPERATIONS
       // Perform transition
       SELECT GraphState_root = STATE_LinkLTR_root_IDLE THEN 
         IF IsChecking = TRUE & not(IsCheckingOpposite = TRUE) THEN
-          State := RouteSearch_SEARCH;
+State := RouteSearch_SEARCH;
           GraphState_root := STATE_LinkLTR_root_CHECKING
-        END
-        IF IsAdmit = TRUE THEN
-          State := RouteSearch_RESPONSE;
+
+        ELSIF IsAdmit = TRUE THEN
+State := RouteSearch_RESPONSE;
           GraphState_root := STATE_LinkLTR_root_ADMIT
+
         END
       END;
       SELECT GraphState_root = STATE_LinkLTR_root_CHECKING THEN 
         IF IsRouteSet = TRUE & IsAdmitOpposite = TRUE THEN
-          State := RouteSearch_ROUTE_SET;
+State := RouteSearch_ROUTE_SET;
           GraphState_root := STATE_LinkLTR_root_ROUTE_SET
-        END
-        IF not(IsChecking = TRUE) THEN
-          State := RouteSearch_INACTIVE;
+
+        ELSIF not(IsChecking = TRUE) THEN
+State := RouteSearch_INACTIVE;
           GraphState_root := STATE_LinkLTR_root_IDLE
+
         END
       END;
       SELECT GraphState_root = STATE_LinkLTR_root_ADMIT THEN 
         IF IsRouteSetDownstream = TRUE THEN
-          State := RouteSearch_ROUTE_MONITORED;
+State := RouteSearch_ROUTE_MONITORED;
           GraphState_root := STATE_LinkLTR_root_ROUTE_MONITORED
-        END
-        IF not(IsAdmit = TRUE) THEN
-          State := RouteSearch_INACTIVE;
+
+        ELSIF not(IsAdmit = TRUE) THEN
+State := RouteSearch_INACTIVE;
           GraphState_root := STATE_LinkLTR_root_IDLE
+
         END
       END;
       SELECT GraphState_root = STATE_LinkLTR_root_ROUTE_SET THEN 
         IF not(IsRouteSet = TRUE) THEN
-          State := RouteSearch_INACTIVE;
+State := RouteSearch_INACTIVE;
           GraphState_root := STATE_LinkLTR_root_IDLE
+
         END
       END;
       SELECT GraphState_root = STATE_LinkLTR_root_ROUTE_MONITORED THEN 
         IF not(IsRouteSetDownstream = TRUE) THEN
-          State := RouteSearch_RESPONSE;
+State := RouteSearch_RESPONSE;
           GraphState_root := STATE_LinkLTR_root_ADMIT
+
         END
       END
     END

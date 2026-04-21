@@ -26,8 +26,10 @@ OPERATIONS
       // Update Terms
       RouteRequested := bool(SCICC_MsgRequestRoute = TRUE) ||
       IsTop := bool({ActiveInactive_ACTIVE} = all_routes_RouteCheck_Top);
-      // Perform transition, todo
-      GraphState_root := STATE_RouteCheck_root___initial
+      // Perform transition
+        Top := ActiveInactive_ACTIVE;
+      State := ActiveInactive_INACTIVE;
+        GraphState_root := STATE_RouteCheck_root_INACTIVE
     END;
   Transition(SCICC_MsgRequestRoute, all_routes_RouteCheck_Top) =
     BEGIN
@@ -39,18 +41,20 @@ OPERATIONS
         IF RouteRequested = TRUE THEN
 
             return self.transition_from_root_c(now)
+
         END
       END;
       SELECT GraphState_root = STATE_RouteCheck_root_WAITING THEN 
         IF IsTop = TRUE THEN
-          Top := ActiveInactive_INACTIVE;
-          State := ActiveInactive_ACTIVE;
+Top := ActiveInactive_INACTIVE;
+      State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_RouteCheck_root_CHECKING
+
         END
       END;
       SELECT GraphState_root = STATE_RouteCheck_root_CHECKING THEN 
-                  Top := ActiveInactive_ACTIVE;
-          State := ActiveInactive_INACTIVE;
+        Top := ActiveInactive_ACTIVE;
+      State := ActiveInactive_INACTIVE;
         GraphState_root := STATE_RouteCheck_root_INACTIVE
       END
     END

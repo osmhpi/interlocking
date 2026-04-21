@@ -19,8 +19,9 @@ OPERATIONS
     BEGIN
       // Update Terms
       RouteOpening := bool(OpenCloseState_OPEN : routes_starting_here_RouteControl_State);
-      // Perform transition, todo
-      GraphState_root := STATE_SignalControl_root___initial
+      // Perform transition
+        State := OpenCloseState_CLOSED;
+        GraphState_root := STATE_SignalControl_root_CLOSED
     END;
   Transition(routes_starting_here_RouteControl_State) =
     BEGIN
@@ -29,14 +30,16 @@ OPERATIONS
       // Perform transition
       SELECT GraphState_root = STATE_SignalControl_root_CLOSED THEN 
         IF RouteOpening = TRUE THEN
-          State := OpenCloseState_OPEN;
+State := OpenCloseState_OPEN;
           GraphState_root := STATE_SignalControl_root_OPEN
+
         END
       END;
       SELECT GraphState_root = STATE_SignalControl_root_OPEN THEN 
         IF not(RouteOpening = TRUE) THEN
-          State := OpenCloseState_CLOSED;
+State := OpenCloseState_CLOSED;
           GraphState_root := STATE_SignalControl_root_CLOSED
+
         END
       END
     END

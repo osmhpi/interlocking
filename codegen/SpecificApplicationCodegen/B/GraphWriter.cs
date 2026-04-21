@@ -32,6 +32,11 @@ static partial class BWriter
           }
       }
 
+      if (graph.Terms.Variables.Any(x => x.Value.Type == "timestamp"))
+      {
+          inputs.Add("NOW"); // Add NOW as implicit input for time-based conditions
+      }
+
       // Remove duplicates but keep defined order
       return inputs.Distinct().ToList();
   }
@@ -105,11 +110,6 @@ static partial class BWriter
     var states = DeclareStateSetsRecursively(spec, graph, entityType, graph.Subgraph, "root");
     var allInputs = CollectAllInputsToGraph(spec, graph);
 
-    if (graph.Terms.Variables.Any(x => x.Value.Type == "timestamp"))
-    {
-        allInputs.Add("NOW"); // Add NOW as implicit input for time-based conditions
-    }
-
     return @$"MACHINE {graph.Name}
 SEES Enums
 SETS
@@ -133,21 +133,154 @@ OPERATIONS
     BEGIN
       // Update Terms
       {graph.Terms.Terms.Select(t => $"{t.Key} := {(t.Value.ParsedTree != null ? new TermWriter().Visit(t.Value.ParsedTree) : t.Value.Default.ToString().ToUpper())}").Aggregate((a, b) => a + " ||\n      " + b)};
-      // Perform transition, todo
-      GraphState_root := STATE_{graph.Name}_root___initial
+      // Perform transition
+{GenerateInitialTransition(spec, graph, entityType, graph.Subgraph, "root")}
     END;
   Transition({string.Join(", ", allInputs)}) =
     BEGIN
       // Update Terms
       {graph.Terms.Terms.Select(t => $"{t.Key} := {(t.Value.ParsedTree != null ? new TermWriter().Visit(t.Value.ParsedTree) : t.Value.Default.ToString().ToUpper())}").Aggregate((a, b) => a + " ||\n      " + b)};
       // Perform transition
-      {GenerateGraphContentPrivate(spec, graph, entityType, graph.Subgraph, "root")}
+      {GenerateTransitions(spec, graph, entityType, graph.Subgraph, "root")}
     END
 END//MACHINE
 ";
   }
 
-  private static string GenerateGraphContentPrivate(Specification spec, Graph graph, EntityType entityType, Subgraph subgraph, string parent)
+  private static string GenerateInitialTransition(Specification spec, Graph graph, EntityType entityType, Subgraph subgraph, string parent)
+  {
+    // Extract states and transitions from the parse tree
+    var states = new HashSet<string>();
+    var transitions = subgraph.Transitions;
+
+    var diagramBody = graph.ParseTree.diagramBody();
+    // Collect states from state declarations
+    foreach (var stateDecl in diagramBody.stateDeclaration())
+    {
+      var stateName = stateDecl.stateReference().stateName()?.GetText();
+      if (!string.IsNullOrEmpty(stateName)) {
+        states.Add(stateName);
+        continue;
+      }
+
+      var pseudostateName = stateDecl.stateReference().pseudostateName()?.GetText();
+      if (!string.IsNullOrEmpty(pseudostateName))
+      {
+        states.Add(pseudostateName);
+      }
+    }
+
+    // Collect states and transitions from transitions
+    foreach (var transition in transitions)
+    {
+      var from = transition.From;
+      var to = transition.To;
+      if (!string.IsNullOrEmpty(from)) states.Add(from);
+      if (!string.IsNullOrEmpty(to)) states.Add(to);
+    }
+
+    // Remove special state names for Rust enum and transitions
+    var rustStates = new [] {"__initial" };
+    var validTransitions = transitions;
+
+    // Helper for Rust enum variant formatting
+    string Rustify(string s) {
+      var hasNestedGraph = subgraph.NestedSubgraphs.ContainsKey(s);
+      if (hasNestedGraph)
+      {
+        return $"{s}({parent}_{s}_State)";
+      }
+      return s;
+    }
+
+    // Collect choice pseudostate names for quick lookup
+    var choicePseudostates = new HashSet<string>(subgraph.ChoicePseudostates
+        .Where(p => p.EndsWith("<<choice>>"))
+        .Select(p => p.Split(':')[0]));
+
+    // Generate Rust enum for states (excluding choice pseudostates)
+    var enumStates = string.Join(",\n    ", rustStates.Where(x => !choicePseudostates.Contains(x)).Select(Rustify));
+
+    // Generate a function for each state to compute the next state
+    string WriteTransitionFunction(string state) {
+      var stateTransitions = validTransitions
+          .Where(t => state == "__initial" && t.From == "[*]")
+          .OrderBy(t => t.Priority ?? int.MaxValue)
+          .ToList();
+      var fnLines = new List<string>();
+      var stateIsNested = subgraph.NestedSubgraphs.ContainsKey(state);
+      var isFirstTransition = true;
+      var anyCondition = false;
+      foreach (var t in stateTransitions)
+      {
+        var verb = isFirstTransition ? "IF" : "ELSIF";
+        // Fetch assignments for the target state (t.To)
+        var assignments = subgraph.StateAssignments?.TryGetValue(t.To, out var value) == true ? value : null;
+        string assignmentCode = string.Empty;
+        if (assignments != null)
+        {
+          assignmentCode = string.Join("\n      ", assignments.Select(a => new AssignmentWriter().VisitAssignment(a)));
+        }
+        if (t.ParsedCondition != null)
+        {
+          anyCondition = true;
+          var visitor = new TransitionConditionToBVisitor();
+          var condExpr = visitor.Visit(t.ParsedCondition);
+          if (choicePseudostates.Contains(t.To))
+          {
+            fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n            return self.transition_from_{parent}_{t.To}(now)\n");
+          }
+          else
+          {
+            var isNested = subgraph.NestedSubgraphs.ContainsKey(t.To);
+            if (isNested)
+            {
+              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}(self.transition_from_{parent}_{t.To}___initial(now))\n");
+            }
+            else
+            {
+              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}\n");
+            }
+          }
+        }
+        else
+        {
+          if (!isFirstTransition)
+          {
+            fnLines.Add("        ELSE");
+          }
+
+          if (choicePseudostates.Contains(t.To))
+          {
+            fnLines.Add($"        {assignmentCode}\n        return self.transition_from_{parent}_{t.To}();");
+          }
+          else
+          {
+            var isNested = subgraph.NestedSubgraphs.ContainsKey(t.To);
+            if (isNested)
+            {
+              fnLines.Add($"        {assignmentCode}\n        return {parent}_State::{t.To}(self.transition_from_{parent}_{t.To}___initial(now));");
+            }
+            else
+            {
+              fnLines.Add($"        {assignmentCode}\n        GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}");
+            }
+          }
+        }
+
+        isFirstTransition = false;
+      }
+      if (anyCondition)
+      {
+        fnLines.Add("        END");
+      }
+      return string.Join("\n", fnLines);
+    }
+
+    return WriteTransitionFunction("__initial");
+  }
+
+  private static string GenerateTransitions(Specification spec, Graph graph, EntityType entityType, Subgraph subgraph, string parent)
   {
     // Extract states and transitions from the parse tree
     var states = new HashSet<string>();
@@ -217,45 +350,47 @@ END//MACHINE
       // {
       //   fnLines.Add($"    fn transition_from_{parent}_{state}(&mut self, now: timestamp) -> {parent}_State {{");
       // }
+      var isFirstTransition = true;
+      var anyCondition = false;
       foreach (var t in stateTransitions)
       {
+        var verb = isFirstTransition ? "IF" : "ELSIF";
         // Fetch assignments for the target state (t.To)
         var assignments = subgraph.StateAssignments?.TryGetValue(t.To, out var value) == true ? value : null;
         string assignmentCode = string.Empty;
         if (assignments != null)
         {
-          assignmentCode = string.Join("\n", assignments.Select(a =>
-          {
-            var variable = a.variableReference()?.GetText() ?? "";
-            var value = a.valueReference().qualifiedName() != null
-              ? a.valueReference().qualifiedName().enumerationTypeName().GetText() + "_" + a.valueReference().qualifiedName().enumerationLiteralName().GetText()
-              : a.valueReference()?.GetText() ?? "";
-            return $"          {variable} := {value};";
-          }));
+          assignmentCode = string.Join("\n      ", assignments.Select(a => new AssignmentWriter().VisitAssignment(a)));
         }
         if (t.ParsedCondition != null)
         {
+          anyCondition = true;
           var visitor = new TransitionConditionToBVisitor();
           var condExpr = visitor.Visit(t.ParsedCondition);
           if (choicePseudostates.Contains(t.To))
           {
-            fnLines.Add($"        IF {condExpr} THEN\n{assignmentCode}\n            return self.transition_from_{parent}_{t.To}(now)\n        END");
+            fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n            return self.transition_from_{parent}_{t.To}(now)\n");
           }
           else
           {
             var isNested = subgraph.NestedSubgraphs.ContainsKey(t.To);
             if (isNested)
             {
-              fnLines.Add($"        IF {condExpr} THEN\n{assignmentCode}\n          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}(self.transition_from_{parent}_{t.To}___initial(now))\n        END");
+              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}(self.transition_from_{parent}_{t.To}___initial(now))\n");
             }
             else
             {
-              fnLines.Add($"        IF {condExpr} THEN\n{assignmentCode}\n          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}\n        END");
+              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}\n");
             }
           }
         }
         else
         {
+          if (!isFirstTransition)
+          {
+            fnLines.Add("        ELSE");
+          }
+
           if (choicePseudostates.Contains(t.To))
           {
             fnLines.Add($"        {assignmentCode}\n        return self.transition_from_{parent}_{t.To}();");
@@ -273,6 +408,12 @@ END//MACHINE
             }
           }
         }
+
+        isFirstTransition = false;
+      }
+      if (anyCondition)
+      {
+        fnLines.Add("        END");
       }
       if (!choicePseudostates.Contains(state) && state != "__initial")
       {

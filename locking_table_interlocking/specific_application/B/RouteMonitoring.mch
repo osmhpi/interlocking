@@ -27,8 +27,9 @@ OPERATIONS
       PointsControlled := bool({ActiveInactive_ACTIVE} = request_points_controlled_right_PointControl_Right & {ActiveInactive_ACTIVE} = request_points_controlled_left_PointControl_Left) ||
       RouteSet := bool(Route_State = RouteState_SET) ||
       InverseTransitsInactive := bool({ActiveInactive_INACTIVE} = transits_in_opposite_route_direction_Transit_State);
-      // Perform transition, todo
-      GraphState_root := STATE_RouteMonitoring_root___initial
+      // Perform transition
+        State := ActiveInactive_INACTIVE;
+        GraphState_root := STATE_RouteMonitoring_root_NOT_CONTROLLED
     END;
   Transition(request_points_controlled_right_PointControl_Right, request_points_controlled_left_PointControl_Left, Route_State, transits_in_opposite_route_direction_Transit_State) =
     BEGIN
@@ -39,14 +40,16 @@ OPERATIONS
       // Perform transition
       SELECT GraphState_root = STATE_RouteMonitoring_root_NOT_CONTROLLED THEN 
         IF PointsControlled = TRUE & RouteSet = TRUE & InverseTransitsInactive = TRUE THEN
-          State := ActiveInactive_ACTIVE;
+State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_RouteMonitoring_root_CONTROLLED
+
         END
       END;
       SELECT GraphState_root = STATE_RouteMonitoring_root_CONTROLLED THEN 
         IF not(PointsControlled = TRUE) or not(RouteSet = TRUE) or not(InverseTransitsInactive = TRUE) THEN
-          State := ActiveInactive_INACTIVE;
+State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteMonitoring_root_NOT_CONTROLLED
+
         END
       END
     END
