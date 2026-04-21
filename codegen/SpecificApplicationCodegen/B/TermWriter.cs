@@ -6,17 +6,17 @@ static partial class BWriter
   {
     public override string VisitExpression([NotNull] ExpressionParser.ExpressionContext context)
     {
-      return Visit(context.orExpression());
+      return $"bool({Visit(context.orExpression())})";
     }
 
     public override string VisitOrExpression([NotNull] ExpressionParser.OrExpressionContext context)
     {
-      return string.Join(" OR ", context.andExpression().Select(Visit));
+      return string.Join(" or ", context.andExpression().Select(Visit));
     }
 
     override public string VisitAndExpression([NotNull] ExpressionParser.AndExpressionContext context)
     {
-      return string.Join(" AND ", context.notExpression().Select(Visit));
+      return string.Join(" & ", context.notExpression().Select(Visit));
     }
 
     public override string VisitNotExpression([NotNull] ExpressionParser.NotExpressionContext context)
@@ -69,11 +69,25 @@ static partial class BWriter
         var variableReference = $"{context.propertyName().GetText()[1..]}_{context.variableReference().graphOrInterfaceName().GetText()}_{context.variableReference().variableName().GetText()}";
         if (context.GetChild(0).GetText() == "All")
         {
-            return $"!({context.quantifierVariableName().GetText()}).({context.quantifierVariableName().GetText()} : dom({variableReference}) => {variableReference}({context.quantifierVariableName().GetText()}) = {Visit(context.valueReference())} )";
+            if (context.comparisonOperator().GetText() == "==")
+            {
+                return $"{{{Visit(context.valueReference())}}} = {variableReference}";
+            }
+            else if (context.comparisonOperator().GetText() == "!=")
+            {
+                return $"{Visit(context.valueReference())} /: {variableReference}";
+            }
         }
         else if (context.GetChild(0).GetText() == "Any")
         {
-            return $"{Visit(context.valueReference())} : {variableReference}";
+            if (context.comparisonOperator().GetText() == "==")
+            {
+                return $"{Visit(context.valueReference())} : {variableReference}";
+            }
+            else if (context.comparisonOperator().GetText() == "!=")
+            {
+                return $"{{{Visit(context.valueReference())}}} /= {variableReference}";
+            }
         }
         return "";
     }
@@ -95,7 +109,7 @@ static partial class BWriter
           return $"{context.graphOrInterfaceName().GetText()}_{context.variableName().GetText()}";
       }
 
-      return $"{context.propertyName().GetText()}_{context.graphOrInterfaceName().GetText()}_{context.variableName().GetText()}";
+      return $"{context.propertyName().GetText()[1..]}_{context.graphOrInterfaceName().GetText()}_{context.variableName().GetText()}";
     }
 
     public override string VisitValueReference([NotNull] ExpressionParser.ValueReferenceContext context)
@@ -111,6 +125,21 @@ static partial class BWriter
       if (context.booleanLiteral() != null)
       {
         return context.booleanLiteral().GetText().ToUpper();
+      }
+      if (context.durationLiteral() != null)
+      {
+        if (context.durationLiteral().NOW() != null)
+        {
+          return "NOW";
+        }
+        else
+        {
+          return context.durationLiteral().NUMBER().GetText();
+        }
+      }
+      if (context.noneLiteral() != null)
+      {
+        return "0"; // timestamp of 0 represents None
       }
 
       return context.GetText();

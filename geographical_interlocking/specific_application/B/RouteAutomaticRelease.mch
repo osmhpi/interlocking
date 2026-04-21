@@ -7,40 +7,57 @@ VARIABLES
   OppositeTransitsInactive,
   TriggerZoneFree,
   State,
-  GraphState
+  GraphState_root
 INVARIANT
   RouteIsSet : BOOL &
   OppositeTransitsInactive : BOOL &
   TriggerZoneFree : BOOL &
   State : ActiveInactive &
-  GraphState : STATE_RouteAutomaticRelease_root
+  GraphState_root : STATE_RouteAutomaticRelease_root
 INITIALIZATION
   RouteIsSet := FALSE;
   OppositeTransitsInactive := TRUE;
   TriggerZoneFree := FALSE;
   State := ActiveInactive_INACTIVE;
-  GraphState := STATE_RouteAutomaticRelease_root___initial
+  GraphState_root := STATE_RouteAutomaticRelease_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(Route_State, trigger_zone_opposite_transits_Transit_State, trigger_zone_Zone_State) =
     BEGIN
       // Update Terms
-      RouteIsSet := Route_State = RouteState_SET ||
-      OppositeTransitsInactive := !(transit).(transit : dom(trigger_zone_opposite_transits_Transit_State) => trigger_zone_opposite_transits_Transit_State(transit) = ActiveInactive_INACTIVE ) ||
-      TriggerZoneFree := @trigger_zone_Zone_State = OccupancyStatus_VACANT;
-      // Perform transition
-      SELECT GraphState = STATE_RouteAutomaticRelease_root___initial THEN
-        GraphState := STATE_RouteAutomaticRelease_root___initial
-      END;
-    END
+      RouteIsSet := bool(Route_State = RouteState_SET) ||
+      OppositeTransitsInactive := bool({ActiveInactive_INACTIVE} = trigger_zone_opposite_transits_Transit_State) ||
+      TriggerZoneFree := bool(trigger_zone_Zone_State = OccupancyStatus_VACANT);
+      // Perform transition, todo
+      GraphState_root := STATE_RouteAutomaticRelease_root___initial
+    END;
   Transition(Route_State, trigger_zone_opposite_transits_Transit_State, trigger_zone_Zone_State) =
     BEGIN
       // Update Terms
-      RouteIsSet := Route_State = RouteState_SET ||
-      OppositeTransitsInactive := !(transit).(transit : dom(trigger_zone_opposite_transits_Transit_State) => trigger_zone_opposite_transits_Transit_State(transit) = ActiveInactive_INACTIVE ) ||
-      TriggerZoneFree := @trigger_zone_Zone_State = OccupancyStatus_VACANT;
+      RouteIsSet := bool(Route_State = RouteState_SET) ||
+      OppositeTransitsInactive := bool({ActiveInactive_INACTIVE} = trigger_zone_opposite_transits_Transit_State) ||
+      TriggerZoneFree := bool(trigger_zone_Zone_State = OccupancyStatus_VACANT);
       // Perform transition
-      SELECT GraphState = STATE_RouteAutomaticRelease_root___initial THEN
-        GraphState := STATE_RouteAutomaticRelease_root___initial
+      SELECT GraphState_root = STATE_RouteAutomaticRelease_root_INACTIVE THEN 
+        IF RouteIsSet = TRUE & OppositeTransitsInactive = TRUE & not(TriggerZoneFree = TRUE) THEN
+          State := ActiveInactive_INACTIVE;
+          GraphState_root := STATE_RouteAutomaticRelease_root_ACTIVE
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteAutomaticRelease_root_ACTIVE THEN 
+        IF not(RouteIsSet = TRUE) THEN
+          State := ActiveInactive_INACTIVE;
+          GraphState_root := STATE_RouteAutomaticRelease_root_INACTIVE
+        END
+        IF TriggerZoneFree = TRUE THEN
+          State := ActiveInactive_ACTIVE;
+          GraphState_root := STATE_RouteAutomaticRelease_root_EFFECTIVE
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteAutomaticRelease_root_EFFECTIVE THEN 
+        IF not(RouteIsSet = TRUE) THEN
+          State := ActiveInactive_INACTIVE;
+          GraphState_root := STATE_RouteAutomaticRelease_root_INACTIVE
+        END
       END
     END
 END//MACHINE

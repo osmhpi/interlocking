@@ -10,7 +10,7 @@ VARIABLES
   PointLockedLeft,
   PointLockedRight,
   State,
-  GraphState
+  GraphState_root
 INVARIANT
   PointDetectedLeft : BOOL &
   PointDetectedRight : BOOL &
@@ -19,7 +19,7 @@ INVARIANT
   PointLockedLeft : BOOL &
   PointLockedRight : BOOL &
   State : PointState &
-  GraphState : STATE_Point_root
+  GraphState_root : STATE_Point_root
 INITIALIZATION
   PointDetectedLeft := FALSE;
   PointDetectedRight := FALSE;
@@ -28,34 +28,51 @@ INITIALIZATION
   PointLockedLeft := FALSE;
   PointLockedRight := FALSE;
   State := PointState_UNDETERMINED;
-  GraphState := STATE_Point_root___initial
+  GraphState_root := STATE_Point_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(SCIP_DetectedEndPosition, locked_left_by_transits_Route_State, locked_right_by_transits_Route_State, PointLockLeft_State, PointLockRight_State) =
     BEGIN
       // Update Terms
-      PointDetectedLeft := SCIP_DetectedEndPosition = EulynxEndPosition_LEFT ||
-      PointDetectedRight := SCIP_DetectedEndPosition = EulynxEndPosition_RIGHT ||
-      RouteAuthorizedMoveLeft := RouteState_PREPARING : locked_left_by_transits_Route_State ||
-      RouteAuthorizedMoveRight := RouteState_PREPARING : locked_right_by_transits_Route_State ||
-      PointLockedLeft := PointLockLeft_State = ActiveInactive_ACTIVE ||
-      PointLockedRight := PointLockRight_State = ActiveInactive_ACTIVE;
-      // Perform transition
-      SELECT GraphState = STATE_Point_root___initial THEN
-        GraphState := STATE_Point_root___initial
-      END;
-    END
+      PointDetectedLeft := bool(SCIP_DetectedEndPosition = EulynxEndPosition_LEFT) ||
+      PointDetectedRight := bool(SCIP_DetectedEndPosition = EulynxEndPosition_RIGHT) ||
+      RouteAuthorizedMoveLeft := bool(RouteState_PREPARING : locked_left_by_transits_Route_State) ||
+      RouteAuthorizedMoveRight := bool(RouteState_PREPARING : locked_right_by_transits_Route_State) ||
+      PointLockedLeft := bool(PointLockLeft_State = ActiveInactive_ACTIVE) ||
+      PointLockedRight := bool(PointLockRight_State = ActiveInactive_ACTIVE);
+      // Perform transition, todo
+      GraphState_root := STATE_Point_root___initial
+    END;
   Transition(SCIP_DetectedEndPosition, locked_left_by_transits_Route_State, locked_right_by_transits_Route_State, PointLockLeft_State, PointLockRight_State) =
     BEGIN
       // Update Terms
-      PointDetectedLeft := SCIP_DetectedEndPosition = EulynxEndPosition_LEFT ||
-      PointDetectedRight := SCIP_DetectedEndPosition = EulynxEndPosition_RIGHT ||
-      RouteAuthorizedMoveLeft := RouteState_PREPARING : locked_left_by_transits_Route_State ||
-      RouteAuthorizedMoveRight := RouteState_PREPARING : locked_right_by_transits_Route_State ||
-      PointLockedLeft := PointLockLeft_State = ActiveInactive_ACTIVE ||
-      PointLockedRight := PointLockRight_State = ActiveInactive_ACTIVE;
+      PointDetectedLeft := bool(SCIP_DetectedEndPosition = EulynxEndPosition_LEFT) ||
+      PointDetectedRight := bool(SCIP_DetectedEndPosition = EulynxEndPosition_RIGHT) ||
+      RouteAuthorizedMoveLeft := bool(RouteState_PREPARING : locked_left_by_transits_Route_State) ||
+      RouteAuthorizedMoveRight := bool(RouteState_PREPARING : locked_right_by_transits_Route_State) ||
+      PointLockedLeft := bool(PointLockLeft_State = ActiveInactive_ACTIVE) ||
+      PointLockedRight := bool(PointLockRight_State = ActiveInactive_ACTIVE);
       // Perform transition
-      SELECT GraphState = STATE_Point_root___initial THEN
-        GraphState := STATE_Point_root___initial
+      SELECT GraphState_root = STATE_Point_root_LEFT THEN 
+        IF RouteAuthorizedMoveRight = TRUE & not((RouteAuthorizedMoveLeft = TRUE or PointLockedLeft = TRUE)) THEN
+          State := PointState_RIGHT;
+          GraphState_root := STATE_Point_root_RIGHT
+        END
+      END;
+      SELECT GraphState_root = STATE_Point_root_RIGHT THEN 
+        IF RouteAuthorizedMoveLeft = TRUE & not((RouteAuthorizedMoveRight = TRUE or PointLockedRight = TRUE)) THEN
+          State := PointState_LEFT;
+          GraphState_root := STATE_Point_root_LEFT
+        END
+      END;
+      SELECT GraphState_root = STATE_Point_root_UNDETERMINED THEN 
+        IF RouteAuthorizedMoveLeft = TRUE & not(RouteAuthorizedMoveRight = TRUE) THEN
+          State := PointState_LEFT;
+          GraphState_root := STATE_Point_root_LEFT
+        END
+        IF RouteAuthorizedMoveRight = TRUE & not(RouteAuthorizedMoveLeft = TRUE) THEN
+          State := PointState_RIGHT;
+          GraphState_root := STATE_Point_root_RIGHT
+        END
       END
     END
 END//MACHINE

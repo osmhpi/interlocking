@@ -9,7 +9,7 @@ VARIABLES
   AutomaticReleaseEffective,
   ManualReleaseEffective,
   State,
-  GraphState
+  GraphState_root
 INVARIANT
   RouteRequested : BOOL &
   PointsAvailable : BOOL &
@@ -17,7 +17,7 @@ INVARIANT
   AutomaticReleaseEffective : BOOL &
   ManualReleaseEffective : BOOL &
   State : RouteState &
-  GraphState : STATE_Route_root
+  GraphState_root : STATE_Route_root
 INITIALIZATION
   RouteRequested := FALSE;
   PointsAvailable := FALSE;
@@ -25,32 +25,45 @@ INITIALIZATION
   AutomaticReleaseEffective := FALSE;
   ManualReleaseEffective := FALSE;
   State := RouteState_RELEASED;
-  GraphState := STATE_Route_root___initial
+  GraphState_root := STATE_Route_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(SCICC_MsgRequestRoute, request_points_right_Point_State, request_points_left_Point_State, RouteAutomaticRelease_State, RouteManualRelease_ManualReleaseRequested) =
     BEGIN
       // Update Terms
-      RouteRequested := SCICC_MsgRequestRoute = TRUE ||
-      PointsAvailable := !(point).(point : dom(request_points_right_Point_State) => request_points_right_Point_State(point) = PointState_RIGHT ) AND !(point).(point : dom(request_points_left_Point_State) => request_points_left_Point_State(point) = PointState_LEFT ) ||
+      RouteRequested := bool(SCICC_MsgRequestRoute = TRUE) ||
+      PointsAvailable := bool({PointState_RIGHT} = request_points_right_Point_State & {PointState_LEFT} = request_points_left_Point_State) ||
       NoIncompatibleRoutes := TRUE ||
-      AutomaticReleaseEffective := RouteAutomaticRelease_State = ActiveInactive_ACTIVE ||
-      ManualReleaseEffective := RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE;
-      // Perform transition
-      SELECT GraphState = STATE_Route_root___initial THEN
-        GraphState := STATE_Route_root___initial
-      END;
-    END
+      AutomaticReleaseEffective := bool(RouteAutomaticRelease_State = ActiveInactive_ACTIVE) ||
+      ManualReleaseEffective := bool(RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE);
+      // Perform transition, todo
+      GraphState_root := STATE_Route_root___initial
+    END;
   Transition(SCICC_MsgRequestRoute, request_points_right_Point_State, request_points_left_Point_State, RouteAutomaticRelease_State, RouteManualRelease_ManualReleaseRequested) =
     BEGIN
       // Update Terms
-      RouteRequested := SCICC_MsgRequestRoute = TRUE ||
-      PointsAvailable := !(point).(point : dom(request_points_right_Point_State) => request_points_right_Point_State(point) = PointState_RIGHT ) AND !(point).(point : dom(request_points_left_Point_State) => request_points_left_Point_State(point) = PointState_LEFT ) ||
+      RouteRequested := bool(SCICC_MsgRequestRoute = TRUE) ||
+      PointsAvailable := bool({PointState_RIGHT} = request_points_right_Point_State & {PointState_LEFT} = request_points_left_Point_State) ||
       NoIncompatibleRoutes := TRUE ||
-      AutomaticReleaseEffective := RouteAutomaticRelease_State = ActiveInactive_ACTIVE ||
-      ManualReleaseEffective := RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE;
+      AutomaticReleaseEffective := bool(RouteAutomaticRelease_State = ActiveInactive_ACTIVE) ||
+      ManualReleaseEffective := bool(RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE);
       // Perform transition
-      SELECT GraphState = STATE_Route_root___initial THEN
-        GraphState := STATE_Route_root___initial
+      SELECT GraphState_root = STATE_Route_root_RELEASED THEN 
+        IF RouteRequested = TRUE THEN
+
+            return self.transition_from_root_c(now)
+        END
+      END;
+      SELECT GraphState_root = STATE_Route_root_SET THEN 
+        IF AutomaticReleaseEffective = TRUE or ManualReleaseEffective = TRUE THEN
+          State := RouteState_RELEASED;
+          GraphState_root := STATE_Route_root_RELEASED
+        END
+      END;
+      SELECT GraphState_root = STATE_Route_root_PREPARING THEN 
+        IF PointsAvailable = TRUE & NoIncompatibleRoutes = TRUE THEN
+          State := RouteState_SET;
+          GraphState_root := STATE_Route_root_SET
+        END
       END
     END
 END//MACHINE

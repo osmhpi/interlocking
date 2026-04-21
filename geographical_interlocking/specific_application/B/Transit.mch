@@ -9,46 +9,59 @@ VARIABLES
   RequestedByRoute,
   State,
   StartInitialization,
-  GraphState
+  GraphState_root
 INVARIANT
   InitializationTimeoutExpired : BOOL &
   ZoneFree : BOOL &
   UpstreamTransitsIdle : BOOL &
   RequestedByRoute : BOOL &
   State : ActiveInactive &
-  StartInitialization : timestamp &
-  GraphState : STATE_Transit_root
+  StartInitialization : INT &
+  GraphState_root : STATE_Transit_root
 INITIALIZATION
   InitializationTimeoutExpired := FALSE;
   ZoneFree := FALSE;
   UpstreamTransitsIdle := FALSE;
   RequestedByRoute := FALSE;
   State := ActiveInactive_INACTIVE;
-  StartInitialization := _;
-  GraphState := STATE_Transit_root___initial
+  StartInitialization := 0;
+  GraphState_root := STATE_Transit_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(underlying_zone_Zone_State, upstream_transits_Transit_State, Route_State, NOW) =
     BEGIN
       // Update Terms
-      InitializationTimeoutExpired := NOW >= StartInitialization + 1000ms ||
-      ZoneFree := @underlying_zone_Zone_State = OccupancyStatus_VACANT ||
-      UpstreamTransitsIdle := !(transit).(transit : dom(upstream_transits_Transit_State) => upstream_transits_Transit_State(transit) = ActiveInactive_INACTIVE ) ||
-      RequestedByRoute := Route_State = RouteState_SET;
+      InitializationTimeoutExpired := bool(NOW >= StartInitialization + 1000) ||
+      ZoneFree := bool(underlying_zone_Zone_State = OccupancyStatus_VACANT) ||
+      UpstreamTransitsIdle := bool({ActiveInactive_INACTIVE} = upstream_transits_Transit_State) ||
+      RequestedByRoute := bool(Route_State = RouteState_SET);
+      // Perform transition, todo
+      GraphState_root := STATE_Transit_root___initial
+    END;
+  Transition(underlying_zone_Zone_State, upstream_transits_Transit_State, Route_State, NOW) =
+    BEGIN
+      // Update Terms
+      InitializationTimeoutExpired := bool(NOW >= StartInitialization + 1000) ||
+      ZoneFree := bool(underlying_zone_Zone_State = OccupancyStatus_VACANT) ||
+      UpstreamTransitsIdle := bool({ActiveInactive_INACTIVE} = upstream_transits_Transit_State) ||
+      RequestedByRoute := bool(Route_State = RouteState_SET);
       // Perform transition
-      SELECT GraphState = STATE_Transit_root___initial THEN
-        GraphState := STATE_Transit_root___initial
+      SELECT GraphState_root = STATE_Transit_root_INITIALIZING THEN 
+        IF InitializationTimeoutExpired = TRUE & UpstreamTransitsIdle = TRUE & ZoneFree = TRUE & not(RequestedByRoute = TRUE) THEN
+          State := ActiveInactive_INACTIVE;
+          GraphState_root := STATE_Transit_root_IDLE
+        END
       END;
-    END
-  Transition(underlying_zone_Zone_State, upstream_transits_Transit_State, Route_State) =
-    BEGIN
-      // Update Terms
-      InitializationTimeoutExpired := NOW >= StartInitialization + 1000ms ||
-      ZoneFree := @underlying_zone_Zone_State = OccupancyStatus_VACANT ||
-      UpstreamTransitsIdle := !(transit).(transit : dom(upstream_transits_Transit_State) => upstream_transits_Transit_State(transit) = ActiveInactive_INACTIVE ) ||
-      RequestedByRoute := Route_State = RouteState_SET;
-      // Perform transition
-      SELECT GraphState = STATE_Transit_root___initial THEN
-        GraphState := STATE_Transit_root___initial
+      SELECT GraphState_root = STATE_Transit_root_IDLE THEN 
+        IF RequestedByRoute = TRUE THEN
+          State := ActiveInactive_ACTIVE;
+          GraphState_root := STATE_Transit_root_ACTIVE
+        END
+      END;
+      SELECT GraphState_root = STATE_Transit_root_ACTIVE THEN 
+        IF UpstreamTransitsIdle = TRUE & ZoneFree = TRUE & not(RequestedByRoute = TRUE) THEN
+          State := ActiveInactive_INACTIVE;
+          GraphState_root := STATE_Transit_root_IDLE
+        END
       END
     END
 END//MACHINE

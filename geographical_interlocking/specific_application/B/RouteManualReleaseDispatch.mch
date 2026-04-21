@@ -5,32 +5,39 @@ SETS
 VARIABLES
   RouteReleaseRequested,
   State,
-  GraphState
+  GraphState_root
 INVARIANT
   RouteReleaseRequested : BOOL &
   State : ActiveInactive &
-  GraphState : STATE_RouteManualReleaseDispatch_root
+  GraphState_root : STATE_RouteManualReleaseDispatch_root
 INITIALIZATION
   RouteReleaseRequested := FALSE;
   State := ActiveInactive_INACTIVE;
-  GraphState := STATE_RouteManualReleaseDispatch_root___initial
+  GraphState_root := STATE_RouteManualReleaseDispatch_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(is_start_of_route_admission_check_SCICC_MsgReleaseRoute) =
     BEGIN
       // Update Terms
-      RouteReleaseRequested := TRUE : is_start_of_route_admission_check_SCICC_MsgReleaseRoute;
-      // Perform transition
-      SELECT GraphState = STATE_RouteManualReleaseDispatch_root___initial THEN
-        GraphState := STATE_RouteManualReleaseDispatch_root___initial
-      END;
-    END
+      RouteReleaseRequested := bool(TRUE : is_start_of_route_admission_check_SCICC_MsgReleaseRoute);
+      // Perform transition, todo
+      GraphState_root := STATE_RouteManualReleaseDispatch_root___initial
+    END;
   Transition(is_start_of_route_admission_check_SCICC_MsgReleaseRoute) =
     BEGIN
       // Update Terms
-      RouteReleaseRequested := TRUE : is_start_of_route_admission_check_SCICC_MsgReleaseRoute;
+      RouteReleaseRequested := bool(TRUE : is_start_of_route_admission_check_SCICC_MsgReleaseRoute);
       // Perform transition
-      SELECT GraphState = STATE_RouteManualReleaseDispatch_root___initial THEN
-        GraphState := STATE_RouteManualReleaseDispatch_root___initial
+      SELECT GraphState_root = STATE_RouteManualReleaseDispatch_root_IDLE THEN 
+        IF RouteReleaseRequested = TRUE THEN
+          State := ActiveInactive_ACTIVE;
+          GraphState_root := STATE_RouteManualReleaseDispatch_root_ACTIVE
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteManualReleaseDispatch_root_ACTIVE THEN 
+        IF not(RouteReleaseRequested = TRUE) THEN
+          State := ActiveInactive_INACTIVE;
+          GraphState_root := STATE_RouteManualReleaseDispatch_root_IDLE
+        END
       END
     END
 END//MACHINE

@@ -5,32 +5,39 @@ SETS
 VARIABLES
   RouteOpening,
   State,
-  GraphState
+  GraphState_root
 INVARIANT
   RouteOpening : BOOL &
   State : OpenCloseState &
-  GraphState : STATE_SignalControl_root
+  GraphState_root : STATE_SignalControl_root
 INITIALIZATION
   RouteOpening := FALSE;
   State := OpenCloseState_CLOSED;
-  GraphState := STATE_SignalControl_root___initial
+  GraphState_root := STATE_SignalControl_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(routes_starting_here_RouteControl_State) =
     BEGIN
       // Update Terms
-      RouteOpening := OpenCloseState_OPEN : routes_starting_here_RouteControl_State;
-      // Perform transition
-      SELECT GraphState = STATE_SignalControl_root___initial THEN
-        GraphState := STATE_SignalControl_root___initial
-      END;
-    END
+      RouteOpening := bool(OpenCloseState_OPEN : routes_starting_here_RouteControl_State);
+      // Perform transition, todo
+      GraphState_root := STATE_SignalControl_root___initial
+    END;
   Transition(routes_starting_here_RouteControl_State) =
     BEGIN
       // Update Terms
-      RouteOpening := OpenCloseState_OPEN : routes_starting_here_RouteControl_State;
+      RouteOpening := bool(OpenCloseState_OPEN : routes_starting_here_RouteControl_State);
       // Perform transition
-      SELECT GraphState = STATE_SignalControl_root___initial THEN
-        GraphState := STATE_SignalControl_root___initial
+      SELECT GraphState_root = STATE_SignalControl_root_CLOSED THEN 
+        IF RouteOpening = TRUE THEN
+          State := OpenCloseState_OPEN;
+          GraphState_root := STATE_SignalControl_root_OPEN
+        END
+      END;
+      SELECT GraphState_root = STATE_SignalControl_root_OPEN THEN 
+        IF not(RouteOpening = TRUE) THEN
+          State := OpenCloseState_CLOSED;
+          GraphState_root := STATE_SignalControl_root_CLOSED
+        END
       END
     END
 END//MACHINE

@@ -7,40 +7,47 @@ VARIABLES
   RouteSet,
   InverseTransitsInactive,
   State,
-  GraphState
+  GraphState_root
 INVARIANT
   PointsControlled : BOOL &
   RouteSet : BOOL &
   InverseTransitsInactive : BOOL &
   State : ActiveInactive &
-  GraphState : STATE_RouteMonitoring_root
+  GraphState_root : STATE_RouteMonitoring_root
 INITIALIZATION
   PointsControlled := FALSE;
   RouteSet := FALSE;
   InverseTransitsInactive := FALSE;
   State := ActiveInactive_INACTIVE;
-  GraphState := STATE_RouteMonitoring_root___initial
+  GraphState_root := STATE_RouteMonitoring_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(request_points_controlled_right_PointControl_Right, request_points_controlled_left_PointControl_Left, Route_State, transits_in_opposite_route_direction_Transit_State) =
     BEGIN
       // Update Terms
-      PointsControlled := !(point).(point : dom(request_points_controlled_right_PointControl_Right) => request_points_controlled_right_PointControl_Right(point) = ActiveInactive_ACTIVE ) AND !(point).(point : dom(request_points_controlled_left_PointControl_Left) => request_points_controlled_left_PointControl_Left(point) = ActiveInactive_ACTIVE ) ||
-      RouteSet := Route_State = RouteState_SET ||
-      InverseTransitsInactive := !(transit).(transit : dom(transits_in_opposite_route_direction_Transit_State) => transits_in_opposite_route_direction_Transit_State(transit) = ActiveInactive_INACTIVE );
-      // Perform transition
-      SELECT GraphState = STATE_RouteMonitoring_root___initial THEN
-        GraphState := STATE_RouteMonitoring_root___initial
-      END;
-    END
+      PointsControlled := bool({ActiveInactive_ACTIVE} = request_points_controlled_right_PointControl_Right & {ActiveInactive_ACTIVE} = request_points_controlled_left_PointControl_Left) ||
+      RouteSet := bool(Route_State = RouteState_SET) ||
+      InverseTransitsInactive := bool({ActiveInactive_INACTIVE} = transits_in_opposite_route_direction_Transit_State);
+      // Perform transition, todo
+      GraphState_root := STATE_RouteMonitoring_root___initial
+    END;
   Transition(request_points_controlled_right_PointControl_Right, request_points_controlled_left_PointControl_Left, Route_State, transits_in_opposite_route_direction_Transit_State) =
     BEGIN
       // Update Terms
-      PointsControlled := !(point).(point : dom(request_points_controlled_right_PointControl_Right) => request_points_controlled_right_PointControl_Right(point) = ActiveInactive_ACTIVE ) AND !(point).(point : dom(request_points_controlled_left_PointControl_Left) => request_points_controlled_left_PointControl_Left(point) = ActiveInactive_ACTIVE ) ||
-      RouteSet := Route_State = RouteState_SET ||
-      InverseTransitsInactive := !(transit).(transit : dom(transits_in_opposite_route_direction_Transit_State) => transits_in_opposite_route_direction_Transit_State(transit) = ActiveInactive_INACTIVE );
+      PointsControlled := bool({ActiveInactive_ACTIVE} = request_points_controlled_right_PointControl_Right & {ActiveInactive_ACTIVE} = request_points_controlled_left_PointControl_Left) ||
+      RouteSet := bool(Route_State = RouteState_SET) ||
+      InverseTransitsInactive := bool({ActiveInactive_INACTIVE} = transits_in_opposite_route_direction_Transit_State);
       // Perform transition
-      SELECT GraphState = STATE_RouteMonitoring_root___initial THEN
-        GraphState := STATE_RouteMonitoring_root___initial
+      SELECT GraphState_root = STATE_RouteMonitoring_root_NOT_CONTROLLED THEN 
+        IF PointsControlled = TRUE & RouteSet = TRUE & InverseTransitsInactive = TRUE THEN
+          State := ActiveInactive_ACTIVE;
+          GraphState_root := STATE_RouteMonitoring_root_CONTROLLED
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteMonitoring_root_CONTROLLED THEN 
+        IF not(PointsControlled = TRUE) or not(RouteSet = TRUE) or not(InverseTransitsInactive = TRUE) THEN
+          State := ActiveInactive_INACTIVE;
+          GraphState_root := STATE_RouteMonitoring_root_NOT_CONTROLLED
+        END
       END
     END
 END//MACHINE

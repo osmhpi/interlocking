@@ -5,32 +5,39 @@ SETS
 VARIABLES
   RouteIsSet,
   State,
-  GraphState
+  GraphState_root
 INVARIANT
   RouteIsSet : BOOL &
   State : ActiveInactive &
-  GraphState : STATE_Signal_root
+  GraphState_root : STATE_Signal_root
 INITIALIZATION
   RouteIsSet := FALSE;
   State := ActiveInactive_INACTIVE;
-  GraphState := STATE_Signal_root___initial
+  GraphState_root := STATE_Signal_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(routes_starting_here_Route_State) =
     BEGIN
       // Update Terms
-      RouteIsSet := RouteState_SET : routes_starting_here_Route_State;
-      // Perform transition
-      SELECT GraphState = STATE_Signal_root___initial THEN
-        GraphState := STATE_Signal_root___initial
-      END;
-    END
+      RouteIsSet := bool(RouteState_SET : routes_starting_here_Route_State);
+      // Perform transition, todo
+      GraphState_root := STATE_Signal_root___initial
+    END;
   Transition(routes_starting_here_Route_State) =
     BEGIN
       // Update Terms
-      RouteIsSet := RouteState_SET : routes_starting_here_Route_State;
+      RouteIsSet := bool(RouteState_SET : routes_starting_here_Route_State);
       // Perform transition
-      SELECT GraphState = STATE_Signal_root___initial THEN
-        GraphState := STATE_Signal_root___initial
+      SELECT GraphState_root = STATE_Signal_root_SIGNAL_NOT_START THEN 
+        IF RouteIsSet = TRUE THEN
+          State := ActiveInactive_ACTIVE;
+          GraphState_root := STATE_Signal_root_SIGNAL_IS_START
+        END
+      END;
+      SELECT GraphState_root = STATE_Signal_root_SIGNAL_IS_START THEN 
+        IF not(RouteIsSet = TRUE) THEN
+          State := ActiveInactive_INACTIVE;
+          GraphState_root := STATE_Signal_root_SIGNAL_NOT_START
+        END
       END
     END
 END//MACHINE

@@ -12,7 +12,7 @@ VARIABLES
   ManualReleaseEffective,
   RouteBecameUnset,
   State,
-  GraphState
+  GraphState_root
 INVARIANT
   RouteRequested : BOOL &
   MatchesDiversion : BOOL &
@@ -23,7 +23,7 @@ INVARIANT
   ManualReleaseEffective : BOOL &
   RouteBecameUnset : BOOL &
   State : RouteState &
-  GraphState : STATE_Route_root
+  GraphState_root : STATE_Route_root
 INITIALIZATION
   RouteRequested := FALSE;
   MatchesDiversion := FALSE;
@@ -34,38 +34,51 @@ INITIALIZATION
   ManualReleaseEffective := FALSE;
   RouteBecameUnset := FALSE;
   State := RouteState_RELEASED;
-  GraphState := STATE_Route_root___initial
+  GraphState_root := STATE_Route_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(ise_RouteFindingSearch_Check, ise_RouteFindingResponse_Admit, upstream_link_right_LinkLTR_State, upstream_link_left_LinkRTL_State, requires_point_left_Point_State, downstream_link_left_LinkRTL_State, downstream_link_right_LinkLTR_State, requires_point_right_Point_State, RouteAutomaticRelease_State, RouteManualRelease_ManualReleaseRequested) =
     BEGIN
       // Update Terms
-      RouteRequested := (@ise_RouteFindingSearch_Check = RouteChecking_CHECK_START AND @ise_RouteFindingResponse_Admit /= RouteAdmission_INACTIVE) OR (RouteSearch_ROUTE_SET : upstream_link_right_LinkLTR_State OR RouteSearch_ROUTE_SET : upstream_link_left_LinkRTL_State) ||
-      MatchesDiversion := (((@ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_B AND @ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_A) OR ((@ise_RouteFindingSearch_Check = RouteChecking_CHECK_START OR @ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_A) AND (@ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_B OR @ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_END))) AND (!(point).(point : dom(requires_point_left_Point_State) => requires_point_left_Point_State(point) = PointState_LEFT ) AND !(point).(point : dom(requires_point_left_Point_State) => requires_point_left_Point_State(point) = PointState_RIGHT ) AND !(point).(point : dom(requires_point_left_Point_State) => requires_point_left_Point_State(point) = PointState_UNDETERMINED ))) OR (((@ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_A AND @ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_C) OR (@ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_C AND @ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_A)) AND (PointState_LEFT : requires_point_left_Point_State OR PointState_RIGHT : requires_point_left_Point_State OR PointState_UNDETERMINED : requires_point_left_Point_State)) ||
-      MatchesDirection := RouteSearch_ROUTE_SET : upstream_link_left_LinkRTL_State OR RouteSearch_ROUTE_SET : upstream_link_right_LinkLTR_State OR RouteSearch_RESPONSE : downstream_link_left_LinkRTL_State OR RouteSearch_RESPONSE : downstream_link_right_LinkLTR_State ||
-      PointsAvailable := !(point).(point : dom(requires_point_right_Point_State) => requires_point_right_Point_State(point) = PointState_RIGHT ) AND !(point).(point : dom(requires_point_left_Point_State) => requires_point_left_Point_State(point) = PointState_LEFT ) ||
+      RouteRequested := bool((bool(ise_RouteFindingSearch_Check = RouteChecking_CHECK_START & ise_RouteFindingResponse_Admit /= RouteAdmission_INACTIVE)) or (bool(RouteSearch_ROUTE_SET : upstream_link_right_LinkLTR_State or RouteSearch_ROUTE_SET : upstream_link_left_LinkRTL_State))) ||
+      MatchesDiversion := bool((bool((bool((bool(ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_B & ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_A)) or (bool((bool(ise_RouteFindingSearch_Check = RouteChecking_CHECK_START or ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_A)) & (bool(ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_B or ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_END)))))) & (bool(PointState_LEFT /: requires_point_left_Point_State & PointState_RIGHT /: requires_point_left_Point_State & PointState_UNDETERMINED /: requires_point_left_Point_State)))) or (bool((bool((bool(ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_A & ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_C)) or (bool(ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_C & ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_A)))) & (bool(PointState_LEFT : requires_point_left_Point_State or PointState_RIGHT : requires_point_left_Point_State or PointState_UNDETERMINED : requires_point_left_Point_State))))) ||
+      MatchesDirection := bool(RouteSearch_ROUTE_SET : upstream_link_left_LinkRTL_State or RouteSearch_ROUTE_SET : upstream_link_right_LinkLTR_State or RouteSearch_RESPONSE : downstream_link_left_LinkRTL_State or RouteSearch_RESPONSE : downstream_link_right_LinkLTR_State) ||
+      PointsAvailable := bool({PointState_RIGHT} = requires_point_right_Point_State & {PointState_LEFT} = requires_point_left_Point_State) ||
       NoIncompatibleRoutes := TRUE ||
-      AutomaticReleaseEffective := RouteAutomaticRelease_State = ActiveInactive_ACTIVE ||
-      ManualReleaseEffective := RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE ||
-      RouteBecameUnset := RouteSearch_INACTIVE : upstream_link_right_LinkLTR_State OR RouteSearch_INACTIVE : upstream_link_left_LinkRTL_State;
-      // Perform transition
-      SELECT GraphState = STATE_Route_root___initial THEN
-        GraphState := STATE_Route_root___initial
-      END;
-    END
+      AutomaticReleaseEffective := bool(RouteAutomaticRelease_State = ActiveInactive_ACTIVE) ||
+      ManualReleaseEffective := bool(RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE) ||
+      RouteBecameUnset := bool(RouteSearch_INACTIVE : upstream_link_right_LinkLTR_State or RouteSearch_INACTIVE : upstream_link_left_LinkRTL_State);
+      // Perform transition, todo
+      GraphState_root := STATE_Route_root___initial
+    END;
   Transition(ise_RouteFindingSearch_Check, ise_RouteFindingResponse_Admit, upstream_link_right_LinkLTR_State, upstream_link_left_LinkRTL_State, requires_point_left_Point_State, downstream_link_left_LinkRTL_State, downstream_link_right_LinkLTR_State, requires_point_right_Point_State, RouteAutomaticRelease_State, RouteManualRelease_ManualReleaseRequested) =
     BEGIN
       // Update Terms
-      RouteRequested := (@ise_RouteFindingSearch_Check = RouteChecking_CHECK_START AND @ise_RouteFindingResponse_Admit /= RouteAdmission_INACTIVE) OR (RouteSearch_ROUTE_SET : upstream_link_right_LinkLTR_State OR RouteSearch_ROUTE_SET : upstream_link_left_LinkRTL_State) ||
-      MatchesDiversion := (((@ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_B AND @ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_A) OR ((@ise_RouteFindingSearch_Check = RouteChecking_CHECK_START OR @ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_A) AND (@ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_B OR @ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_END))) AND (!(point).(point : dom(requires_point_left_Point_State) => requires_point_left_Point_State(point) = PointState_LEFT ) AND !(point).(point : dom(requires_point_left_Point_State) => requires_point_left_Point_State(point) = PointState_RIGHT ) AND !(point).(point : dom(requires_point_left_Point_State) => requires_point_left_Point_State(point) = PointState_UNDETERMINED ))) OR (((@ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_A AND @ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_C) OR (@ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_C AND @ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_A)) AND (PointState_LEFT : requires_point_left_Point_State OR PointState_RIGHT : requires_point_left_Point_State OR PointState_UNDETERMINED : requires_point_left_Point_State)) ||
-      MatchesDirection := RouteSearch_ROUTE_SET : upstream_link_left_LinkRTL_State OR RouteSearch_ROUTE_SET : upstream_link_right_LinkLTR_State OR RouteSearch_RESPONSE : downstream_link_left_LinkRTL_State OR RouteSearch_RESPONSE : downstream_link_right_LinkLTR_State ||
-      PointsAvailable := !(point).(point : dom(requires_point_right_Point_State) => requires_point_right_Point_State(point) = PointState_RIGHT ) AND !(point).(point : dom(requires_point_left_Point_State) => requires_point_left_Point_State(point) = PointState_LEFT ) ||
+      RouteRequested := bool((bool(ise_RouteFindingSearch_Check = RouteChecking_CHECK_START & ise_RouteFindingResponse_Admit /= RouteAdmission_INACTIVE)) or (bool(RouteSearch_ROUTE_SET : upstream_link_right_LinkLTR_State or RouteSearch_ROUTE_SET : upstream_link_left_LinkRTL_State))) ||
+      MatchesDiversion := bool((bool((bool((bool(ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_B & ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_A)) or (bool((bool(ise_RouteFindingSearch_Check = RouteChecking_CHECK_START or ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_A)) & (bool(ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_B or ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_END)))))) & (bool(PointState_LEFT /: requires_point_left_Point_State & PointState_RIGHT /: requires_point_left_Point_State & PointState_UNDETERMINED /: requires_point_left_Point_State)))) or (bool((bool((bool(ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_A & ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_C)) or (bool(ise_RouteFindingSearch_Check = RouteChecking_CHECK_FROM_C & ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_TO_A)))) & (bool(PointState_LEFT : requires_point_left_Point_State or PointState_RIGHT : requires_point_left_Point_State or PointState_UNDETERMINED : requires_point_left_Point_State))))) ||
+      MatchesDirection := bool(RouteSearch_ROUTE_SET : upstream_link_left_LinkRTL_State or RouteSearch_ROUTE_SET : upstream_link_right_LinkLTR_State or RouteSearch_RESPONSE : downstream_link_left_LinkRTL_State or RouteSearch_RESPONSE : downstream_link_right_LinkLTR_State) ||
+      PointsAvailable := bool({PointState_RIGHT} = requires_point_right_Point_State & {PointState_LEFT} = requires_point_left_Point_State) ||
       NoIncompatibleRoutes := TRUE ||
-      AutomaticReleaseEffective := RouteAutomaticRelease_State = ActiveInactive_ACTIVE ||
-      ManualReleaseEffective := RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE ||
-      RouteBecameUnset := RouteSearch_INACTIVE : upstream_link_right_LinkLTR_State OR RouteSearch_INACTIVE : upstream_link_left_LinkRTL_State;
+      AutomaticReleaseEffective := bool(RouteAutomaticRelease_State = ActiveInactive_ACTIVE) ||
+      ManualReleaseEffective := bool(RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE) ||
+      RouteBecameUnset := bool(RouteSearch_INACTIVE : upstream_link_right_LinkLTR_State or RouteSearch_INACTIVE : upstream_link_left_LinkRTL_State);
       // Perform transition
-      SELECT GraphState = STATE_Route_root___initial THEN
-        GraphState := STATE_Route_root___initial
+      SELECT GraphState_root = STATE_Route_root_RELEASED THEN 
+        IF RouteRequested = TRUE & MatchesDiversion = TRUE & MatchesDirection = TRUE THEN
+
+            return self.transition_from_root_c(now)
+        END
+      END;
+      SELECT GraphState_root = STATE_Route_root_SET THEN 
+        IF AutomaticReleaseEffective = TRUE or ManualReleaseEffective = TRUE or RouteBecameUnset = TRUE THEN
+          State := RouteState_RELEASED;
+          GraphState_root := STATE_Route_root_RELEASED
+        END
+      END;
+      SELECT GraphState_root = STATE_Route_root_PREPARING THEN 
+        IF PointsAvailable = TRUE & NoIncompatibleRoutes = TRUE THEN
+          State := RouteState_SET;
+          GraphState_root := STATE_Route_root_SET
+        END
       END
     END
 END//MACHINE

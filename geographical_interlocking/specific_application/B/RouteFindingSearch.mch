@@ -12,7 +12,7 @@ VARIABLES
   CheckingFromC,
   RouteSet,
   Check,
-  GraphState
+  GraphState_root
 INVARIANT
   RouteRequested : BOOL &
   TerminatesRouteRequested : BOOL &
@@ -23,7 +23,7 @@ INVARIANT
   CheckingFromC : BOOL &
   RouteSet : BOOL &
   Check : RouteChecking &
-  GraphState : STATE_RouteFindingSearch_root
+  GraphState_root : STATE_RouteFindingSearch_root
 INITIALIZATION
   RouteRequested := FALSE;
   TerminatesRouteRequested := FALSE;
@@ -34,38 +34,115 @@ INITIALIZATION
   CheckingFromC := FALSE;
   RouteSet := FALSE;
   Check := RouteChecking_INACTIVE;
-  GraphState := STATE_RouteFindingSearch_root___initial
+  GraphState_root := STATE_RouteFindingSearch_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(is_start_of_route_admission_check_RouteCheck_State, is_end_of_route_admission_check_RouteCheck_State, link_a_left_LinkRTL_State, link_a_right_LinkLTR_State, link_b_left_LinkRTL_State, link_b_right_LinkLTR_State, link_c_left_LinkRTL_State, link_c_right_LinkLTR_State, transits_Route_State) =
     BEGIN
       // Update Terms
-      RouteRequested := ActiveInactive_ACTIVE : is_start_of_route_admission_check_RouteCheck_State ||
-      TerminatesRouteRequested := ActiveInactive_ACTIVE : is_end_of_route_admission_check_RouteCheck_State ||
-      Checking := RouteSearch_SEARCH : link_a_left_LinkRTL_State OR RouteSearch_SEARCH : link_a_right_LinkLTR_State OR RouteSearch_SEARCH : link_b_left_LinkRTL_State OR RouteSearch_SEARCH : link_b_right_LinkLTR_State OR RouteSearch_SEARCH : link_c_left_LinkRTL_State OR RouteSearch_SEARCH : link_c_right_LinkLTR_State ||
-      SettingRoute := RouteSearch_SEARCH : link_a_left_LinkRTL_State OR RouteSearch_ROUTE_SET : link_a_right_LinkLTR_State OR RouteSearch_SEARCH : link_b_left_LinkRTL_State OR RouteSearch_ROUTE_SET : link_b_right_LinkLTR_State OR RouteSearch_SEARCH : link_c_left_LinkRTL_State OR RouteSearch_ROUTE_SET : link_c_right_LinkLTR_State ||
-      CheckingFromA := RouteSearch_SEARCH : link_a_left_LinkRTL_State OR RouteSearch_SEARCH : link_a_right_LinkLTR_State ||
-      CheckingFromB := RouteSearch_SEARCH : link_b_left_LinkRTL_State OR RouteSearch_SEARCH : link_b_right_LinkLTR_State ||
-      CheckingFromC := RouteSearch_SEARCH : link_c_left_LinkRTL_State OR RouteSearch_SEARCH : link_c_right_LinkLTR_State ||
-      RouteSet := RouteState_RELEASED : transits_Route_State;
-      // Perform transition
-      SELECT GraphState = STATE_RouteFindingSearch_root___initial THEN
-        GraphState := STATE_RouteFindingSearch_root___initial
-      END;
-    END
+      RouteRequested := bool(ActiveInactive_ACTIVE : is_start_of_route_admission_check_RouteCheck_State) ||
+      TerminatesRouteRequested := bool(ActiveInactive_ACTIVE : is_end_of_route_admission_check_RouteCheck_State) ||
+      Checking := bool(RouteSearch_SEARCH : link_a_left_LinkRTL_State or RouteSearch_SEARCH : link_a_right_LinkLTR_State or RouteSearch_SEARCH : link_b_left_LinkRTL_State or RouteSearch_SEARCH : link_b_right_LinkLTR_State or RouteSearch_SEARCH : link_c_left_LinkRTL_State or RouteSearch_SEARCH : link_c_right_LinkLTR_State) ||
+      SettingRoute := bool(RouteSearch_SEARCH : link_a_left_LinkRTL_State or RouteSearch_ROUTE_SET : link_a_right_LinkLTR_State or RouteSearch_SEARCH : link_b_left_LinkRTL_State or RouteSearch_ROUTE_SET : link_b_right_LinkLTR_State or RouteSearch_SEARCH : link_c_left_LinkRTL_State or RouteSearch_ROUTE_SET : link_c_right_LinkLTR_State) ||
+      CheckingFromA := bool(RouteSearch_SEARCH : link_a_left_LinkRTL_State or RouteSearch_SEARCH : link_a_right_LinkLTR_State) ||
+      CheckingFromB := bool(RouteSearch_SEARCH : link_b_left_LinkRTL_State or RouteSearch_SEARCH : link_b_right_LinkLTR_State) ||
+      CheckingFromC := bool(RouteSearch_SEARCH : link_c_left_LinkRTL_State or RouteSearch_SEARCH : link_c_right_LinkLTR_State) ||
+      RouteSet := bool({RouteState_RELEASED} /= transits_Route_State);
+      // Perform transition, todo
+      GraphState_root := STATE_RouteFindingSearch_root___initial
+    END;
   Transition(is_start_of_route_admission_check_RouteCheck_State, is_end_of_route_admission_check_RouteCheck_State, link_a_left_LinkRTL_State, link_a_right_LinkLTR_State, link_b_left_LinkRTL_State, link_b_right_LinkLTR_State, link_c_left_LinkRTL_State, link_c_right_LinkLTR_State, transits_Route_State) =
     BEGIN
       // Update Terms
-      RouteRequested := ActiveInactive_ACTIVE : is_start_of_route_admission_check_RouteCheck_State ||
-      TerminatesRouteRequested := ActiveInactive_ACTIVE : is_end_of_route_admission_check_RouteCheck_State ||
-      Checking := RouteSearch_SEARCH : link_a_left_LinkRTL_State OR RouteSearch_SEARCH : link_a_right_LinkLTR_State OR RouteSearch_SEARCH : link_b_left_LinkRTL_State OR RouteSearch_SEARCH : link_b_right_LinkLTR_State OR RouteSearch_SEARCH : link_c_left_LinkRTL_State OR RouteSearch_SEARCH : link_c_right_LinkLTR_State ||
-      SettingRoute := RouteSearch_SEARCH : link_a_left_LinkRTL_State OR RouteSearch_ROUTE_SET : link_a_right_LinkLTR_State OR RouteSearch_SEARCH : link_b_left_LinkRTL_State OR RouteSearch_ROUTE_SET : link_b_right_LinkLTR_State OR RouteSearch_SEARCH : link_c_left_LinkRTL_State OR RouteSearch_ROUTE_SET : link_c_right_LinkLTR_State ||
-      CheckingFromA := RouteSearch_SEARCH : link_a_left_LinkRTL_State OR RouteSearch_SEARCH : link_a_right_LinkLTR_State ||
-      CheckingFromB := RouteSearch_SEARCH : link_b_left_LinkRTL_State OR RouteSearch_SEARCH : link_b_right_LinkLTR_State ||
-      CheckingFromC := RouteSearch_SEARCH : link_c_left_LinkRTL_State OR RouteSearch_SEARCH : link_c_right_LinkLTR_State ||
-      RouteSet := RouteState_RELEASED : transits_Route_State;
+      RouteRequested := bool(ActiveInactive_ACTIVE : is_start_of_route_admission_check_RouteCheck_State) ||
+      TerminatesRouteRequested := bool(ActiveInactive_ACTIVE : is_end_of_route_admission_check_RouteCheck_State) ||
+      Checking := bool(RouteSearch_SEARCH : link_a_left_LinkRTL_State or RouteSearch_SEARCH : link_a_right_LinkLTR_State or RouteSearch_SEARCH : link_b_left_LinkRTL_State or RouteSearch_SEARCH : link_b_right_LinkLTR_State or RouteSearch_SEARCH : link_c_left_LinkRTL_State or RouteSearch_SEARCH : link_c_right_LinkLTR_State) ||
+      SettingRoute := bool(RouteSearch_SEARCH : link_a_left_LinkRTL_State or RouteSearch_ROUTE_SET : link_a_right_LinkLTR_State or RouteSearch_SEARCH : link_b_left_LinkRTL_State or RouteSearch_ROUTE_SET : link_b_right_LinkLTR_State or RouteSearch_SEARCH : link_c_left_LinkRTL_State or RouteSearch_ROUTE_SET : link_c_right_LinkLTR_State) ||
+      CheckingFromA := bool(RouteSearch_SEARCH : link_a_left_LinkRTL_State or RouteSearch_SEARCH : link_a_right_LinkLTR_State) ||
+      CheckingFromB := bool(RouteSearch_SEARCH : link_b_left_LinkRTL_State or RouteSearch_SEARCH : link_b_right_LinkLTR_State) ||
+      CheckingFromC := bool(RouteSearch_SEARCH : link_c_left_LinkRTL_State or RouteSearch_SEARCH : link_c_right_LinkLTR_State) ||
+      RouteSet := bool({RouteState_RELEASED} /= transits_Route_State);
       // Perform transition
-      SELECT GraphState = STATE_RouteFindingSearch_root___initial THEN
-        GraphState := STATE_RouteFindingSearch_root___initial
+      SELECT GraphState_root = STATE_RouteFindingSearch_root_IDLE THEN 
+        IF CheckingFromA = TRUE THEN
+          Check := RouteChecking_CHECK_FROM_A;
+          GraphState_root := STATE_RouteFindingSearch_root_CHECKING_FROM_A
+        END
+        IF CheckingFromB = TRUE THEN
+          Check := RouteChecking_CHECK_FROM_B;
+          GraphState_root := STATE_RouteFindingSearch_root_CHECKING_FROM_B
+        END
+        IF CheckingFromC = TRUE THEN
+          Check := RouteChecking_CHECK_FROM_C;
+          GraphState_root := STATE_RouteFindingSearch_root_CHECKING_FROM_C
+        END
+        IF RouteRequested = TRUE THEN
+          Check := RouteChecking_CHECK_START;
+          GraphState_root := STATE_RouteFindingSearch_root_CHECKING_START
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteFindingSearch_root_CHECKING_START THEN 
+        IF RouteSet = TRUE THEN
+          Check := RouteChecking_ROUTE_SET_FROM_START;
+          GraphState_root := STATE_RouteFindingSearch_root_ROUTE_SET_FROM_START
+        END
+        IF not(RouteRequested = TRUE) THEN
+          Check := RouteChecking_INACTIVE;
+          GraphState_root := STATE_RouteFindingSearch_root_IDLE
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteFindingSearch_root_CHECKING_FROM_A THEN 
+        IF RouteSet = TRUE THEN
+          Check := RouteChecking_ROUTE_SET_FROM_A;
+          GraphState_root := STATE_RouteFindingSearch_root_ROUTE_SET_FROM_A
+        END
+        IF not(Checking = TRUE) & not(SettingRoute = TRUE) THEN
+          Check := RouteChecking_INACTIVE;
+          GraphState_root := STATE_RouteFindingSearch_root_IDLE
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteFindingSearch_root_CHECKING_FROM_B THEN 
+        IF RouteSet = TRUE THEN
+          Check := RouteChecking_ROUTE_SET_FROM_B;
+          GraphState_root := STATE_RouteFindingSearch_root_ROUTE_SET_FROM_B
+        END
+        IF not(Checking = TRUE) & not(SettingRoute = TRUE) THEN
+          Check := RouteChecking_INACTIVE;
+          GraphState_root := STATE_RouteFindingSearch_root_IDLE
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteFindingSearch_root_CHECKING_FROM_C THEN 
+        IF RouteSet = TRUE THEN
+          Check := RouteChecking_ROUTE_SET_FROM_C;
+          GraphState_root := STATE_RouteFindingSearch_root_ROUTE_SET_FROM_C
+        END
+        IF not(Checking = TRUE) & not(SettingRoute = TRUE) THEN
+          Check := RouteChecking_INACTIVE;
+          GraphState_root := STATE_RouteFindingSearch_root_IDLE
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_START THEN 
+        IF not(RouteSet = TRUE) THEN
+          Check := RouteChecking_INACTIVE;
+          GraphState_root := STATE_RouteFindingSearch_root_IDLE
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_A THEN 
+        IF not(RouteSet = TRUE) THEN
+          Check := RouteChecking_INACTIVE;
+          GraphState_root := STATE_RouteFindingSearch_root_IDLE
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_B THEN 
+        IF not(RouteSet = TRUE) THEN
+          Check := RouteChecking_INACTIVE;
+          GraphState_root := STATE_RouteFindingSearch_root_IDLE
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_C THEN 
+        IF not(RouteSet = TRUE) THEN
+          Check := RouteChecking_INACTIVE;
+          GraphState_root := STATE_RouteFindingSearch_root_IDLE
+        END
       END
     END
 END//MACHINE

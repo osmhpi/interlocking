@@ -5,32 +5,39 @@ SETS
 VARIABLES
   RouteMonitored,
   State,
-  GraphState
+  GraphState_root
 INVARIANT
   RouteMonitored : BOOL &
   State : OpenCloseState &
-  GraphState : STATE_RouteControl_root
+  GraphState_root : STATE_RouteControl_root
 INITIALIZATION
   RouteMonitored := FALSE;
   State := OpenCloseState_CLOSED;
-  GraphState := STATE_RouteControl_root___initial
+  GraphState_root := STATE_RouteControl_root___initial
 OPERATIONS
-  InitialTransition =
+  InitialTransition(RouteMonitoring_State) =
     BEGIN
       // Update Terms
-      RouteMonitored := RouteMonitoring_State = ActiveInactive_ACTIVE;
-      // Perform transition
-      SELECT GraphState = STATE_RouteControl_root___initial THEN
-        GraphState := STATE_RouteControl_root___initial
-      END;
-    END
+      RouteMonitored := bool(RouteMonitoring_State = ActiveInactive_ACTIVE);
+      // Perform transition, todo
+      GraphState_root := STATE_RouteControl_root___initial
+    END;
   Transition(RouteMonitoring_State) =
     BEGIN
       // Update Terms
-      RouteMonitored := RouteMonitoring_State = ActiveInactive_ACTIVE;
+      RouteMonitored := bool(RouteMonitoring_State = ActiveInactive_ACTIVE);
       // Perform transition
-      SELECT GraphState = STATE_RouteControl_root___initial THEN
-        GraphState := STATE_RouteControl_root___initial
+      SELECT GraphState_root = STATE_RouteControl_root_CLOSED THEN 
+        IF RouteMonitored = TRUE THEN
+          State := OpenCloseState_OPEN;
+          GraphState_root := STATE_RouteControl_root_OPEN
+        END
+      END;
+      SELECT GraphState_root = STATE_RouteControl_root_OPEN THEN 
+        IF not(RouteMonitored = TRUE) THEN
+          State := OpenCloseState_CLOSED;
+          GraphState_root := STATE_RouteControl_root_CLOSED
+        END
       END
     END
 END//MACHINE
