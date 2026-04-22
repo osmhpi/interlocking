@@ -7,6 +7,7 @@ INVARIANT
 INITIALIZATION
   CurrentPosition := EulynxEndPosition_NO_END_POSITION
 OPERATIONS
+  
   ComputeOutputs(SCIP_DetectedEndPosition) = BEGIN
 IF bool(SCIP_DetectedEndPosition = EulynxEndPosition_LEFT) = TRUE THEN
         CurrentPosition := EulynxEndPosition_LEFT

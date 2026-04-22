@@ -44,6 +44,7 @@ INITIALIZATION
     .Concat(outputs.Select(v => $"{v.Key} := {new TermWriter().VisitValueReference(v.Value.ParsedDefault!)}"))
     .Aggregate((a, b) => a + ";\n  " + b)}
 OPERATIONS
+  {string.Join("\n  ", inputs.Select(t => $"Set_{t.Key}(value) = {t.Key} := value;"))}
   ComputeOutputs{allInputs} = {computeOutputs}
 END//MACHINE
 ";

@@ -18,7 +18,7 @@ static partial class BWriter
     }
 
     record PropertyValue(int? duration, bool? boolean, string? reference, List<string>? referenceList, string? targetEntityType);
-    private static string ProvideInputsToGraphInstance(Specification spec, Graph graph, string entity, JObject specificAppConfig)
+    private static string ProvideInputsToGraphInstance(Specification spec, Graph graph, string entity, JObject specificAppConfig, string now)
     {
         var entityType = spec.EntityTypes.Single(e => graph.Terms.Entity_type == e.Name);
         var propertyMap = new Dictionary<string, PropertyValue>();
@@ -102,7 +102,7 @@ static partial class BWriter
             }
             else if (input.IsNow)
             {
-                parameters.Add("SYS_NOW");
+                parameters.Add(now);
             }
             else
             {
@@ -235,7 +235,7 @@ static partial class BWriter
         var interfaces = from entity in entities
                          from intf in entity.EntityType.Interfaces
                          join systemIntf in spec.Interfaces on intf.Key equals systemIntf.Name
-                         select (Interface: systemIntf, EntityType: entity.EntityType, InterfaceInstanceName: entity.InstanceName);
+                         select (Interface: systemIntf, intf.Value, EntityType: entity.EntityType, InterfaceInstanceName: entity.InstanceName);
 
         var schedule = new List<(Graph graph, string instanceName, string graphInstanceName)>();
 
@@ -272,28 +272,32 @@ static partial class BWriter
             }
         }
 
-        return @$"MACHINE Interlocking
+        return @$"MACHINE System
 INCLUDES
   {string.Join(", ", graphs.Select(g => $"{g.Graph.Name}_{g.InstanceName}.{g.Graph.Name}")
     .Concat(interfaces.Select(i => $"{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}.{i.Interface.Name}_{i.EntityType.Name}")))}
-DEFINITIONS
-  VISB_SVG_FILE == ""trackplan.svg"";
-  VISB_SVG_UPDATES1== rec(`id`:""W1R"",visibility: bool(W1.State = RIGHT));
-  VISB_SVG_UPDATES2== rec(`id`:""W2R"",visibility: bool(W2.State = RIGHT));
-VARIABLES
-  SYS_NOW
-INVARIANT
-  SYS_NOW : INT
 INITIALISATION
-  SYS_NOW := 0;
-  {graphs.Select(g => $"{g.GraphInstanceName}.InitialTransition({ProvideInputsToGraphInstance(spec, g.Graph, g.InstanceName, specificAppConfig)})").Aggregate((a, b) => a + ";\n  " + b)}
+  {graphs.Select(g => $"{g.GraphInstanceName}.InitialTransition({ProvideInputsToGraphInstance(spec, g.Graph, g.InstanceName, specificAppConfig, "0")})").Aggregate((a, b) => a + ";\n  " + b)}
 OPERATIONS
-  BigStep =
+  BigStep({ProvideInputsToSystem(spec, interfaces)}, SYS_NOW) =
     BEGIN
-      SYS_NOW := SYS_NOW + 150;
-      {schedule.Select(graph => $"{graph.graphInstanceName}.Transition({ProvideInputsToGraphInstance(spec, graph.graph, graph.instanceName, specificAppConfig)})").Aggregate((a, b) => a + ";\n      " + b)};
+      {string.Join(";\n      ", interfaces.SelectMany(i => i.Value.Inputs?.Select(input => $"{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}.Set_{input.Key}({i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}_{input.Key})") ?? []))};
+      {schedule.Select(graph => $"{graph.graphInstanceName}.Transition({ProvideInputsToGraphInstance(spec, graph.graph, graph.instanceName, specificAppConfig, "SYS_NOW")})").Aggregate((a, b) => a + ";\n      " + b)};
       {interfaces.Select(i => $"{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}.ComputeOutputs{ProvideInputsToInterfaceInstance(spec, i.EntityType.Name, i.Interface.Name, i.InterfaceInstanceName, specificAppConfig)}").Aggregate((a, b) => a + " ||\n      " + b)}
     END
 END//MACHINE";
     }
+
+  private static string ProvideInputsToSystem(Specification spec, IEnumerable<(Interface Interface, InterfaceAssignment intf, EntityType EntityType, string InterfaceInstanceName)> interfaces)
+  {
+    var inputs = new List<string>();
+    foreach (var intf in interfaces)
+    {
+        foreach (var input in intf.intf.Inputs ?? new Dictionary<string, InterfaceInputField>())
+        {
+            inputs.Add($"{intf.Interface.Name}_{intf.EntityType.Name}_{intf.InterfaceInstanceName}_{input.Key}");
+        }
+    }
+    return string.Join(", ", inputs);
+  }
 }

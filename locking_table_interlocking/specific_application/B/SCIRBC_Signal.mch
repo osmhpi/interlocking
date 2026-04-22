@@ -10,6 +10,7 @@ INITIALIZATION
   ApproachLockingActive := TRUE;
   ApproachStatusRequested := FALSE
 OPERATIONS
+  Set_ApproachLockingActive(value) = ApproachLockingActive := value;
   ComputeOutputs(routes_starting_here_RouteManualRelease_ManualReleaseWithholdMovementAuthority) = BEGIN
 IF bool(ActiveInactive_ACTIVE : routes_starting_here_RouteManualRelease_ManualReleaseWithholdMovementAuthority) = TRUE THEN
         ApproachStatusRequested := TRUE

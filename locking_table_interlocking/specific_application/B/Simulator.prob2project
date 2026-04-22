@@ -1,0 +1,29 @@
+{
+  "name": "Simulator",
+  "description": "",
+  "machines": [
+    {
+      "name": "Simulator",
+      "description": "",
+      "location": "Simulator.mch",
+      "lastUsedPreferenceName": "default",
+      "validationTasks": [],
+      "ltlPatterns": [],
+      "simulations": [],
+      "visBVisualisations": [
+        ""
+      ]
+    }
+  ],
+  "requirements": [],
+  "preferences": [],
+  "metadata": {
+    "fileType": "Project",
+    "formatVersion": 57,
+    "savedAt": "2026-04-22T07:53:03.243643Z",
+    "creator": "User",
+    "proB2KernelVersion": "4.15.2-SNAPSHOT",
+    "proBCliVersion": null,
+    "modelName": null
+  }
+}

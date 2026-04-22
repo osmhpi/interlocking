@@ -10,6 +10,7 @@ INITIALIZATION
   OccupancyStatus := OccupancyStatus_OCCUPIED;
   ResetSection := FALSE
 OPERATIONS
+  Set_OccupancyStatus(value) = OccupancyStatus := value;
   ComputeOutputs(Zone_State) = BEGIN
 IF bool(Zone_State = OccupancyStatus_VACANT) = TRUE THEN
         ResetSection := TRUE

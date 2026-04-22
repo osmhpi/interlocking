@@ -10,6 +10,7 @@ INITIALIZATION
   DetectedEndPosition := EulynxEndPosition_NO_END_POSITION;
   CommandedEndPosition := EulynxCommandedEndPosition_NOT_COMMANDED
 OPERATIONS
+  Set_DetectedEndPosition(value) = DetectedEndPosition := value;
   ComputeOutputs(PointOperation_State) = BEGIN
 IF bool(PointOperation_State = EulynxCommandedEndPosition_LEFT) = TRUE THEN
         CommandedEndPosition := EulynxCommandedEndPosition_LEFT
