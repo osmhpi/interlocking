@@ -38,7 +38,14 @@ OPERATIONS
     BEGIN
       SIM_TIME := SIM_TIME + 150;
       BigStep({ProvideSimulationInputs(spec, interfaces)}, SIM_TIME)
-    END
+    END;
+  {string.Join(";\n  ", interfaces.SelectMany(i => i.Value.Inputs?.Select(input => @$"Set_{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}_{input.Key}(value) =
+    BEGIN
+      SIM_TIME := SIM_TIME + 150;
+      SIM_{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}_{input.Key} := value;
+      BigStep({ProvideSimulationInputs(spec, interfaces)}, SIM_TIME);
+      {(input.Value.Kind == InterfaceInputFieldKind.Discrete ? $"SIM_{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}_{input.Key} := {new TermWriter().VisitValueReference(input.Value.ParsedDefault!)}" : "skip")}
+    END") ?? []))}
 END//MACHINE";
     }
 
