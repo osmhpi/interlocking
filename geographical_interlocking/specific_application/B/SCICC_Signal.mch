@@ -7,9 +7,8 @@ INVARIANT
 INITIALIZATION
   SignalOpen := FALSE
 OPERATIONS
-  ComputeOutputs(SignalControl_State) =
-    BEGIN
-      IF bool(SignalControl_State = OpenCloseState_OPEN) = TRUE THEN
+  ComputeOutputs(SignalControl_State) = BEGIN
+IF bool(SignalControl_State = OpenCloseState_OPEN) = TRUE THEN
         SignalOpen := TRUE
       ELSIF bool(SignalControl_State /= OpenCloseState_OPEN) = TRUE THEN
         SignalOpen := FALSE

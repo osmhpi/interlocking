@@ -7,9 +7,8 @@ INVARIANT
 INITIALIZATION
   Active := TRUE
 OPERATIONS
-  ComputeOutputs(Transit_State) =
-    BEGIN
-      IF bool(Transit_State = ActiveInactive_ACTIVE) = TRUE THEN
+  ComputeOutputs(Transit_State) = BEGIN
+IF bool(Transit_State = ActiveInactive_ACTIVE) = TRUE THEN
         Active := TRUE
       ELSIF bool(Transit_State /= ActiveInactive_ACTIVE) = TRUE THEN
         Active := FALSE

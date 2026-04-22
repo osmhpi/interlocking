@@ -2,13 +2,17 @@ using Antlr4.Runtime.Misc;
 
 static partial class BWriter
 {
-  record Reference(string? GraphOrInterfaceName, string VariableName, string? PropertyName, bool IsNow)
+  record Reference(string? GraphOrInterfaceName, string? VariableName, string? PropertyName, bool IsNow)
   {
     public string ToBString()
     {
-      if (PropertyName != null)
+      if (PropertyName != null && VariableName != null && GraphOrInterfaceName != null)
       {
         return $"{PropertyName}_{GraphOrInterfaceName}_{VariableName}";
+      }
+      else if (PropertyName != null)
+      {
+          return PropertyName;
       }
       else if (GraphOrInterfaceName != null)
       {
@@ -107,7 +111,12 @@ static partial class BWriter
 
     public override List<Reference> VisitTimeoutExpression([NotNull] ExpressionParser.TimeoutExpressionContext context)
     {
-      return Visit(context.variableReference());
+      if (context.NOW() != null)
+      {
+        return [new Reference(null, null, null, true), ..Visit(context.valueReference()), ..Visit(context.variableReference())];
+      }
+
+      return [..Visit(context.valueReference()), ..Visit(context.variableReference())];
     }
 
     public override List<Reference> VisitVariableReference([NotNull] ExpressionParser.VariableReferenceContext context)
@@ -127,11 +136,25 @@ static partial class BWriter
 
     public override List<Reference> VisitValueReference([NotNull] ExpressionParser.ValueReferenceContext context)
     {
-      if (context.durationLiteral()?.NOW() != null)
+      if (context.durationLiteral() != null)
       {
-          return [new Reference(null, "", null, true)];
+          return Visit(context.durationLiteral());
       }
 
+      if (context.propertyName() != null)
+      {
+        return [new Reference(null, null, context.propertyName().GetText()[1..], false)];
+      }
+
+      return new List<Reference>();
+    }
+
+    public override List<Reference> VisitDurationLiteral([NotNull] ExpressionParser.DurationLiteralContext context)
+    {
+      if (context.NOW() != null)
+      {
+        return [new Reference(null, null, null, true)];
+      }
       return new List<Reference>();
     }
   }

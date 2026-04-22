@@ -25,6 +25,9 @@ static partial class BWriter
     var outputs = intf.Outputs ?? new Dictionary<string, InterfaceOutputField>();
 
     var allInputs = CollectAllInputsToInterface(spec, intf);
+    var computeOutputs = string.IsNullOrEmpty(allInputs) ? "skip" : @$"BEGIN
+{string.Join(" ||\n      ", outputs.Select(t => WriteMapping(t.Key, t.Value.ParsedDefault, t.Value.ParsedMapping)))}
+    END";
 
     return @$"MACHINE {systemInterface.Name}_{entityType.Name}
 SEES Enums
@@ -33,18 +36,15 @@ VARIABLES
     .Concat(outputs.Select(t => $"{t.Key}"))
     .Aggregate((a, b) => a + ",\n  " + b)}
 INVARIANT
-  {inputs.Select(v => $"{v.Key} : {(v.Value.Type == "boolean" ? "BOOL" : v.Value.Type)}")
-    .Concat(outputs.Select(v => $"{v.Key} : {(v.Value.Type == "boolean" ? "BOOL" : v.Value.Type)}"))
+  {inputs.Select(v => $"{v.Key} : {(v.Value.Type == "boolean" ? "BOOL" : "E_" + v.Value.Type)}")
+    .Concat(outputs.Select(v => $"{v.Key} : {(v.Value.Type == "boolean" ? "BOOL" : "E_" + v.Value.Type)}"))
     .Aggregate((a, b) => a + " &\n  " + b)}
 INITIALIZATION
   {inputs.Select(t => $"{t.Key} := {new TermWriter().VisitValueReference(t.Value.ParsedDefault!)}")
     .Concat(outputs.Select(v => $"{v.Key} := {new TermWriter().VisitValueReference(v.Value.ParsedDefault!)}"))
     .Aggregate((a, b) => a + ";\n  " + b)}
 OPERATIONS
-  ComputeOutputs({string.Join(", ", allInputs)}) =
-    BEGIN
-      {string.Join(" ||\n      ", outputs.Select(t => WriteMapping(t.Key, t.Value.ParsedDefault, t.Value.ParsedMapping)))}
-    END
+  ComputeOutputs{allInputs} = {computeOutputs}
 END//MACHINE
 ";
   }
@@ -57,9 +57,9 @@ END//MACHINE
     foreach (var mapping in parsedMapping)
     {
       if (first)
-        lines.Add($"IF {new TermWriter().VisitExpression(mapping.Value)} = TRUE THEN");
+        lines.Add($"IF bool({new TermWriter().VisitExpression(mapping.Value)}) = TRUE THEN");
       else
-        lines.Add($"ELSIF {new TermWriter().VisitExpression(mapping.Value)} = TRUE THEN");
+        lines.Add($"ELSIF bool({new TermWriter().VisitExpression(mapping.Value)}) = TRUE THEN");
       lines.Add($"  {key} := {new TermWriter().VisitValueReference(mapping.Key)}");
       first = false;
     }
@@ -79,7 +79,7 @@ END//MACHINE
     return string.Join("\n      ", lines);
   }
 
-  private static List<string> CollectAllInputsToInterface(Specification spec, InterfaceAssignment intf)
+  private static string CollectAllInputsToInterface(Specification spec, InterfaceAssignment intf)
   {
       var inputs = new List<string>();
 
@@ -92,7 +92,12 @@ END//MACHINE
           }
       }
 
+      if (inputs.Count == 0)
+      {
+          return "";
+      }
+
       // Remove duplicates but keep defined order
-      return inputs.Distinct().ToList();
+      return $"({string.Join(", ", inputs.Distinct().ToList())})";
   }
 }

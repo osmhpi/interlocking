@@ -4,15 +4,14 @@ VARIABLES
   DetectedEndPosition,
   CommandedEndPosition
 INVARIANT
-  DetectedEndPosition : EulynxEndPosition &
-  CommandedEndPosition : EulynxCommandedEndPosition
+  DetectedEndPosition : E_EulynxEndPosition &
+  CommandedEndPosition : E_EulynxCommandedEndPosition
 INITIALIZATION
   DetectedEndPosition := EulynxEndPosition_NO_END_POSITION;
   CommandedEndPosition := EulynxCommandedEndPosition_NOT_COMMANDED
 OPERATIONS
-  ComputeOutputs(PointOperation_State) =
-    BEGIN
-      IF bool(PointOperation_State = EulynxCommandedEndPosition_LEFT) = TRUE THEN
+  ComputeOutputs(PointOperation_State) = BEGIN
+IF bool(PointOperation_State = EulynxCommandedEndPosition_LEFT) = TRUE THEN
         CommandedEndPosition := EulynxCommandedEndPosition_LEFT
       ELSIF bool(PointOperation_State = EulynxCommandedEndPosition_RIGHT) = TRUE THEN
         CommandedEndPosition := EulynxCommandedEndPosition_RIGHT

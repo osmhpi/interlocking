@@ -1,7 +1,7 @@
 MACHINE RouteAutomaticRelease
 SEES Enums
 SETS
-  STATE_RouteAutomaticRelease_root = { STATE_RouteAutomaticRelease_root___initial, STATE_RouteAutomaticRelease_root_INACTIVE, STATE_RouteAutomaticRelease_root_ACTIVE, STATE_RouteAutomaticRelease_root_EFFECTIVE }
+  STATETYPE_RouteAutomaticRelease_root = { STATE_RouteAutomaticRelease_root___initial, STATE_RouteAutomaticRelease_root_INACTIVE, STATE_RouteAutomaticRelease_root_ACTIVE, STATE_RouteAutomaticRelease_root_EFFECTIVE }
 VARIABLES
   RouteIsSet,
   OppositeTransitsInactive,
@@ -12,8 +12,8 @@ INVARIANT
   RouteIsSet : BOOL &
   OppositeTransitsInactive : BOOL &
   TriggerZoneFree : BOOL &
-  State : ActiveInactive &
-  GraphState_root : STATE_RouteAutomaticRelease_root
+  State : E_ActiveInactive &
+  GraphState_root : STATETYPE_RouteAutomaticRelease_root
 INITIALIZATION
   RouteIsSet := FALSE;
   OppositeTransitsInactive := TRUE;
@@ -29,7 +29,7 @@ OPERATIONS
       TriggerZoneFree := bool(trigger_zone_Zone_State = OccupancyStatus_VACANT);
       // Perform transition
         State := ActiveInactive_INACTIVE;
-        GraphState_root := STATE_RouteAutomaticRelease_root_INACTIVE
+          GraphState_root := STATE_RouteAutomaticRelease_root_INACTIVE
     END;
   Transition(Route_State, trigger_zone_opposite_transits_Transit_State, trigger_zone_Zone_State) =
     BEGIN
@@ -42,25 +42,21 @@ OPERATIONS
         IF RouteIsSet = TRUE & OppositeTransitsInactive = TRUE & not(TriggerZoneFree = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteAutomaticRelease_root_ACTIVE
-
         END
       END;
       SELECT GraphState_root = STATE_RouteAutomaticRelease_root_ACTIVE THEN 
         IF not(RouteIsSet = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteAutomaticRelease_root_INACTIVE
-
         ELSIF TriggerZoneFree = TRUE THEN
 State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_RouteAutomaticRelease_root_EFFECTIVE
-
         END
       END;
       SELECT GraphState_root = STATE_RouteAutomaticRelease_root_EFFECTIVE THEN 
         IF not(RouteIsSet = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteAutomaticRelease_root_INACTIVE
-
         END
       END
     END

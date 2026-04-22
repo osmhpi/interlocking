@@ -99,10 +99,22 @@ static partial class BWriter
     var enumStates = string.Join(",\n    ", rustStates.Where(x => !choicePseudostates.Contains(x)).Select(Rustify));
 
     var subgraphs = subgraph.NestedSubgraphs.Select(kv => DeclareStateSetsRecursively(spec, graph, entityType, kv.Value, $"{parent}_{kv.Key}"));
-    var currentStateSet = $"  STATE_{graph.Name}_{parent} = {{ {string.Join(", ", rustStates.Select(x => $"STATE_{graph.Name}_{parent}_{x}"))} }}";
+    var currentStateSet = $"  STATETYPE_{graph.Name}_{parent} = {{ {string.Join(", ", rustStates.Select(x => $"STATE_{graph.Name}_{parent}_{x}"))} }}";
     return subgraphs
       .Append(currentStateSet)
       .Aggregate((a, b) => a + ";\n" + b);
+  }
+
+  private static List<string> GetNestedSubstatesRecursively(Subgraph subgraph, string parent)
+  {
+    var states = new List<string>();
+    foreach (var nested in subgraph.NestedSubgraphs)
+    {
+      var nestedParent = $"{parent}_{nested.Key}";
+      states.AddRange(GetNestedSubstatesRecursively(nested.Value, nestedParent));
+      states.Add(nestedParent);
+    }
+    return states;
   }
 
   private static string? GenerateGraphContent(Specification spec, Graph graph, EntityType entityType)
@@ -117,29 +129,30 @@ SETS
 VARIABLES
   {graph.Terms.Terms.Select(t => $"{t.Key}")
     .Concat(graph.Terms.Variables.Select(v => $"{v.Key}"))
-    .Concat(["GraphState_root"]).Aggregate((a, b) => a + ",\n  " + b)}
+    .Concat(GetNestedSubstatesRecursively(graph.Subgraph, "root").Append("root").Select(s => $"GraphState_{s}"))
+    .Aggregate((a, b) => a + ",\n  " + b)}
 INVARIANT
   {graph.Terms.Terms.Select(t => $"{t.Key} : BOOL")
-    .Concat(graph.Terms.Variables.Select(v => $"{v.Key} : {(v.Value.Type == "timestamp" ? "INT" : v.Value.Type)}"))
-    .Concat(["GraphState_root : STATE_" + graph.Name + "_root"])
+    .Concat(graph.Terms.Variables.Select(v => $"{v.Key} : {(v.Value.Type == "timestamp" ? "INT" : "E_" + v.Value.Type)}"))
+    .Concat(GetNestedSubstatesRecursively(graph.Subgraph, "root").Append("root").Select(s => $"GraphState_{s} : STATETYPE_{graph.Name}_{s}"))
     .Aggregate((a, b) => a + " &\n  " + b)}
 INITIALIZATION
   {graph.Terms.Terms.Select(t => $"{t.Key} := {t.Value.Default.ToString().ToUpper()}")
     .Concat(graph.Terms.Variables.Select(v => $"{v.Key} := {new TermWriter().VisitValueReference(v.Value.ParsedDefault!)}"))
-    .Concat(["GraphState_root := STATE_" + graph.Name + "_root___initial"])
+    .Concat(GetNestedSubstatesRecursively(graph.Subgraph, "root").Append("root").Select(s => $"GraphState_{s} := STATE_{graph.Name}_{s}___initial"))
     .Aggregate((a, b) => a + ";\n  " + b)}
 OPERATIONS
   InitialTransition({string.Join(", ", allInputs)}) =
     BEGIN
       // Update Terms
-      {graph.Terms.Terms.Select(t => $"{t.Key} := {(t.Value.ParsedTree != null ? new TermWriter().Visit(t.Value.ParsedTree) : t.Value.Default.ToString().ToUpper())}").Aggregate((a, b) => a + " ||\n      " + b)};
+      {graph.Terms.Terms.Select(t => $"{t.Key} := {(t.Value.ParsedTree != null ? $"bool({new TermWriter().Visit(t.Value.ParsedTree)})" : t.Value.Default.ToString().ToUpper())}").Aggregate((a, b) => a + " ||\n      " + b)};
       // Perform transition
 {GenerateInitialTransition(spec, graph, entityType, graph.Subgraph, "root")}
     END;
   Transition({string.Join(", ", allInputs)}) =
     BEGIN
       // Update Terms
-      {graph.Terms.Terms.Select(t => $"{t.Key} := {(t.Value.ParsedTree != null ? new TermWriter().Visit(t.Value.ParsedTree) : t.Value.Default.ToString().ToUpper())}").Aggregate((a, b) => a + " ||\n      " + b)};
+      {graph.Terms.Terms.Select(t => $"{t.Key} := {(t.Value.ParsedTree != null ? $"bool({new TermWriter().Visit(t.Value.ParsedTree)})" : t.Value.Default.ToString().ToUpper())}").Aggregate((a, b) => a + " ||\n      " + b)};
       // Perform transition
       {GenerateTransitions(spec, graph, entityType, graph.Subgraph, "root")}
     END
@@ -153,22 +166,22 @@ END//MACHINE
     var states = new HashSet<string>();
     var transitions = subgraph.Transitions;
 
-    var diagramBody = graph.ParseTree.diagramBody();
-    // Collect states from state declarations
-    foreach (var stateDecl in diagramBody.stateDeclaration())
-    {
-      var stateName = stateDecl.stateReference().stateName()?.GetText();
-      if (!string.IsNullOrEmpty(stateName)) {
-        states.Add(stateName);
-        continue;
-      }
+    // var diagramBody = graph.ParseTree.diagramBody();
+    // // Collect states from state declarations
+    // foreach (var stateDecl in diagramBody.stateDeclaration())
+    // {
+    //   var stateName = stateDecl.stateReference().stateName()?.GetText();
+    //   if (!string.IsNullOrEmpty(stateName)) {
+    //     states.Add(stateName);
+    //     continue;
+    //   }
 
-      var pseudostateName = stateDecl.stateReference().pseudostateName()?.GetText();
-      if (!string.IsNullOrEmpty(pseudostateName))
-      {
-        states.Add(pseudostateName);
-      }
-    }
+    //   var pseudostateName = stateDecl.stateReference().pseudostateName()?.GetText();
+    //   if (!string.IsNullOrEmpty(pseudostateName))
+    //   {
+    //     states.Add(pseudostateName);
+    //   }
+    // }
 
     // Collect states and transitions from transitions
     foreach (var transition in transitions)
@@ -228,18 +241,23 @@ END//MACHINE
           var condExpr = visitor.Visit(t.ParsedCondition);
           if (choicePseudostates.Contains(t.To))
           {
-            fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n            return self.transition_from_{parent}_{t.To}(now)\n");
+            fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n{WriteTransitionFunction(t.To)}");
           }
           else
           {
             var isNested = subgraph.NestedSubgraphs.ContainsKey(t.To);
             if (isNested)
             {
-              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}(self.transition_from_{parent}_{t.To}___initial(now))\n");
+              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}");
+              fnLines.Add($"          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To};");
+              fnLines.Add(GenerateInitialTransition(spec, graph, entityType, subgraph.NestedSubgraphs[t.To], $"{parent}_{t.To}"));
             }
             else
             {
-              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}\n");
+              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}");
+              fnLines.Add(string.Join(";\n", new [] {
+                $"          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}",
+              }.Concat(subgraph.NestedSubgraphs.Select(nested => $"          GraphState_{parent}_{nested.Key} := STATE_{graph.Name}_{parent}_{nested.Key}___initial"))));
             }
           }
         }
@@ -252,18 +270,23 @@ END//MACHINE
 
           if (choicePseudostates.Contains(t.To))
           {
-            fnLines.Add($"        {assignmentCode}\n        return self.transition_from_{parent}_{t.To}();");
+            fnLines.Add($"        {assignmentCode}\n{WriteTransitionFunction(t.To)}");
           }
           else
           {
             var isNested = subgraph.NestedSubgraphs.ContainsKey(t.To);
             if (isNested)
             {
-              fnLines.Add($"        {assignmentCode}\n        return {parent}_State::{t.To}(self.transition_from_{parent}_{t.To}___initial(now));");
+              fnLines.Add($"        {assignmentCode}");
+              fnLines.Add($"          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To};");
+              fnLines.Add(GenerateInitialTransition(spec, graph, entityType, subgraph.NestedSubgraphs[t.To], $"{parent}_{t.To}"));
             }
             else
             {
-              fnLines.Add($"        {assignmentCode}\n        GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}");
+              fnLines.Add($"        {assignmentCode}");
+              fnLines.Add(string.Join(";\n", new [] {
+                $"          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}",
+              }.Concat(subgraph.NestedSubgraphs.Select(nested => $"          GraphState_{parent}_{nested.Key} := STATE_{graph.Name}_{parent}_{nested.Key}___initial"))));
             }
           }
         }
@@ -286,22 +309,22 @@ END//MACHINE
     var states = new HashSet<string>();
     var transitions = subgraph.Transitions;
 
-    var diagramBody = graph.ParseTree.diagramBody();
-    // Collect states from state declarations
-    foreach (var stateDecl in diagramBody.stateDeclaration())
-    {
-      var stateName = stateDecl.stateReference().stateName()?.GetText();
-      if (!string.IsNullOrEmpty(stateName)) {
-        states.Add(stateName);
-        continue;
-      }
+    // var diagramBody = graph.ParseTree.diagramBody();
+    // // Collect states from state declarations
+    // foreach (var stateDecl in diagramBody.stateDeclaration())
+    // {
+    //   var stateName = stateDecl.stateReference().stateName()?.GetText();
+    //   if (!string.IsNullOrEmpty(stateName)) {
+    //     states.Add(stateName);
+    //     continue;
+    //   }
 
-      var pseudostateName = stateDecl.stateReference().pseudostateName()?.GetText();
-      if (!string.IsNullOrEmpty(pseudostateName))
-      {
-        states.Add(pseudostateName);
-      }
-    }
+    //   var pseudostateName = stateDecl.stateReference().pseudostateName()?.GetText();
+    //   if (!string.IsNullOrEmpty(pseudostateName))
+    //   {
+    //     states.Add(pseudostateName);
+    //   }
+    // }
 
     // Collect states and transitions from transitions
     foreach (var transition in transitions)
@@ -369,18 +392,23 @@ END//MACHINE
           var condExpr = visitor.Visit(t.ParsedCondition);
           if (choicePseudostates.Contains(t.To))
           {
-            fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n            return self.transition_from_{parent}_{t.To}(now)\n");
+            fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n{WriteTransitionFunction(t.To)}\n");
           }
           else
           {
             var isNested = subgraph.NestedSubgraphs.ContainsKey(t.To);
             if (isNested)
             {
-              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}(self.transition_from_{parent}_{t.To}___initial(now))\n");
+              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}");
+              fnLines.Add($"          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To};");
+              fnLines.Add(GenerateInitialTransition(spec, graph, entityType, subgraph.NestedSubgraphs[t.To], $"{parent}_{t.To}"));
             }
             else
             {
-              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}\n          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}\n");
+              fnLines.Add($"        {verb} {condExpr} THEN\n{assignmentCode}");
+              fnLines.Add(string.Join(";\n", new [] {
+                $"          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}",
+              }.Concat(subgraph.NestedSubgraphs.Select(nested => $"          GraphState_{parent}_{nested.Key} := STATE_{graph.Name}_{parent}_{nested.Key}___initial"))));
             }
           }
         }
@@ -393,50 +421,60 @@ END//MACHINE
 
           if (choicePseudostates.Contains(t.To))
           {
-            fnLines.Add($"        {assignmentCode}\n        return self.transition_from_{parent}_{t.To}();");
+            fnLines.Add($"        {assignmentCode}\n{WriteTransitionFunction(t.To)}");
           }
           else
           {
             var isNested = subgraph.NestedSubgraphs.ContainsKey(t.To);
             if (isNested)
             {
-              fnLines.Add($"        {assignmentCode}\n        return {parent}_State::{t.To}(self.transition_from_{parent}_{t.To}___initial(now));");
+              fnLines.Add($"        {assignmentCode}");
+              fnLines.Add($"          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To};");
+              fnLines.Add(GenerateInitialTransition(spec, graph, entityType, subgraph.NestedSubgraphs[t.To], $"{parent}_{t.To}"));
             }
             else
             {
-              fnLines.Add($"        {assignmentCode}\n        GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}");
+              fnLines.Add($"        {assignmentCode}");
+              fnLines.Add(string.Join(";\n", new [] {
+                $"          GraphState_{parent} := STATE_{graph.Name}_{parent}_{t.To}",
+              }.Concat(subgraph.NestedSubgraphs.Select(nested => $"          GraphState_{parent}_{nested.Key} := STATE_{graph.Name}_{parent}_{nested.Key}___initial"))));
             }
           }
         }
 
         isFirstTransition = false;
       }
-      if (anyCondition)
-      {
-        fnLines.Add("        END");
-      }
       if (!choicePseudostates.Contains(state) && state != "__initial")
       {
         var isNested = subgraph.NestedSubgraphs.ContainsKey(state);
         if (isNested)
         {
-          fnLines.Add($"        {parent}_State::{state}(self.transition_{parent}_{state}(s.clone(), now))");
+          if (anyCondition)
+          {
+            fnLines.Add("        ELSE");
+          }
+          fnLines.Add(GenerateTransitions(spec, graph, entityType, subgraph.NestedSubgraphs[state], $"{parent}_{state}"));
         }
       }
-      // fnLines.Add("    }");
+      if (anyCondition)
+      {
+        fnLines.Add("        END");
+      }
       return string.Join("\n", fnLines);
     }
 
     // Generate Rust match arms for transitions, calling the per-state function
     var matchArms = string.Join(";\n      ", rustStates
       .Where(x => !choicePseudostates.Contains(x))
-      .Where(x => !subgraph.NestedSubgraphs.ContainsKey(x))
-      .Select(state => $"SELECT GraphState_{parent} = STATE_{graph.Name}_{parent}_{state} THEN \n{WriteTransitionFunction(state)}\n      END")
-      .Concat(rustStates
-        .Where(x => !choicePseudostates.Contains(x))
-        .Where(x => subgraph.NestedSubgraphs.ContainsKey(x))
-        .Select(state => $"SELECT GraphState_{parent} = STATE_{graph.Name}_{parent}_{state}(s) THEN \n{WriteTransitionFunction(state)}\n      END")
-      ));
+      .Select(state => {
+        var transition = WriteTransitionFunction(state);
+        if (transition.Trim().Length == 0)
+        {
+          return null;
+        }
+        return $"SELECT GraphState_{parent} = STATE_{graph.Name}_{parent}_{state} THEN \n{transition}\n      END";
+      })
+      .Where(x => x != null));
 
     return matchArms;
   }

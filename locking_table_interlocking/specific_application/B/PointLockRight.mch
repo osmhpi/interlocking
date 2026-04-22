@@ -1,7 +1,7 @@
 MACHINE PointLockRight
 SEES Enums
 SETS
-  STATE_PointLockRight_root = { STATE_PointLockRight_root___initial, STATE_PointLockRight_root_NOT_LOCKED, STATE_PointLockRight_root_LOCKED }
+  STATETYPE_PointLockRight_root = { STATE_PointLockRight_root___initial, STATE_PointLockRight_root_NOT_LOCKED, STATE_PointLockRight_root_LOCKED }
 VARIABLES
   PointInOppositePosition,
   ZoneRequestsLock,
@@ -14,8 +14,8 @@ INVARIANT
   ZoneRequestsLock : BOOL &
   PointIsMoving : BOOL &
   TransitRequestsLock : BOOL &
-  State : ActiveInactive &
-  GraphState_root : STATE_PointLockRight_root
+  State : E_ActiveInactive &
+  GraphState_root : STATETYPE_PointLockRight_root
 INITIALIZATION
   PointInOppositePosition := FALSE;
   ZoneRequestsLock := FALSE;
@@ -35,10 +35,9 @@ OPERATIONS
         IF PointInOppositePosition = TRUE THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointLockRight_root_NOT_LOCKED
-
         ELSE
         State := ActiveInactive_ACTIVE;
-        GraphState_root := STATE_PointLockRight_root_LOCKED
+          GraphState_root := STATE_PointLockRight_root_LOCKED
         END
     END;
   Transition(SCIP_DetectedEndPosition, locked_right_by_zones_Zone_State, locked_right_by_transits_Transit_State) =
@@ -53,14 +52,12 @@ State := ActiveInactive_INACTIVE;
         IF ZoneRequestsLock = TRUE or PointIsMoving = TRUE or TransitRequestsLock = TRUE THEN
 State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_PointLockRight_root_LOCKED
-
         END
       END;
       SELECT GraphState_root = STATE_PointLockRight_root_LOCKED THEN 
         IF not(ZoneRequestsLock = TRUE) & not(PointIsMoving = TRUE) & not(TransitRequestsLock = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointLockRight_root_NOT_LOCKED
-
         END
       END
     END

@@ -1,8 +1,8 @@
 MACHINE RouteManualRelease
 SEES Enums
 SETS
-  STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING = { STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING___initial, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ETCS_APPROACH_LOCKING, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ROUTE_RELEASED, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ROUTE_SET, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_WITHHOLD_MA, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING_ZONE, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_FREE, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_ZONE_TIMEOUT };
-  STATE_RouteManualRelease_root = { STATE_RouteManualRelease_root___initial, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING, STATE_RouteManualRelease_root_ROUTE_RELEASED }
+  STATETYPE_RouteManualRelease_root_ETCS_APPROACH_LOCKING = { STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING___initial, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ETCS_APPROACH_LOCKING, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ROUTE_RELEASED, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ROUTE_SET, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_WITHHOLD_MA, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING_ZONE, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_FREE, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_ZONE_TIMEOUT };
+  STATETYPE_RouteManualRelease_root = { STATE_RouteManualRelease_root___initial, STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING, STATE_RouteManualRelease_root_ROUTE_RELEASED }
 VARIABLES
   CommandReleaseRoute,
   CommandUnsetManualReleaseRestriction,
@@ -21,6 +21,7 @@ VARIABLES
   ManualReleasePrevention,
   StartUnsupervisedTrainApproach,
   StartWithholdMovementAuthority,
+  GraphState_root_ETCS_APPROACH_LOCKING,
   GraphState_root
 INVARIANT
   CommandReleaseRoute : BOOL &
@@ -34,13 +35,14 @@ INVARIANT
   RouteIsLocked : BOOL &
   PassageLock : BOOL &
   ApproachZoneOccupied : BOOL &
-  ManualReleaseRequested : ActiveInactive &
-  HoldApproachLocking : OpenCloseState &
-  ManualReleaseWithholdMovementAuthority : ActiveInactive &
-  ManualReleasePrevention : ActiveInactive &
+  ManualReleaseRequested : E_ActiveInactive &
+  HoldApproachLocking : E_OpenCloseState &
+  ManualReleaseWithholdMovementAuthority : E_ActiveInactive &
+  ManualReleasePrevention : E_ActiveInactive &
   StartUnsupervisedTrainApproach : INT &
   StartWithholdMovementAuthority : INT &
-  GraphState_root : STATE_RouteManualRelease_root
+  GraphState_root_ETCS_APPROACH_LOCKING : STATETYPE_RouteManualRelease_root_ETCS_APPROACH_LOCKING &
+  GraphState_root : STATETYPE_RouteManualRelease_root
 INITIALIZATION
   CommandReleaseRoute := FALSE;
   CommandUnsetManualReleaseRestriction := FALSE;
@@ -59,9 +61,10 @@ INITIALIZATION
   ManualReleasePrevention := ActiveInactive_INACTIVE;
   StartUnsupervisedTrainApproach := 0;
   StartWithholdMovementAuthority := 0;
+  GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING___initial;
   GraphState_root := STATE_RouteManualRelease_root___initial
 OPERATIONS
-  InitialTransition(ise_RouteManualReleaseDispatch_State, signal_SCIRBC_ApproachLockingActive, Route_State, RouteMonitoring_State, approach_zone_Zone_State, NOW) =
+  InitialTransition(ise_RouteManualReleaseDispatch_State, signal_SCIRBC_ApproachLockingActive, NOW, time_delay_etcs_approach_locking, time_delay_unsupervised_train_approach_locking, Route_State, RouteMonitoring_State, approach_zone_Zone_State) =
     BEGIN
       // Update Terms
       CommandReleaseRoute := bool(ise_RouteManualReleaseDispatch_State = ActiveInactive_ACTIVE) ||
@@ -80,9 +83,10 @@ OPERATIONS
       HoldApproachLocking := OpenCloseState_CLOSED;
       ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
       ManualReleasePrevention := ActiveInactive_INACTIVE;
-        GraphState_root := STATE_RouteManualRelease_root_ROUTE_RELEASED
+          GraphState_root := STATE_RouteManualRelease_root_ROUTE_RELEASED;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING___initial
     END;
-  Transition(ise_RouteManualReleaseDispatch_State, signal_SCIRBC_ApproachLockingActive, Route_State, RouteMonitoring_State, approach_zone_Zone_State, NOW) =
+  Transition(ise_RouteManualReleaseDispatch_State, signal_SCIRBC_ApproachLockingActive, NOW, time_delay_etcs_approach_locking, time_delay_unsupervised_train_approach_locking, Route_State, RouteMonitoring_State, approach_zone_Zone_State) =
     BEGIN
       // Update Terms
       CommandReleaseRoute := bool(ise_RouteManualReleaseDispatch_State = ActiveInactive_ACTIVE) ||
@@ -100,20 +104,151 @@ OPERATIONS
       SELECT GraphState_root = STATE_RouteManualRelease_root_ROUTE_RELEASED THEN 
         IF RouteIsSet = TRUE THEN
 
-          GraphState_root := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING(self.transition_from_root_ETCS_APPROACH_LOCKING___initial(now))
-
+          GraphState_root := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING;
+        IF RouteIsLocked = TRUE THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN
+        ELSE
+        ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_CLOSED;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ROUTE_SET
+        END
         END
       END;
-      SELECT GraphState_root = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING(s) THEN 
+      SELECT GraphState_root = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING THEN 
         IF not(RouteIsSet = TRUE) THEN
 ManualReleaseRequested := ActiveInactive_INACTIVE;
       HoldApproachLocking := OpenCloseState_CLOSED;
       ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
       ManualReleasePrevention := ActiveInactive_INACTIVE;
-          GraphState_root := STATE_RouteManualRelease_root_ROUTE_RELEASED
-
+          GraphState_root := STATE_RouteManualRelease_root_ROUTE_RELEASED;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING___initial
+        ELSE
+SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN THEN 
+        IF CommandReleaseRoute = TRUE THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_ACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+      StartWithholdMovementAuthority := NOW;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_WITHHOLD_MA
+        ELSIF ApproachTaken = TRUE & ManualSignalClose = TRUE & ((CommandUnsetManualReleaseRestriction = TRUE & ReleasePrevention = TRUE) or (CommandReleaseRoute = TRUE & not(ReleasePrevention = TRUE))) THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_ACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING
+        ELSIF not(ApproachTaken = TRUE) & ApproachZoneOccupied = TRUE & ManualSignalClose = TRUE & ((CommandUnsetManualReleaseRestriction = TRUE & ReleasePrevention = TRUE) or (CommandReleaseRoute = TRUE & not(ReleasePrevention = TRUE))) THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+      StartUnsupervisedTrainApproach := NOW;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING_ZONE
+        ELSIF not(ApproachTaken = TRUE) & PassageLock = TRUE & CommandReleaseRoute = TRUE & ReleasePrevention = TRUE THEN
+ManualReleaseRequested := ActiveInactive_ACTIVE;
+      HoldApproachLocking := OpenCloseState_CLOSED;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE
         END
-        root_State::ETCS_APPROACH_LOCKING(self.transition_root_ETCS_APPROACH_LOCKING(s.clone(), now))
+      END;
+      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ROUTE_SET THEN 
+        IF RouteIsLocked = TRUE THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN
+        ELSIF (CommandUnsetManualReleaseRestriction = TRUE & ReleasePrevention = TRUE) or (CommandReleaseRoute = TRUE & not(ReleasePrevention = TRUE)) THEN
+ManualReleaseRequested := ActiveInactive_ACTIVE;
+      HoldApproachLocking := OpenCloseState_CLOSED;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE
+        END
+      END;
+      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_WITHHOLD_MA THEN 
+        IF ApproachTaken = TRUE or ApproachZoneOccupied = TRUE THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN
+        ELSIF TimeoutWithholdMovementAuthorityExpired = TRUE THEN
+ManualReleaseRequested := ActiveInactive_ACTIVE;
+      HoldApproachLocking := OpenCloseState_CLOSED;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE
+        END
+      END;
+      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING THEN 
+        IF not(ManualSignalClose = TRUE) THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN
+        ELSIF not(ApproachTaken = TRUE) THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_CLOSED;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_ACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_FREE
+        END
+      END;
+      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING_ZONE THEN 
+        IF not(ManualSignalClose = TRUE) THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN
+        ELSIF TimeoutUnsupervisedTrainApproachExpired = TRUE THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_ZONE_TIMEOUT
+        END
+      END;
+      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_FREE THEN 
+        IF RouteIsLocked = TRUE THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN
+        ELSIF not(ApproachTaken = TRUE) & ((CommandUnsetManualReleaseRestriction = TRUE & ReleasePrevention = TRUE) or (CommandReleaseRoute = TRUE & not(ReleasePrevention = TRUE))) THEN
+ManualReleaseRequested := ActiveInactive_ACTIVE;
+      HoldApproachLocking := OpenCloseState_CLOSED;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE
+        END
+      END;
+      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_ZONE_TIMEOUT THEN 
+        IF RouteIsLocked = TRUE THEN
+ManualReleaseRequested := ActiveInactive_INACTIVE;
+      HoldApproachLocking := OpenCloseState_OPEN;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN
+        ELSIF (CommandUnsetManualReleaseRestriction = TRUE & ReleasePrevention = TRUE) or (CommandReleaseRoute = TRUE & not(ReleasePrevention = TRUE)) THEN
+ManualReleaseRequested := ActiveInactive_ACTIVE;
+      HoldApproachLocking := OpenCloseState_CLOSED;
+      ManualReleaseWithholdMovementAuthority := ActiveInactive_INACTIVE;
+      ManualReleasePrevention := ActiveInactive_INACTIVE;
+          GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE
+        END
+      END
+        END
       END
     END
 END//MACHINE

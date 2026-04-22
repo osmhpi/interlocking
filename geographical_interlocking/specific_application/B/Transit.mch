@@ -1,7 +1,7 @@
 MACHINE Transit
 SEES Enums
 SETS
-  STATE_Transit_root = { STATE_Transit_root___initial, STATE_Transit_root_INITIALIZING, STATE_Transit_root_IDLE, STATE_Transit_root_ACTIVE }
+  STATETYPE_Transit_root = { STATE_Transit_root___initial, STATE_Transit_root_INITIALIZING, STATE_Transit_root_IDLE, STATE_Transit_root_ACTIVE }
 VARIABLES
   InitializationTimeoutExpired,
   ZoneFree,
@@ -15,9 +15,9 @@ INVARIANT
   ZoneFree : BOOL &
   UpstreamTransitsIdle : BOOL &
   RequestedByRoute : BOOL &
-  State : ActiveInactive &
+  State : E_ActiveInactive &
   StartInitialization : INT &
-  GraphState_root : STATE_Transit_root
+  GraphState_root : STATETYPE_Transit_root
 INITIALIZATION
   InitializationTimeoutExpired := FALSE;
   ZoneFree := FALSE;
@@ -27,7 +27,7 @@ INITIALIZATION
   StartInitialization := 0;
   GraphState_root := STATE_Transit_root___initial
 OPERATIONS
-  InitialTransition(underlying_zone_Zone_State, upstream_transits_Transit_State, Route_State, NOW) =
+  InitialTransition(NOW, underlying_zone_Zone_State, upstream_transits_Transit_State, Route_State) =
     BEGIN
       // Update Terms
       InitializationTimeoutExpired := bool(NOW >= StartInitialization + 1000) ||
@@ -37,9 +37,9 @@ OPERATIONS
       // Perform transition
         State := ActiveInactive_ACTIVE;
       StartInitialization := NOW;
-        GraphState_root := STATE_Transit_root_INITIALIZING
+          GraphState_root := STATE_Transit_root_INITIALIZING
     END;
-  Transition(underlying_zone_Zone_State, upstream_transits_Transit_State, Route_State, NOW) =
+  Transition(NOW, underlying_zone_Zone_State, upstream_transits_Transit_State, Route_State) =
     BEGIN
       // Update Terms
       InitializationTimeoutExpired := bool(NOW >= StartInitialization + 1000) ||
@@ -51,21 +51,18 @@ OPERATIONS
         IF InitializationTimeoutExpired = TRUE & UpstreamTransitsIdle = TRUE & ZoneFree = TRUE & not(RequestedByRoute = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_Transit_root_IDLE
-
         END
       END;
       SELECT GraphState_root = STATE_Transit_root_IDLE THEN 
         IF RequestedByRoute = TRUE THEN
 State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_Transit_root_ACTIVE
-
         END
       END;
       SELECT GraphState_root = STATE_Transit_root_ACTIVE THEN 
         IF UpstreamTransitsIdle = TRUE & ZoneFree = TRUE & not(RequestedByRoute = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_Transit_root_IDLE
-
         END
       END
     END

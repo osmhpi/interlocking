@@ -4,15 +4,14 @@ VARIABLES
   OccupancyStatus,
   ResetSection
 INVARIANT
-  OccupancyStatus : OccupancyStatus &
+  OccupancyStatus : E_OccupancyStatus &
   ResetSection : BOOL
 INITIALIZATION
   OccupancyStatus := OccupancyStatus_OCCUPIED;
   ResetSection := FALSE
 OPERATIONS
-  ComputeOutputs(Zone_State) =
-    BEGIN
-      IF bool(Zone_State = OccupancyStatus_VACANT) = TRUE THEN
+  ComputeOutputs(Zone_State) = BEGIN
+IF bool(Zone_State = OccupancyStatus_VACANT) = TRUE THEN
         ResetSection := TRUE
       ELSIF bool(Zone_State /= OccupancyStatus_VACANT) = TRUE THEN
         ResetSection := FALSE

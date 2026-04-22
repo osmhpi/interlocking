@@ -6,7 +6,7 @@ static partial class BWriter
   {
     public override string VisitExpression([NotNull] ExpressionParser.ExpressionContext context)
     {
-      return $"bool({Visit(context.orExpression())})";
+      return $"{Visit(context.orExpression())}";
     }
 
     public override string VisitOrExpression([NotNull] ExpressionParser.OrExpressionContext context)

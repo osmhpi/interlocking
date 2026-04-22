@@ -10,8 +10,5 @@ INITIALIZATION
   MsgRequestRoute := FALSE;
   MsgReleaseRoute := FALSE
 OPERATIONS
-  ComputeOutputs() =
-    BEGIN
-      
-    END
+  ComputeOutputs = skip
 END//MACHINE

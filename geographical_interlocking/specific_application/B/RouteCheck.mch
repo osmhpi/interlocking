@@ -1,7 +1,7 @@
 MACHINE RouteCheck
 SEES Enums
 SETS
-  STATE_RouteCheck_root = { STATE_RouteCheck_root___initial, STATE_RouteCheck_root_INACTIVE, STATE_RouteCheck_root_WAITING, STATE_RouteCheck_root_CHECKING, STATE_RouteCheck_root_c }
+  STATETYPE_RouteCheck_root = { STATE_RouteCheck_root___initial, STATE_RouteCheck_root_INACTIVE, STATE_RouteCheck_root_WAITING, STATE_RouteCheck_root_CHECKING, STATE_RouteCheck_root_c }
 VARIABLES
   RouteRequested,
   IsTop,
@@ -11,9 +11,9 @@ VARIABLES
 INVARIANT
   RouteRequested : BOOL &
   IsTop : BOOL &
-  Top : ActiveInactive &
-  State : ActiveInactive &
-  GraphState_root : STATE_RouteCheck_root
+  Top : E_ActiveInactive &
+  State : E_ActiveInactive &
+  GraphState_root : STATETYPE_RouteCheck_root
 INITIALIZATION
   RouteRequested := FALSE;
   IsTop := FALSE;
@@ -29,7 +29,7 @@ OPERATIONS
       // Perform transition
         Top := ActiveInactive_ACTIVE;
       State := ActiveInactive_INACTIVE;
-        GraphState_root := STATE_RouteCheck_root_INACTIVE
+          GraphState_root := STATE_RouteCheck_root_INACTIVE
     END;
   Transition(SCICC_MsgRequestRoute, all_routes_RouteCheck_Top) =
     BEGIN
@@ -40,22 +40,29 @@ OPERATIONS
       SELECT GraphState_root = STATE_RouteCheck_root_INACTIVE THEN 
         IF RouteRequested = TRUE THEN
 
-            return self.transition_from_root_c(now)
-
-        END
-      END;
-      SELECT GraphState_root = STATE_RouteCheck_root_WAITING THEN 
         IF IsTop = TRUE THEN
 Top := ActiveInactive_INACTIVE;
       State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_RouteCheck_root_CHECKING
+        ELSE
+        Top := ActiveInactive_ACTIVE;
+      State := ActiveInactive_INACTIVE;
+          GraphState_root := STATE_RouteCheck_root_WAITING
+        END
 
         END
       END;
       SELECT GraphState_root = STATE_RouteCheck_root_CHECKING THEN 
         Top := ActiveInactive_ACTIVE;
       State := ActiveInactive_INACTIVE;
-        GraphState_root := STATE_RouteCheck_root_INACTIVE
+          GraphState_root := STATE_RouteCheck_root_INACTIVE
+      END;
+      SELECT GraphState_root = STATE_RouteCheck_root_WAITING THEN 
+        IF IsTop = TRUE THEN
+Top := ActiveInactive_INACTIVE;
+      State := ActiveInactive_ACTIVE;
+          GraphState_root := STATE_RouteCheck_root_CHECKING
+        END
       END
     END
 END//MACHINE

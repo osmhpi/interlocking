@@ -1,7 +1,7 @@
 MACHINE LinkRTL
 SEES Enums
 SETS
-  STATE_LinkRTL_root = { STATE_LinkRTL_root___initial, STATE_LinkRTL_root_IDLE, STATE_LinkRTL_root_CHECKING, STATE_LinkRTL_root_ADMIT, STATE_LinkRTL_root_ROUTE_SET, STATE_LinkRTL_root_ROUTE_MONITORED }
+  STATETYPE_LinkRTL_root = { STATE_LinkRTL_root___initial, STATE_LinkRTL_root_IDLE, STATE_LinkRTL_root_CHECKING, STATE_LinkRTL_root_ADMIT, STATE_LinkRTL_root_ROUTE_SET, STATE_LinkRTL_root_ROUTE_MONITORED }
 VARIABLES
   IsChecking,
   IsCheckingOpposite,
@@ -18,8 +18,8 @@ INVARIANT
   IsAdmitOpposite : BOOL &
   IsRouteSet : BOOL &
   IsRouteSetDownstream : BOOL &
-  State : RouteSearch &
-  GraphState_root : STATE_LinkRTL_root
+  State : E_RouteSearch &
+  GraphState_root : STATETYPE_LinkRTL_root
 INITIALIZATION
   IsChecking := FALSE;
   IsCheckingOpposite := FALSE;
@@ -41,7 +41,7 @@ OPERATIONS
       IsRouteSetDownstream := bool(RouteAdmission_ROUTE_TO_B : ise_right_port_a_RouteFindingResponse_Admit or RouteAdmission_ROUTE_TO_C : ise_right_port_a_RouteFindingResponse_Admit or RouteAdmission_ROUTE_END : ise_right_port_a_RouteFindingResponse_Admit or RouteAdmission_ROUTE_TO_A : ise_right_port_b_RouteFindingResponse_Admit or RouteAdmission_ROUTE_TO_A : ise_right_port_c_RouteFindingResponse_Admit);
       // Perform transition
         State := RouteSearch_INACTIVE;
-        GraphState_root := STATE_LinkRTL_root_IDLE
+          GraphState_root := STATE_LinkRTL_root_IDLE
     END;
   Transition(ise_right_port_a_RouteFindingSearch_Check, ise_right_port_b_RouteFindingSearch_Check, ise_right_port_c_RouteFindingSearch_Check, ise_left_port_a_RouteFindingSearch_Check, ise_left_port_b_RouteFindingSearch_Check, ise_left_port_c_RouteFindingSearch_Check, ise_right_port_a_RouteFindingResponse_Admit, ise_right_port_b_RouteFindingResponse_Admit, ise_right_port_c_RouteFindingResponse_Admit, ise_left_port_a_RouteFindingResponse_Admit, ise_left_port_b_RouteFindingResponse_Admit, ise_left_port_c_RouteFindingResponse_Admit) =
     BEGIN
@@ -57,47 +57,39 @@ OPERATIONS
         IF IsChecking = TRUE & not(IsCheckingOpposite = TRUE) THEN
 State := RouteSearch_SEARCH;
           GraphState_root := STATE_LinkRTL_root_CHECKING
-
         ELSIF IsAdmit = TRUE THEN
 State := RouteSearch_RESPONSE;
           GraphState_root := STATE_LinkRTL_root_ADMIT
-
         END
       END;
       SELECT GraphState_root = STATE_LinkRTL_root_CHECKING THEN 
         IF IsRouteSet = TRUE & IsAdmitOpposite = TRUE THEN
 State := RouteSearch_ROUTE_SET;
           GraphState_root := STATE_LinkRTL_root_ROUTE_SET
-
         ELSIF not(IsChecking = TRUE) THEN
 State := RouteSearch_INACTIVE;
           GraphState_root := STATE_LinkRTL_root_IDLE
-
         END
       END;
       SELECT GraphState_root = STATE_LinkRTL_root_ADMIT THEN 
         IF IsRouteSetDownstream = TRUE THEN
 State := RouteSearch_ROUTE_MONITORED;
           GraphState_root := STATE_LinkRTL_root_ROUTE_MONITORED
-
         ELSIF not(IsAdmit = TRUE) THEN
 State := RouteSearch_INACTIVE;
           GraphState_root := STATE_LinkRTL_root_IDLE
-
         END
       END;
       SELECT GraphState_root = STATE_LinkRTL_root_ROUTE_SET THEN 
         IF not(IsRouteSet = TRUE) THEN
 State := RouteSearch_INACTIVE;
           GraphState_root := STATE_LinkRTL_root_IDLE
-
         END
       END;
       SELECT GraphState_root = STATE_LinkRTL_root_ROUTE_MONITORED THEN 
         IF not(IsRouteSetDownstream = TRUE) THEN
 State := RouteSearch_RESPONSE;
           GraphState_root := STATE_LinkRTL_root_ADMIT
-
         END
       END
     END

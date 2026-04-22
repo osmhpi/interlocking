@@ -1,15 +1,15 @@
 MACHINE Zone
 SEES Enums
 SETS
-  STATE_Zone_root = { STATE_Zone_root___initial, STATE_Zone_root_OCCUPIED, STATE_Zone_root_VACANT }
+  STATETYPE_Zone_root = { STATE_Zone_root___initial, STATE_Zone_root_OCCUPIED, STATE_Zone_root_VACANT }
 VARIABLES
   ZoneOccupied,
   State,
   GraphState_root
 INVARIANT
   ZoneOccupied : BOOL &
-  State : OccupancyStatus &
-  GraphState_root : STATE_Zone_root
+  State : E_OccupancyStatus &
+  GraphState_root : STATETYPE_Zone_root
 INITIALIZATION
   ZoneOccupied := TRUE;
   State := OccupancyStatus_OCCUPIED;
@@ -21,7 +21,7 @@ OPERATIONS
       ZoneOccupied := bool(SCITDS_OccupancyStatus /= OccupancyStatus_VACANT);
       // Perform transition
         State := OccupancyStatus_OCCUPIED;
-        GraphState_root := STATE_Zone_root_OCCUPIED
+          GraphState_root := STATE_Zone_root_OCCUPIED
     END;
   Transition(SCITDS_OccupancyStatus) =
     BEGIN
@@ -32,14 +32,12 @@ OPERATIONS
         IF not(ZoneOccupied = TRUE) THEN
 State := OccupancyStatus_VACANT;
           GraphState_root := STATE_Zone_root_VACANT
-
         END
       END;
       SELECT GraphState_root = STATE_Zone_root_VACANT THEN 
         IF ZoneOccupied = TRUE THEN
 State := OccupancyStatus_OCCUPIED;
           GraphState_root := STATE_Zone_root_OCCUPIED
-
         END
       END
     END

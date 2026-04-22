@@ -1,7 +1,7 @@
 MACHINE PointControl
 SEES Enums
 SETS
-  STATE_PointControl_root = { STATE_PointControl_root___initial, STATE_PointControl_root_CONTROLLED_LEFT, STATE_PointControl_root_CONTROLLED_RIGHT, STATE_PointControl_root_NOT_CONTROLLED }
+  STATETYPE_PointControl_root = { STATE_PointControl_root___initial, STATE_PointControl_root_CONTROLLED_LEFT, STATE_PointControl_root_CONTROLLED_RIGHT, STATE_PointControl_root_NOT_CONTROLLED }
 VARIABLES
   EndPositionLeftDetected,
   EndPositionRightDetected,
@@ -15,9 +15,9 @@ INVARIANT
   EndPositionRightDetected : BOOL &
   CommandedLeft : BOOL &
   CommandedRight : BOOL &
-  Left : ActiveInactive &
-  Right : ActiveInactive &
-  GraphState_root : STATE_PointControl_root
+  Left : E_ActiveInactive &
+  Right : E_ActiveInactive &
+  GraphState_root : STATETYPE_PointControl_root
 INITIALIZATION
   EndPositionLeftDetected := FALSE;
   EndPositionRightDetected := FALSE;
@@ -39,16 +39,14 @@ OPERATIONS
 Left := ActiveInactive_ACTIVE;
       Right := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointControl_root_CONTROLLED_LEFT
-
         ELSIF EndPositionRightDetected = TRUE THEN
 Right := ActiveInactive_ACTIVE;
       Left := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointControl_root_CONTROLLED_RIGHT
-
         ELSE
         Left := ActiveInactive_INACTIVE;
       Right := ActiveInactive_INACTIVE;
-        GraphState_root := STATE_PointControl_root_NOT_CONTROLLED
+          GraphState_root := STATE_PointControl_root_NOT_CONTROLLED
         END
     END;
   Transition(SCIP_DetectedEndPosition, Point_State) =
@@ -64,7 +62,6 @@ Right := ActiveInactive_ACTIVE;
 Left := ActiveInactive_INACTIVE;
       Right := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointControl_root_NOT_CONTROLLED
-
         END
       END;
       SELECT GraphState_root = STATE_PointControl_root_CONTROLLED_RIGHT THEN 
@@ -72,7 +69,6 @@ Left := ActiveInactive_INACTIVE;
 Left := ActiveInactive_INACTIVE;
       Right := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointControl_root_NOT_CONTROLLED
-
         END
       END;
       SELECT GraphState_root = STATE_PointControl_root_NOT_CONTROLLED THEN 
@@ -80,12 +76,10 @@ Left := ActiveInactive_INACTIVE;
 Left := ActiveInactive_ACTIVE;
       Right := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointControl_root_CONTROLLED_LEFT
-
         ELSIF EndPositionRightDetected = TRUE & CommandedRight = TRUE THEN
 Right := ActiveInactive_ACTIVE;
       Left := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointControl_root_CONTROLLED_RIGHT
-
         END
       END
     END

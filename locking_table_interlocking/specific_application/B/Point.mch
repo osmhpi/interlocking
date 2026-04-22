@@ -1,7 +1,7 @@
 MACHINE Point
 SEES Enums
 SETS
-  STATE_Point_root = { STATE_Point_root___initial, STATE_Point_root_LEFT, STATE_Point_root_RIGHT, STATE_Point_root_UNDETERMINED }
+  STATETYPE_Point_root = { STATE_Point_root___initial, STATE_Point_root_LEFT, STATE_Point_root_RIGHT, STATE_Point_root_UNDETERMINED }
 VARIABLES
   PointDetectedLeft,
   PointDetectedRight,
@@ -18,8 +18,8 @@ INVARIANT
   RouteAuthorizedMoveRight : BOOL &
   PointLockedLeft : BOOL &
   PointLockedRight : BOOL &
-  State : PointState &
-  GraphState_root : STATE_Point_root
+  State : E_PointState &
+  GraphState_root : STATETYPE_Point_root
 INITIALIZATION
   PointDetectedLeft := FALSE;
   PointDetectedRight := FALSE;
@@ -43,14 +43,12 @@ OPERATIONS
         IF PointDetectedLeft = TRUE THEN
 State := PointState_LEFT;
           GraphState_root := STATE_Point_root_LEFT
-
         ELSIF PointDetectedRight = TRUE THEN
 State := PointState_RIGHT;
           GraphState_root := STATE_Point_root_RIGHT
-
         ELSE
         State := PointState_UNDETERMINED;
-        GraphState_root := STATE_Point_root_UNDETERMINED
+          GraphState_root := STATE_Point_root_UNDETERMINED
         END
     END;
   Transition(SCIP_DetectedEndPosition, requested_left_by_routes_Route_State, requested_right_by_routes_Route_State, PointLockLeft_State, PointLockRight_State) =
@@ -67,25 +65,21 @@ State := PointState_RIGHT;
         IF RouteAuthorizedMoveRight = TRUE & not((RouteAuthorizedMoveLeft = TRUE or PointLockedLeft = TRUE)) THEN
 State := PointState_RIGHT;
           GraphState_root := STATE_Point_root_RIGHT
-
         END
       END;
       SELECT GraphState_root = STATE_Point_root_RIGHT THEN 
         IF RouteAuthorizedMoveLeft = TRUE & not((RouteAuthorizedMoveRight = TRUE or PointLockedRight = TRUE)) THEN
 State := PointState_LEFT;
           GraphState_root := STATE_Point_root_LEFT
-
         END
       END;
       SELECT GraphState_root = STATE_Point_root_UNDETERMINED THEN 
         IF RouteAuthorizedMoveLeft = TRUE & not(RouteAuthorizedMoveRight = TRUE) THEN
 State := PointState_LEFT;
           GraphState_root := STATE_Point_root_LEFT
-
         ELSIF RouteAuthorizedMoveRight = TRUE & not(RouteAuthorizedMoveLeft = TRUE) THEN
 State := PointState_RIGHT;
           GraphState_root := STATE_Point_root_RIGHT
-
         END
       END
     END

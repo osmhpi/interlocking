@@ -20,7 +20,7 @@ static partial class BWriter
     foreach (var enumDef in enums.Enums1)
     {
       var enumName = char.ToUpperInvariant(enumDef.Key[0]) + enumDef.Key.Substring(1);
-      lines.Add($"  {enumName} = {{{string.Join(", ", enumDef.Value.Enum.Select(v => enumName + "_" + char.ToUpperInvariant(v[0]) + v.Substring(1)))}}};");
+      lines.Add($"  E_{enumName} = {{{string.Join(", ", enumDef.Value.Enum.Select(v => enumName + "_" + char.ToUpperInvariant(v[0]) + v.Substring(1)))}}};");
     }
     lines[^1] = lines[^1].TrimEnd(';');
     lines.Add("END");

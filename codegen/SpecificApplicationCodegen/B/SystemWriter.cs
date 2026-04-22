@@ -17,8 +17,7 @@ static partial class BWriter
         File.WriteAllText(outputPath, content);
     }
 
-
-    record PropertyValue(int? duration, bool? boolean, string? reference, List<string>? referenceList);
+    record PropertyValue(int? duration, bool? boolean, string? reference, List<string>? referenceList, string? targetEntityType);
     private static string ProvideInputsToGraphInstance(Specification spec, Graph graph, string entity, JObject specificAppConfig)
     {
         var entityType = spec.EntityTypes.Single(e => graph.Terms.Entity_type == e.Name);
@@ -29,12 +28,12 @@ static partial class BWriter
             if (property.Value.Type == "duration")
             {
                 var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.ToObject<int?>();
-                propertyMap[property.Key] = new PropertyValue(duration: propertyValueOfInstance ?? 0, boolean: null, reference: null, referenceList: null);
+                propertyMap[property.Key] = new PropertyValue(duration: propertyValueOfInstance ?? 0, boolean: null, reference: null, referenceList: null, null);
             }
             else if (property.Value.Type == "boolean")
             {
                 var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.ToObject<bool?>();
-                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: propertyValueOfInstance ?? false, reference: null, referenceList: null);
+                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: propertyValueOfInstance ?? false, reference: null, referenceList: null, null);
             }
             else
             {
@@ -42,12 +41,12 @@ static partial class BWriter
               if (!property.Value.Max.IsUnbounded)
               {
                 var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.ToString();
-                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: null, reference: propertyValueOfInstance, referenceList: null);
+                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: null, reference: propertyValueOfInstance, referenceList: null, property.Value.Type);
               }
               else
               {
                 var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.Select(x => x.ToString());
-                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: null, reference: null, referenceList: propertyValueOfInstance?.ToList());
+                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: null, reference: null, referenceList: propertyValueOfInstance?.ToList(), property.Value.Type);
               }
             }
         }
@@ -63,26 +62,22 @@ static partial class BWriter
             }
         }
 
-        if (graph.Terms.Variables.Any(x => x.Value.Type == "timestamp"))
-        {
-            inputs.Add(new Reference(null, "", null, true)); // Add NOW as implicit input for time-based conditions
-        }
-
         // Remove duplicates but keep defined order
         var orderedInputs = inputs.Distinct().ToList();
         var parameters = new List<string>();
         foreach (var input in orderedInputs)
         {
-            var graphOrInterfaceName = input.GraphOrInterfaceName;
-            if (input.GraphOrInterfaceName != null && spec.Interfaces.Any(i => i.Name == input.GraphOrInterfaceName))
-            {
-                graphOrInterfaceName = $"{input.GraphOrInterfaceName}_{entityType.Name}";
-            }
-
             if (input.PropertyName != null)
             {
                 // Resolve property value from map above
                 var propertyValue = propertyMap[input.PropertyName];
+
+                var graphOrInterfaceName = input.GraphOrInterfaceName;
+                if (input.GraphOrInterfaceName != null && spec.Interfaces.Any(i => i.Name == input.GraphOrInterfaceName))
+                {
+                    graphOrInterfaceName = $"{input.GraphOrInterfaceName}_{propertyValue.targetEntityType}";
+                }
+
                 if (propertyValue.duration.HasValue)
                 {
                     parameters.Add(propertyValue.duration.Value.ToString());
@@ -107,10 +102,15 @@ static partial class BWriter
             }
             else if (input.IsNow)
             {
-                parameters.Add(input.ToBString());
+                parameters.Add("SYS_NOW");
             }
             else
             {
+                var graphOrInterfaceName = input.GraphOrInterfaceName;
+                if (input.GraphOrInterfaceName != null && spec.Interfaces.Any(i => i.Name == input.GraphOrInterfaceName))
+                {
+                    graphOrInterfaceName = $"{input.GraphOrInterfaceName}_{entityType.Name}";
+                }
                 // Input refers to graph or interface belonging to the same entity instance
                 parameters.Add($"{graphOrInterfaceName}_{entity}.{input.VariableName}");
             }
@@ -129,12 +129,12 @@ static partial class BWriter
             if (property.Value.Type == "duration")
             {
                 var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.ToObject<int?>();
-                propertyMap[property.Key] = new PropertyValue(duration: propertyValueOfInstance ?? 0, boolean: null, reference: null, referenceList: null);
+                propertyMap[property.Key] = new PropertyValue(duration: propertyValueOfInstance ?? 0, boolean: null, reference: null, referenceList: null, targetEntityType: null);
             }
             else if (property.Value.Type == "boolean")
             {
                 var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.ToObject<bool?>();
-                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: propertyValueOfInstance ?? false, reference: null, referenceList: null);
+                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: propertyValueOfInstance ?? false, reference: null, referenceList: null, targetEntityType: null);
             }
             else
             {
@@ -142,12 +142,12 @@ static partial class BWriter
               if (!property.Value.Max.IsUnbounded)
               {
                 var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.ToString();
-                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: null, reference: propertyValueOfInstance, referenceList: null);
+                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: null, reference: propertyValueOfInstance, referenceList: null, targetEntityType: property.Value.Type);
               }
               else
               {
                 var propertyValueOfInstance = specificAppConfig[entityType.Name]?.Single(x => SanitizeBIdentifier(x["name"]?.ToString()) == entity)?[property.Key]?.Select(x => x.ToString());
-                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: null, reference: null, referenceList: propertyValueOfInstance?.ToList());
+                propertyMap[property.Key] = new PropertyValue(duration: null, boolean: null, reference: null, referenceList: propertyValueOfInstance?.ToList(), targetEntityType: property.Value.Type);
               }
             }
         }
@@ -168,16 +168,17 @@ static partial class BWriter
         var parameters = new List<string>();
         foreach (var input in orderedInputs)
         {
-            var graphOrInterfaceName = input.GraphOrInterfaceName;
-            if (input.GraphOrInterfaceName != null && spec.Interfaces.Any(i => i.Name == input.GraphOrInterfaceName))
-            {
-                graphOrInterfaceName = $"{input.GraphOrInterfaceName}_{entityType.Name}";
-            }
-
             if (input.PropertyName != null)
             {
                 // Resolve property value from map above
                 var propertyValue = propertyMap[input.PropertyName];
+
+                var graphOrInterfaceName = input.GraphOrInterfaceName;
+                if (input.GraphOrInterfaceName != null && spec.Interfaces.Any(i => i.Name == input.GraphOrInterfaceName))
+                {
+                    graphOrInterfaceName = $"{input.GraphOrInterfaceName}_{propertyValue.targetEntityType}";
+                }
+
                 if (propertyValue.duration.HasValue)
                 {
                     parameters.Add(propertyValue.duration.Value.ToString());
@@ -202,10 +203,15 @@ static partial class BWriter
             }
             else if (input.IsNow)
             {
-                parameters.Add(input.ToBString());
+                parameters.Add("SYS_NOW");
             }
             else
             {
+                var graphOrInterfaceName = input.GraphOrInterfaceName;
+                if (input.GraphOrInterfaceName != null && spec.Interfaces.Any(i => i.Name == input.GraphOrInterfaceName))
+                {
+                    graphOrInterfaceName = $"{input.GraphOrInterfaceName}_{entityType.Name}";
+                }
                 // Input refers to graph or interface belonging to the same entity instance
                 parameters.Add($"{graphOrInterfaceName}_{entity}.{input.VariableName}");
             }
@@ -275,16 +281,16 @@ DEFINITIONS
   VISB_SVG_UPDATES1== rec(`id`:""W1R"",visibility: bool(W1.State = RIGHT));
   VISB_SVG_UPDATES2== rec(`id`:""W2R"",visibility: bool(W2.State = RIGHT));
 VARIABLES
-  NOW
+  SYS_NOW
 INVARIANT
-  NOW : INT
+  SYS_NOW : INT
 INITIALISATION
-  NOW := 0;
-  {graphs.Select(g => $"{g.GraphInstanceName}.InitialTransition({ProvideInputsToGraphInstance(spec, g.Graph, g.InstanceName, specificAppConfig)})").Aggregate((a, b) => a + " ||\n  " + b)}
+  SYS_NOW := 0;
+  {graphs.Select(g => $"{g.GraphInstanceName}.InitialTransition({ProvideInputsToGraphInstance(spec, g.Graph, g.InstanceName, specificAppConfig)})").Aggregate((a, b) => a + ";\n  " + b)}
 OPERATIONS
   BigStep =
     BEGIN
-      NOW := NOW + 150;
+      SYS_NOW := SYS_NOW + 150;
       {schedule.Select(graph => $"{graph.graphInstanceName}.Transition({ProvideInputsToGraphInstance(spec, graph.graph, graph.instanceName, specificAppConfig)})").Aggregate((a, b) => a + ";\n      " + b)};
       {interfaces.Select(i => $"{i.Interface.Name}_{i.EntityType.Name}_{i.InterfaceInstanceName}.ComputeOutputs{ProvideInputsToInterfaceInstance(spec, i.EntityType.Name, i.Interface.Name, i.InterfaceInstanceName, specificAppConfig)}").Aggregate((a, b) => a + " ||\n      " + b)}
     END
