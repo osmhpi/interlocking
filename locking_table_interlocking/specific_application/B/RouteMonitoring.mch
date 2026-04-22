@@ -24,9 +24,9 @@ OPERATIONS
   InitialTransition(request_points_controlled_right_PointControl_Right, request_points_controlled_left_PointControl_Left, Route_State, transits_in_opposite_route_direction_Transit_State) =
     BEGIN
       // Update Terms
-      PointsControlled := bool({ActiveInactive_ACTIVE} = request_points_controlled_right_PointControl_Right & {ActiveInactive_ACTIVE} = request_points_controlled_left_PointControl_Left) ||
+      PointsControlled := bool(({ActiveInactive_ACTIVE} = request_points_controlled_right_PointControl_Right or {} = request_points_controlled_right_PointControl_Right) & ({ActiveInactive_ACTIVE} = request_points_controlled_left_PointControl_Left or {} = request_points_controlled_left_PointControl_Left)) ||
       RouteSet := bool(Route_State = RouteState_SET) ||
-      InverseTransitsInactive := bool({ActiveInactive_INACTIVE} = transits_in_opposite_route_direction_Transit_State);
+      InverseTransitsInactive := bool(({ActiveInactive_INACTIVE} = transits_in_opposite_route_direction_Transit_State or {} = transits_in_opposite_route_direction_Transit_State));
       // Perform transition
         State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteMonitoring_root_NOT_CONTROLLED
@@ -34,9 +34,9 @@ OPERATIONS
   Transition(request_points_controlled_right_PointControl_Right, request_points_controlled_left_PointControl_Left, Route_State, transits_in_opposite_route_direction_Transit_State) =
     BEGIN
       // Update Terms
-      PointsControlled := bool({ActiveInactive_ACTIVE} = request_points_controlled_right_PointControl_Right & {ActiveInactive_ACTIVE} = request_points_controlled_left_PointControl_Left) ||
+      PointsControlled := bool(({ActiveInactive_ACTIVE} = request_points_controlled_right_PointControl_Right or {} = request_points_controlled_right_PointControl_Right) & ({ActiveInactive_ACTIVE} = request_points_controlled_left_PointControl_Left or {} = request_points_controlled_left_PointControl_Left)) ||
       RouteSet := bool(Route_State = RouteState_SET) ||
-      InverseTransitsInactive := bool({ActiveInactive_INACTIVE} = transits_in_opposite_route_direction_Transit_State);
+      InverseTransitsInactive := bool(({ActiveInactive_INACTIVE} = transits_in_opposite_route_direction_Transit_State or {} = transits_in_opposite_route_direction_Transit_State));
       // Perform transition
       SELECT GraphState_root = STATE_RouteMonitoring_root_NOT_CONTROLLED THEN 
         IF PointsControlled = TRUE & RouteSet = TRUE & InverseTransitsInactive = TRUE THEN

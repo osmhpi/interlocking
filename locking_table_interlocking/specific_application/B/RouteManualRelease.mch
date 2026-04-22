@@ -35,8 +35,8 @@ INVARIANT
   HoldApproachLocking : E_OpenCloseState &
   ManualReleaseWithholdMovementAuthority : E_ActiveInactive &
   ManualReleasePrevention : E_ActiveInactive &
-  StartUnsupervisedTrainApproach : INT &
-  StartWithholdMovementAuthority : INT &
+  StartUnsupervisedTrainApproach : INTEGER &
+  StartWithholdMovementAuthority : INTEGER &
   GraphState_root_ETCS_APPROACH_LOCKING : STATETYPE_RouteManualRelease_root_ETCS_APPROACH_LOCKING &
   GraphState_root : STATETYPE_RouteManualRelease_root
 INITIALIZATION

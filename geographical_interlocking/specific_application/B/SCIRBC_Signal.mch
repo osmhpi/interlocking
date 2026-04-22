@@ -10,10 +10,11 @@ INITIALIZATION
   ApproachLockingActive := TRUE;
   ApproachStatusRequested := FALSE
 OPERATIONS
+  Set_ApproachLockingActive(value) = ApproachLockingActive := value;
   ComputeOutputs(routes_starting_here_RouteManualRelease_ManualReleaseWithholdMovementAuthority) = BEGIN
 IF bool(ActiveInactive_ACTIVE : routes_starting_here_RouteManualRelease_ManualReleaseWithholdMovementAuthority) = TRUE THEN
         ApproachStatusRequested := TRUE
-      ELSIF bool({ActiveInactive_INACTIVE} = routes_starting_here_RouteManualRelease_ManualReleaseWithholdMovementAuthority) = TRUE THEN
+      ELSIF bool(({ActiveInactive_INACTIVE} = routes_starting_here_RouteManualRelease_ManualReleaseWithholdMovementAuthority or {} = routes_starting_here_RouteManualRelease_ManualReleaseWithholdMovementAuthority)) = TRUE THEN
         ApproachStatusRequested := FALSE
       ELSE
         ApproachStatusRequested := FALSE

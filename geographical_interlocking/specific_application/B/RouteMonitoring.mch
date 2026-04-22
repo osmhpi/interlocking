@@ -27,7 +27,7 @@ OPERATIONS
   InitialTransition(requires_point_right_PointControl_Right, requires_point_left_PointControl_Left, Route_State, transit_in_opposite_direction_Transit_State, downstream_link_right_LinkLTR_State, downstream_link_left_LinkRTL_State, ise_RouteFindingResponse_Admit) =
     BEGIN
       // Update Terms
-      PointsControlled := bool({ActiveInactive_ACTIVE} = requires_point_right_PointControl_Right & {ActiveInactive_ACTIVE} = requires_point_left_PointControl_Left) ||
+      PointsControlled := bool(({ActiveInactive_ACTIVE} = requires_point_right_PointControl_Right or {} = requires_point_right_PointControl_Right) & ({ActiveInactive_ACTIVE} = requires_point_left_PointControl_Left or {} = requires_point_left_PointControl_Left)) ||
       RouteSet := bool(Route_State = RouteState_SET) ||
       InverseTransitInactive := bool(transit_in_opposite_direction_Transit_State = ActiveInactive_INACTIVE) ||
       MonitoringComplete := bool(RouteSearch_ROUTE_MONITORED : downstream_link_right_LinkLTR_State or RouteSearch_ROUTE_MONITORED : downstream_link_left_LinkRTL_State or ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_END or ise_RouteFindingResponse_Admit = RouteAdmission_ROUTE_END);
@@ -38,7 +38,7 @@ OPERATIONS
   Transition(requires_point_right_PointControl_Right, requires_point_left_PointControl_Left, Route_State, transit_in_opposite_direction_Transit_State, downstream_link_right_LinkLTR_State, downstream_link_left_LinkRTL_State, ise_RouteFindingResponse_Admit) =
     BEGIN
       // Update Terms
-      PointsControlled := bool({ActiveInactive_ACTIVE} = requires_point_right_PointControl_Right & {ActiveInactive_ACTIVE} = requires_point_left_PointControl_Left) ||
+      PointsControlled := bool(({ActiveInactive_ACTIVE} = requires_point_right_PointControl_Right or {} = requires_point_right_PointControl_Right) & ({ActiveInactive_ACTIVE} = requires_point_left_PointControl_Left or {} = requires_point_left_PointControl_Left)) ||
       RouteSet := bool(Route_State = RouteState_SET) ||
       InverseTransitInactive := bool(transit_in_opposite_direction_Transit_State = ActiveInactive_INACTIVE) ||
       MonitoringComplete := bool(RouteSearch_ROUTE_MONITORED : downstream_link_right_LinkLTR_State or RouteSearch_ROUTE_MONITORED : downstream_link_left_LinkRTL_State or ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_END or ise_RouteFindingResponse_Admit = RouteAdmission_ROUTE_END);

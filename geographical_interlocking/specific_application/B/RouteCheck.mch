@@ -25,7 +25,7 @@ OPERATIONS
     BEGIN
       // Update Terms
       RouteRequested := bool(SCICC_MsgRequestRoute = TRUE) ||
-      IsTop := bool({ActiveInactive_ACTIVE} = all_routes_RouteCheck_Top);
+      IsTop := bool(({ActiveInactive_ACTIVE} = all_routes_RouteCheck_Top or {} = all_routes_RouteCheck_Top));
       // Perform transition
         Top := ActiveInactive_ACTIVE;
       State := ActiveInactive_INACTIVE;
@@ -35,7 +35,7 @@ OPERATIONS
     BEGIN
       // Update Terms
       RouteRequested := bool(SCICC_MsgRequestRoute = TRUE) ||
-      IsTop := bool({ActiveInactive_ACTIVE} = all_routes_RouteCheck_Top);
+      IsTop := bool(({ActiveInactive_ACTIVE} = all_routes_RouteCheck_Top or {} = all_routes_RouteCheck_Top));
       // Perform transition
       SELECT GraphState_root = STATE_RouteCheck_root_INACTIVE THEN 
         IF RouteRequested = TRUE THEN

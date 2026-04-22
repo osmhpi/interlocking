@@ -31,7 +31,7 @@ OPERATIONS
     BEGIN
       // Update Terms
       RouteRequested := bool(SCICC_MsgRequestRoute = TRUE) ||
-      PointsAvailable := bool({PointState_RIGHT} = request_points_right_Point_State & {PointState_LEFT} = request_points_left_Point_State) ||
+      PointsAvailable := bool(({PointState_RIGHT} = request_points_right_Point_State or {} = request_points_right_Point_State) & ({PointState_LEFT} = request_points_left_Point_State or {} = request_points_left_Point_State)) ||
       NoIncompatibleRoutes := TRUE ||
       AutomaticReleaseEffective := bool(RouteAutomaticRelease_State = ActiveInactive_ACTIVE) ||
       ManualReleaseEffective := bool(RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE);
@@ -43,7 +43,7 @@ OPERATIONS
     BEGIN
       // Update Terms
       RouteRequested := bool(SCICC_MsgRequestRoute = TRUE) ||
-      PointsAvailable := bool({PointState_RIGHT} = request_points_right_Point_State & {PointState_LEFT} = request_points_left_Point_State) ||
+      PointsAvailable := bool(({PointState_RIGHT} = request_points_right_Point_State or {} = request_points_right_Point_State) & ({PointState_LEFT} = request_points_left_Point_State or {} = request_points_left_Point_State)) ||
       NoIncompatibleRoutes := TRUE ||
       AutomaticReleaseEffective := bool(RouteAutomaticRelease_State = ActiveInactive_ACTIVE) ||
       ManualReleaseEffective := bool(RouteManualRelease_ManualReleaseRequested = ActiveInactive_ACTIVE);

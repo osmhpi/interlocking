@@ -133,7 +133,7 @@ VARIABLES
     .Aggregate((a, b) => a + ",\n  " + b)}
 INVARIANT
   {graph.Terms.Terms.Select(t => $"{t.Key} : BOOL")
-    .Concat(graph.Terms.Variables.Select(v => $"{v.Key} : {(v.Value.Type == "timestamp" ? "INT" : "E_" + v.Value.Type)}"))
+    .Concat(graph.Terms.Variables.Select(v => $"{v.Key} : {(v.Value.Type == "timestamp" ? "INTEGER" : "E_" + v.Value.Type)}"))
     .Concat(GetNestedSubstatesRecursively(graph.Subgraph, "root").Append("root").Select(s => $"GraphState_{s} : STATETYPE_{graph.Name}_{s}"))
     .Aggregate((a, b) => a + " &\n  " + b)}
 INITIALIZATION

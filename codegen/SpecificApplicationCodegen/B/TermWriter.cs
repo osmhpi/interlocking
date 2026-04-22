@@ -71,7 +71,7 @@ static partial class BWriter
         {
             if (context.comparisonOperator().GetText() == "==")
             {
-                return $"{{{Visit(context.valueReference())}}} = {variableReference}";
+                return $"({{{Visit(context.valueReference())}}} = {variableReference} or {{}} = {variableReference})";
             }
             else if (context.comparisonOperator().GetText() == "!=")
             {
@@ -86,7 +86,7 @@ static partial class BWriter
             }
             else if (context.comparisonOperator().GetText() == "!=")
             {
-                return $"{{{Visit(context.valueReference())}}} /= {variableReference}";
+                return $"({{{Visit(context.valueReference())}}} /= {variableReference} & {{}} /= {variableReference})";
             }
         }
         return "";

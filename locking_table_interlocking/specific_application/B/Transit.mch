@@ -16,7 +16,7 @@ INVARIANT
   UpstreamTransitsIdle : BOOL &
   RequestedByRoute : BOOL &
   State : E_ActiveInactive &
-  StartInitialization : INT &
+  StartInitialization : INTEGER &
   GraphState_root : STATETYPE_Transit_root
 INITIALIZATION
   InitializationTimeoutExpired := FALSE;
@@ -32,7 +32,7 @@ OPERATIONS
       // Update Terms
       InitializationTimeoutExpired := bool(NOW >= StartInitialization + 1000) ||
       ZoneFree := bool(underlying_zone_Zone_State = OccupancyStatus_VACANT) ||
-      UpstreamTransitsIdle := bool({ActiveInactive_INACTIVE} = upstream_transits_Transit_State) ||
+      UpstreamTransitsIdle := bool(({ActiveInactive_INACTIVE} = upstream_transits_Transit_State or {} = upstream_transits_Transit_State)) ||
       RequestedByRoute := bool(RouteState_SET : activating_routes_Route_State);
       // Perform transition
         State := ActiveInactive_ACTIVE;
@@ -44,7 +44,7 @@ OPERATIONS
       // Update Terms
       InitializationTimeoutExpired := bool(NOW >= StartInitialization + 1000) ||
       ZoneFree := bool(underlying_zone_Zone_State = OccupancyStatus_VACANT) ||
-      UpstreamTransitsIdle := bool({ActiveInactive_INACTIVE} = upstream_transits_Transit_State) ||
+      UpstreamTransitsIdle := bool(({ActiveInactive_INACTIVE} = upstream_transits_Transit_State or {} = upstream_transits_Transit_State)) ||
       RequestedByRoute := bool(RouteState_SET : activating_routes_Route_State);
       // Perform transition
       SELECT GraphState_root = STATE_Transit_root_INITIALIZING THEN 

@@ -46,7 +46,7 @@ OPERATIONS
       CheckingFromA := bool(RouteSearch_SEARCH : link_a_left_LinkRTL_State or RouteSearch_SEARCH : link_a_right_LinkLTR_State) ||
       CheckingFromB := bool(RouteSearch_SEARCH : link_b_left_LinkRTL_State or RouteSearch_SEARCH : link_b_right_LinkLTR_State) ||
       CheckingFromC := bool(RouteSearch_SEARCH : link_c_left_LinkRTL_State or RouteSearch_SEARCH : link_c_right_LinkLTR_State) ||
-      RouteSet := bool({RouteState_RELEASED} /= transits_Route_State);
+      RouteSet := bool(({RouteState_RELEASED} /= transits_Route_State & {} /= transits_Route_State));
       // Perform transition
         Check := RouteChecking_INACTIVE;
           GraphState_root := STATE_RouteFindingSearch_root_IDLE
@@ -61,7 +61,7 @@ OPERATIONS
       CheckingFromA := bool(RouteSearch_SEARCH : link_a_left_LinkRTL_State or RouteSearch_SEARCH : link_a_right_LinkLTR_State) ||
       CheckingFromB := bool(RouteSearch_SEARCH : link_b_left_LinkRTL_State or RouteSearch_SEARCH : link_b_right_LinkLTR_State) ||
       CheckingFromC := bool(RouteSearch_SEARCH : link_c_left_LinkRTL_State or RouteSearch_SEARCH : link_c_right_LinkLTR_State) ||
-      RouteSet := bool({RouteState_RELEASED} /= transits_Route_State);
+      RouteSet := bool(({RouteState_RELEASED} /= transits_Route_State & {} /= transits_Route_State));
       // Perform transition
       SELECT GraphState_root = STATE_RouteFindingSearch_root_IDLE THEN 
         IF CheckingFromA = TRUE THEN

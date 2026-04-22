@@ -7,6 +7,7 @@ INVARIANT
 INITIALIZATION
   CurrentOccupancy := OccupancyStatus_VACANT
 OPERATIONS
+  
   ComputeOutputs(Zone_State) = BEGIN
 IF bool(Zone_State = OccupancyStatus_OCCUPIED) = TRUE THEN
         CurrentOccupancy := OccupancyStatus_OCCUPIED

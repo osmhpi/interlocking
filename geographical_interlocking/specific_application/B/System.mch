@@ -1,16 +1,7 @@
-MACHINE Interlocking
+MACHINE System
 INCLUDES
   RouteFindingResponse_A.RouteFindingResponse, RouteFindingSearch_A.RouteFindingSearch, RouteManualReleaseDispatch_A.RouteManualReleaseDispatch, RouteFindingResponse_W1.RouteFindingResponse, RouteFindingSearch_W1.RouteFindingSearch, RouteManualReleaseDispatch_W1.RouteManualReleaseDispatch, RouteFindingResponse_W2.RouteFindingResponse, RouteFindingSearch_W2.RouteFindingSearch, RouteManualReleaseDispatch_W2.RouteManualReleaseDispatch, RouteFindingResponse_N1.RouteFindingResponse, RouteFindingSearch_N1.RouteFindingSearch, RouteManualReleaseDispatch_N1.RouteManualReleaseDispatch, RouteFindingResponse_N2.RouteFindingResponse, RouteFindingSearch_N2.RouteFindingSearch, RouteManualReleaseDispatch_N2.RouteManualReleaseDispatch, LinkLTR_link_1.LinkLTR, LinkRTL_link_1.LinkRTL, LinkLTR_link_2.LinkLTR, LinkRTL_link_2.LinkRTL, LinkLTR_link_3.LinkLTR, LinkRTL_link_3.LinkRTL, LinkLTR_link_4.LinkLTR, LinkRTL_link_4.LinkRTL, PointControl_W1.PointControl, PointLockLeft_W1.PointLockLeft, PointLockRight_W1.PointLockRight, PointOperation_W1.PointOperation, Point_W1.Point, PointControl_W2.PointControl, PointLockLeft_W2.PointLockLeft, PointLockRight_W2.PointLockRight, PointOperation_W2.PointOperation, Point_W2.Point, RouteCheck_A_DOT_N1.RouteCheck, RouteCheck_A_DOT_N2.RouteCheck, SignalControl_A.SignalControl, Signal_A.Signal, SignalControl_N1.SignalControl, Signal_N1.Signal, SignalControl_N2.SignalControl, Signal_N2.Signal, RouteAutomaticRelease_G11_PLUS_.RouteAutomaticRelease, RouteControl_G11_PLUS_.RouteControl, RouteManualRelease_G11_PLUS_.RouteManualRelease, RouteMonitoring_G11_PLUS_.RouteMonitoring, Route_G11_PLUS_.Route, Transit_G11_PLUS_.Transit, RouteAutomaticRelease_G11_MINUS_.RouteAutomaticRelease, RouteControl_G11_MINUS_.RouteControl, RouteManualRelease_G11_MINUS_.RouteManualRelease, RouteMonitoring_G11_MINUS_.RouteMonitoring, Route_G11_MINUS_.Route, Transit_G11_MINUS_.Transit, RouteAutomaticRelease_W1_R_PLUS_.RouteAutomaticRelease, RouteControl_W1_R_PLUS_.RouteControl, RouteManualRelease_W1_R_PLUS_.RouteManualRelease, RouteMonitoring_W1_R_PLUS_.RouteMonitoring, Route_W1_R_PLUS_.Route, Transit_W1_R_PLUS_.Transit, RouteAutomaticRelease_W1_R_MINUS_.RouteAutomaticRelease, RouteControl_W1_R_MINUS_.RouteControl, RouteManualRelease_W1_R_MINUS_.RouteManualRelease, RouteMonitoring_W1_R_MINUS_.RouteMonitoring, Route_W1_R_MINUS_.Route, Transit_W1_R_MINUS_.Transit, RouteAutomaticRelease_W1_L_PLUS_.RouteAutomaticRelease, RouteControl_W1_L_PLUS_.RouteControl, RouteManualRelease_W1_L_PLUS_.RouteManualRelease, RouteMonitoring_W1_L_PLUS_.RouteMonitoring, Route_W1_L_PLUS_.Route, Transit_W1_L_PLUS_.Transit, RouteAutomaticRelease_W1_L_MINUS_.RouteAutomaticRelease, RouteControl_W1_L_MINUS_.RouteControl, RouteManualRelease_W1_L_MINUS_.RouteManualRelease, RouteMonitoring_W1_L_MINUS_.RouteMonitoring, Route_W1_L_MINUS_.Route, Transit_W1_L_MINUS_.Transit, RouteAutomaticRelease_W2_R_PLUS_.RouteAutomaticRelease, RouteControl_W2_R_PLUS_.RouteControl, RouteManualRelease_W2_R_PLUS_.RouteManualRelease, RouteMonitoring_W2_R_PLUS_.RouteMonitoring, Route_W2_R_PLUS_.Route, Transit_W2_R_PLUS_.Transit, RouteAutomaticRelease_W2_R_MINUS_.RouteAutomaticRelease, RouteControl_W2_R_MINUS_.RouteControl, RouteManualRelease_W2_R_MINUS_.RouteManualRelease, RouteMonitoring_W2_R_MINUS_.RouteMonitoring, Route_W2_R_MINUS_.Route, Transit_W2_R_MINUS_.Transit, RouteAutomaticRelease_W2_L_PLUS_.RouteAutomaticRelease, RouteControl_W2_L_PLUS_.RouteControl, RouteManualRelease_W2_L_PLUS_.RouteManualRelease, RouteMonitoring_W2_L_PLUS_.RouteMonitoring, Route_W2_L_PLUS_.Route, Transit_W2_L_PLUS_.Transit, RouteAutomaticRelease_W2_L_MINUS_.RouteAutomaticRelease, RouteControl_W2_L_MINUS_.RouteControl, RouteManualRelease_W2_L_MINUS_.RouteManualRelease, RouteMonitoring_W2_L_MINUS_.RouteMonitoring, Route_W2_L_MINUS_.Route, Transit_W2_L_MINUS_.Transit, RouteAutomaticRelease_G12_PLUS_.RouteAutomaticRelease, RouteControl_G12_PLUS_.RouteControl, RouteManualRelease_G12_PLUS_.RouteManualRelease, RouteMonitoring_G12_PLUS_.RouteMonitoring, Route_G12_PLUS_.Route, Transit_G12_PLUS_.Transit, RouteAutomaticRelease_G12_MINUS_.RouteAutomaticRelease, RouteControl_G12_MINUS_.RouteControl, RouteManualRelease_G12_MINUS_.RouteManualRelease, RouteMonitoring_G12_MINUS_.RouteMonitoring, Route_G12_MINUS_.Route, Transit_G12_MINUS_.Transit, RouteAutomaticRelease_G21_PLUS_.RouteAutomaticRelease, RouteControl_G21_PLUS_.RouteControl, RouteManualRelease_G21_PLUS_.RouteManualRelease, RouteMonitoring_G21_PLUS_.RouteMonitoring, Route_G21_PLUS_.Route, Transit_G21_PLUS_.Transit, RouteAutomaticRelease_G21_MINUS_.RouteAutomaticRelease, RouteControl_G21_MINUS_.RouteControl, RouteManualRelease_G21_MINUS_.RouteManualRelease, RouteMonitoring_G21_MINUS_.RouteMonitoring, Route_G21_MINUS_.Route, Transit_G21_MINUS_.Transit, Zone_G11.Zone, Zone_W1.Zone, Zone_W2.Zone, Zone_G12.Zone, Zone_G21.Zone, SCIP_Point_W1.SCIP_Point, SCICC_Point_W1.SCICC_Point, SCIP_Point_W2.SCIP_Point, SCICC_Point_W2.SCICC_Point, SCICC_Route_A_DOT_N1.SCICC_Route, SCICC_Route_A_DOT_N2.SCICC_Route, SCICC_Signal_A.SCICC_Signal, SCIRBC_Signal_A.SCIRBC_Signal, SCICC_Signal_N1.SCICC_Signal, SCIRBC_Signal_N1.SCIRBC_Signal, SCICC_Signal_N2.SCICC_Signal, SCIRBC_Signal_N2.SCIRBC_Signal, SCICC_Transit_G11_PLUS_.SCICC_Transit, SCICC_Transit_G11_MINUS_.SCICC_Transit, SCICC_Transit_W1_R_PLUS_.SCICC_Transit, SCICC_Transit_W1_R_MINUS_.SCICC_Transit, SCICC_Transit_W1_L_PLUS_.SCICC_Transit, SCICC_Transit_W1_L_MINUS_.SCICC_Transit, SCICC_Transit_W2_R_PLUS_.SCICC_Transit, SCICC_Transit_W2_R_MINUS_.SCICC_Transit, SCICC_Transit_W2_L_PLUS_.SCICC_Transit, SCICC_Transit_W2_L_MINUS_.SCICC_Transit, SCICC_Transit_G12_PLUS_.SCICC_Transit, SCICC_Transit_G12_MINUS_.SCICC_Transit, SCICC_Transit_G21_PLUS_.SCICC_Transit, SCICC_Transit_G21_MINUS_.SCICC_Transit, SCITDS_Zone_G11.SCITDS_Zone, SCICC_Zone_G11.SCICC_Zone, SCITDS_Zone_W1.SCITDS_Zone, SCICC_Zone_W1.SCICC_Zone, SCITDS_Zone_W2.SCITDS_Zone, SCICC_Zone_W2.SCICC_Zone, SCITDS_Zone_G12.SCITDS_Zone, SCICC_Zone_G12.SCICC_Zone, SCITDS_Zone_G21.SCITDS_Zone, SCICC_Zone_G21.SCICC_Zone
-DEFINITIONS
-  VISB_SVG_FILE == "trackplan.svg";
-  VISB_SVG_UPDATES1== rec(`id`:"W1R",visibility: bool(W1.State = RIGHT));
-  VISB_SVG_UPDATES2== rec(`id`:"W2R",visibility: bool(W2.State = RIGHT));
-VARIABLES
-  SYS_NOW
-INVARIANT
-  SYS_NOW : INT
 INITIALISATION
-  SYS_NOW := 0;
   RouteFindingResponse_A.InitialTransition(RouteFindingSearch_A.Check, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {RouteMonitoring_G11_PLUS_.State, RouteMonitoring_G11_MINUS_.State});
   RouteFindingSearch_A.InitialTransition({RouteCheck_A_DOT_N1.State, RouteCheck_A_DOT_N2.State}, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, {}, {Route_G11_PLUS_.State, Route_G11_MINUS_.State});
   RouteManualReleaseDispatch_A.InitialTransition({SCICC_Route_A_DOT_N1.MsgReleaseRoute, SCICC_Route_A_DOT_N2.MsgReleaseRoute});
@@ -37,12 +28,12 @@ INITIALISATION
   PointControl_W1.InitialTransition(SCIP_Point_W1.DetectedEndPosition, Point_W1.State);
   PointLockLeft_W1.InitialTransition(SCIP_Point_W1.DetectedEndPosition, {}, {Transit_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State});
   PointLockRight_W1.InitialTransition(SCIP_Point_W1.DetectedEndPosition, {}, {Transit_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State});
-  PointOperation_W1.InitialTransition(Point_W1.State, SCIP_Point_W1.DetectedEndPosition, {PointOperation_W1.Top, PointOperation_W2.Top}, SYS_NOW);
+  PointOperation_W1.InitialTransition(Point_W1.State, SCIP_Point_W1.DetectedEndPosition, {PointOperation_W1.Top, PointOperation_W2.Top}, 0);
   Point_W1.InitialTransition(SCIP_Point_W1.DetectedEndPosition, {Route_W1_L_PLUS_.State, Route_W1_L_MINUS_.State}, {Route_W1_R_PLUS_.State, Route_W1_R_MINUS_.State}, PointLockLeft_W1.State, PointLockRight_W1.State);
   PointControl_W2.InitialTransition(SCIP_Point_W2.DetectedEndPosition, Point_W2.State);
   PointLockLeft_W2.InitialTransition(SCIP_Point_W2.DetectedEndPosition, {}, {Transit_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State});
   PointLockRight_W2.InitialTransition(SCIP_Point_W2.DetectedEndPosition, {}, {Transit_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State});
-  PointOperation_W2.InitialTransition(Point_W2.State, SCIP_Point_W2.DetectedEndPosition, {PointOperation_W1.Top, PointOperation_W2.Top}, SYS_NOW);
+  PointOperation_W2.InitialTransition(Point_W2.State, SCIP_Point_W2.DetectedEndPosition, {PointOperation_W1.Top, PointOperation_W2.Top}, 0);
   Point_W2.InitialTransition(SCIP_Point_W2.DetectedEndPosition, {Route_W2_L_PLUS_.State, Route_W2_L_MINUS_.State}, {Route_W2_R_PLUS_.State, Route_W2_R_MINUS_.State}, PointLockLeft_W2.State, PointLockRight_W2.State);
   RouteCheck_A_DOT_N1.InitialTransition(SCICC_Route_A_DOT_N1.MsgRequestRoute, {RouteCheck_A_DOT_N1.Top});
   RouteCheck_A_DOT_N2.InitialTransition(SCICC_Route_A_DOT_N2.MsgRequestRoute, {RouteCheck_A_DOT_N2.Top});
@@ -54,97 +45,110 @@ INITIALISATION
   Signal_N2.InitialTransition({});
   RouteAutomaticRelease_G11_PLUS_.InitialTransition(Route_G11_PLUS_.State, {Transit_W1_R_MINUS_.State, Transit_W1_L_MINUS_.State}, Zone_W1.State);
   RouteControl_G11_PLUS_.InitialTransition(RouteMonitoring_G11_PLUS_.State);
-  RouteManualRelease_G11_PLUS_.InitialTransition(RouteManualReleaseDispatch_A.State, SCIRBC_Signal_A.ApproachLockingActive, SYS_NOW, 1000, 1000, Route_G11_PLUS_.State, RouteMonitoring_G11_PLUS_.State, Zone_G11.State);
+  RouteManualRelease_G11_PLUS_.InitialTransition(RouteManualReleaseDispatch_A.State, SCIRBC_Signal_A.ApproachLockingActive, 0, 1000, 1000, Route_G11_PLUS_.State, RouteMonitoring_G11_PLUS_.State, Zone_G11.State);
   RouteMonitoring_G11_PLUS_.InitialTransition({}, {}, Route_G11_PLUS_.State, Transit_G11_MINUS_.State, {}, {LinkRTL_link_1.State}, RouteFindingResponse_A.Admit);
   Route_G11_PLUS_.InitialTransition(RouteFindingSearch_A.Check, RouteFindingResponse_A.Admit, {}, {}, {}, {LinkRTL_link_1.State}, {}, {}, RouteAutomaticRelease_G11_PLUS_.State, RouteManualRelease_G11_PLUS_.ManualReleaseRequested);
-  Transit_G11_PLUS_.InitialTransition(SYS_NOW, Zone_G11.State, {}, Route_G11_PLUS_.State);
+  Transit_G11_PLUS_.InitialTransition(0, Zone_G11.State, {}, Route_G11_PLUS_.State);
   RouteAutomaticRelease_G11_MINUS_.InitialTransition(Route_G11_MINUS_.State, {}, {});
   RouteControl_G11_MINUS_.InitialTransition(RouteMonitoring_G11_MINUS_.State);
-  RouteManualRelease_G11_MINUS_.InitialTransition(RouteManualReleaseDispatch_A.State, {}, SYS_NOW, 0, 0, Route_G11_MINUS_.State, RouteMonitoring_G11_MINUS_.State, {});
+  RouteManualRelease_G11_MINUS_.InitialTransition(RouteManualReleaseDispatch_A.State, {}, 0, 0, 0, Route_G11_MINUS_.State, RouteMonitoring_G11_MINUS_.State, {});
   RouteMonitoring_G11_MINUS_.InitialTransition({}, {}, Route_G11_MINUS_.State, Transit_G11_PLUS_.State, {}, {}, RouteFindingResponse_A.Admit);
   Route_G11_MINUS_.InitialTransition(RouteFindingSearch_A.Check, RouteFindingResponse_A.Admit, {}, {LinkRTL_link_1.State}, {}, {}, {}, {}, RouteAutomaticRelease_G11_MINUS_.State, RouteManualRelease_G11_MINUS_.ManualReleaseRequested);
-  Transit_G11_MINUS_.InitialTransition(SYS_NOW, Zone_G11.State, {Transit_W1_R_MINUS_.State, Transit_W1_L_MINUS_.State}, Route_G11_MINUS_.State);
+  Transit_G11_MINUS_.InitialTransition(0, Zone_G11.State, {Transit_W1_R_MINUS_.State, Transit_W1_L_MINUS_.State}, Route_G11_MINUS_.State);
   RouteAutomaticRelease_W1_R_PLUS_.InitialTransition(Route_W1_R_PLUS_.State, {}, {});
   RouteControl_W1_R_PLUS_.InitialTransition(RouteMonitoring_W1_R_PLUS_.State);
-  RouteManualRelease_W1_R_PLUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, SYS_NOW, 0, 0, Route_W1_R_PLUS_.State, RouteMonitoring_W1_R_PLUS_.State, {});
+  RouteManualRelease_W1_R_PLUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, 0, 0, 0, Route_W1_R_PLUS_.State, RouteMonitoring_W1_R_PLUS_.State, {});
   RouteMonitoring_W1_R_PLUS_.InitialTransition({PointControl_W1.Right}, {}, Route_W1_R_PLUS_.State, Transit_W1_R_MINUS_.State, {}, {LinkRTL_link_2.State}, RouteFindingResponse_W1.Admit);
   Route_W1_R_PLUS_.InitialTransition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {LinkLTR_link_1.State}, {}, {}, {LinkRTL_link_2.State}, {}, {Point_W1.State}, RouteAutomaticRelease_W1_R_PLUS_.State, RouteManualRelease_W1_R_PLUS_.ManualReleaseRequested);
-  Transit_W1_R_PLUS_.InitialTransition(SYS_NOW, Zone_W1.State, {}, Route_W1_R_PLUS_.State);
+  Transit_W1_R_PLUS_.InitialTransition(0, Zone_W1.State, {}, Route_W1_R_PLUS_.State);
   RouteAutomaticRelease_W1_R_MINUS_.InitialTransition(Route_W1_R_MINUS_.State, {}, {});
   RouteControl_W1_R_MINUS_.InitialTransition(RouteMonitoring_W1_R_MINUS_.State);
-  RouteManualRelease_W1_R_MINUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, SYS_NOW, 0, 0, Route_W1_R_MINUS_.State, RouteMonitoring_W1_R_MINUS_.State, {});
+  RouteManualRelease_W1_R_MINUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, 0, 0, 0, Route_W1_R_MINUS_.State, RouteMonitoring_W1_R_MINUS_.State, {});
   RouteMonitoring_W1_R_MINUS_.InitialTransition({PointControl_W1.Right}, {}, Route_W1_R_MINUS_.State, Transit_W1_R_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
   Route_W1_R_MINUS_.InitialTransition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {}, {LinkRTL_link_2.State}, {}, {}, {LinkLTR_link_1.State}, {Point_W1.State}, RouteAutomaticRelease_W1_R_MINUS_.State, RouteManualRelease_W1_R_MINUS_.ManualReleaseRequested);
-  Transit_W1_R_MINUS_.InitialTransition(SYS_NOW, Zone_W1.State, {Transit_G12_MINUS_.State}, Route_W1_R_MINUS_.State);
+  Transit_W1_R_MINUS_.InitialTransition(0, Zone_W1.State, {Transit_G12_MINUS_.State}, Route_W1_R_MINUS_.State);
   RouteAutomaticRelease_W1_L_PLUS_.InitialTransition(Route_W1_L_PLUS_.State, {}, {});
   RouteControl_W1_L_PLUS_.InitialTransition(RouteMonitoring_W1_L_PLUS_.State);
-  RouteManualRelease_W1_L_PLUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, SYS_NOW, 0, 0, Route_W1_L_PLUS_.State, RouteMonitoring_W1_L_PLUS_.State, {});
+  RouteManualRelease_W1_L_PLUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, 0, 0, 0, Route_W1_L_PLUS_.State, RouteMonitoring_W1_L_PLUS_.State, {});
   RouteMonitoring_W1_L_PLUS_.InitialTransition({}, {PointControl_W1.Left}, Route_W1_L_PLUS_.State, Transit_W1_L_MINUS_.State, {}, {LinkRTL_link_3.State}, RouteFindingResponse_W1.Admit);
   Route_W1_L_PLUS_.InitialTransition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {LinkLTR_link_1.State}, {}, {Point_W1.State}, {LinkRTL_link_3.State}, {}, {}, RouteAutomaticRelease_W1_L_PLUS_.State, RouteManualRelease_W1_L_PLUS_.ManualReleaseRequested);
-  Transit_W1_L_PLUS_.InitialTransition(SYS_NOW, Zone_W1.State, {}, Route_W1_L_PLUS_.State);
+  Transit_W1_L_PLUS_.InitialTransition(0, Zone_W1.State, {}, Route_W1_L_PLUS_.State);
   RouteAutomaticRelease_W1_L_MINUS_.InitialTransition(Route_W1_L_MINUS_.State, {}, {});
   RouteControl_W1_L_MINUS_.InitialTransition(RouteMonitoring_W1_L_MINUS_.State);
-  RouteManualRelease_W1_L_MINUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, SYS_NOW, 0, 0, Route_W1_L_MINUS_.State, RouteMonitoring_W1_L_MINUS_.State, {});
+  RouteManualRelease_W1_L_MINUS_.InitialTransition(RouteManualReleaseDispatch_W1.State, {}, 0, 0, 0, Route_W1_L_MINUS_.State, RouteMonitoring_W1_L_MINUS_.State, {});
   RouteMonitoring_W1_L_MINUS_.InitialTransition({}, {PointControl_W1.Left}, Route_W1_L_MINUS_.State, Transit_W1_L_PLUS_.State, {LinkLTR_link_1.State}, {}, RouteFindingResponse_W1.Admit);
   Route_W1_L_MINUS_.InitialTransition(RouteFindingSearch_W1.Check, RouteFindingResponse_W1.Admit, {}, {LinkRTL_link_3.State}, {Point_W1.State}, {}, {LinkLTR_link_1.State}, {}, RouteAutomaticRelease_W1_L_MINUS_.State, RouteManualRelease_W1_L_MINUS_.ManualReleaseRequested);
-  Transit_W1_L_MINUS_.InitialTransition(SYS_NOW, Zone_W1.State, {Transit_W2_L_PLUS_.State}, Route_W1_L_MINUS_.State);
+  Transit_W1_L_MINUS_.InitialTransition(0, Zone_W1.State, {Transit_W2_L_PLUS_.State}, Route_W1_L_MINUS_.State);
   RouteAutomaticRelease_W2_R_PLUS_.InitialTransition(Route_W2_R_PLUS_.State, {}, {});
   RouteControl_W2_R_PLUS_.InitialTransition(RouteMonitoring_W2_R_PLUS_.State);
-  RouteManualRelease_W2_R_PLUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, SYS_NOW, 0, 0, Route_W2_R_PLUS_.State, RouteMonitoring_W2_R_PLUS_.State, {});
+  RouteManualRelease_W2_R_PLUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, 0, 0, 0, Route_W2_R_PLUS_.State, RouteMonitoring_W2_R_PLUS_.State, {});
   RouteMonitoring_W2_R_PLUS_.InitialTransition({PointControl_W2.Right}, {}, Route_W2_R_PLUS_.State, Transit_W2_R_MINUS_.State, {}, {}, RouteFindingResponse_W2.Admit);
   Route_W2_R_PLUS_.InitialTransition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {}, {LinkRTL_link_4.State}, {}, {}, {}, {Point_W2.State}, RouteAutomaticRelease_W2_R_PLUS_.State, RouteManualRelease_W2_R_PLUS_.ManualReleaseRequested);
-  Transit_W2_R_PLUS_.InitialTransition(SYS_NOW, Zone_W2.State, {Transit_G21_MINUS_.State}, Route_W2_R_PLUS_.State);
+  Transit_W2_R_PLUS_.InitialTransition(0, Zone_W2.State, {Transit_G21_MINUS_.State}, Route_W2_R_PLUS_.State);
   RouteAutomaticRelease_W2_R_MINUS_.InitialTransition(Route_W2_R_MINUS_.State, {}, {});
   RouteControl_W2_R_MINUS_.InitialTransition(RouteMonitoring_W2_R_MINUS_.State);
-  RouteManualRelease_W2_R_MINUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, SYS_NOW, 0, 0, Route_W2_R_MINUS_.State, RouteMonitoring_W2_R_MINUS_.State, {});
+  RouteManualRelease_W2_R_MINUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, 0, 0, 0, Route_W2_R_MINUS_.State, RouteMonitoring_W2_R_MINUS_.State, {});
   RouteMonitoring_W2_R_MINUS_.InitialTransition({PointControl_W2.Right}, {}, Route_W2_R_MINUS_.State, Transit_W2_R_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
   Route_W2_R_MINUS_.InitialTransition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {}, {}, {}, {LinkRTL_link_4.State}, {}, {Point_W2.State}, RouteAutomaticRelease_W2_R_MINUS_.State, RouteManualRelease_W2_R_MINUS_.ManualReleaseRequested);
-  Transit_W2_R_MINUS_.InitialTransition(SYS_NOW, Zone_W2.State, {}, Route_W2_R_MINUS_.State);
+  Transit_W2_R_MINUS_.InitialTransition(0, Zone_W2.State, {}, Route_W2_R_MINUS_.State);
   RouteAutomaticRelease_W2_L_PLUS_.InitialTransition(Route_W2_L_PLUS_.State, {}, {});
   RouteControl_W2_L_PLUS_.InitialTransition(RouteMonitoring_W2_L_PLUS_.State);
-  RouteManualRelease_W2_L_PLUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, SYS_NOW, 0, 0, Route_W2_L_PLUS_.State, RouteMonitoring_W2_L_PLUS_.State, {});
+  RouteManualRelease_W2_L_PLUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, 0, 0, 0, Route_W2_L_PLUS_.State, RouteMonitoring_W2_L_PLUS_.State, {});
   RouteMonitoring_W2_L_PLUS_.InitialTransition({}, {PointControl_W2.Left}, Route_W2_L_PLUS_.State, Transit_W2_L_MINUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_W2.Admit);
   Route_W2_L_PLUS_.InitialTransition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {}, {LinkRTL_link_4.State}, {Point_W2.State}, {}, {LinkLTR_link_3.State}, {}, RouteAutomaticRelease_W2_L_PLUS_.State, RouteManualRelease_W2_L_PLUS_.ManualReleaseRequested);
-  Transit_W2_L_PLUS_.InitialTransition(SYS_NOW, Zone_W2.State, {Transit_G21_MINUS_.State}, Route_W2_L_PLUS_.State);
+  Transit_W2_L_PLUS_.InitialTransition(0, Zone_W2.State, {Transit_G21_MINUS_.State}, Route_W2_L_PLUS_.State);
   RouteAutomaticRelease_W2_L_MINUS_.InitialTransition(Route_W2_L_MINUS_.State, {}, {});
   RouteControl_W2_L_MINUS_.InitialTransition(RouteMonitoring_W2_L_MINUS_.State);
-  RouteManualRelease_W2_L_MINUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, SYS_NOW, 0, 0, Route_W2_L_MINUS_.State, RouteMonitoring_W2_L_MINUS_.State, {});
+  RouteManualRelease_W2_L_MINUS_.InitialTransition(RouteManualReleaseDispatch_W2.State, {}, 0, 0, 0, Route_W2_L_MINUS_.State, RouteMonitoring_W2_L_MINUS_.State, {});
   RouteMonitoring_W2_L_MINUS_.InitialTransition({}, {PointControl_W2.Left}, Route_W2_L_MINUS_.State, Transit_W2_L_PLUS_.State, {}, {LinkRTL_link_4.State}, RouteFindingResponse_W2.Admit);
   Route_W2_L_MINUS_.InitialTransition(RouteFindingSearch_W2.Check, RouteFindingResponse_W2.Admit, {LinkLTR_link_3.State}, {}, {Point_W2.State}, {LinkRTL_link_4.State}, {}, {}, RouteAutomaticRelease_W2_L_MINUS_.State, RouteManualRelease_W2_L_MINUS_.ManualReleaseRequested);
-  Transit_W2_L_MINUS_.InitialTransition(SYS_NOW, Zone_W2.State, {Transit_W1_L_PLUS_.State}, Route_W2_L_MINUS_.State);
+  Transit_W2_L_MINUS_.InitialTransition(0, Zone_W2.State, {Transit_W1_L_PLUS_.State}, Route_W2_L_MINUS_.State);
   RouteAutomaticRelease_G12_PLUS_.InitialTransition(Route_G12_PLUS_.State, {}, {});
   RouteControl_G12_PLUS_.InitialTransition(RouteMonitoring_G12_PLUS_.State);
-  RouteManualRelease_G12_PLUS_.InitialTransition(RouteManualReleaseDispatch_N1.State, {}, SYS_NOW, 0, 0, Route_G12_PLUS_.State, RouteMonitoring_G12_PLUS_.State, {});
+  RouteManualRelease_G12_PLUS_.InitialTransition(RouteManualReleaseDispatch_N1.State, {}, 0, 0, 0, Route_G12_PLUS_.State, RouteMonitoring_G12_PLUS_.State, {});
   RouteMonitoring_G12_PLUS_.InitialTransition({}, {}, Route_G12_PLUS_.State, Transit_G12_MINUS_.State, {}, {}, RouteFindingResponse_N1.Admit);
   Route_G12_PLUS_.InitialTransition(RouteFindingSearch_N1.Check, RouteFindingResponse_N1.Admit, {LinkLTR_link_2.State}, {}, {}, {}, {}, {}, RouteAutomaticRelease_G12_PLUS_.State, RouteManualRelease_G12_PLUS_.ManualReleaseRequested);
-  Transit_G12_PLUS_.InitialTransition(SYS_NOW, Zone_G12.State, {Transit_W1_R_PLUS_.State}, Route_G12_PLUS_.State);
+  Transit_G12_PLUS_.InitialTransition(0, Zone_G12.State, {Transit_W1_R_PLUS_.State}, Route_G12_PLUS_.State);
   RouteAutomaticRelease_G12_MINUS_.InitialTransition(Route_G12_MINUS_.State, {}, {});
   RouteControl_G12_MINUS_.InitialTransition(RouteMonitoring_G12_MINUS_.State);
-  RouteManualRelease_G12_MINUS_.InitialTransition(RouteManualReleaseDispatch_N1.State, {}, SYS_NOW, 0, 0, Route_G12_MINUS_.State, RouteMonitoring_G12_MINUS_.State, {});
+  RouteManualRelease_G12_MINUS_.InitialTransition(RouteManualReleaseDispatch_N1.State, {}, 0, 0, 0, Route_G12_MINUS_.State, RouteMonitoring_G12_MINUS_.State, {});
   RouteMonitoring_G12_MINUS_.InitialTransition({}, {}, Route_G12_MINUS_.State, Transit_G12_PLUS_.State, {LinkLTR_link_2.State}, {}, RouteFindingResponse_N1.Admit);
   Route_G12_MINUS_.InitialTransition(RouteFindingSearch_N1.Check, RouteFindingResponse_N1.Admit, {}, {}, {}, {}, {LinkLTR_link_2.State}, {}, RouteAutomaticRelease_G12_MINUS_.State, RouteManualRelease_G12_MINUS_.ManualReleaseRequested);
-  Transit_G12_MINUS_.InitialTransition(SYS_NOW, Zone_G12.State, {}, Route_G12_MINUS_.State);
+  Transit_G12_MINUS_.InitialTransition(0, Zone_G12.State, {}, Route_G12_MINUS_.State);
   RouteAutomaticRelease_G21_PLUS_.InitialTransition(Route_G21_PLUS_.State, {}, {});
   RouteControl_G21_PLUS_.InitialTransition(RouteMonitoring_G21_PLUS_.State);
-  RouteManualRelease_G21_PLUS_.InitialTransition(RouteManualReleaseDispatch_N2.State, {}, SYS_NOW, 0, 0, Route_G21_PLUS_.State, RouteMonitoring_G21_PLUS_.State, {});
+  RouteManualRelease_G21_PLUS_.InitialTransition(RouteManualReleaseDispatch_N2.State, {}, 0, 0, 0, Route_G21_PLUS_.State, RouteMonitoring_G21_PLUS_.State, {});
   RouteMonitoring_G21_PLUS_.InitialTransition({}, {}, Route_G21_PLUS_.State, Transit_G21_MINUS_.State, {}, {}, RouteFindingResponse_N2.Admit);
   Route_G21_PLUS_.InitialTransition(RouteFindingSearch_N2.Check, RouteFindingResponse_N2.Admit, {LinkLTR_link_3.State}, {}, {}, {}, {}, {}, RouteAutomaticRelease_G21_PLUS_.State, RouteManualRelease_G21_PLUS_.ManualReleaseRequested);
-  Transit_G21_PLUS_.InitialTransition(SYS_NOW, Zone_G21.State, {Transit_W2_R_MINUS_.State, Transit_W2_L_MINUS_.State}, Route_G21_PLUS_.State);
+  Transit_G21_PLUS_.InitialTransition(0, Zone_G21.State, {Transit_W2_R_MINUS_.State, Transit_W2_L_MINUS_.State}, Route_G21_PLUS_.State);
   RouteAutomaticRelease_G21_MINUS_.InitialTransition(Route_G21_MINUS_.State, {}, {});
   RouteControl_G21_MINUS_.InitialTransition(RouteMonitoring_G21_MINUS_.State);
-  RouteManualRelease_G21_MINUS_.InitialTransition(RouteManualReleaseDispatch_N2.State, {}, SYS_NOW, 0, 0, Route_G21_MINUS_.State, RouteMonitoring_G21_MINUS_.State, {});
+  RouteManualRelease_G21_MINUS_.InitialTransition(RouteManualReleaseDispatch_N2.State, {}, 0, 0, 0, Route_G21_MINUS_.State, RouteMonitoring_G21_MINUS_.State, {});
   RouteMonitoring_G21_MINUS_.InitialTransition({}, {}, Route_G21_MINUS_.State, Transit_G21_PLUS_.State, {LinkLTR_link_3.State}, {}, RouteFindingResponse_N2.Admit);
   Route_G21_MINUS_.InitialTransition(RouteFindingSearch_N2.Check, RouteFindingResponse_N2.Admit, {}, {}, {}, {}, {LinkLTR_link_3.State}, {}, RouteAutomaticRelease_G21_MINUS_.State, RouteManualRelease_G21_MINUS_.ManualReleaseRequested);
-  Transit_G21_MINUS_.InitialTransition(SYS_NOW, Zone_G21.State, {}, Route_G21_MINUS_.State);
+  Transit_G21_MINUS_.InitialTransition(0, Zone_G21.State, {}, Route_G21_MINUS_.State);
   Zone_G11.InitialTransition(SCITDS_Zone_G11.OccupancyStatus);
   Zone_W1.InitialTransition(SCITDS_Zone_W1.OccupancyStatus);
   Zone_W2.InitialTransition(SCITDS_Zone_W2.OccupancyStatus);
   Zone_G12.InitialTransition(SCITDS_Zone_G12.OccupancyStatus);
   Zone_G21.InitialTransition(SCITDS_Zone_G21.OccupancyStatus)
 OPERATIONS
-  BigStep =
+  BigStep(SCIP_Point_W1_DetectedEndPosition, SCIP_Point_W2_DetectedEndPosition, SCICC_Route_A_DOT_N1_MsgRequestRoute, SCICC_Route_A_DOT_N1_MsgReleaseRoute, SCICC_Route_A_DOT_N2_MsgRequestRoute, SCICC_Route_A_DOT_N2_MsgReleaseRoute, SCIRBC_Signal_A_ApproachLockingActive, SCIRBC_Signal_N1_ApproachLockingActive, SCIRBC_Signal_N2_ApproachLockingActive, SCITDS_Zone_G11_OccupancyStatus, SCITDS_Zone_W1_OccupancyStatus, SCITDS_Zone_W2_OccupancyStatus, SCITDS_Zone_G12_OccupancyStatus, SCITDS_Zone_G21_OccupancyStatus, SYS_NOW) =
     BEGIN
-      SYS_NOW := SYS_NOW + 150;
+      SCIP_Point_W1.Set_DetectedEndPosition(SCIP_Point_W1_DetectedEndPosition);
+      SCIP_Point_W2.Set_DetectedEndPosition(SCIP_Point_W2_DetectedEndPosition);
+      SCICC_Route_A_DOT_N1.Set_MsgRequestRoute(SCICC_Route_A_DOT_N1_MsgRequestRoute);
+      SCICC_Route_A_DOT_N1.Set_MsgReleaseRoute(SCICC_Route_A_DOT_N1_MsgReleaseRoute);
+      SCICC_Route_A_DOT_N2.Set_MsgRequestRoute(SCICC_Route_A_DOT_N2_MsgRequestRoute);
+      SCICC_Route_A_DOT_N2.Set_MsgReleaseRoute(SCICC_Route_A_DOT_N2_MsgReleaseRoute);
+      SCIRBC_Signal_A.Set_ApproachLockingActive(SCIRBC_Signal_A_ApproachLockingActive);
+      SCIRBC_Signal_N1.Set_ApproachLockingActive(SCIRBC_Signal_N1_ApproachLockingActive);
+      SCIRBC_Signal_N2.Set_ApproachLockingActive(SCIRBC_Signal_N2_ApproachLockingActive);
+      SCITDS_Zone_G11.Set_OccupancyStatus(SCITDS_Zone_G11_OccupancyStatus);
+      SCITDS_Zone_W1.Set_OccupancyStatus(SCITDS_Zone_W1_OccupancyStatus);
+      SCITDS_Zone_W2.Set_OccupancyStatus(SCITDS_Zone_W2_OccupancyStatus);
+      SCITDS_Zone_G12.Set_OccupancyStatus(SCITDS_Zone_G12_OccupancyStatus);
+      SCITDS_Zone_G21.Set_OccupancyStatus(SCITDS_Zone_G21_OccupancyStatus);
       Zone_G11.Transition(SCITDS_Zone_G11.OccupancyStatus);
       Zone_W1.Transition(SCITDS_Zone_W1.OccupancyStatus);
       Zone_W2.Transition(SCITDS_Zone_W2.OccupancyStatus);
