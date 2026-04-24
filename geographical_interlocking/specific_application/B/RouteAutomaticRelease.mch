@@ -43,8 +43,7 @@ OPERATIONS
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteAutomaticRelease_root_ACTIVE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteAutomaticRelease_root_ACTIVE THEN 
+      WHEN GraphState_root = STATE_RouteAutomaticRelease_root_ACTIVE THEN 
         IF not(RouteIsSet = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteAutomaticRelease_root_INACTIVE
@@ -52,8 +51,7 @@ State := ActiveInactive_INACTIVE;
 State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_RouteAutomaticRelease_root_EFFECTIVE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteAutomaticRelease_root_EFFECTIVE THEN 
+      WHEN GraphState_root = STATE_RouteAutomaticRelease_root_EFFECTIVE THEN 
         IF not(RouteIsSet = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteAutomaticRelease_root_INACTIVE

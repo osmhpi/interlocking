@@ -72,8 +72,7 @@ Admit := RouteAdmission_ADMIT_TO_B;
 Admit := RouteAdmission_ADMIT_TO_C;
           GraphState_root := STATE_RouteFindingResponse_root_ADMIT_TO_C
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingResponse_root_ADMIT_END THEN 
+      WHEN GraphState_root = STATE_RouteFindingResponse_root_ADMIT_END THEN 
         IF RouteMonitored = TRUE THEN
 Admit := RouteAdmission_ROUTE_END;
           GraphState_root := STATE_RouteFindingResponse_root_ROUTE_TO_END
@@ -81,8 +80,7 @@ Admit := RouteAdmission_ROUTE_END;
 Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingResponse_root_ADMIT_TO_A THEN 
+      WHEN GraphState_root = STATE_RouteFindingResponse_root_ADMIT_TO_A THEN 
         IF RouteMonitored = TRUE THEN
 Admit := RouteAdmission_ROUTE_TO_A;
           GraphState_root := STATE_RouteFindingResponse_root_ROUTE_TO_A
@@ -90,8 +88,7 @@ Admit := RouteAdmission_ROUTE_TO_A;
 Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingResponse_root_ADMIT_TO_B THEN 
+      WHEN GraphState_root = STATE_RouteFindingResponse_root_ADMIT_TO_B THEN 
         IF RouteMonitored = TRUE THEN
 Admit := RouteAdmission_ROUTE_TO_B;
           GraphState_root := STATE_RouteFindingResponse_root_ROUTE_TO_B
@@ -99,8 +96,7 @@ Admit := RouteAdmission_ROUTE_TO_B;
 Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingResponse_root_ADMIT_TO_C THEN 
+      WHEN GraphState_root = STATE_RouteFindingResponse_root_ADMIT_TO_C THEN 
         IF RouteMonitored = TRUE THEN
 Admit := RouteAdmission_ROUTE_TO_C;
           GraphState_root := STATE_RouteFindingResponse_root_ROUTE_TO_C
@@ -108,26 +104,22 @@ Admit := RouteAdmission_ROUTE_TO_C;
 Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_END THEN 
+      WHEN GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_END THEN 
         IF not(RouteMonitored = TRUE) THEN
 Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_A THEN 
+      WHEN GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_A THEN 
         IF not(RouteMonitored = TRUE) THEN
 Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_B THEN 
+      WHEN GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_B THEN 
         IF not(RouteMonitored = TRUE) THEN
 Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_C THEN 
+      WHEN GraphState_root = STATE_RouteFindingResponse_root_ROUTE_TO_C THEN 
         IF not(RouteMonitored = TRUE) THEN
 Admit := RouteAdmission_INACTIVE;
           GraphState_root := STATE_RouteFindingResponse_root_IDLE

@@ -77,8 +77,7 @@ Check := RouteChecking_CHECK_FROM_C;
 Check := RouteChecking_CHECK_START;
           GraphState_root := STATE_RouteFindingSearch_root_CHECKING_START
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingSearch_root_CHECKING_START THEN 
+      WHEN GraphState_root = STATE_RouteFindingSearch_root_CHECKING_START THEN 
         IF RouteSet = TRUE THEN
 Check := RouteChecking_ROUTE_SET_FROM_START;
           GraphState_root := STATE_RouteFindingSearch_root_ROUTE_SET_FROM_START
@@ -86,8 +85,7 @@ Check := RouteChecking_ROUTE_SET_FROM_START;
 Check := RouteChecking_INACTIVE;
           GraphState_root := STATE_RouteFindingSearch_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingSearch_root_CHECKING_FROM_A THEN 
+      WHEN GraphState_root = STATE_RouteFindingSearch_root_CHECKING_FROM_A THEN 
         IF RouteSet = TRUE THEN
 Check := RouteChecking_ROUTE_SET_FROM_A;
           GraphState_root := STATE_RouteFindingSearch_root_ROUTE_SET_FROM_A
@@ -95,8 +93,7 @@ Check := RouteChecking_ROUTE_SET_FROM_A;
 Check := RouteChecking_INACTIVE;
           GraphState_root := STATE_RouteFindingSearch_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingSearch_root_CHECKING_FROM_B THEN 
+      WHEN GraphState_root = STATE_RouteFindingSearch_root_CHECKING_FROM_B THEN 
         IF RouteSet = TRUE THEN
 Check := RouteChecking_ROUTE_SET_FROM_B;
           GraphState_root := STATE_RouteFindingSearch_root_ROUTE_SET_FROM_B
@@ -104,8 +101,7 @@ Check := RouteChecking_ROUTE_SET_FROM_B;
 Check := RouteChecking_INACTIVE;
           GraphState_root := STATE_RouteFindingSearch_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingSearch_root_CHECKING_FROM_C THEN 
+      WHEN GraphState_root = STATE_RouteFindingSearch_root_CHECKING_FROM_C THEN 
         IF RouteSet = TRUE THEN
 Check := RouteChecking_ROUTE_SET_FROM_C;
           GraphState_root := STATE_RouteFindingSearch_root_ROUTE_SET_FROM_C
@@ -113,26 +109,22 @@ Check := RouteChecking_ROUTE_SET_FROM_C;
 Check := RouteChecking_INACTIVE;
           GraphState_root := STATE_RouteFindingSearch_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_START THEN 
+      WHEN GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_START THEN 
         IF not(RouteSet = TRUE) THEN
 Check := RouteChecking_INACTIVE;
           GraphState_root := STATE_RouteFindingSearch_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_A THEN 
+      WHEN GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_A THEN 
         IF not(RouteSet = TRUE) THEN
 Check := RouteChecking_INACTIVE;
           GraphState_root := STATE_RouteFindingSearch_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_B THEN 
+      WHEN GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_B THEN 
         IF not(RouteSet = TRUE) THEN
 Check := RouteChecking_INACTIVE;
           GraphState_root := STATE_RouteFindingSearch_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_C THEN 
+      WHEN GraphState_root = STATE_RouteFindingSearch_root_ROUTE_SET_FROM_C THEN 
         IF not(RouteSet = TRUE) THEN
 Check := RouteChecking_INACTIVE;
           GraphState_root := STATE_RouteFindingSearch_root_IDLE

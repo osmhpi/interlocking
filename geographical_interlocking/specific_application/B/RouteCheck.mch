@@ -51,13 +51,11 @@ Top := ActiveInactive_INACTIVE;
         END
 
         END
-      END;
-      SELECT GraphState_root = STATE_RouteCheck_root_CHECKING THEN 
+      WHEN GraphState_root = STATE_RouteCheck_root_CHECKING THEN 
         Top := ActiveInactive_ACTIVE;
       State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteCheck_root_INACTIVE
-      END;
-      SELECT GraphState_root = STATE_RouteCheck_root_WAITING THEN 
+      WHEN GraphState_root = STATE_RouteCheck_root_WAITING THEN 
         IF IsTop = TRUE THEN
 Top := ActiveInactive_INACTIVE;
       State := ActiveInactive_ACTIVE;

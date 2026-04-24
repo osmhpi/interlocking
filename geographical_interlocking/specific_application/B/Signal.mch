@@ -33,8 +33,7 @@ OPERATIONS
 State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_Signal_root_SIGNAL_IS_START
         END
-      END;
-      SELECT GraphState_root = STATE_Signal_root_SIGNAL_IS_START THEN 
+      WHEN GraphState_root = STATE_Signal_root_SIGNAL_IS_START THEN 
         IF not(RouteIsSet = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_Signal_root_SIGNAL_NOT_START

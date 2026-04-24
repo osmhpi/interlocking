@@ -63,15 +63,13 @@ Left := ActiveInactive_INACTIVE;
       Right := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointControl_root_NOT_CONTROLLED
         END
-      END;
-      SELECT GraphState_root = STATE_PointControl_root_CONTROLLED_RIGHT THEN 
+      WHEN GraphState_root = STATE_PointControl_root_CONTROLLED_RIGHT THEN 
         IF not(EndPositionRightDetected = TRUE) or not(CommandedRight = TRUE) THEN
 Left := ActiveInactive_INACTIVE;
       Right := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointControl_root_NOT_CONTROLLED
         END
-      END;
-      SELECT GraphState_root = STATE_PointControl_root_NOT_CONTROLLED THEN 
+      WHEN GraphState_root = STATE_PointControl_root_NOT_CONTROLLED THEN 
         IF EndPositionLeftDetected = TRUE & CommandedLeft = TRUE THEN
 Left := ActiveInactive_ACTIVE;
       Right := ActiveInactive_INACTIVE;

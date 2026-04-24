@@ -66,14 +66,12 @@ State := PointState_RIGHT;
 State := PointState_RIGHT;
           GraphState_root := STATE_Point_root_RIGHT
         END
-      END;
-      SELECT GraphState_root = STATE_Point_root_RIGHT THEN 
+      WHEN GraphState_root = STATE_Point_root_RIGHT THEN 
         IF RouteAuthorizedMoveLeft = TRUE & not((RouteAuthorizedMoveRight = TRUE or PointLockedRight = TRUE)) THEN
 State := PointState_LEFT;
           GraphState_root := STATE_Point_root_LEFT
         END
-      END;
-      SELECT GraphState_root = STATE_Point_root_UNDETERMINED THEN 
+      WHEN GraphState_root = STATE_Point_root_UNDETERMINED THEN 
         IF RouteAuthorizedMoveLeft = TRUE & not(RouteAuthorizedMoveRight = TRUE) THEN
 State := PointState_LEFT;
           GraphState_root := STATE_Point_root_LEFT

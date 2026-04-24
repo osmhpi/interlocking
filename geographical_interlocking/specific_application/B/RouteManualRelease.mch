@@ -119,8 +119,7 @@ ManualReleaseRequested := ActiveInactive_INACTIVE;
           GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ROUTE_SET
         END
         END
-      END;
-      SELECT GraphState_root = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING THEN 
+      WHEN GraphState_root = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING THEN 
         IF not(RouteIsSet = TRUE) THEN
 ManualReleaseRequested := ActiveInactive_INACTIVE;
       HoldApproachLocking := OpenCloseState_CLOSED;
@@ -157,8 +156,7 @@ ManualReleaseRequested := ActiveInactive_ACTIVE;
       ManualReleasePrevention := ActiveInactive_INACTIVE;
           GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE
         END
-      END;
-      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ROUTE_SET THEN 
+      WHEN GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_ROUTE_SET THEN 
         IF RouteIsLocked = TRUE THEN
 ManualReleaseRequested := ActiveInactive_INACTIVE;
       HoldApproachLocking := OpenCloseState_OPEN;
@@ -172,8 +170,7 @@ ManualReleaseRequested := ActiveInactive_ACTIVE;
       ManualReleasePrevention := ActiveInactive_INACTIVE;
           GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE
         END
-      END;
-      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_WITHHOLD_MA THEN 
+      WHEN GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_WITHHOLD_MA THEN 
         IF ApproachTaken = TRUE or ApproachZoneOccupied = TRUE THEN
 ManualReleaseRequested := ActiveInactive_INACTIVE;
       HoldApproachLocking := OpenCloseState_OPEN;
@@ -187,8 +184,7 @@ ManualReleaseRequested := ActiveInactive_ACTIVE;
       ManualReleasePrevention := ActiveInactive_INACTIVE;
           GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE
         END
-      END;
-      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING THEN 
+      WHEN GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING THEN 
         IF not(ManualSignalClose = TRUE) THEN
 ManualReleaseRequested := ActiveInactive_INACTIVE;
       HoldApproachLocking := OpenCloseState_OPEN;
@@ -202,8 +198,7 @@ ManualReleaseRequested := ActiveInactive_INACTIVE;
       ManualReleasePrevention := ActiveInactive_ACTIVE;
           GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_FREE
         END
-      END;
-      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING_ZONE THEN 
+      WHEN GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING_ZONE THEN 
         IF not(ManualSignalClose = TRUE) THEN
 ManualReleaseRequested := ActiveInactive_INACTIVE;
       HoldApproachLocking := OpenCloseState_OPEN;
@@ -217,8 +212,7 @@ ManualReleaseRequested := ActiveInactive_INACTIVE;
       ManualReleasePrevention := ActiveInactive_INACTIVE;
           GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_ZONE_TIMEOUT
         END
-      END;
-      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_FREE THEN 
+      WHEN GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_FREE THEN 
         IF RouteIsLocked = TRUE THEN
 ManualReleaseRequested := ActiveInactive_INACTIVE;
       HoldApproachLocking := OpenCloseState_OPEN;
@@ -232,8 +226,7 @@ ManualReleaseRequested := ActiveInactive_ACTIVE;
       ManualReleasePrevention := ActiveInactive_INACTIVE;
           GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE
         END
-      END;
-      SELECT GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_ZONE_TIMEOUT THEN 
+      WHEN GraphState_root_ETCS_APPROACH_LOCKING = STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING_APPROACH_ZONE_TIMEOUT THEN 
         IF RouteIsLocked = TRUE THEN
 ManualReleaseRequested := ActiveInactive_INACTIVE;
       HoldApproachLocking := OpenCloseState_OPEN;

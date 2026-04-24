@@ -61,8 +61,7 @@ State := RouteSearch_SEARCH;
 State := RouteSearch_RESPONSE;
           GraphState_root := STATE_LinkLTR_root_ADMIT
         END
-      END;
-      SELECT GraphState_root = STATE_LinkLTR_root_CHECKING THEN 
+      WHEN GraphState_root = STATE_LinkLTR_root_CHECKING THEN 
         IF IsRouteSet = TRUE & IsAdmitOpposite = TRUE THEN
 State := RouteSearch_ROUTE_SET;
           GraphState_root := STATE_LinkLTR_root_ROUTE_SET
@@ -70,8 +69,7 @@ State := RouteSearch_ROUTE_SET;
 State := RouteSearch_INACTIVE;
           GraphState_root := STATE_LinkLTR_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_LinkLTR_root_ADMIT THEN 
+      WHEN GraphState_root = STATE_LinkLTR_root_ADMIT THEN 
         IF IsRouteSetDownstream = TRUE THEN
 State := RouteSearch_ROUTE_MONITORED;
           GraphState_root := STATE_LinkLTR_root_ROUTE_MONITORED
@@ -79,14 +77,12 @@ State := RouteSearch_ROUTE_MONITORED;
 State := RouteSearch_INACTIVE;
           GraphState_root := STATE_LinkLTR_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_LinkLTR_root_ROUTE_SET THEN 
+      WHEN GraphState_root = STATE_LinkLTR_root_ROUTE_SET THEN 
         IF not(IsRouteSet = TRUE) THEN
 State := RouteSearch_INACTIVE;
           GraphState_root := STATE_LinkLTR_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_LinkLTR_root_ROUTE_MONITORED THEN 
+      WHEN GraphState_root = STATE_LinkLTR_root_ROUTE_MONITORED THEN 
         IF not(IsRouteSetDownstream = TRUE) THEN
 State := RouteSearch_RESPONSE;
           GraphState_root := STATE_LinkLTR_root_ADMIT

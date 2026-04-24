@@ -33,8 +33,7 @@ OPERATIONS
 State := OccupancyStatus_VACANT;
           GraphState_root := STATE_Zone_root_VACANT
         END
-      END;
-      SELECT GraphState_root = STATE_Zone_root_VACANT THEN 
+      WHEN GraphState_root = STATE_Zone_root_VACANT THEN 
         IF ZoneOccupied = TRUE THEN
 State := OccupancyStatus_OCCUPIED;
           GraphState_root := STATE_Zone_root_OCCUPIED

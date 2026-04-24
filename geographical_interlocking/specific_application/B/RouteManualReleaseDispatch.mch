@@ -33,8 +33,7 @@ OPERATIONS
 State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_RouteManualReleaseDispatch_root_ACTIVE
         END
-      END;
-      SELECT GraphState_root = STATE_RouteManualReleaseDispatch_root_ACTIVE THEN 
+      WHEN GraphState_root = STATE_RouteManualReleaseDispatch_root_ACTIVE THEN 
         IF not(RouteReleaseRequested = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteManualReleaseDispatch_root_IDLE
