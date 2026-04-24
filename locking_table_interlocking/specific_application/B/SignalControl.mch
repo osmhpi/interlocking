@@ -33,8 +33,7 @@ OPERATIONS
 State := OpenCloseState_OPEN;
           GraphState_root := STATE_SignalControl_root_OPEN
         END
-      END;
-      SELECT GraphState_root = STATE_SignalControl_root_OPEN THEN 
+      WHEN GraphState_root = STATE_SignalControl_root_OPEN THEN 
         IF not(RouteOpening = TRUE) THEN
 State := OpenCloseState_CLOSED;
           GraphState_root := STATE_SignalControl_root_CLOSED

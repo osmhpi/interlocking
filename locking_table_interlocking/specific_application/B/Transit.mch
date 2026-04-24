@@ -52,14 +52,12 @@ OPERATIONS
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_Transit_root_IDLE
         END
-      END;
-      SELECT GraphState_root = STATE_Transit_root_IDLE THEN 
+      WHEN GraphState_root = STATE_Transit_root_IDLE THEN 
         IF RequestedByRoute = TRUE THEN
 State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_Transit_root_ACTIVE
         END
-      END;
-      SELECT GraphState_root = STATE_Transit_root_ACTIVE THEN 
+      WHEN GraphState_root = STATE_Transit_root_ACTIVE THEN 
         IF UpstreamTransitsIdle = TRUE & ZoneFree = TRUE & not(RequestedByRoute = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_Transit_root_IDLE

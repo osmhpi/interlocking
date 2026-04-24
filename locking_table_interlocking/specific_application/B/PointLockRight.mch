@@ -53,8 +53,7 @@ State := ActiveInactive_INACTIVE;
 State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_PointLockRight_root_LOCKED
         END
-      END;
-      SELECT GraphState_root = STATE_PointLockRight_root_LOCKED THEN 
+      WHEN GraphState_root = STATE_PointLockRight_root_LOCKED THEN 
         IF not(ZoneRequestsLock = TRUE) & not(PointIsMoving = TRUE) & not(TransitRequestsLock = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_PointLockRight_root_NOT_LOCKED

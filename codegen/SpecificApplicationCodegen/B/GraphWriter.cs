@@ -463,8 +463,8 @@ END//MACHINE
       return string.Join("\n", fnLines);
     }
 
-    // Generate Rust match arms for transitions, calling the per-state function
-    var matchArms = string.Join(";\n      ", rustStates
+    // Generate select for transitions, calling the per-state function
+    var matchArms = rustStates
       .Where(x => !choicePseudostates.Contains(x))
       .Select(state => {
         var transition = WriteTransitionFunction(state);
@@ -472,10 +472,16 @@ END//MACHINE
         {
           return null;
         }
-        return $"SELECT GraphState_{parent} = STATE_{graph.Name}_{parent}_{state} THEN \n{transition}\n      END";
+        return $"GraphState_{parent} = STATE_{graph.Name}_{parent}_{state} THEN \n{transition}";
       })
-      .Where(x => x != null));
+      .Where(x => x != null)
+      .ToList();
 
-    return matchArms;
+    if (matchArms.Count == 0)
+    {
+      return string.Empty;
+    }
+
+    return $"SELECT {string.Join("\n      WHEN ", matchArms)}\n      END";
   }
 }

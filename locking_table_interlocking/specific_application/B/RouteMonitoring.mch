@@ -43,8 +43,7 @@ OPERATIONS
 State := ActiveInactive_ACTIVE;
           GraphState_root := STATE_RouteMonitoring_root_CONTROLLED
         END
-      END;
-      SELECT GraphState_root = STATE_RouteMonitoring_root_CONTROLLED THEN 
+      WHEN GraphState_root = STATE_RouteMonitoring_root_CONTROLLED THEN 
         IF not(PointsControlled = TRUE) or not(RouteSet = TRUE) or not(InverseTransitsInactive = TRUE) THEN
 State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteMonitoring_root_NOT_CONTROLLED

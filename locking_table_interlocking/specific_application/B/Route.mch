@@ -60,14 +60,12 @@ State := RouteState_SET;
         END
 
         END
-      END;
-      SELECT GraphState_root = STATE_Route_root_SET THEN 
+      WHEN GraphState_root = STATE_Route_root_SET THEN 
         IF AutomaticReleaseEffective = TRUE or ManualReleaseEffective = TRUE THEN
 State := RouteState_RELEASED;
           GraphState_root := STATE_Route_root_RELEASED
         END
-      END;
-      SELECT GraphState_root = STATE_Route_root_PREPARING THEN 
+      WHEN GraphState_root = STATE_Route_root_PREPARING THEN 
         IF PointsAvailable = TRUE & NoIncompatibleRoutes = TRUE THEN
 State := RouteState_SET;
           GraphState_root := STATE_Route_root_SET
