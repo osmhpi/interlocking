@@ -1,4 +1,0 @@
-MACHINE Enums
-SETS
-  RouteState = {RELEASED, PREPARING, SET}
-END
