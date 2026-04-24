@@ -51,7 +51,6 @@
    y="388.763"
    width="149.407"
    height="37.362"
-   style="fill:rgb(61,197,78);"
    id="rect2" />
             </g>
             <g id="W1L2" transform="matrix(0.473274,-0.473274,0.378519,0.378519,101.694,182.17)">
@@ -68,18 +67,16 @@
    y="388.763"
    width="149.407"
    height="37.362"
-   style="fill:rgb(61,118,197);"
    id="rect4" />
             </g>
             <g
-   transform="matrix(2.67322,0,0,0.535306,-224.956,-98.8697)"
-   id="G21">
+   transform="matrix(2.67322,0,0,0.535306,-224.956,-98.8697)">
                 <rect
    x="91.473"
    y="388.763"
    width="149.407"
    height="37.362"
-   style="fill:rgb(61,197,78);"
+   style="fill:gray;"
    id="rect5" />
             </g>
             <g
@@ -91,7 +88,6 @@
    y="388.763"
    width="149.407"
    height="37.362"
-   style="fill:rgb(61,197,78);"
    id="rect6" />
             </g>
             <g
@@ -102,7 +98,6 @@
    y="388.763"
    width="149.407"
    height="37.362"
-   style="fill:rgb(61,118,197);"
    id="rect7" />
             </g>
             <g
@@ -114,7 +109,6 @@
    y="388.763"
    width="149.407"
    height="37.362"
-   style="fill:rgb(61,118,197);"
    id="rect8" />
             </g>
             <g
@@ -126,7 +120,6 @@
    y="388.763"
    width="149.407"
    height="37.362"
-   style="fill:rgb(61,118,197);"
    id="rect9" />
             </g>
             <g
