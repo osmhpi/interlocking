@@ -42,3 +42,6 @@ build: wasm simulator/react/app/welcome/configuration.json simulator/react/node_
 
 dev: wasm simulator/react/app/welcome/configuration.json simulator/react/node_modules
 	cd simulator/react && npm run dev
+
+b:
+	cd ../codegen/SpecificApplicationCodegen && dotnet run -- ../../geographical_interlocking

@@ -120,21 +120,21 @@ OPERATIONS
       SIM_TIME := SIM_TIME + 150;
       SIM_SCIRBC_Signal_A_ApproachLockingActive := value;
       BigStep(SIM_SCIP_Point_W1_DetectedEndPosition, SIM_SCIP_Point_W2_DetectedEndPosition, SIM_SCICC_Route_A_DOT_N1_MsgRequestRoute, SIM_SCICC_Route_A_DOT_N1_MsgReleaseRoute, SIM_SCICC_Route_A_DOT_N2_MsgRequestRoute, SIM_SCICC_Route_A_DOT_N2_MsgReleaseRoute, SIM_SCIRBC_Signal_A_ApproachLockingActive, SIM_SCIRBC_Signal_N1_ApproachLockingActive, SIM_SCIRBC_Signal_N2_ApproachLockingActive, SIM_SCITDS_Zone_G11_OccupancyStatus, SIM_SCITDS_Zone_W1_OccupancyStatus, SIM_SCITDS_Zone_W2_OccupancyStatus, SIM_SCITDS_Zone_G12_OccupancyStatus, SIM_SCITDS_Zone_G21_OccupancyStatus, SIM_TIME);
-      SIM_SCIRBC_Signal_A_ApproachLockingActive := TRUE
+      skip
     END;
   Set_SCIRBC_Signal_N1_ApproachLockingActive(value) =
     BEGIN
       SIM_TIME := SIM_TIME + 150;
       SIM_SCIRBC_Signal_N1_ApproachLockingActive := value;
       BigStep(SIM_SCIP_Point_W1_DetectedEndPosition, SIM_SCIP_Point_W2_DetectedEndPosition, SIM_SCICC_Route_A_DOT_N1_MsgRequestRoute, SIM_SCICC_Route_A_DOT_N1_MsgReleaseRoute, SIM_SCICC_Route_A_DOT_N2_MsgRequestRoute, SIM_SCICC_Route_A_DOT_N2_MsgReleaseRoute, SIM_SCIRBC_Signal_A_ApproachLockingActive, SIM_SCIRBC_Signal_N1_ApproachLockingActive, SIM_SCIRBC_Signal_N2_ApproachLockingActive, SIM_SCITDS_Zone_G11_OccupancyStatus, SIM_SCITDS_Zone_W1_OccupancyStatus, SIM_SCITDS_Zone_W2_OccupancyStatus, SIM_SCITDS_Zone_G12_OccupancyStatus, SIM_SCITDS_Zone_G21_OccupancyStatus, SIM_TIME);
-      SIM_SCIRBC_Signal_N1_ApproachLockingActive := TRUE
+      skip
     END;
   Set_SCIRBC_Signal_N2_ApproachLockingActive(value) =
     BEGIN
       SIM_TIME := SIM_TIME + 150;
       SIM_SCIRBC_Signal_N2_ApproachLockingActive := value;
       BigStep(SIM_SCIP_Point_W1_DetectedEndPosition, SIM_SCIP_Point_W2_DetectedEndPosition, SIM_SCICC_Route_A_DOT_N1_MsgRequestRoute, SIM_SCICC_Route_A_DOT_N1_MsgReleaseRoute, SIM_SCICC_Route_A_DOT_N2_MsgRequestRoute, SIM_SCICC_Route_A_DOT_N2_MsgReleaseRoute, SIM_SCIRBC_Signal_A_ApproachLockingActive, SIM_SCIRBC_Signal_N1_ApproachLockingActive, SIM_SCIRBC_Signal_N2_ApproachLockingActive, SIM_SCITDS_Zone_G11_OccupancyStatus, SIM_SCITDS_Zone_W1_OccupancyStatus, SIM_SCITDS_Zone_W2_OccupancyStatus, SIM_SCITDS_Zone_G12_OccupancyStatus, SIM_SCITDS_Zone_G21_OccupancyStatus, SIM_TIME);
-      SIM_SCIRBC_Signal_N2_ApproachLockingActive := TRUE
+      skip
     END;
   Set_SCITDS_Zone_G11_OccupancyStatus(value) =
     BEGIN

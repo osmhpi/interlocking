@@ -18,7 +18,6 @@ impl Signal_SCIRBCStruct {
         }
     }
     pub fn complete_cycle(&mut self, ctx: &EvalContext) {
-        self.ApproachLockingActive = Triggerable::NotTriggered(false);
         self.ApproachStatusRequested = false;
         if (Some(self.entity.routes_starting_here.iter().any(|name| ctx.RouteManualRelease.get(name).unwrap().ManualReleaseWithholdMovementAuthority == ActiveInactive::ACTIVE))).unwrap_or(false) {
             self.ApproachStatusRequested = true;

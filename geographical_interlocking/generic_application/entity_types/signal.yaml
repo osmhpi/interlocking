@@ -23,7 +23,7 @@ interfaces:
         description: Indicates whether approach locking is active.
         type: boolean
         default: true
-        kind: discrete
+        kind: continuous
     outputs:
       ApproachStatusRequested:
         description: Indicates whether approach status is requested.

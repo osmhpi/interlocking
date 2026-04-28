@@ -73,6 +73,7 @@ Hence, although a staggered point machine operation is not a safety-related func
 | **Specific Application** |
 | Configuration JSON | [configuration.json](locking_table_interlocking/specific_application/configuration.json) | [configuration.json](geographical_interlocking/specific_application/configuration.json) |
 | Web-based Simulator | [simulator](locking_table_interlocking/simulator) | [simulator](geographical_interlocking/simulator) |
+| B Language Simulator | [ProB 2 UI Simulator](locking_table_interlocking/specific_application/B/) | [ProB 2 UI Simulator](geographical_interlocking/specific_application/B/) |
 
 ## Setup and Development
 
