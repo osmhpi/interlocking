@@ -5,3 +5,6 @@
 # React Router
 /.react-router/
 /build/
+
+interlocking/
+app/welcome/configuration.json

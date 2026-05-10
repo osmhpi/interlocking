@@ -3,6 +3,9 @@
 ALL_PUML_FILES := $(shell find generic_application/graphs -name "*.puml")
 ALL_SVG_FILES := $(patsubst %.puml,%.svg,$(ALL_PUML_FILES))
 
+MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+CURRENT_DIR := $(notdir $(patsubst %/,%,$(dir $(MAKEFILE_PATH))))
+
 all: web
 
 clean:
@@ -23,7 +26,7 @@ parser:
 puml: $(ALL_SVG_FILES)
 
 simulator: parser
-	cd ../codegen/InterlockingCodegen && dotnet run -- ../../geographical_interlocking
+	cd ../codegen/InterlockingCodegen && dotnet run -- ../../$(CURRENT_DIR)
 
 wasm: simulator
 	cd simulator && wasm-pack build --target bundler

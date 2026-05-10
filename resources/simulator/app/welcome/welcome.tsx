@@ -1,4 +1,4 @@
-import * as wasm from "locking_table_interlocking";
+import * as wasm from "interlocking";
 
 import configTxt from "./configuration.json?raw"
 import { useEffect, useState } from "react";

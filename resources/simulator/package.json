@@ -12,7 +12,7 @@
     "@react-router/node": "^7.9.2",
     "http-server": "^14.1.1",
     "isbot": "^5.1.31",
-    "locking_table_interlocking": "file:../pkg",
+    "locking_table_interlocking": "file:./interlocking",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router": "^7.9.2"
