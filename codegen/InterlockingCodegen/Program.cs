@@ -6,7 +6,7 @@ try
   // Spec root is given as first argument
   var specRoot = args[0];
   var spec = Specification.Parse(specRoot + "/generic_application");
-  var simulatorRoot = $"{specRoot}/simulator";
+  var simulatorRoot = $"{specRoot}/generic_application_simulator";
 
   // Ensure path exists
   if (!Directory.Exists($"{simulatorRoot}/src"))

@@ -25,23 +25,23 @@ parser:
 
 puml: $(ALL_SVG_FILES)
 
-simulator: parser
+generic_application_simulator/src/main.rs: parser $(ALL_PUML_FILES)
 	cd ../codegen/InterlockingCodegen && dotnet run -- ../../$(CURRENT_DIR)
 
-wasm: simulator
-	cd simulator && wasm-pack build --target bundler
+generic_application_simulator/pkg/interlocking.js: generic_application_simulator/src/main.rs
+	cd generic_application_simulator && wasm-pack build --target bundler
 
-simulator/react/app/welcome/configuration.json: specific_application/configuration.json
-	cp specific_application/configuration.json simulator/react/app/welcome/configuration.json
+web: generic_application_simulator/pkg/interlocking.js specific_application/configuration.json
+	cp specific_application/configuration.json ../resources/simulator/app/welcome/configuration.json
+	cp -r generic_application_simulator/pkg/ ../resources/simulator/interlocking/
+	make -C ../resources/simulator web
 
-simulator/react/node_modules: simulator/react/package.json simulator/react/package-lock.json
-	cd simulator/react && npm ci
+build: generic_application_simulator/pkg/interlocking.js specific_application/configuration.json
+	cp specific_application/configuration.json ../resources/simulator/app/welcome/configuration.json
+	cp -r generic_application_simulator/pkg/ ../resources/simulator/interlocking/
+	make -C ../resources/simulator build
 
-web: wasm simulator/react/app/welcome/configuration.json simulator/react/node_modules
-	cd simulator/react && npm run build && npm run start
-
-build: wasm simulator/react/app/welcome/configuration.json simulator/react/node_modules
-	cd simulator/react && npm run build
-
-dev: wasm simulator/react/app/welcome/configuration.json simulator/react/node_modules
-	cd simulator/react && npm run dev
+dev: generic_application_simulator/pkg/interlocking.js specific_application/configuration.json
+	cp specific_application/configuration.json ../resources/simulator/app/welcome/configuration.json
+	cp -r generic_application_simulator/pkg/ ../resources/simulator/interlocking/
+	make -C ../resources/simulator dev

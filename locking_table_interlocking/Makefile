@@ -28,20 +28,20 @@ puml: $(ALL_SVG_FILES)
 generic_application_simulator/src/main.rs: parser $(ALL_PUML_FILES)
 	cd ../codegen/InterlockingCodegen && dotnet run -- ../../$(CURRENT_DIR)
 
-generic_application_simulator/target/wasm32-unknown-unknown/release/interlocking.wasm: generic_application_simulator/src/main.rs
+generic_application_simulator/pkg/interlocking.js: generic_application_simulator/src/main.rs
 	cd generic_application_simulator && wasm-pack build --target bundler
 
-web:
+web: generic_application_simulator/pkg/interlocking.js specific_application/configuration.json
 	cp specific_application/configuration.json ../resources/simulator/app/welcome/configuration.json
 	cp -r generic_application_simulator/pkg/ ../resources/simulator/interlocking/
 	make -C ../resources/simulator web
 
-build:
+build: generic_application_simulator/pkg/interlocking.js specific_application/configuration.json
 	cp specific_application/configuration.json ../resources/simulator/app/welcome/configuration.json
 	cp -r generic_application_simulator/pkg/ ../resources/simulator/interlocking/
 	make -C ../resources/simulator build
 
-dev:
+dev: generic_application_simulator/pkg/interlocking.js specific_application/configuration.json
 	cp specific_application/configuration.json ../resources/simulator/app/welcome/configuration.json
 	cp -r generic_application_simulator/pkg/ ../resources/simulator/interlocking/
 	make -C ../resources/simulator dev
