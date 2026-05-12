@@ -65,7 +65,7 @@
         },
         "default": { "type": ["string", "number", "boolean"], "description": "Default value for the output." }
       },
-      "required": ["description", "type", "kind"],
+      "required": ["description", "type", "mapping", "default"],
       "additionalProperties": false
     },
     "EntityProperty": {
