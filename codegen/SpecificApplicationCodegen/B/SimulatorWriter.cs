@@ -24,7 +24,7 @@ SEES
 INCLUDES
   System
 DEFINITIONS
-  VISB_SVG_FILE == ""trackplan.svg"";
+  VISB_SVG_FILE == ""../../../resources/trackplan.svg"";
   VISB_SVG_UPDATES1== rec(`id`:""W1"",fill: IF SCICC_Zone_W1.CurrentOccupancy = OccupancyStatus_VACANT THEN IF SCICC_Transit_W1_L_PLUS_.Active = TRUE or SCICC_Transit_W1_L_MINUS_.Active = TRUE or SCICC_Transit_W1_R_PLUS_.Active = TRUE or SCICC_Transit_W1_R_MINUS_.Active = TRUE THEN ""green"" ELSE ""gray"" END ELSE ""red"" END);
   VISB_SVG_UPDATES2== rec(`id`:""G11"",fill: IF SCICC_Zone_G11.CurrentOccupancy = OccupancyStatus_VACANT THEN IF SCICC_Transit_G11_PLUS_.Active = TRUE or SCICC_Transit_G11_MINUS_.Active = TRUE THEN ""green"" ELSE ""gray"" END ELSE ""red"" END);
   VISB_SVG_UPDATES3== rec(`id`:""G12"",fill: IF SCICC_Zone_G12.CurrentOccupancy = OccupancyStatus_VACANT THEN IF SCICC_Transit_G12_PLUS_.Active = TRUE or SCICC_Transit_G12_MINUS_.Active = TRUE THEN ""green"" ELSE ""gray"" END ELSE ""red"" END);
