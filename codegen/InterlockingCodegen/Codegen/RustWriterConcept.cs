@@ -14,6 +14,7 @@ static partial class RustWriter
     lines.Add("use crate::{configuration_types::*, enums::*, eval_context::EvalContext, triggerable::Triggerable};");
     lines.Add("");
     lines.Add("#[derive(Clone)]");
+    lines.Add("#[allow(non_snake_case)]");
     lines.Add($"pub struct {entityType.Name}_{ifaceDefinition.Name}Struct {{");
     lines.Add($"    pub entity: Entities{entityType.Name}Item,"); // Add the entity item as a field
 
@@ -131,7 +132,7 @@ static partial class RustWriter
     lines.Add($"    }}");
 
     // Add complete_cycle method for all interfaces
-    lines.Add($"    pub fn complete_cycle(&mut self, ctx: &EvalContext) {{");
+    lines.Add($"    #[allow(unused_variables)]\n    pub fn complete_cycle(&mut self, ctx: &EvalContext) {{");
     foreach (var input in (iface.Inputs ?? new Dictionary<string, InterfaceInputField>()).Where(x => x.Value.Kind == InterfaceInputFieldKind.Discrete))
     {
       string defaultValue;
@@ -206,6 +207,7 @@ static partial class RustWriter
 
     foreach (var (conceptName, ifaceName) in conceptInterfaces)
     {
+      lines.Add("#[allow(non_snake_case)]");
       lines.Add($"mod {conceptName}_{ifaceName};");
     }
 

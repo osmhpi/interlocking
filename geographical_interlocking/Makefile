@@ -1,7 +1,8 @@
-.PHONY: simulator
-
 ALL_PUML_FILES := $(shell find generic_application/graphs -name "*.puml")
 ALL_SVG_FILES := $(patsubst %.puml,%.svg,$(ALL_PUML_FILES))
+
+MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
+CURRENT_DIR := $(notdir $(patsubst %/,%,$(dir $(MAKEFILE_PATH))))
 
 all: web
 
@@ -22,26 +23,28 @@ parser:
 
 puml: $(ALL_SVG_FILES)
 
-simulator: parser
-	cd ../codegen/InterlockingCodegen && dotnet run -- ../../geographical_interlocking
+generic_application_simulator/src/schedule.rs: parser $(ALL_PUML_FILES)
+	cd ../codegen/InterlockingCodegen && dotnet run -- ../../$(CURRENT_DIR)
 
-wasm: simulator
-	cd simulator && wasm-pack build --target bundler
+generic_application_simulator/pkg/interlocking.js: generic_application_simulator/src/schedule.rs
+	cd generic_application_simulator && wasm-pack build --target bundler
 
-simulator/react/app/welcome/configuration.json: specific_application/configuration.json
-	cp specific_application/configuration.json simulator/react/app/welcome/configuration.json
+wasm: generic_application_simulator/pkg/interlocking.js
 
-simulator/react/node_modules: simulator/react/package.json simulator/react/package-lock.json
-	cd simulator/react && npm ci
+web: generic_application_simulator/pkg/interlocking.js specific_application/configuration.json
+	cp specific_application/configuration.json ../resources/simulator/app/welcome/configuration.json
+	cp -r generic_application_simulator/pkg/ ../resources/simulator/interlocking/
+	make -C ../resources/simulator web
 
-web: wasm simulator/react/app/welcome/configuration.json simulator/react/node_modules
-	cd simulator/react && npm run build && npm run start
+build: generic_application_simulator/pkg/interlocking.js specific_application/configuration.json
+	cp specific_application/configuration.json ../resources/simulator/app/welcome/configuration.json
+	cp -r generic_application_simulator/pkg/ ../resources/simulator/interlocking/
+	make -C ../resources/simulator build
 
-build: wasm simulator/react/app/welcome/configuration.json simulator/react/node_modules
-	cd simulator/react && npm run build
-
-dev: wasm simulator/react/app/welcome/configuration.json simulator/react/node_modules
-	cd simulator/react && npm run dev
+dev: generic_application_simulator/pkg/interlocking.js specific_application/configuration.json
+	cp specific_application/configuration.json ../resources/simulator/app/welcome/configuration.json
+	cp -r generic_application_simulator/pkg/ ../resources/simulator/interlocking/
+	make -C ../resources/simulator dev
 
 b:
-	cd ../codegen/SpecificApplicationCodegen && dotnet run -- ../../geographical_interlocking
+	cd ../codegen/SpecificApplicationCodegen && dotnet run -- ../../$(CURRENT_DIR)

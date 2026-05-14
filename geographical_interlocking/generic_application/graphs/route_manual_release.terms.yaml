@@ -1,7 +1,7 @@
 entity_type: Transit
 terms:
   CommandReleaseRoute:
-    expression: RouteManualReleaseDispatch[@ise].State == ActiveInactive::ACTIVE
+    expression: RouteManualReleaseDispatch[@infrastructure_element].State == ActiveInactive::ACTIVE
     default: false
   CommandUnsetManualReleaseRestriction:
     # expression: sci_cc.msg_unset_manual_release_restriction == true

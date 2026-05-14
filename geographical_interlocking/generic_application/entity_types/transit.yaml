@@ -11,9 +11,9 @@ interfaces:
           false: Transit.State != ActiveInactive::ACTIVE
         default: true
 properties:
-  ise:
-    description: ISE that this transit belongs to.
-    type: Ise
+  infrastructure_element:
+    description: Infrastructure element that this transit belongs to.
+    type: InfrastructureElement
     min: !!int 1
     max: !!int 1
   underlying_zone:

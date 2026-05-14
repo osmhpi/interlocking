@@ -8,10 +8,10 @@ INITIALIZATION
   signal_open := FALSE
 OPERATIONS
   
-  ComputeOutputs(SignalControl_State) = BEGIN
-IF bool(SignalControl_State = OpenCloseState_OPEN) = TRUE THEN
+  ComputeOutputs(Signal_State) = BEGIN
+IF bool(Signal_State = OpenCloseState_OPEN) = TRUE THEN
         signal_open := TRUE
-      ELSIF bool(SignalControl_State /= OpenCloseState_OPEN) = TRUE THEN
+      ELSIF bool(Signal_State /= OpenCloseState_OPEN) = TRUE THEN
         signal_open := FALSE
       ELSE
         signal_open := FALSE

@@ -13,8 +13,8 @@ interfaces:
         description: Indicates whether a signal is open.
         type: boolean
         mapping:
-          true: SignalControl.State == OpenCloseState::OPEN
-          false: SignalControl.State != OpenCloseState::OPEN
+          true: Signal.State == OpenCloseState::OPEN
+          false: Signal.State != OpenCloseState::OPEN
         default: false
         kind: continuous
   SCIRBC:

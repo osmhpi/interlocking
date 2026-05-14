@@ -36,12 +36,12 @@ INITIALIZATION
   State := EulynxCommandedEndPosition_NOT_COMMANDED;
   GraphState_root := STATE_PointOperation_root___initial
 OPERATIONS
-  InitialTransition(Point_State, SCIP_DetectedEndPosition, all_points_PointOperation_Top, NOW) =
+  InitialTransition(PointNominalPosition_State, SCIP_DetectedEndPosition, all_points_PointOperation_Top, NOW) =
     BEGIN
       // Update Terms
-      PointTriggered := bool((Point_State = PointState_LEFT & PreviousPointState /= PointState_LEFT & SCIP_DetectedEndPosition /= EulynxEndPosition_LEFT) or (Point_State = PointState_RIGHT & PreviousPointState /= PointState_RIGHT & SCIP_DetectedEndPosition /= EulynxEndPosition_RIGHT)) ||
-      PointLeft := bool(Point_State = PointState_LEFT) ||
-      PointRight := bool(Point_State = PointState_RIGHT) ||
+      PointTriggered := bool((PointNominalPosition_State = PointState_LEFT & PreviousPointState /= PointState_LEFT & SCIP_DetectedEndPosition /= EulynxEndPosition_LEFT) or (PointNominalPosition_State = PointState_RIGHT & PreviousPointState /= PointState_RIGHT & SCIP_DetectedEndPosition /= EulynxEndPosition_RIGHT)) ||
+      PointLeft := bool(PointNominalPosition_State = PointState_LEFT) ||
+      PointRight := bool(PointNominalPosition_State = PointState_RIGHT) ||
       IsTop := bool(({ActiveInactive_ACTIVE} = all_points_PointOperation_Top or {} = all_points_PointOperation_Top)) ||
       TopTimeout := bool(NOW >= TopStart + 300);
       // Perform transition
@@ -62,12 +62,12 @@ PreviousPointState := PointState_RIGHT;
           GraphState_root := STATE_PointOperation_root_IDLE_UNDETERMINED
         END
     END;
-  Transition(Point_State, SCIP_DetectedEndPosition, all_points_PointOperation_Top, NOW) =
+  Transition(PointNominalPosition_State, SCIP_DetectedEndPosition, all_points_PointOperation_Top, NOW) =
     BEGIN
       // Update Terms
-      PointTriggered := bool((Point_State = PointState_LEFT & PreviousPointState /= PointState_LEFT & SCIP_DetectedEndPosition /= EulynxEndPosition_LEFT) or (Point_State = PointState_RIGHT & PreviousPointState /= PointState_RIGHT & SCIP_DetectedEndPosition /= EulynxEndPosition_RIGHT)) ||
-      PointLeft := bool(Point_State = PointState_LEFT) ||
-      PointRight := bool(Point_State = PointState_RIGHT) ||
+      PointTriggered := bool((PointNominalPosition_State = PointState_LEFT & PreviousPointState /= PointState_LEFT & SCIP_DetectedEndPosition /= EulynxEndPosition_LEFT) or (PointNominalPosition_State = PointState_RIGHT & PreviousPointState /= PointState_RIGHT & SCIP_DetectedEndPosition /= EulynxEndPosition_RIGHT)) ||
+      PointLeft := bool(PointNominalPosition_State = PointState_LEFT) ||
+      PointRight := bool(PointNominalPosition_State = PointState_RIGHT) ||
       IsTop := bool(({ActiveInactive_ACTIVE} = all_points_PointOperation_Top or {} = all_points_PointOperation_Top)) ||
       TopTimeout := bool(NOW >= TopStart + 300);
       // Perform transition

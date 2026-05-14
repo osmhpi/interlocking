@@ -1,4 +1,4 @@
-entity_type: Ise
+entity_type: InfrastructureElement
 terms:
   RouteReleaseRequested:
     expression: Any(route in @is_start_of_route_admission_check | SCICC[route].MsgReleaseRoute == true)

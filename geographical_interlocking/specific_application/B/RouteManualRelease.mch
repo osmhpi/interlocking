@@ -64,10 +64,10 @@ INITIALIZATION
   GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING___initial;
   GraphState_root := STATE_RouteManualRelease_root___initial
 OPERATIONS
-  InitialTransition(ise_RouteManualReleaseDispatch_State, signal_SCIRBC_ApproachLockingActive, NOW, time_delay_etcs_approach_locking, time_delay_unsupervised_train_approach_locking, Route_State, RouteMonitoring_State, approach_zone_Zone_State) =
+  InitialTransition(infrastructure_element_RouteManualReleaseDispatch_State, signal_SCIRBC_ApproachLockingActive, NOW, time_delay_etcs_approach_locking, time_delay_unsupervised_train_approach_locking, Route_State, RouteMonitoring_State, approach_zone_Zone_State) =
     BEGIN
       // Update Terms
-      CommandReleaseRoute := bool(ise_RouteManualReleaseDispatch_State = ActiveInactive_ACTIVE) ||
+      CommandReleaseRoute := bool(infrastructure_element_RouteManualReleaseDispatch_State = ActiveInactive_ACTIVE) ||
       CommandUnsetManualReleaseRestriction := FALSE ||
       ApproachTaken := bool(signal_SCIRBC_ApproachLockingActive = TRUE) ||
       ManualSignalClose := FALSE ||
@@ -86,10 +86,10 @@ OPERATIONS
           GraphState_root := STATE_RouteManualRelease_root_ROUTE_RELEASED;
           GraphState_root_ETCS_APPROACH_LOCKING := STATE_RouteManualRelease_root_ETCS_APPROACH_LOCKING___initial
     END;
-  Transition(ise_RouteManualReleaseDispatch_State, signal_SCIRBC_ApproachLockingActive, NOW, time_delay_etcs_approach_locking, time_delay_unsupervised_train_approach_locking, Route_State, RouteMonitoring_State, approach_zone_Zone_State) =
+  Transition(infrastructure_element_RouteManualReleaseDispatch_State, signal_SCIRBC_ApproachLockingActive, NOW, time_delay_etcs_approach_locking, time_delay_unsupervised_train_approach_locking, Route_State, RouteMonitoring_State, approach_zone_Zone_State) =
     BEGIN
       // Update Terms
-      CommandReleaseRoute := bool(ise_RouteManualReleaseDispatch_State = ActiveInactive_ACTIVE) ||
+      CommandReleaseRoute := bool(infrastructure_element_RouteManualReleaseDispatch_State = ActiveInactive_ACTIVE) ||
       CommandUnsetManualReleaseRestriction := FALSE ||
       ApproachTaken := bool(signal_SCIRBC_ApproachLockingActive = TRUE) ||
       ManualSignalClose := FALSE ||

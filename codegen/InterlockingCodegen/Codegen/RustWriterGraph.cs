@@ -31,7 +31,7 @@ static partial class RustWriter
     {
       var visitor = new ExpressionToRustVisitor(true, entityType, spec.Interfaces); // pass a flag to enable context-aware codegen
       var exprText = visitor.Visit(expr);
-      return $"    pub fn {fnName}(&self, ctx: &EvalContext, now: timestamp) -> bool {{\n        ({exprText}).unwrap_or({(@default ? "true" : "false")})\n    }}";
+      return $"    #[allow(unused_variables)]\n#[allow(non_snake_case)]\n    pub fn {fnName}(&self, ctx: &EvalContext, now: timestamp) -> bool {{\n        ({exprText}).unwrap_or({(@default ? "true" : "false")})\n    }}";
     }
 
     // Generate Rust boolean functions for each term, context-aware
@@ -42,7 +42,7 @@ static partial class RustWriter
       {
         var fnName = term.Key;
         var expr = term.Value.ParsedTree;
-        if (expr == null) return $"    pub fn {fnName}(&self, ctx: &EvalContext, now: timestamp) -> bool {{\n        {(term.Value.Default ? "true" : "false")}\n    }}";
+        if (expr == null) return $"    #[allow(unused_variables)]\n#[allow(non_snake_case)]\n    pub fn {fnName}(&self, ctx: &EvalContext, now: timestamp) -> bool {{\n        {(term.Value.Default ? "true" : "false")}\n    }}";
         return ToRustBoolFunctionWithContext(fnName, expr, term.Value.Default);
       }));
     }
@@ -54,6 +54,7 @@ use web_sys;
 use crate::{{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp}};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct {structName} {{
     __state: root_State,
     pub entity: Entities{graph.Terms?.Entity_type ?? string.Empty}Item,
@@ -61,6 +62,7 @@ pub struct {structName} {{
 {termFields}
 }}
 
+#[allow(non_snake_case)]
 impl {structName} {{
     pub fn new(entity: Entities{graph.Terms?.Entity_type ?? string.Empty}Item) -> Self {{
         Self {{
@@ -158,11 +160,11 @@ impl Graph for {structName} {{
       var stateIsNested = subgraph.NestedSubgraphs.ContainsKey(state);
       if (stateIsNested)
       {
-        fnLines.Add($"    fn transition_from_{parent}_{state}(&mut self, s: {parent}_{state}_State, now: timestamp) -> {parent}_State {{");
+        fnLines.Add($"    #[allow(unused_variables)]\n    #[allow(non_snake_case)]\n    fn transition_from_{parent}_{state}(&mut self, s: {parent}_{state}_State, now: timestamp) -> {parent}_State {{");
       }
       else
       {
-        fnLines.Add($"    fn transition_from_{parent}_{state}(&mut self, now: timestamp) -> {parent}_State {{");
+        fnLines.Add($"    #[allow(unused_variables)]\n    #[allow(non_snake_case)]\n    fn transition_from_{parent}_{state}(&mut self, now: timestamp) -> {parent}_State {{");
       }
       foreach (var t in stateTransitions)
       {
@@ -254,6 +256,7 @@ impl Graph for {structName} {{
 
     var rust = $@"
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum {parent}_State {{
     {enumStates}
 }}
@@ -261,6 +264,7 @@ pub enum {parent}_State {{
 impl {structName} {{
 {transitionFns}
 
+    #[allow(non_snake_case)]
     fn transition_{parent}(&mut self, state: {parent}_State, now: timestamp) -> {parent}_State {{
         // Performs a state transition if possible
         match state {{

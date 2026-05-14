@@ -31,8 +31,10 @@ static partial class RustWriter
 
     // Helper for PascalCase
     string PascalCase(string s) => char.ToUpperInvariant(s[0]) + s.Substring(1);
+    string SnakeCase(string s) => string.Concat(s.Select((x, i) => char.IsUpper(x) ? (i > 0 ? "_" : "") + char.ToLowerInvariant(x) : x.ToString()));
 
     // 2. Schedule struct
+    lines.Add("#[allow(non_snake_case)]");
     lines.Add("pub struct Schedule {");
     foreach (var graph in graphs)
       lines.Add($"    pub {graph.Name}: Vec<{PascalCase(graph.Name)}StateMachine>,");
@@ -42,6 +44,7 @@ static partial class RustWriter
     lines.Add("");
 
     // 3. ScheduleBuilder struct
+    lines.Add("#[allow(non_snake_case)]");
     lines.Add("pub struct ScheduleBuilder {");
     foreach (var graph in graphs)
       lines.Add($"    {graph.Name}: Vec<{PascalCase(graph.Name)}StateMachine>,");
@@ -52,11 +55,12 @@ static partial class RustWriter
 
     // 4. ScheduleBuilder::new
     lines.Add("impl ScheduleBuilder {");
+    lines.Add("    #[allow(non_snake_case)]");
     lines.Add("    pub fn new(entities: Entities) -> Self {");
     foreach (var graph in graphs)
     {
       lines.Add($"        let mut {graph.Name} = Vec::new();");
-      lines.Add($"        entities.{graph.Terms.Entity_type.ToLowerInvariant()}.iter().for_each(|x| {{");
+      lines.Add($"        entities.{SnakeCase(graph.Terms.Entity_type)}.iter().for_each(|x| {{");
       lines.Add($"            {graph.Name}.push({PascalCase(graph.Name)}StateMachine::new(x.clone()));");
       lines.Add("        });");
     }
@@ -90,6 +94,7 @@ static partial class RustWriter
 
     // Add a Rust function to build EvalContext from &self
     lines.Add("impl Schedule {");
+    lines.Add("    #[allow(non_snake_case)]");
     lines.Add("    fn build_eval_context(&self) -> EvalContext {");
     foreach (var (concept, iface) in conceptInterfaces)
     {

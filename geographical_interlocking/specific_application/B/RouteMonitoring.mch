@@ -24,24 +24,24 @@ INITIALIZATION
   State := ActiveInactive_INACTIVE;
   GraphState_root := STATE_RouteMonitoring_root___initial
 OPERATIONS
-  InitialTransition(requires_point_right_PointControl_Right, requires_point_left_PointControl_Left, Route_State, transit_in_opposite_direction_Transit_State, downstream_link_right_LinkLTR_State, downstream_link_left_LinkRTL_State, ise_RouteFindingResponse_Admit) =
+  InitialTransition(requires_point_right_PointMonitoring_Right, requires_point_left_PointMonitoring_Left, Route_State, transit_in_opposite_direction_Transit_State, downstream_link_right_LinkLTR_State, downstream_link_left_LinkRTL_State, infrastructure_element_RouteFindingResponse_Admit) =
     BEGIN
       // Update Terms
-      PointsControlled := bool(({ActiveInactive_ACTIVE} = requires_point_right_PointControl_Right or {} = requires_point_right_PointControl_Right) & ({ActiveInactive_ACTIVE} = requires_point_left_PointControl_Left or {} = requires_point_left_PointControl_Left)) ||
+      PointsControlled := bool(({ActiveInactive_ACTIVE} = requires_point_right_PointMonitoring_Right or {} = requires_point_right_PointMonitoring_Right) & ({ActiveInactive_ACTIVE} = requires_point_left_PointMonitoring_Left or {} = requires_point_left_PointMonitoring_Left)) ||
       RouteSet := bool(Route_State = RouteState_SET) ||
       InverseTransitInactive := bool(transit_in_opposite_direction_Transit_State = ActiveInactive_INACTIVE) ||
-      MonitoringComplete := bool(RouteSearch_ROUTE_MONITORED : downstream_link_right_LinkLTR_State or RouteSearch_ROUTE_MONITORED : downstream_link_left_LinkRTL_State or ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_END or ise_RouteFindingResponse_Admit = RouteAdmission_ROUTE_END);
+      MonitoringComplete := bool(RouteSearch_ROUTE_MONITORED : downstream_link_right_LinkLTR_State or RouteSearch_ROUTE_MONITORED : downstream_link_left_LinkRTL_State or infrastructure_element_RouteFindingResponse_Admit = RouteAdmission_ADMIT_END or infrastructure_element_RouteFindingResponse_Admit = RouteAdmission_ROUTE_END);
       // Perform transition
         State := ActiveInactive_INACTIVE;
           GraphState_root := STATE_RouteMonitoring_root_NOT_CONTROLLED
     END;
-  Transition(requires_point_right_PointControl_Right, requires_point_left_PointControl_Left, Route_State, transit_in_opposite_direction_Transit_State, downstream_link_right_LinkLTR_State, downstream_link_left_LinkRTL_State, ise_RouteFindingResponse_Admit) =
+  Transition(requires_point_right_PointMonitoring_Right, requires_point_left_PointMonitoring_Left, Route_State, transit_in_opposite_direction_Transit_State, downstream_link_right_LinkLTR_State, downstream_link_left_LinkRTL_State, infrastructure_element_RouteFindingResponse_Admit) =
     BEGIN
       // Update Terms
-      PointsControlled := bool(({ActiveInactive_ACTIVE} = requires_point_right_PointControl_Right or {} = requires_point_right_PointControl_Right) & ({ActiveInactive_ACTIVE} = requires_point_left_PointControl_Left or {} = requires_point_left_PointControl_Left)) ||
+      PointsControlled := bool(({ActiveInactive_ACTIVE} = requires_point_right_PointMonitoring_Right or {} = requires_point_right_PointMonitoring_Right) & ({ActiveInactive_ACTIVE} = requires_point_left_PointMonitoring_Left or {} = requires_point_left_PointMonitoring_Left)) ||
       RouteSet := bool(Route_State = RouteState_SET) ||
       InverseTransitInactive := bool(transit_in_opposite_direction_Transit_State = ActiveInactive_INACTIVE) ||
-      MonitoringComplete := bool(RouteSearch_ROUTE_MONITORED : downstream_link_right_LinkLTR_State or RouteSearch_ROUTE_MONITORED : downstream_link_left_LinkRTL_State or ise_RouteFindingResponse_Admit = RouteAdmission_ADMIT_END or ise_RouteFindingResponse_Admit = RouteAdmission_ROUTE_END);
+      MonitoringComplete := bool(RouteSearch_ROUTE_MONITORED : downstream_link_right_LinkLTR_State or RouteSearch_ROUTE_MONITORED : downstream_link_left_LinkRTL_State or infrastructure_element_RouteFindingResponse_Admit = RouteAdmission_ADMIT_END or infrastructure_element_RouteFindingResponse_Admit = RouteAdmission_ROUTE_END);
       // Perform transition
       SELECT GraphState_root = STATE_RouteMonitoring_root_NOT_CONTROLLED THEN 
         IF PointsControlled = TRUE & RouteSet = TRUE & InverseTransitInactive = TRUE & MonitoringComplete = TRUE THEN

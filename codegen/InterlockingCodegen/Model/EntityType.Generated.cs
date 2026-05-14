@@ -64,13 +64,15 @@ namespace FormalInterlocking.Model
         /// <summary>
         /// Map from possible output values to expressions.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("mapping", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.IDictionary<string, string> Mapping { get; set; }
+        [Newtonsoft.Json.JsonProperty("mapping", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.IDictionary<string, string> Mapping { get; set; } = new System.Collections.Generic.Dictionary<string, string>();
 
         /// <summary>
         /// Default value for the output.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("default", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("default", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public DefaultValue Default { get; set; }
 
 

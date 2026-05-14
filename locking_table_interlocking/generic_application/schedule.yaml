@@ -22,20 +22,18 @@ groups:
     - entity_type: Point
       graph: PointLockRight
     - entity_type: Point
-      graph: Point
+      graph: PointNominalPosition
     - entity_type: Point
-      graph: PointControl
+      graph: PointMonitoring
     - entity_type: Point
       graph: PointOperation
   - grouping: by_graph
     entries:
     - entity_type: Route
       graph: RouteMonitoring
-    - entity_type: Route
-      graph: RouteControl
   - grouping: by_graph
     entries:
     - entity_type: Signal
-      graph: Signal
+      graph: SignalClaim
     - entity_type: Signal
-      graph: SignalControl
+      graph: Signal

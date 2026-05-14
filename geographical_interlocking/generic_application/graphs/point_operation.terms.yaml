@@ -1,14 +1,14 @@
 entity_type: Point
 terms:
   PointTriggered:
-    expression: (Point.State == PointState::LEFT && PreviousPointState != PointState::LEFT && SCIP.DetectedEndPosition != EulynxEndPosition::LEFT) ||
-                (Point.State == PointState::RIGHT && PreviousPointState != PointState::RIGHT && SCIP.DetectedEndPosition != EulynxEndPosition::RIGHT)
+    expression: (PointNominalPosition.State == PointState::LEFT && PreviousPointState != PointState::LEFT && SCIP.DetectedEndPosition != EulynxEndPosition::LEFT) ||
+                (PointNominalPosition.State == PointState::RIGHT && PreviousPointState != PointState::RIGHT && SCIP.DetectedEndPosition != EulynxEndPosition::RIGHT)
     default: false
   PointLeft:
-    expression: Point.State == PointState::LEFT
+    expression: PointNominalPosition.State == PointState::LEFT
     default: false
   PointRight:
-    expression: Point.State == PointState::RIGHT
+    expression: PointNominalPosition.State == PointState::RIGHT
     default: false
   IsTop:
     expression: All(point in @all_points | PointOperation[point].Top == ActiveInactive::ACTIVE)
@@ -19,7 +19,7 @@ terms:
 variables:
   PreviousPointState:
     type: PointState
-    description: The state of the point graph of the previous cycle.
+    description: The state of the point nominal position graph of the previous cycle.
     default: PointState::UNDETERMINED
   Top:
     type: ActiveInactive

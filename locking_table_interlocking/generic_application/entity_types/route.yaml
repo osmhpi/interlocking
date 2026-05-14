@@ -24,16 +24,6 @@ properties:
     type: Point
     min: !!int 0
     max: unbounded
-  request_points_controlled_right:
-    description: Points that must be controlled in right end position.
-    type: Point
-    min: !!int 0
-    max: unbounded
-  request_points_controlled_left:
-    description: Points that must be controlled in left end position.
-    type: Point
-    min: !!int 0
-    max: unbounded
   transits_in_opposite_route_direction:
     description: Transits that are in opposite direction of the route.
     type: Transit

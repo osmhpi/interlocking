@@ -28,9 +28,9 @@ interfaces:
           EulynxEndPosition::NO_END_POSITION: SCIP.DetectedEndPosition == EulynxEndPosition::NO_END_POSITION
         default: EulynxEndPosition::NO_END_POSITION
 properties:
-  ise:
-    description: ISE that this point belongs to.
-    type: Ise
+  infrastructure_element:
+    description: Infrastructure element that this point belongs to.
+    type: InfrastructureElement
     min: !!int 1
     max: !!int 1
   all_points:
