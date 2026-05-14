@@ -55,12 +55,14 @@ public static class JsonSchemaWriter
                 // If cardinality allows multiple, wrap in array
                 if ((min.HasValue && min.Value > 1) || (max.HasValue && (max.Value > 1 || isUnbounded)))
                 {
-                  return new Dictionary<string, object?> {
+                  var result = new Dictionary<string, object?> {
                     ["type"] = "array",
                     ["items"] = propSchema,
                     ["minItems"] = min,
-                    ["maxItems"] = isUnbounded ? null : max
                   };
+                  if (!isUnbounded && max.HasValue)
+                    result["maxItems"] = max.Value;
+                  return result;
                 }
                 // If this property is a reference to another concept (not a primitive type)
                 bool isReference = !(propType == "boolean" || propType == "integer" || propType == "number" || propType == "string");
@@ -77,13 +79,15 @@ public static class JsonSchemaWriter
                   // Multiple references
                   else
                   {
-                    return new Dictionary<string, object?> {
+                    var result = new Dictionary<string, object?> {
                       ["type"] = "array",
                       ["items"] = new Dictionary<string, object?> { ["type"] = "string" },
                       ["description"] = p.Value.Description,
                       ["minItems"] = min,
-                      ["maxItems"] = isUnbounded ? null : max
                     };
+                    if (!isUnbounded && max.HasValue)
+                      result["maxItems"] = max.Value;
+                    return result;
                   }
                 }
                 return propSchema;
