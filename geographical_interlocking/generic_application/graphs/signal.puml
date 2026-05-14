@@ -1,10 +1,10 @@
 @startuml Signal
 
-[*] --> SIGNAL_NOT_START: [1]
-SIGNAL_NOT_START --> SIGNAL_IS_START : [1] RouteIsSet
-SIGNAL_IS_START --> SIGNAL_NOT_START : [1] !RouteIsSet
+[*] --> CLOSED: [1]
+CLOSED --> OPEN : [1] RouteOpening
+OPEN --> CLOSED : [1] !RouteOpening
 
-SIGNAL_NOT_START: State = ActiveInactive::INACTIVE
-SIGNAL_IS_START: State = ActiveInactive::ACTIVE
+CLOSED: State = OpenCloseState::CLOSED
+OPEN: State = OpenCloseState::OPEN
 
 @enduml

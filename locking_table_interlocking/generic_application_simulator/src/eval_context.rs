@@ -23,7 +23,7 @@ pub type RouteMonitoring_map = HashMap<String, RouteMonitoringStateMachine>;
 #[allow(non_camel_case_types)]
 pub type Route_map = HashMap<String, RouteStateMachine>;
 #[allow(non_camel_case_types)]
-pub type SignalControl_map = HashMap<String, SignalControlStateMachine>;
+pub type SignalClaim_map = HashMap<String, SignalClaimStateMachine>;
 #[allow(non_camel_case_types)]
 pub type Signal_map = HashMap<String, SignalStateMachine>;
 #[allow(non_camel_case_types)]
@@ -59,7 +59,7 @@ pub struct EvalContext {
     pub RouteManualRelease: RouteManualRelease_map,
     pub RouteMonitoring: RouteMonitoring_map,
     pub Route: Route_map,
-    pub SignalControl: SignalControl_map,
+    pub SignalClaim: SignalClaim_map,
     pub Signal: Signal_map,
     pub Transit: Transit_map,
     pub Zone: Zone_map,

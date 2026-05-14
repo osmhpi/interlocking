@@ -9,8 +9,8 @@ use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::
 pub struct SignalStateMachine {
     __state: root_State,
     pub entity: EntitiesSignalItem,
-    pub State: ActiveInactive,
-    pub RouteIsSet_value: bool,
+    pub State: OpenCloseState,
+    pub RouteOpening_value: bool,
 }
 
 #[allow(non_snake_case)]
@@ -19,22 +19,22 @@ impl SignalStateMachine {
         Self {
             __state: root_State::__initial,
             entity,
-            State: { ActiveInactive::INACTIVE }
+            State: { OpenCloseState::CLOSED }
 ,
-            RouteIsSet_value: false
+            RouteOpening_value: false
         }
     }
 
     #[allow(unused_variables)]
 #[allow(non_snake_case)]
-    pub fn RouteIsSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (Some(self.entity.routes_starting_here.iter().any(|name| ctx.Route.get(name).unwrap().State == RouteState::SET))).unwrap_or(false)
+    pub fn RouteOpening(&self, ctx: &EvalContext, now: timestamp) -> bool {
+        (Some(self.entity.routes_starting_here.iter().any(|name| ctx.RouteMonitoring.get(name).unwrap().State == ActiveInactive::ACTIVE))).unwrap_or(false)
     }
 }
 
 impl Graph for SignalStateMachine {
     fn evaluate_terms(&mut self, ctx: &EvalContext, now: timestamp) {
-        self.RouteIsSet_value = self.RouteIsSet(ctx, now);
+        self.RouteOpening_value = self.RouteOpening(ctx, now);
     }
 
     fn transition(&mut self, now: timestamp) {
@@ -47,37 +47,37 @@ impl Graph for SignalStateMachine {
 #[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
-    SIGNAL_NOT_START,
-    SIGNAL_IS_START
+    CLOSED,
+    OPEN
 }
 
 impl SignalStateMachine {
     #[allow(unused_variables)]
     #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
-                    self.State = ActiveInactive::INACTIVE;
-                    web_sys::console::log_1(&format!("Signal({})=SIGNAL_NOT_START", self.entity.name).into());
-        return root_State::SIGNAL_NOT_START;
+                    self.State = OpenCloseState::CLOSED;
+                    web_sys::console::log_1(&format!("Signal({})=CLOSED", self.entity.name).into());
+        return root_State::CLOSED;
     }
 
     #[allow(unused_variables)]
     #[allow(non_snake_case)]
-    fn transition_from_root_SIGNAL_NOT_START(&mut self, now: timestamp) -> root_State {
-        if self.RouteIsSet_value {
-            self.State = ActiveInactive::ACTIVE;
-                        web_sys::console::log_1(&format!("Signal({})=SIGNAL_IS_START", self.entity.name).into());
-            return root_State::SIGNAL_IS_START; }
-        root_State::SIGNAL_NOT_START
+    fn transition_from_root_CLOSED(&mut self, now: timestamp) -> root_State {
+        if self.RouteOpening_value {
+            self.State = OpenCloseState::OPEN;
+                        web_sys::console::log_1(&format!("Signal({})=OPEN", self.entity.name).into());
+            return root_State::OPEN; }
+        root_State::CLOSED
     }
 
     #[allow(unused_variables)]
     #[allow(non_snake_case)]
-    fn transition_from_root_SIGNAL_IS_START(&mut self, now: timestamp) -> root_State {
-        if !(self.RouteIsSet_value) {
-            self.State = ActiveInactive::INACTIVE;
-                        web_sys::console::log_1(&format!("Signal({})=SIGNAL_NOT_START", self.entity.name).into());
-            return root_State::SIGNAL_NOT_START; }
-        root_State::SIGNAL_IS_START
+    fn transition_from_root_OPEN(&mut self, now: timestamp) -> root_State {
+        if !(self.RouteOpening_value) {
+            self.State = OpenCloseState::CLOSED;
+                        web_sys::console::log_1(&format!("Signal({})=CLOSED", self.entity.name).into());
+            return root_State::CLOSED; }
+        root_State::OPEN
     }
 
     #[allow(non_snake_case)]
@@ -85,8 +85,8 @@ impl SignalStateMachine {
         // Performs a state transition if possible
         match state {
             root_State::__initial => { self.transition_from_root___initial(now) }
-            root_State::SIGNAL_NOT_START => { self.transition_from_root_SIGNAL_NOT_START(now) }
-            root_State::SIGNAL_IS_START => { self.transition_from_root_SIGNAL_IS_START(now) }
+            root_State::CLOSED => { self.transition_from_root_CLOSED(now) }
+            root_State::OPEN => { self.transition_from_root_OPEN(now) }
         }
     }
 }

@@ -31,7 +31,7 @@ mod RouteMonitoring;
 #[allow(non_snake_case)]
 mod Route;
 #[allow(non_snake_case)]
-mod SignalControl;
+mod SignalClaim;
 #[allow(non_snake_case)]
 mod Signal;
 #[allow(non_snake_case)]
@@ -55,7 +55,7 @@ pub use RouteManualReleaseDispatch::RouteManualReleaseDispatchStateMachine;
 pub use RouteManualRelease::RouteManualReleaseStateMachine;
 pub use RouteMonitoring::RouteMonitoringStateMachine;
 pub use Route::RouteStateMachine;
-pub use SignalControl::SignalControlStateMachine;
+pub use SignalClaim::SignalClaimStateMachine;
 pub use Signal::SignalStateMachine;
 pub use Transit::TransitStateMachine;
 pub use Zone::ZoneStateMachine;

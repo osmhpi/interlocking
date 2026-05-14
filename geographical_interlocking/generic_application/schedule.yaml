@@ -49,6 +49,6 @@ groups:
   - grouping: by_graph
     entries:
     - entity_type: Signal
-      graph: Signal
+      graph: SignalClaim
     - entity_type: Signal
-      graph: SignalControl
+      graph: Signal

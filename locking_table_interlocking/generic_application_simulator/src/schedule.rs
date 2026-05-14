@@ -15,7 +15,7 @@ pub struct Schedule {
     pub RouteManualRelease: Vec<RouteManualReleaseStateMachine>,
     pub RouteMonitoring: Vec<RouteMonitoringStateMachine>,
     pub Route: Vec<RouteStateMachine>,
-    pub SignalControl: Vec<SignalControlStateMachine>,
+    pub SignalClaim: Vec<SignalClaimStateMachine>,
     pub Signal: Vec<SignalStateMachine>,
     pub Transit: Vec<TransitStateMachine>,
     pub Zone: Vec<ZoneStateMachine>,
@@ -40,7 +40,7 @@ pub struct ScheduleBuilder {
     RouteManualRelease: Vec<RouteManualReleaseStateMachine>,
     RouteMonitoring: Vec<RouteMonitoringStateMachine>,
     Route: Vec<RouteStateMachine>,
-    SignalControl: Vec<SignalControlStateMachine>,
+    SignalClaim: Vec<SignalClaimStateMachine>,
     Signal: Vec<SignalStateMachine>,
     Transit: Vec<TransitStateMachine>,
     Zone: Vec<ZoneStateMachine>,
@@ -93,9 +93,9 @@ impl ScheduleBuilder {
         entities.route.iter().for_each(|x| {
             Route.push(RouteStateMachine::new(x.clone()));
         });
-        let mut SignalControl = Vec::new();
+        let mut SignalClaim = Vec::new();
         entities.signal.iter().for_each(|x| {
-            SignalControl.push(SignalControlStateMachine::new(x.clone()));
+            SignalClaim.push(SignalClaimStateMachine::new(x.clone()));
         });
         let mut Signal = Vec::new();
         entities.signal.iter().for_each(|x| {
@@ -151,7 +151,7 @@ impl ScheduleBuilder {
             RouteManualRelease,
             RouteMonitoring,
             Route,
-            SignalControl,
+            SignalClaim,
             Signal,
             Transit,
             Zone,
@@ -177,7 +177,7 @@ impl ScheduleBuilder {
             RouteManualRelease: self.RouteManualRelease,
             RouteMonitoring: self.RouteMonitoring,
             Route: self.Route,
-            SignalControl: self.SignalControl,
+            SignalClaim: self.SignalClaim,
             Signal: self.Signal,
             Transit: self.Transit,
             Zone: self.Zone,
@@ -230,8 +230,8 @@ impl Schedule {
             self.RouteMonitoring.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
         let Route_map: HashMap<String, RouteStateMachine> =
             self.Route.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
-        let SignalControl_map: HashMap<String, SignalControlStateMachine> =
-            self.SignalControl.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
+        let SignalClaim_map: HashMap<String, SignalClaimStateMachine> =
+            self.SignalClaim.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
         let Signal_map: HashMap<String, SignalStateMachine> =
             self.Signal.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
         let Transit_map: HashMap<String, TransitStateMachine> =
@@ -248,7 +248,7 @@ impl Schedule {
             RouteManualRelease: RouteManualRelease_map,
             RouteMonitoring: RouteMonitoring_map,
             Route: Route_map,
-            SignalControl: SignalControl_map,
+            SignalClaim: SignalClaim_map,
             Signal: Signal_map,
             Transit: Transit_map,
             Zone: Zone_map,
@@ -312,15 +312,15 @@ impl Schedule {
             self.RouteMonitoring[i].evaluate_terms(&ctx, now);
             self.RouteMonitoring[i].transition(now);
         }
+        for i in 0..self.SignalClaim.len() {
+            let ctx = self.build_eval_context();
+            self.SignalClaim[i].evaluate_terms(&ctx, now);
+            self.SignalClaim[i].transition(now);
+        }
         for i in 0..self.Signal.len() {
             let ctx = self.build_eval_context();
             self.Signal[i].evaluate_terms(&ctx, now);
             self.Signal[i].transition(now);
-        }
-        for i in 0..self.SignalControl.len() {
-            let ctx = self.build_eval_context();
-            self.SignalControl[i].evaluate_terms(&ctx, now);
-            self.SignalControl[i].transition(now);
         }
         let ctx = self.build_eval_context();
         for iface in &mut self.Point_SCIP { iface.complete_cycle(&ctx); }
