@@ -23,6 +23,7 @@ impl SignalControlStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn RouteOpening(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.routes_starting_here.iter().any(|name| ctx.RouteControl.get(name).unwrap().State == OpenCloseState::OPEN))).unwrap_or(false)
     }
@@ -47,12 +48,14 @@ pub enum root_State {
 }
 
 impl SignalControlStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = OpenCloseState::CLOSED;
                     web_sys::console::log_1(&format!("SignalControl({})=CLOSED", self.entity.name).into());
         return root_State::CLOSED;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_CLOSED(&mut self, now: timestamp) -> root_State {
         if self.RouteOpening_value {
             self.State = OpenCloseState::OPEN;
@@ -61,6 +64,7 @@ impl SignalControlStateMachine {
         root_State::CLOSED
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_OPEN(&mut self, now: timestamp) -> root_State {
         if !(self.RouteOpening_value) {
             self.State = OpenCloseState::CLOSED;

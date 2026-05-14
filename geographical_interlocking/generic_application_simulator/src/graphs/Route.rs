@@ -37,11 +37,12 @@ impl RouteStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn RouteRequested(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match ((match (match (Some(ctx.RouteFindingSearch.get(&self.entity.ise).unwrap().Check), Some(RouteChecking::CHECK_START)) {
+        (match ((match (match (Some(ctx.RouteFindingSearch.get(&self.entity.infrastructure_element).unwrap().Check), Some(RouteChecking::CHECK_START)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
-  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.ise).unwrap().Admit), Some(RouteAdmission::INACTIVE)) {
+  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.infrastructure_element).unwrap().Admit), Some(RouteAdmission::INACTIVE)) {
     (Some(l), Some(r)) => Some(l != r),
     _ => None
   }) {
@@ -56,29 +57,30 @@ impl RouteStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn MatchesDiversion(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match ((match ((match ((match (match (Some(ctx.RouteFindingSearch.get(&self.entity.ise).unwrap().Check), Some(RouteChecking::CHECK_FROM_B)) {
+        (match ((match ((match ((match (match (Some(ctx.RouteFindingSearch.get(&self.entity.infrastructure_element).unwrap().Check), Some(RouteChecking::CHECK_FROM_B)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
-  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.ise).unwrap().Admit), Some(RouteAdmission::ADMIT_TO_A)) {
+  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.infrastructure_element).unwrap().Admit), Some(RouteAdmission::ADMIT_TO_A)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }) {
     (Some(a), Some(b)) => Some(a && b),
     _ => None
-  }), (match ((match (match (Some(ctx.RouteFindingSearch.get(&self.entity.ise).unwrap().Check), Some(RouteChecking::CHECK_START)) {
+  }), (match ((match (match (Some(ctx.RouteFindingSearch.get(&self.entity.infrastructure_element).unwrap().Check), Some(RouteChecking::CHECK_START)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
-  }, match (Some(ctx.RouteFindingSearch.get(&self.entity.ise).unwrap().Check), Some(RouteChecking::CHECK_FROM_A)) {
+  }, match (Some(ctx.RouteFindingSearch.get(&self.entity.infrastructure_element).unwrap().Check), Some(RouteChecking::CHECK_FROM_A)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }), (match (match (Some(ctx.RouteFindingResponse.get(&self.entity.ise).unwrap().Admit), Some(RouteAdmission::ADMIT_TO_B)) {
+  }), (match (match (Some(ctx.RouteFindingResponse.get(&self.entity.infrastructure_element).unwrap().Admit), Some(RouteAdmission::ADMIT_TO_B)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
-  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.ise).unwrap().Admit), Some(RouteAdmission::ADMIT_END)) {
+  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.infrastructure_element).unwrap().Admit), Some(RouteAdmission::ADMIT_END)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }) {
@@ -90,28 +92,28 @@ impl RouteStateMachine {
   })) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }), (match (match (Some(self.entity.requires_point_left.iter().all(|name| ctx.Point.get(name).unwrap().State != PointState::LEFT)), Some(self.entity.requires_point_left.iter().all(|name| ctx.Point.get(name).unwrap().State != PointState::RIGHT))) {
+  }), (match (match (Some(self.entity.requires_point_left.iter().all(|name| ctx.PointNominalPosition.get(name).unwrap().State != PointState::LEFT)), Some(self.entity.requires_point_left.iter().all(|name| ctx.PointNominalPosition.get(name).unwrap().State != PointState::RIGHT))) {
     (Some(a), Some(b)) => Some(a && b),
     _ => None
-  }, Some(self.entity.requires_point_left.iter().all(|name| ctx.Point.get(name).unwrap().State != PointState::UNDETERMINED))) {
+  }, Some(self.entity.requires_point_left.iter().all(|name| ctx.PointNominalPosition.get(name).unwrap().State != PointState::UNDETERMINED))) {
     (Some(a), Some(b)) => Some(a && b),
     _ => None
   })) {
     (Some(a), Some(b)) => Some(a && b),
     _ => None
-  }), (match ((match ((match (match (Some(ctx.RouteFindingSearch.get(&self.entity.ise).unwrap().Check), Some(RouteChecking::CHECK_FROM_A)) {
+  }), (match ((match ((match (match (Some(ctx.RouteFindingSearch.get(&self.entity.infrastructure_element).unwrap().Check), Some(RouteChecking::CHECK_FROM_A)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
-  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.ise).unwrap().Admit), Some(RouteAdmission::ADMIT_TO_C)) {
+  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.infrastructure_element).unwrap().Admit), Some(RouteAdmission::ADMIT_TO_C)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }) {
     (Some(a), Some(b)) => Some(a && b),
     _ => None
-  }), (match (match (Some(ctx.RouteFindingSearch.get(&self.entity.ise).unwrap().Check), Some(RouteChecking::CHECK_FROM_C)) {
+  }), (match (match (Some(ctx.RouteFindingSearch.get(&self.entity.infrastructure_element).unwrap().Check), Some(RouteChecking::CHECK_FROM_C)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
-  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.ise).unwrap().Admit), Some(RouteAdmission::ADMIT_TO_A)) {
+  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.infrastructure_element).unwrap().Admit), Some(RouteAdmission::ADMIT_TO_A)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }) {
@@ -120,10 +122,10 @@ impl RouteStateMachine {
   })) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }), (match (match (Some(self.entity.requires_point_left.iter().any(|name| ctx.Point.get(name).unwrap().State == PointState::LEFT)), Some(self.entity.requires_point_left.iter().any(|name| ctx.Point.get(name).unwrap().State == PointState::RIGHT))) {
+  }), (match (match (Some(self.entity.requires_point_left.iter().any(|name| ctx.PointNominalPosition.get(name).unwrap().State == PointState::LEFT)), Some(self.entity.requires_point_left.iter().any(|name| ctx.PointNominalPosition.get(name).unwrap().State == PointState::RIGHT))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.requires_point_left.iter().any(|name| ctx.Point.get(name).unwrap().State == PointState::UNDETERMINED))) {
+  }, Some(self.entity.requires_point_left.iter().any(|name| ctx.PointNominalPosition.get(name).unwrap().State == PointState::UNDETERMINED))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
   })) {
@@ -135,6 +137,7 @@ impl RouteStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn MatchesDirection(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (Some(self.entity.upstream_link_left.iter().any(|name| ctx.LinkRTL.get(name).unwrap().State == RouteSearch::ROUTE_SET)), Some(self.entity.upstream_link_right.iter().any(|name| ctx.LinkLTR.get(name).unwrap().State == RouteSearch::ROUTE_SET))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -148,17 +151,20 @@ impl RouteStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn PointsAvailable(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (Some(self.entity.requires_point_right.iter().all(|name| ctx.Point.get(name).unwrap().State == PointState::RIGHT)), Some(self.entity.requires_point_left.iter().all(|name| ctx.Point.get(name).unwrap().State == PointState::LEFT))) {
+        (match (Some(self.entity.requires_point_right.iter().all(|name| ctx.PointNominalPosition.get(name).unwrap().State == PointState::RIGHT)), Some(self.entity.requires_point_left.iter().all(|name| ctx.PointNominalPosition.get(name).unwrap().State == PointState::LEFT))) {
     (Some(a), Some(b)) => Some(a && b),
     _ => None
   }).unwrap_or(true)
     }
 
+    #[allow(unused_variables)]
     pub fn NoIncompatibleRoutes(&self, ctx: &EvalContext, now: timestamp) -> bool {
         true
     }
 
+    #[allow(unused_variables)]
     pub fn AutomaticReleaseEffective(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.RouteAutomaticRelease.get(&self.entity.name).unwrap().State), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -166,6 +172,7 @@ impl RouteStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn ManualReleaseEffective(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.RouteManualRelease.get(&self.entity.name).unwrap().ManualReleaseRequested), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -173,6 +180,7 @@ impl RouteStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn RouteBecameUnset(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(self.entity.upstream_link_right.iter().any(|name| ctx.LinkLTR.get(name).unwrap().State == RouteSearch::INACTIVE)), Some(self.entity.upstream_link_left.iter().any(|name| ctx.LinkRTL.get(name).unwrap().State == RouteSearch::INACTIVE))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -208,12 +216,14 @@ pub enum root_State {
 }
 
 impl RouteStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = RouteState::RELEASED;
                     web_sys::console::log_1(&format!("Route({})=RELEASED", self.entity.name).into());
         return root_State::RELEASED;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_RELEASED(&mut self, now: timestamp) -> root_State {
         if self.RouteRequested_value && self.MatchesDiversion_value && self.MatchesDirection_value {
 
@@ -221,6 +231,7 @@ impl RouteStateMachine {
         root_State::RELEASED
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_SET(&mut self, now: timestamp) -> root_State {
         if self.AutomaticReleaseEffective_value || self.ManualReleaseEffective_value || self.RouteBecameUnset_value {
             self.State = RouteState::RELEASED;
@@ -229,6 +240,7 @@ impl RouteStateMachine {
         root_State::SET
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_PREPARING(&mut self, now: timestamp) -> root_State {
         if self.PointsAvailable_value && self.NoIncompatibleRoutes_value {
             self.State = RouteState::SET;
@@ -237,6 +249,7 @@ impl RouteStateMachine {
         root_State::PREPARING
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_c(&mut self, now: timestamp) -> root_State {
         if self.PointsAvailable_value && self.NoIncompatibleRoutes_value {
             self.State = RouteState::SET;

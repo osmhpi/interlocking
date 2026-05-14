@@ -21,6 +21,15 @@ try
   {
       Directory.CreateDirectory($"{simulatorRoot}/src/graphs");
   }
+  else
+  {
+    // Clear existing graph files
+    var existingGraphFiles = Directory.GetFiles($"{simulatorRoot}/src/graphs", "*.rs");
+    foreach (var file in existingGraphFiles)
+    {
+        File.Delete(file);
+    }
+  }
 
   RustWriter.WriteGraphsModule(spec.Graphs, $"{simulatorRoot}/src/graphs/mod.rs");
   foreach (var graph in spec.Graphs)
@@ -41,6 +50,15 @@ try
   if (!Directory.Exists($"{simulatorRoot}/src/entity_types"))
   {
       Directory.CreateDirectory($"{simulatorRoot}/src/entity_types");
+  }
+  else
+  {
+    // Clear existing entity type files
+    var existingEntityTypeFiles = Directory.GetFiles($"{simulatorRoot}/src/entity_types", "*.rs");
+    foreach (var file in existingEntityTypeFiles)
+    {
+        File.Delete(file);
+    }
   }
 
   var conceptInterfaces = new List<(string ConceptName, string InterfaceName)>();

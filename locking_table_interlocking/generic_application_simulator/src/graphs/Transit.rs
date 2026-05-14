@@ -31,6 +31,7 @@ impl TransitStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn InitializationTimeoutExpired(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(self.StartInitialization).unwrap_or(timestamp { milliseconds: None }).milliseconds, Some(1000)) {
     (Some(t), Some(d)) => Some(now.milliseconds.unwrap_or(0) >= t + d as u64),
@@ -38,6 +39,7 @@ impl TransitStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn ZoneFree(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Zone.get(&self.entity.underlying_zone).unwrap().State), Some(OccupancyStatus::VACANT)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -45,10 +47,12 @@ impl TransitStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn UpstreamTransitsIdle(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.upstream_transits.iter().all(|name| ctx.Transit.get(name).unwrap().State == ActiveInactive::INACTIVE))).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn RequestedByRoute(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.activating_routes.iter().any(|name| ctx.Route.get(name).unwrap().State == RouteState::SET))).unwrap_or(false)
     }
@@ -77,6 +81,7 @@ pub enum root_State {
 }
 
 impl TransitStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = ActiveInactive::ACTIVE;
             self.StartInitialization = now;
@@ -84,6 +89,7 @@ impl TransitStateMachine {
         return root_State::INITIALIZING;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_INITIALIZING(&mut self, now: timestamp) -> root_State {
         if self.InitializationTimeoutExpired_value && self.UpstreamTransitsIdle_value && self.ZoneFree_value && !(self.RequestedByRoute_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -92,6 +98,7 @@ impl TransitStateMachine {
         root_State::INITIALIZING
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_IDLE(&mut self, now: timestamp) -> root_State {
         if self.RequestedByRoute_value {
             self.State = ActiveInactive::ACTIVE;
@@ -100,6 +107,7 @@ impl TransitStateMachine {
         root_State::IDLE
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ACTIVE(&mut self, now: timestamp) -> root_State {
         if self.UpstreamTransitsIdle_value && self.ZoneFree_value && !(self.RequestedByRoute_value) {
             self.State = ActiveInactive::INACTIVE;

@@ -15,6 +15,7 @@ impl Signal_SCICCStruct {
             signal_open: false,
         }
     }
+    #[allow(unused_variables)]
     pub fn complete_cycle(&mut self, ctx: &EvalContext) {
         self.signal_open = false;
         if (match (Some(ctx.SignalControl.get(&self.entity.name).unwrap().State), Some(OpenCloseState::OPEN)) {

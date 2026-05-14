@@ -1,11 +1,11 @@
 
-    // Auto-generated Rust state machine for PointControl
+    // Auto-generated Rust state machine for PointMonitoring
 
 use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
-pub struct PointControlStateMachine {
+pub struct PointMonitoringStateMachine {
     __state: root_State,
     pub entity: EntitiesPointItem,
     pub Left: ActiveInactive,
@@ -16,7 +16,7 @@ pub struct PointControlStateMachine {
     pub CommandedRight_value: bool,
 }
 
-impl PointControlStateMachine {
+impl PointMonitoringStateMachine {
     pub fn new(entity: EntitiesPointItem) -> Self {
         Self {
             __state: root_State::__initial,
@@ -31,6 +31,7 @@ impl PointControlStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn EndPositionLeftDetected(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::LEFT))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -38,6 +39,7 @@ impl PointControlStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn EndPositionRightDetected(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::RIGHT))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -45,22 +47,24 @@ impl PointControlStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn CommandedLeft(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (Some(ctx.Point.get(&self.entity.name).unwrap().State), Some(PointState::LEFT)) {
+        (match (Some(ctx.PointNominalPosition.get(&self.entity.name).unwrap().State), Some(PointState::LEFT)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn CommandedRight(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (Some(ctx.Point.get(&self.entity.name).unwrap().State), Some(PointState::RIGHT)) {
+        (match (Some(ctx.PointNominalPosition.get(&self.entity.name).unwrap().State), Some(PointState::RIGHT)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }).unwrap_or(false)
     }
 }
 
-impl Graph for PointControlStateMachine {
+impl Graph for PointMonitoringStateMachine {
     fn evaluate_terms(&mut self, ctx: &EvalContext, now: timestamp) {
         self.EndPositionLeftDetected_value = self.EndPositionLeftDetected(ctx, now);
         self.EndPositionRightDetected_value = self.EndPositionRightDetected(ctx, now);
@@ -77,68 +81,72 @@ impl Graph for PointControlStateMachine {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum root_State {
     __initial,
-    CONTROLLED_LEFT,
-    CONTROLLED_RIGHT,
-    NOT_CONTROLLED
+    MONITORED_LEFT,
+    MONITORED_RIGHT,
+    NOT_MONITORED
 }
 
-impl PointControlStateMachine {
+impl PointMonitoringStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
         if self.EndPositionLeftDetected_value {
             self.Left = ActiveInactive::ACTIVE;
             self.Right = ActiveInactive::INACTIVE;
-                        web_sys::console::log_1(&format!("PointControl({})=CONTROLLED_LEFT", self.entity.name).into());
-            return root_State::CONTROLLED_LEFT; }
+                        web_sys::console::log_1(&format!("PointMonitoring({})=MONITORED_LEFT", self.entity.name).into());
+            return root_State::MONITORED_LEFT; }
         if self.EndPositionRightDetected_value {
             self.Right = ActiveInactive::ACTIVE;
             self.Left = ActiveInactive::INACTIVE;
-                        web_sys::console::log_1(&format!("PointControl({})=CONTROLLED_RIGHT", self.entity.name).into());
-            return root_State::CONTROLLED_RIGHT; }
+                        web_sys::console::log_1(&format!("PointMonitoring({})=MONITORED_RIGHT", self.entity.name).into());
+            return root_State::MONITORED_RIGHT; }
                     self.Left = ActiveInactive::INACTIVE;
             self.Right = ActiveInactive::INACTIVE;
-                    web_sys::console::log_1(&format!("PointControl({})=NOT_CONTROLLED", self.entity.name).into());
-        return root_State::NOT_CONTROLLED;
+                    web_sys::console::log_1(&format!("PointMonitoring({})=NOT_MONITORED", self.entity.name).into());
+        return root_State::NOT_MONITORED;
     }
 
-    fn transition_from_root_CONTROLLED_LEFT(&mut self, now: timestamp) -> root_State {
+    #[allow(unused_variables)]
+    fn transition_from_root_MONITORED_LEFT(&mut self, now: timestamp) -> root_State {
         if !(self.EndPositionLeftDetected_value) || !(self.CommandedLeft_value) {
             self.Left = ActiveInactive::INACTIVE;
             self.Right = ActiveInactive::INACTIVE;
-                        web_sys::console::log_1(&format!("PointControl({})=NOT_CONTROLLED", self.entity.name).into());
-            return root_State::NOT_CONTROLLED; }
-        root_State::CONTROLLED_LEFT
+                        web_sys::console::log_1(&format!("PointMonitoring({})=NOT_MONITORED", self.entity.name).into());
+            return root_State::NOT_MONITORED; }
+        root_State::MONITORED_LEFT
     }
 
-    fn transition_from_root_CONTROLLED_RIGHT(&mut self, now: timestamp) -> root_State {
+    #[allow(unused_variables)]
+    fn transition_from_root_MONITORED_RIGHT(&mut self, now: timestamp) -> root_State {
         if !(self.EndPositionRightDetected_value) || !(self.CommandedRight_value) {
             self.Left = ActiveInactive::INACTIVE;
             self.Right = ActiveInactive::INACTIVE;
-                        web_sys::console::log_1(&format!("PointControl({})=NOT_CONTROLLED", self.entity.name).into());
-            return root_State::NOT_CONTROLLED; }
-        root_State::CONTROLLED_RIGHT
+                        web_sys::console::log_1(&format!("PointMonitoring({})=NOT_MONITORED", self.entity.name).into());
+            return root_State::NOT_MONITORED; }
+        root_State::MONITORED_RIGHT
     }
 
-    fn transition_from_root_NOT_CONTROLLED(&mut self, now: timestamp) -> root_State {
+    #[allow(unused_variables)]
+    fn transition_from_root_NOT_MONITORED(&mut self, now: timestamp) -> root_State {
         if self.EndPositionLeftDetected_value && self.CommandedLeft_value {
             self.Left = ActiveInactive::ACTIVE;
             self.Right = ActiveInactive::INACTIVE;
-                        web_sys::console::log_1(&format!("PointControl({})=CONTROLLED_LEFT", self.entity.name).into());
-            return root_State::CONTROLLED_LEFT; }
+                        web_sys::console::log_1(&format!("PointMonitoring({})=MONITORED_LEFT", self.entity.name).into());
+            return root_State::MONITORED_LEFT; }
         if self.EndPositionRightDetected_value && self.CommandedRight_value {
             self.Right = ActiveInactive::ACTIVE;
             self.Left = ActiveInactive::INACTIVE;
-                        web_sys::console::log_1(&format!("PointControl({})=CONTROLLED_RIGHT", self.entity.name).into());
-            return root_State::CONTROLLED_RIGHT; }
-        root_State::NOT_CONTROLLED
+                        web_sys::console::log_1(&format!("PointMonitoring({})=MONITORED_RIGHT", self.entity.name).into());
+            return root_State::MONITORED_RIGHT; }
+        root_State::NOT_MONITORED
     }
 
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {
             root_State::__initial => { self.transition_from_root___initial(now) }
-            root_State::CONTROLLED_LEFT => { self.transition_from_root_CONTROLLED_LEFT(now) }
-            root_State::CONTROLLED_RIGHT => { self.transition_from_root_CONTROLLED_RIGHT(now) }
-            root_State::NOT_CONTROLLED => { self.transition_from_root_NOT_CONTROLLED(now) }
+            root_State::MONITORED_LEFT => { self.transition_from_root_MONITORED_LEFT(now) }
+            root_State::MONITORED_RIGHT => { self.transition_from_root_MONITORED_RIGHT(now) }
+            root_State::NOT_MONITORED => { self.transition_from_root_NOT_MONITORED(now) }
         }
     }
 }

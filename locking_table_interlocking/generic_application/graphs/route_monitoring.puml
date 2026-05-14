@@ -1,10 +1,10 @@
 @startuml RouteMonitoring
 
-[*] --> NOT_CONTROLLED: [1]
-NOT_CONTROLLED -right-> CONTROLLED: [1] PointsControlled && RouteSet && InverseTransitsInactive
-CONTROLLED -left-> NOT_CONTROLLED: [1] !PointsControlled || !RouteSet || !InverseTransitsInactive
+[*] --> NOT_MONITORED: [1]
+NOT_MONITORED -right-> MONITORED: [1] PointsMonitored && RouteSet && InverseTransitsInactive
+MONITORED -left-> NOT_MONITORED: [1] !PointsMonitored || !RouteSet || !InverseTransitsInactive
 
-NOT_CONTROLLED: State = ActiveInactive::INACTIVE
-CONTROLLED: State = ActiveInactive::ACTIVE
+NOT_MONITORED: State = ActiveInactive::INACTIVE
+MONITORED: State = ActiveInactive::ACTIVE
 
 @enduml

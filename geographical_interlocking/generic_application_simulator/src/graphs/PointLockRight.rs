@@ -29,6 +29,7 @@ impl PointLockRightStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn PointInOppositePosition(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::RIGHT))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -36,14 +37,17 @@ impl PointLockRightStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn ZoneRequestsLock(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.locked_right_by_zones.iter().any(|name| ctx.Zone.get(name).unwrap().State == OccupancyStatus::OCCUPIED))).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn PointIsMoving(&self, ctx: &EvalContext, now: timestamp) -> bool {
         false
     }
 
+    #[allow(unused_variables)]
     pub fn TransitRequestsLock(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.locked_right_by_transits.iter().any(|name| ctx.Transit.get(name).unwrap().State == ActiveInactive::ACTIVE))).unwrap_or(false)
     }
@@ -71,6 +75,7 @@ pub enum root_State {
 }
 
 impl PointLockRightStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
         if self.PointInOppositePosition_value {
             self.State = ActiveInactive::INACTIVE;
@@ -81,6 +86,7 @@ impl PointLockRightStateMachine {
         return root_State::LOCKED;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_NOT_LOCKED(&mut self, now: timestamp) -> root_State {
         if self.ZoneRequestsLock_value || self.PointIsMoving_value || self.TransitRequestsLock_value {
             self.State = ActiveInactive::ACTIVE;
@@ -89,6 +95,7 @@ impl PointLockRightStateMachine {
         root_State::NOT_LOCKED
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_LOCKED(&mut self, now: timestamp) -> root_State {
         if !(self.ZoneRequestsLock_value) && !(self.PointIsMoving_value) && !(self.TransitRequestsLock_value) {
             self.State = ActiveInactive::INACTIVE;

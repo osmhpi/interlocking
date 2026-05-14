@@ -1,4 +1,4 @@
-@startuml PointControl
+@startuml PointMonitoring
 
 [*] --> CONTROLLED_LEFT: [1] EndPositionLeftDetected
 [*] --> CONTROLLED_RIGHT: [2] EndPositionRightDetected

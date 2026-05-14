@@ -23,6 +23,7 @@ impl ZoneStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn ZoneOccupied(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Zone_SCITDS.get(&self.entity.name).unwrap().OccupancyStatus), Some(Triggerable::Triggered(OccupancyStatus::VACANT))) {
     (Some(l), Some(r)) => Some(l != r),
@@ -50,12 +51,14 @@ pub enum root_State {
 }
 
 impl ZoneStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = OccupancyStatus::OCCUPIED;
                     web_sys::console::log_1(&format!("Zone({})=OCCUPIED", self.entity.name).into());
         return root_State::OCCUPIED;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_OCCUPIED(&mut self, now: timestamp) -> root_State {
         if !(self.ZoneOccupied_value) {
             self.State = OccupancyStatus::VACANT;
@@ -64,6 +67,7 @@ impl ZoneStateMachine {
         root_State::OCCUPIED
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_VACANT(&mut self, now: timestamp) -> root_State {
         if self.ZoneOccupied_value {
             self.State = OccupancyStatus::OCCUPIED;

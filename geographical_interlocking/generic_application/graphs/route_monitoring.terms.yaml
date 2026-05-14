@@ -1,8 +1,8 @@
 entity_type: Transit
 terms:
   PointsControlled:
-    expression: All(point in @requires_point_right | PointControl[point].Right == ActiveInactive::ACTIVE) &&
-                All(point in @requires_point_left | PointControl[point].Left == ActiveInactive::ACTIVE)
+    expression: All(point in @requires_point_right | PointMonitoring[point].Right == ActiveInactive::ACTIVE) &&
+                All(point in @requires_point_left | PointMonitoring[point].Left == ActiveInactive::ACTIVE)
     default: false
   RouteSet:
     expression: Route.State == RouteState::SET
@@ -13,8 +13,8 @@ terms:
   MonitoringComplete:
     expression: Any(link in @downstream_link_right | LinkLTR[link].State == RouteSearch::ROUTE_MONITORED) ||
       Any(link in @downstream_link_left | LinkRTL[link].State == RouteSearch::ROUTE_MONITORED) ||
-      RouteFindingResponse[@ise].Admit == RouteAdmission::ADMIT_END ||
-      RouteFindingResponse[@ise].Admit == RouteAdmission::ROUTE_END
+      RouteFindingResponse[@infrastructure_element].Admit == RouteAdmission::ADMIT_END ||
+      RouteFindingResponse[@infrastructure_element].Admit == RouteAdmission::ROUTE_END
     default: false
 variables:
   State:

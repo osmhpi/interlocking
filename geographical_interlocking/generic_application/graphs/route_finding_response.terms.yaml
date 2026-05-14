@@ -1,4 +1,4 @@
-entity_type: Ise
+entity_type: InfrastructureElement
 terms:
   Checking:
     expression: RouteFindingSearch.Check != RouteChecking::INACTIVE

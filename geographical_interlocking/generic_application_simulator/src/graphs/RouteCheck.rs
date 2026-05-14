@@ -27,6 +27,7 @@ impl RouteCheckStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn RouteRequested(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Route_SCICC.get(&self.entity.name).unwrap().MsgRequestRoute), Some(Triggerable::Triggered(true))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -34,6 +35,7 @@ impl RouteCheckStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn IsTop(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.all_routes.iter().all(|name| ctx.RouteCheck.get(name).unwrap().Top == ActiveInactive::ACTIVE))).unwrap_or(false)
     }
@@ -60,6 +62,7 @@ pub enum root_State {
 }
 
 impl RouteCheckStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.Top = ActiveInactive::ACTIVE;
             self.State = ActiveInactive::INACTIVE;
@@ -67,6 +70,7 @@ impl RouteCheckStateMachine {
         return root_State::INACTIVE;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_INACTIVE(&mut self, now: timestamp) -> root_State {
         if self.RouteRequested_value {
 
@@ -74,6 +78,7 @@ impl RouteCheckStateMachine {
         root_State::INACTIVE
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_WAITING(&mut self, now: timestamp) -> root_State {
         if self.IsTop_value {
             self.Top = ActiveInactive::INACTIVE;
@@ -83,6 +88,7 @@ impl RouteCheckStateMachine {
         root_State::WAITING
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_CHECKING(&mut self, now: timestamp) -> root_State {
                     self.Top = ActiveInactive::ACTIVE;
             self.State = ActiveInactive::INACTIVE;
@@ -91,6 +97,7 @@ impl RouteCheckStateMachine {
         root_State::CHECKING
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_c(&mut self, now: timestamp) -> root_State {
         if self.IsTop_value {
             self.Top = ActiveInactive::INACTIVE;

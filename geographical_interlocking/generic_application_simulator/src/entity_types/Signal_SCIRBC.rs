@@ -17,6 +17,7 @@ impl Signal_SCIRBCStruct {
             ApproachStatusRequested: false,
         }
     }
+    #[allow(unused_variables)]
     pub fn complete_cycle(&mut self, ctx: &EvalContext) {
         self.ApproachLockingActive = Triggerable::NotTriggered(false);
         self.ApproachStatusRequested = false;

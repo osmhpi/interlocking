@@ -53,17 +53,20 @@ impl RouteManualReleaseStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn CommandReleaseRoute(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (Some(ctx.RouteManualReleaseDispatch.get(&self.entity.ise).unwrap().State), Some(ActiveInactive::ACTIVE)) {
+        (match (Some(ctx.RouteManualReleaseDispatch.get(&self.entity.infrastructure_element).unwrap().State), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn CommandUnsetManualReleaseRestriction(&self, ctx: &EvalContext, now: timestamp) -> bool {
         false
     }
 
+    #[allow(unused_variables)]
     pub fn ApproachTaken(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (self.entity.signal.as_ref().map(|x| ctx.Signal_SCIRBC.get(x).unwrap().ApproachLockingActive), Some(Triggerable::Triggered(true))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -71,10 +74,12 @@ impl RouteManualReleaseStateMachine {
   }).unwrap_or(true)
     }
 
+    #[allow(unused_variables)]
     pub fn ManualSignalClose(&self, ctx: &EvalContext, now: timestamp) -> bool {
         false
     }
 
+    #[allow(unused_variables)]
     pub fn TimeoutWithholdMovementAuthorityExpired(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(self.StartWithholdMovementAuthority).unwrap_or(timestamp { milliseconds: None }).milliseconds, self.entity.time_delay_etcs_approach_locking) {
     (Some(t), Some(d)) => Some(now.milliseconds.unwrap_or(0) >= t + d as u64),
@@ -82,6 +87,7 @@ impl RouteManualReleaseStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn TimeoutUnsupervisedTrainApproachExpired(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(self.StartUnsupervisedTrainApproach).unwrap_or(timestamp { milliseconds: None }).milliseconds, self.entity.time_delay_unsupervised_train_approach_locking) {
     (Some(t), Some(d)) => Some(now.milliseconds.unwrap_or(0) >= t + d as u64),
@@ -89,10 +95,12 @@ impl RouteManualReleaseStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn ReleasePrevention(&self, ctx: &EvalContext, now: timestamp) -> bool {
         false
     }
 
+    #[allow(unused_variables)]
     pub fn RouteIsSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Route.get(&self.entity.name).unwrap().State), Some(RouteState::SET)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -100,6 +108,7 @@ impl RouteManualReleaseStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn RouteIsLocked(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.RouteMonitoring.get(&self.entity.name).unwrap().State), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -107,10 +116,12 @@ impl RouteManualReleaseStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn PassageLock(&self, ctx: &EvalContext, now: timestamp) -> bool {
         false
     }
 
+    #[allow(unused_variables)]
     pub fn ApproachZoneOccupied(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (self.entity.approach_zone.as_ref().map(|x| ctx.Zone.get(x).unwrap().State), Some(OccupancyStatus::OCCUPIED)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -148,6 +159,7 @@ pub enum root_State {
 }
 
 impl RouteManualReleaseStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.ManualReleaseRequested = ActiveInactive::INACTIVE;
             self.HoldApproachLocking = OpenCloseState::CLOSED;
@@ -157,6 +169,7 @@ impl RouteManualReleaseStateMachine {
         return root_State::ROUTE_RELEASED;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING(&mut self, s: root_ETCS_APPROACH_LOCKING_State, now: timestamp) -> root_State {
         if !(self.RouteIsSet_value) {
             self.ManualReleaseRequested = ActiveInactive::INACTIVE;
@@ -168,6 +181,7 @@ impl RouteManualReleaseStateMachine {
         root_State::ETCS_APPROACH_LOCKING(self.transition_root_ETCS_APPROACH_LOCKING(s.clone(), now))
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ROUTE_RELEASED(&mut self, now: timestamp) -> root_State {
         if self.RouteIsSet_value {
 
@@ -202,6 +216,7 @@ pub enum root_ETCS_APPROACH_LOCKING_State {
 }
 
 impl RouteManualReleaseStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING___initial(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         if self.RouteIsLocked_value {
             self.ManualReleaseRequested = ActiveInactive::INACTIVE;
@@ -218,14 +233,17 @@ impl RouteManualReleaseStateMachine {
         return root_ETCS_APPROACH_LOCKING_State::ROUTE_SET;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING_ETCS_APPROACH_LOCKING(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         root_ETCS_APPROACH_LOCKING_State::ETCS_APPROACH_LOCKING
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING_ROUTE_RELEASED(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         root_ETCS_APPROACH_LOCKING_State::ROUTE_RELEASED
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING_MARKER_BOARD_OPEN(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         if self.CommandReleaseRoute_value {
             self.ManualReleaseRequested = ActiveInactive::INACTIVE;
@@ -260,6 +278,7 @@ impl RouteManualReleaseStateMachine {
         root_ETCS_APPROACH_LOCKING_State::MARKER_BOARD_OPEN
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING_ROUTE_SET(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         if self.RouteIsLocked_value {
             self.ManualReleaseRequested = ActiveInactive::INACTIVE;
@@ -278,10 +297,12 @@ impl RouteManualReleaseStateMachine {
         root_ETCS_APPROACH_LOCKING_State::ROUTE_SET
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING_MANUAL_RELEASE_ACTIVE(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         root_ETCS_APPROACH_LOCKING_State::MANUAL_RELEASE_ACTIVE
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING_WITHHOLD_MA(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         if self.ApproachTaken_value || self.ApproachZoneOccupied_value {
             self.ManualReleaseRequested = ActiveInactive::INACTIVE;
@@ -300,6 +321,7 @@ impl RouteManualReleaseStateMachine {
         root_ETCS_APPROACH_LOCKING_State::WITHHOLD_MA
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         if !(self.ManualSignalClose_value) {
             self.ManualReleaseRequested = ActiveInactive::INACTIVE;
@@ -318,6 +340,7 @@ impl RouteManualReleaseStateMachine {
         root_ETCS_APPROACH_LOCKING_State::TRAIN_APPROACHING
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING_TRAIN_APPROACHING_ZONE(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         if !(self.ManualSignalClose_value) {
             self.ManualReleaseRequested = ActiveInactive::INACTIVE;
@@ -336,6 +359,7 @@ impl RouteManualReleaseStateMachine {
         root_ETCS_APPROACH_LOCKING_State::TRAIN_APPROACHING_ZONE
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING_APPROACH_FREE(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         if self.RouteIsLocked_value {
             self.ManualReleaseRequested = ActiveInactive::INACTIVE;
@@ -354,6 +378,7 @@ impl RouteManualReleaseStateMachine {
         root_ETCS_APPROACH_LOCKING_State::APPROACH_FREE
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ETCS_APPROACH_LOCKING_APPROACH_ZONE_TIMEOUT(&mut self, now: timestamp) -> root_ETCS_APPROACH_LOCKING_State {
         if self.RouteIsLocked_value {
             self.ManualReleaseRequested = ActiveInactive::INACTIVE;

@@ -29,6 +29,7 @@ impl RouteAutomaticReleaseStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn RouteIsSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Route.get(&self.entity.name).unwrap().State), Some(RouteState::SET)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -36,6 +37,7 @@ impl RouteAutomaticReleaseStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn OppositeTransitsInactive(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Transit.get(&self.entity.trigger_zone_opposite_transit).unwrap().State), Some(ActiveInactive::INACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -43,6 +45,7 @@ impl RouteAutomaticReleaseStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn TriggerZoneFree(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Zone.get(&self.entity.trigger_zone).unwrap().State), Some(OccupancyStatus::VACANT)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -73,6 +76,7 @@ pub enum root_State {
 }
 
 impl RouteAutomaticReleaseStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = ActiveInactive::INACTIVE;
             self.PassageLock = ActiveInactive::INACTIVE;
@@ -80,6 +84,7 @@ impl RouteAutomaticReleaseStateMachine {
         return root_State::INACTIVE;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_INACTIVE(&mut self, now: timestamp) -> root_State {
         if self.RouteIsSet_value && self.OppositeTransitsInactive_value && !(self.TriggerZoneFree_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -89,6 +94,7 @@ impl RouteAutomaticReleaseStateMachine {
         root_State::INACTIVE
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ACTIVE(&mut self, now: timestamp) -> root_State {
         if !(self.RouteIsSet_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -103,6 +109,7 @@ impl RouteAutomaticReleaseStateMachine {
         root_State::ACTIVE
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_EFFECTIVE(&mut self, now: timestamp) -> root_State {
         if !(self.RouteIsSet_value) {
             self.State = ActiveInactive::INACTIVE;

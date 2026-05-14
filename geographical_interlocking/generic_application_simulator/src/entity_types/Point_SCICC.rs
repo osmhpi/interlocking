@@ -15,6 +15,7 @@ impl Point_SCICCStruct {
             CurrentPosition: EulynxEndPosition::NO_END_POSITION,
         }
     }
+    #[allow(unused_variables)]
     pub fn complete_cycle(&mut self, ctx: &EvalContext) {
         self.CurrentPosition = EulynxEndPosition::NO_END_POSITION;
         if (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::LEFT))) {

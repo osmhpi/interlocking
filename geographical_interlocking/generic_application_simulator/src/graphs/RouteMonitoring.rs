@@ -29,13 +29,15 @@ impl RouteMonitoringStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn PointsControlled(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (Some(self.entity.requires_point_right.iter().all(|name| ctx.PointControl.get(name).unwrap().Right == ActiveInactive::ACTIVE)), Some(self.entity.requires_point_left.iter().all(|name| ctx.PointControl.get(name).unwrap().Left == ActiveInactive::ACTIVE))) {
+        (match (Some(self.entity.requires_point_right.iter().all(|name| ctx.PointMonitoring.get(name).unwrap().Right == ActiveInactive::ACTIVE)), Some(self.entity.requires_point_left.iter().all(|name| ctx.PointMonitoring.get(name).unwrap().Left == ActiveInactive::ACTIVE))) {
     (Some(a), Some(b)) => Some(a && b),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn RouteSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Route.get(&self.entity.name).unwrap().State), Some(RouteState::SET)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -43,6 +45,7 @@ impl RouteMonitoringStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn InverseTransitInactive(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Transit.get(&self.entity.transit_in_opposite_direction).unwrap().State), Some(ActiveInactive::INACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -50,17 +53,18 @@ impl RouteMonitoringStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn MonitoringComplete(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (Some(self.entity.downstream_link_right.iter().any(|name| ctx.LinkLTR.get(name).unwrap().State == RouteSearch::ROUTE_MONITORED)), Some(self.entity.downstream_link_left.iter().any(|name| ctx.LinkRTL.get(name).unwrap().State == RouteSearch::ROUTE_MONITORED))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.ise).unwrap().Admit), Some(RouteAdmission::ADMIT_END)) {
+  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.infrastructure_element).unwrap().Admit), Some(RouteAdmission::ADMIT_END)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.ise).unwrap().Admit), Some(RouteAdmission::ROUTE_END)) {
+  }, match (Some(ctx.RouteFindingResponse.get(&self.entity.infrastructure_element).unwrap().Admit), Some(RouteAdmission::ROUTE_END)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }) {
@@ -92,12 +96,14 @@ pub enum root_State {
 }
 
 impl RouteMonitoringStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = ActiveInactive::INACTIVE;
                     web_sys::console::log_1(&format!("RouteMonitoring({})=NOT_CONTROLLED", self.entity.name).into());
         return root_State::NOT_CONTROLLED;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_NOT_CONTROLLED(&mut self, now: timestamp) -> root_State {
         if self.PointsControlled_value && self.RouteSet_value && self.InverseTransitInactive_value && self.MonitoringComplete_value {
             self.State = ActiveInactive::ACTIVE;
@@ -106,6 +112,7 @@ impl RouteMonitoringStateMachine {
         root_State::NOT_CONTROLLED
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_CONTROLLED(&mut self, now: timestamp) -> root_State {
         if !(self.PointsControlled_value) || !(self.RouteSet_value) || !(self.InverseTransitInactive_value) || !(self.MonitoringComplete_value) {
             self.State = ActiveInactive::INACTIVE;

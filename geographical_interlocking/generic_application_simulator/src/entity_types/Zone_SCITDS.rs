@@ -17,6 +17,7 @@ impl Zone_SCITDSStruct {
             ResetSection: false,
         }
     }
+    #[allow(unused_variables)]
     pub fn complete_cycle(&mut self, ctx: &EvalContext) {
         self.ResetSection = false;
         if (match (Some(ctx.Zone.get(&self.entity.name).unwrap().State), Some(OccupancyStatus::VACANT)) {

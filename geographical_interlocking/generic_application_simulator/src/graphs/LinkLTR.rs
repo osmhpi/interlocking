@@ -33,97 +33,103 @@ impl LinkLTRStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn IsChecking(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (match (match (match (Some(self.entity.ise_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_B)), Some(self.entity.ise_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_C))) {
+        (match (match (match (match (Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_B)), Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_C))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_A))) {
+  }, Some(self.entity.element_left_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_c.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_A))) {
+  }, Some(self.entity.element_left_port_c.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_START))) {
+  }, Some(self.entity.element_left_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_START))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn IsCheckingOpposite(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (match (match (match (Some(self.entity.ise_right_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_B)), Some(self.entity.ise_right_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_C))) {
+        (match (match (match (match (Some(self.entity.element_right_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_B)), Some(self.entity.element_right_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_C))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_right_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_A))) {
+  }, Some(self.entity.element_right_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_right_port_c.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_A))) {
+  }, Some(self.entity.element_right_port_c.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_right_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_START))) {
+  }, Some(self.entity.element_right_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_START))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn IsAdmit(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (match (match (match (Some(self.entity.ise_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_B)), Some(self.entity.ise_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_C))) {
+        (match (match (match (match (Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_B)), Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_C))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_END))) {
+  }, Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_END))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_b.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_A))) {
+  }, Some(self.entity.element_left_port_b.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_c.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_A))) {
+  }, Some(self.entity.element_left_port_c.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn IsAdmitOpposite(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (match (match (match (Some(self.entity.ise_right_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_B)), Some(self.entity.ise_right_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_C))) {
+        (match (match (match (match (Some(self.entity.element_right_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_B)), Some(self.entity.element_right_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_C))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_right_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_END))) {
+  }, Some(self.entity.element_right_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_END))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_right_port_b.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_A))) {
+  }, Some(self.entity.element_right_port_b.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_right_port_c.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_A))) {
+  }, Some(self.entity.element_right_port_c.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn IsRouteSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (match (match (match (Some(self.entity.ise_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_B)), Some(self.entity.ise_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_C))) {
+        (match (match (match (match (Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_B)), Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_C))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_A))) {
+  }, Some(self.entity.element_left_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_c.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_A))) {
+  }, Some(self.entity.element_left_port_c.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_START))) {
+  }, Some(self.entity.element_left_port_b.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_START))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn IsRouteSetDownstream(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (match (match (match (Some(self.entity.ise_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_TO_B)), Some(self.entity.ise_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_TO_C))) {
+        (match (match (match (match (Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_TO_B)), Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_TO_C))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_END))) {
+  }, Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_END))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_b.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_TO_A))) {
+  }, Some(self.entity.element_left_port_b.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_TO_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
-  }, Some(self.entity.ise_left_port_c.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_TO_A))) {
+  }, Some(self.entity.element_left_port_c.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_TO_A))) {
     (Some(a), Some(b)) => Some(a || b),
     _ => None
   }).unwrap_or(false)
@@ -157,12 +163,14 @@ pub enum root_State {
 }
 
 impl LinkLTRStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = RouteSearch::INACTIVE;
                     web_sys::console::log_1(&format!("LinkLTR({})=IDLE", self.entity.name).into());
         return root_State::IDLE;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_IDLE(&mut self, now: timestamp) -> root_State {
         if self.IsChecking_value && !(self.IsCheckingOpposite_value) {
             self.State = RouteSearch::SEARCH;
@@ -175,6 +183,7 @@ impl LinkLTRStateMachine {
         root_State::IDLE
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_CHECKING(&mut self, now: timestamp) -> root_State {
         if self.IsRouteSet_value && self.IsAdmitOpposite_value {
             self.State = RouteSearch::ROUTE_SET;
@@ -187,6 +196,7 @@ impl LinkLTRStateMachine {
         root_State::CHECKING
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ADMIT(&mut self, now: timestamp) -> root_State {
         if self.IsRouteSetDownstream_value {
             self.State = RouteSearch::ROUTE_MONITORED;
@@ -199,6 +209,7 @@ impl LinkLTRStateMachine {
         root_State::ADMIT
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ROUTE_SET(&mut self, now: timestamp) -> root_State {
         if !(self.IsRouteSet_value) {
             self.State = RouteSearch::INACTIVE;
@@ -207,6 +218,7 @@ impl LinkLTRStateMachine {
         root_State::ROUTE_SET
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ROUTE_MONITORED(&mut self, now: timestamp) -> root_State {
         if !(self.IsRouteSetDownstream_value) {
             self.State = RouteSearch::RESPONSE;

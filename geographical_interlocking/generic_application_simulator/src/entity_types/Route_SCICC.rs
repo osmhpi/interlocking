@@ -17,6 +17,7 @@ impl Route_SCICCStruct {
             MsgReleaseRoute: Triggerable::NotTriggered(false),
         }
     }
+    #[allow(unused_variables)]
     pub fn complete_cycle(&mut self, ctx: &EvalContext) {
         self.MsgRequestRoute = Triggerable::NotTriggered(false);
         self.MsgReleaseRoute = Triggerable::NotTriggered(false);

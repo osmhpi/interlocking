@@ -7,13 +7,13 @@ use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::
 #[derive(Clone)]
 pub struct RouteManualReleaseDispatchStateMachine {
     __state: root_State,
-    pub entity: EntitiesIseItem,
+    pub entity: EntitiesInfrastructureElementItem,
     pub State: ActiveInactive,
     pub RouteReleaseRequested_value: bool,
 }
 
 impl RouteManualReleaseDispatchStateMachine {
-    pub fn new(entity: EntitiesIseItem) -> Self {
+    pub fn new(entity: EntitiesInfrastructureElementItem) -> Self {
         Self {
             __state: root_State::__initial,
             entity,
@@ -23,6 +23,7 @@ impl RouteManualReleaseDispatchStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn RouteReleaseRequested(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.is_start_of_route_admission_check.iter().any(|name| ctx.Route_SCICC.get(name).unwrap().MsgReleaseRoute == Triggerable::Triggered(true)))).unwrap_or(false)
     }
@@ -47,12 +48,14 @@ pub enum root_State {
 }
 
 impl RouteManualReleaseDispatchStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = ActiveInactive::INACTIVE;
                     web_sys::console::log_1(&format!("RouteManualReleaseDispatch({})=IDLE", self.entity.name).into());
         return root_State::IDLE;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_IDLE(&mut self, now: timestamp) -> root_State {
         if self.RouteReleaseRequested_value {
             self.State = ActiveInactive::ACTIVE;
@@ -61,6 +64,7 @@ impl RouteManualReleaseDispatchStateMachine {
         root_State::IDLE
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ACTIVE(&mut self, now: timestamp) -> root_State {
         if !(self.RouteReleaseRequested_value) {
             self.State = ActiveInactive::INACTIVE;

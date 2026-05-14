@@ -1,0 +1,20 @@
+@startuml PointMonitoring
+
+[*] -left-> MONITORED_LEFT: [1] EndPositionLeftDetected
+[*] -right-> MONITORED_RIGHT: [2] EndPositionRightDetected
+[*] --> NOT_MONITORED: [3]
+
+NOT_MONITORED -left-> MONITORED_LEFT: [1] EndPositionLeftDetected && CommandedLeft
+NOT_MONITORED -right-> MONITORED_RIGHT: [2] EndPositionRightDetected && CommandedRight
+
+MONITORED_LEFT --> NOT_MONITORED: [1] !EndPositionLeftDetected || !CommandedLeft
+MONITORED_RIGHT --> NOT_MONITORED: [1] !EndPositionRightDetected || !CommandedRight
+
+MONITORED_LEFT: Left = ActiveInactive::ACTIVE
+MONITORED_LEFT: Right = ActiveInactive::INACTIVE
+MONITORED_RIGHT: Right = ActiveInactive::ACTIVE
+MONITORED_RIGHT: Left = ActiveInactive::INACTIVE
+NOT_MONITORED: Left = ActiveInactive::INACTIVE
+NOT_MONITORED: Right = ActiveInactive::INACTIVE
+
+@enduml

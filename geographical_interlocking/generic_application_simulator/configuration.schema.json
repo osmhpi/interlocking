@@ -3,7 +3,7 @@
   "title": "Entities",
   "type": "object",
   "properties": {
-    "Ise": {
+    "InfrastructureElement": {
       "type": "array",
       "items": {
         "type": "object",
@@ -116,57 +116,57 @@
       "items": {
         "type": "object",
         "properties": {
-          "ise_left_port_a": {
+          "element_left_port_a": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Left ISE of the link, connected at port A.",
+            "description": "Left infrastructure element of the link, connected at port A.",
             "minItems": 0,
             "maxItems": null
           },
-          "ise_left_port_b": {
+          "element_left_port_b": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Left ISE of the link, connected at port B.",
+            "description": "Left infrastructure element of the link, connected at port B.",
             "minItems": 0,
             "maxItems": null
           },
-          "ise_left_port_c": {
+          "element_left_port_c": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Left ISE of the link, connected at port C.",
+            "description": "Left infrastructure element of the link, connected at port C.",
             "minItems": 0,
             "maxItems": null
           },
-          "ise_right_port_a": {
+          "element_right_port_a": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Right ISE of the link, connected at port A.",
+            "description": "Right infrastructure element of the link, connected at port A.",
             "minItems": 0,
             "maxItems": null
           },
-          "ise_right_port_b": {
+          "element_right_port_b": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Right ISE of the link, connected at port B.",
+            "description": "Right infrastructure element of the link, connected at port B.",
             "minItems": 0,
             "maxItems": null
           },
-          "ise_right_port_c": {
+          "element_right_port_c": {
             "type": "array",
             "items": {
               "type": "string"
             },
-            "description": "Right ISE of the link, connected at port C.",
+            "description": "Right infrastructure element of the link, connected at port C.",
             "minItems": 0,
             "maxItems": null
           },
@@ -189,9 +189,9 @@
       "items": {
         "type": "object",
         "properties": {
-          "ise": {
+          "infrastructure_element": {
             "type": "string",
-            "description": "ISE that this point belongs to."
+            "description": "Infrastructure element that this point belongs to."
           },
           "all_points": {
             "type": "array",
@@ -246,7 +246,7 @@
           }
         },
         "required": [
-          "ise",
+          "infrastructure_element",
           "all_points",
           "name"
         ],
@@ -268,9 +268,9 @@
             "minItems": 0,
             "maxItems": null
           },
-          "start_ise_left": {
+          "start_element_left": {
             "type": "string",
-            "description": "The start ISE of the route."
+            "description": "The start infrastructure element of the route."
           },
           "name": {
             "type": "string",
@@ -347,9 +347,9 @@
       "items": {
         "type": "object",
         "properties": {
-          "ise": {
+          "infrastructure_element": {
             "type": "string",
-            "description": "ISE that this transit belongs to."
+            "description": "Infrastructure element that this transit belongs to."
           },
           "underlying_zone": {
             "type": "string",
@@ -459,7 +459,7 @@
           }
         },
         "required": [
-          "ise",
+          "infrastructure_element",
           "underlying_zone",
           "transit_in_opposite_direction",
           "name"
@@ -473,9 +473,9 @@
       "items": {
         "type": "object",
         "properties": {
-          "ise": {
+          "infrastructure_element": {
             "type": "string",
-            "description": "ISE that this zone belongs to."
+            "description": "Infrastructure element that this zone belongs to."
           },
           "name": {
             "type": "string",
@@ -485,7 +485,7 @@
           }
         },
         "required": [
-          "ise",
+          "infrastructure_element",
           "name"
         ],
         "additionalProperties": false

@@ -37,8 +37,9 @@ impl PointOperationStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn PointTriggered(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match ((match (match (match (Some(ctx.Point.get(&self.entity.name).unwrap().State), Some(PointState::LEFT)) {
+        (match ((match (match (match (Some(ctx.PointNominalPosition.get(&self.entity.name).unwrap().State), Some(PointState::LEFT)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }, match (Some(self.PreviousPointState), Some(PointState::LEFT)) {
@@ -53,7 +54,7 @@ impl PointOperationStateMachine {
   }) {
     (Some(a), Some(b)) => Some(a && b),
     _ => None
-  }), (match (match (match (Some(ctx.Point.get(&self.entity.name).unwrap().State), Some(PointState::RIGHT)) {
+  }), (match (match (match (Some(ctx.PointNominalPosition.get(&self.entity.name).unwrap().State), Some(PointState::RIGHT)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }, match (Some(self.PreviousPointState), Some(PointState::RIGHT)) {
@@ -74,24 +75,28 @@ impl PointOperationStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn PointLeft(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (Some(ctx.Point.get(&self.entity.name).unwrap().State), Some(PointState::LEFT)) {
+        (match (Some(ctx.PointNominalPosition.get(&self.entity.name).unwrap().State), Some(PointState::LEFT)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn PointRight(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (Some(ctx.Point.get(&self.entity.name).unwrap().State), Some(PointState::RIGHT)) {
+        (match (Some(ctx.PointNominalPosition.get(&self.entity.name).unwrap().State), Some(PointState::RIGHT)) {
     (Some(l), Some(r)) => Some(l == r),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn IsTop(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.all_points.iter().all(|name| ctx.PointOperation.get(name).unwrap().Top == ActiveInactive::ACTIVE))).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn TopTimeout(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(self.TopStart).unwrap_or(timestamp { milliseconds: None }).milliseconds, Some(300)) {
     (Some(t), Some(d)) => Some(now.milliseconds.unwrap_or(0) >= t + d as u64),
@@ -129,6 +134,7 @@ pub enum root_State {
 }
 
 impl PointOperationStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
         if self.PointLeft_value {
             self.PreviousPointState = PointState::LEFT;
@@ -149,6 +155,7 @@ impl PointOperationStateMachine {
         return root_State::IDLE_UNDETERMINED;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_IDLE_LEFT(&mut self, now: timestamp) -> root_State {
         if self.PointTriggered_value {
             self.PreviousPointState = PointState::RIGHT;
@@ -158,6 +165,7 @@ impl PointOperationStateMachine {
         root_State::IDLE_LEFT
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_IDLE_RIGHT(&mut self, now: timestamp) -> root_State {
         if self.PointTriggered_value {
             self.PreviousPointState = PointState::LEFT;
@@ -167,6 +175,7 @@ impl PointOperationStateMachine {
         root_State::IDLE_RIGHT
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_IDLE_UNDETERMINED(&mut self, now: timestamp) -> root_State {
         if self.PointTriggered_value && self.PointRight_value {
             self.PreviousPointState = PointState::RIGHT;
@@ -181,6 +190,7 @@ impl PointOperationStateMachine {
         root_State::IDLE_UNDETERMINED
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_WAITING_COMMAND_RIGHT(&mut self, now: timestamp) -> root_State {
         if self.IsTop_value {
             self.Top = ActiveInactive::INACTIVE;
@@ -197,6 +207,7 @@ impl PointOperationStateMachine {
         root_State::WAITING_COMMAND_RIGHT
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_WAITING_COMMAND_LEFT(&mut self, now: timestamp) -> root_State {
         if self.IsTop_value {
             self.Top = ActiveInactive::INACTIVE;
@@ -213,6 +224,7 @@ impl PointOperationStateMachine {
         root_State::WAITING_COMMAND_LEFT
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_TOP_COMMAND_LEFT(&mut self, now: timestamp) -> root_State {
                     self.Top = ActiveInactive::INACTIVE;
             self.State = EulynxCommandedEndPosition::NOT_COMMANDED;
@@ -221,6 +233,7 @@ impl PointOperationStateMachine {
         root_State::TOP_COMMAND_LEFT
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_TOP_COMMAND_RIGHT(&mut self, now: timestamp) -> root_State {
                     self.Top = ActiveInactive::INACTIVE;
             self.State = EulynxCommandedEndPosition::NOT_COMMANDED;
@@ -229,6 +242,7 @@ impl PointOperationStateMachine {
         root_State::TOP_COMMAND_RIGHT
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_DELAY_TOP(&mut self, now: timestamp) -> root_State {
         if self.TopTimeout_value && self.PointLeft_value {
             self.PreviousPointState = PointState::LEFT;

@@ -4,8 +4,8 @@ terms:
     expression: SCICC.MsgRequestRoute == true
     default: false
   PointsAvailable:
-    expression: All(point in @request_points_right | Point[point].State == PointState::RIGHT) &&
-                All(point in @request_points_left | Point[point].State == PointState::LEFT)
+    expression: All(point in @request_points_right | PointNominalPosition[point].State == PointState::RIGHT) &&
+                All(point in @request_points_left | PointNominalPosition[point].State == PointState::LEFT)
     default: false
   NoIncompatibleRoutes:
     default: true

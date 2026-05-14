@@ -2,11 +2,11 @@
 
 mod LinkLTR;
 mod LinkRTL;
-mod PointControl;
 mod PointLockLeft;
 mod PointLockRight;
+mod PointMonitoring;
+mod PointNominalPosition;
 mod PointOperation;
-mod Point;
 mod RouteAutomaticRelease;
 mod RouteCheck;
 mod RouteControl;
@@ -24,11 +24,11 @@ mod Zone;
 // Re-export the state machines for use in other modules
 pub use LinkLTR::LinkLTRStateMachine;
 pub use LinkRTL::LinkRTLStateMachine;
-pub use PointControl::PointControlStateMachine;
 pub use PointLockLeft::PointLockLeftStateMachine;
 pub use PointLockRight::PointLockRightStateMachine;
+pub use PointMonitoring::PointMonitoringStateMachine;
+pub use PointNominalPosition::PointNominalPositionStateMachine;
 pub use PointOperation::PointOperationStateMachine;
-pub use Point::PointStateMachine;
 pub use RouteAutomaticRelease::RouteAutomaticReleaseStateMachine;
 pub use RouteCheck::RouteCheckStateMachine;
 pub use RouteControl::RouteControlStateMachine;

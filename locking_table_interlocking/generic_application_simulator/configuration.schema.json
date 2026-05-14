@@ -109,24 +109,6 @@
             "minItems": 0,
             "maxItems": null
           },
-          "request_points_controlled_right": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Points that must be controlled in right end position.",
-            "minItems": 0,
-            "maxItems": null
-          },
-          "request_points_controlled_left": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Points that must be controlled in left end position.",
-            "minItems": 0,
-            "maxItems": null
-          },
           "transits_in_opposite_route_direction": {
             "type": "array",
             "items": {

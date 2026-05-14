@@ -23,6 +23,7 @@ impl SignalStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn RouteIsSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.routes_starting_here.iter().any(|name| ctx.Route.get(name).unwrap().State == RouteState::SET))).unwrap_or(false)
     }
@@ -47,12 +48,14 @@ pub enum root_State {
 }
 
 impl SignalStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = ActiveInactive::INACTIVE;
                     web_sys::console::log_1(&format!("Signal({})=SIGNAL_NOT_START", self.entity.name).into());
         return root_State::SIGNAL_NOT_START;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_SIGNAL_NOT_START(&mut self, now: timestamp) -> root_State {
         if self.RouteIsSet_value {
             self.State = ActiveInactive::ACTIVE;
@@ -61,6 +64,7 @@ impl SignalStateMachine {
         root_State::SIGNAL_NOT_START
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_SIGNAL_IS_START(&mut self, now: timestamp) -> root_State {
         if !(self.RouteIsSet_value) {
             self.State = ActiveInactive::INACTIVE;

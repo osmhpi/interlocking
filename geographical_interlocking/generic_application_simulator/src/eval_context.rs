@@ -6,11 +6,11 @@ use crate::entity_types::*;
 
 pub type LinkLTR_map = HashMap<String, LinkLTRStateMachine>;
 pub type LinkRTL_map = HashMap<String, LinkRTLStateMachine>;
-pub type PointControl_map = HashMap<String, PointControlStateMachine>;
 pub type PointLockLeft_map = HashMap<String, PointLockLeftStateMachine>;
 pub type PointLockRight_map = HashMap<String, PointLockRightStateMachine>;
+pub type PointMonitoring_map = HashMap<String, PointMonitoringStateMachine>;
+pub type PointNominalPosition_map = HashMap<String, PointNominalPositionStateMachine>;
 pub type PointOperation_map = HashMap<String, PointOperationStateMachine>;
-pub type Point_map = HashMap<String, PointStateMachine>;
 pub type RouteAutomaticRelease_map = HashMap<String, RouteAutomaticReleaseStateMachine>;
 pub type RouteCheck_map = HashMap<String, RouteCheckStateMachine>;
 pub type RouteControl_map = HashMap<String, RouteControlStateMachine>;
@@ -36,11 +36,11 @@ pub type Zone_SCICC_map = HashMap<String, Zone_SCICCStruct>;
 pub struct EvalContext {
     pub LinkLTR: LinkLTR_map,
     pub LinkRTL: LinkRTL_map,
-    pub PointControl: PointControl_map,
     pub PointLockLeft: PointLockLeft_map,
     pub PointLockRight: PointLockRight_map,
+    pub PointMonitoring: PointMonitoring_map,
+    pub PointNominalPosition: PointNominalPosition_map,
     pub PointOperation: PointOperation_map,
-    pub Point: Point_map,
     pub RouteAutomaticRelease: RouteAutomaticRelease_map,
     pub RouteCheck: RouteCheck_map,
     pub RouteControl: RouteControl_map,

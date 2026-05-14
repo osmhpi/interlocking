@@ -23,6 +23,7 @@ impl RouteControlStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn RouteMonitored(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.RouteMonitoring.get(&self.entity.name).unwrap().State), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -50,12 +51,14 @@ pub enum root_State {
 }
 
 impl RouteControlStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = OpenCloseState::CLOSED;
                     web_sys::console::log_1(&format!("RouteControl({})=CLOSED", self.entity.name).into());
         return root_State::CLOSED;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_CLOSED(&mut self, now: timestamp) -> root_State {
         if self.RouteMonitored_value {
             self.State = OpenCloseState::OPEN;
@@ -64,6 +67,7 @@ impl RouteControlStateMachine {
         root_State::CLOSED
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_OPEN(&mut self, now: timestamp) -> root_State {
         if !(self.RouteMonitored_value) {
             self.State = OpenCloseState::CLOSED;

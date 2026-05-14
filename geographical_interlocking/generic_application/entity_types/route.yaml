@@ -19,8 +19,8 @@ properties:
     type: Route
     min: !!int 0
     max: unbounded
-  start_ise_left:
-    description: The start ISE of the route.
-    type: Ise
+  start_element_left:
+    description: The start infrastructure element of the route.
+    type: InfrastructureElement
     min: !!int 0
     max: !!int 1

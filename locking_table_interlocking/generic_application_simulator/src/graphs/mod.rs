@@ -1,10 +1,10 @@
 // Auto-generated Rust module for graphs
 
-mod PointControl;
 mod PointLockLeft;
 mod PointLockRight;
+mod PointMonitoring;
+mod PointNominalPosition;
 mod PointOperation;
-mod Point;
 mod RouteAutomaticRelease;
 mod RouteControl;
 mod RouteManualRelease;
@@ -16,11 +16,11 @@ mod Transit;
 mod Zone;
 
 // Re-export the state machines for use in other modules
-pub use PointControl::PointControlStateMachine;
 pub use PointLockLeft::PointLockLeftStateMachine;
 pub use PointLockRight::PointLockRightStateMachine;
+pub use PointMonitoring::PointMonitoringStateMachine;
+pub use PointNominalPosition::PointNominalPositionStateMachine;
 pub use PointOperation::PointOperationStateMachine;
-pub use Point::PointStateMachine;
 pub use RouteAutomaticRelease::RouteAutomaticReleaseStateMachine;
 pub use RouteControl::RouteControlStateMachine;
 pub use RouteManualRelease::RouteManualReleaseStateMachine;

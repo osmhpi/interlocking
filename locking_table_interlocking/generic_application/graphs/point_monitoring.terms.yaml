@@ -7,17 +7,17 @@ terms:
     expression: SCIP.DetectedEndPosition == EulynxEndPosition::RIGHT
     default: false
   CommandedLeft:
-    expression: Point.State == PointState::LEFT
+    expression: PointNominalPosition.State == PointState::LEFT
     default: false
   CommandedRight:
-    expression: Point.State == PointState::RIGHT
+    expression: PointNominalPosition.State == PointState::RIGHT
     default: false
 variables:
   Left:
     type: ActiveInactive
-    description: Indicates whether the point is locked to left end position.
+    description: Indicates whether the point is monitored at left end position.
     default: ActiveInactive::INACTIVE
   Right:
     type: ActiveInactive
-    description: Indicates whether the point is locked to right end position.
+    description: Indicates whether the point is monitored at right end position.
     default: ActiveInactive::INACTIVE

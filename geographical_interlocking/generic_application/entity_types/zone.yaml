@@ -26,8 +26,8 @@ interfaces:
           OccupancyStatus::VACANT: Zone.State == OccupancyStatus::VACANT
         default: OccupancyStatus::VACANT
 properties:
-  ise:
-    description: ISE that this zone belongs to.
-    type: Ise
+  infrastructure_element:
+    description: Infrastructure element that this zone belongs to.
+    type: InfrastructureElement
     min: !!int 1
     max: !!int 1

@@ -31,7 +31,7 @@ static partial class RustWriter
     {
       var visitor = new ExpressionToRustVisitor(true, entityType, spec.Interfaces); // pass a flag to enable context-aware codegen
       var exprText = visitor.Visit(expr);
-      return $"    pub fn {fnName}(&self, ctx: &EvalContext, now: timestamp) -> bool {{\n        ({exprText}).unwrap_or({(@default ? "true" : "false")})\n    }}";
+      return $"    #[allow(unused_variables)]\n    pub fn {fnName}(&self, ctx: &EvalContext, now: timestamp) -> bool {{\n        ({exprText}).unwrap_or({(@default ? "true" : "false")})\n    }}";
     }
 
     // Generate Rust boolean functions for each term, context-aware
@@ -42,7 +42,7 @@ static partial class RustWriter
       {
         var fnName = term.Key;
         var expr = term.Value.ParsedTree;
-        if (expr == null) return $"    pub fn {fnName}(&self, ctx: &EvalContext, now: timestamp) -> bool {{\n        {(term.Value.Default ? "true" : "false")}\n    }}";
+        if (expr == null) return $"    #[allow(unused_variables)]\n    pub fn {fnName}(&self, ctx: &EvalContext, now: timestamp) -> bool {{\n        {(term.Value.Default ? "true" : "false")}\n    }}";
         return ToRustBoolFunctionWithContext(fnName, expr, term.Value.Default);
       }));
     }
@@ -158,11 +158,11 @@ impl Graph for {structName} {{
       var stateIsNested = subgraph.NestedSubgraphs.ContainsKey(state);
       if (stateIsNested)
       {
-        fnLines.Add($"    fn transition_from_{parent}_{state}(&mut self, s: {parent}_{state}_State, now: timestamp) -> {parent}_State {{");
+        fnLines.Add($"    #[allow(unused_variables)]\n    fn transition_from_{parent}_{state}(&mut self, s: {parent}_{state}_State, now: timestamp) -> {parent}_State {{");
       }
       else
       {
-        fnLines.Add($"    fn transition_from_{parent}_{state}(&mut self, now: timestamp) -> {parent}_State {{");
+        fnLines.Add($"    #[allow(unused_variables)]\n    fn transition_from_{parent}_{state}(&mut self, now: timestamp) -> {parent}_State {{");
       }
       foreach (var t in stateTransitions)
       {

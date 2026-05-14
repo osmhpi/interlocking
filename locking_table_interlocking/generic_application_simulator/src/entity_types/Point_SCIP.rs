@@ -17,6 +17,7 @@ impl Point_SCIPStruct {
             CommandedEndPosition: EulynxCommandedEndPosition::NOT_COMMANDED,
         }
     }
+    #[allow(unused_variables)]
     pub fn complete_cycle(&mut self, ctx: &EvalContext) {
         self.CommandedEndPosition = EulynxCommandedEndPosition::NOT_COMMANDED;
         if (match (Some(ctx.PointOperation.get(&self.entity.name).unwrap().State), Some(EulynxCommandedEndPosition::LEFT)) {

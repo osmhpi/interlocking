@@ -1,11 +1,11 @@
 
-    // Auto-generated Rust state machine for Point
+    // Auto-generated Rust state machine for PointNominalPosition
 
 use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
-pub struct PointStateMachine {
+pub struct PointNominalPositionStateMachine {
     __state: root_State,
     pub entity: EntitiesPointItem,
     pub State: PointState,
@@ -17,7 +17,7 @@ pub struct PointStateMachine {
     pub PointLockedRight_value: bool,
 }
 
-impl PointStateMachine {
+impl PointNominalPositionStateMachine {
     pub fn new(entity: EntitiesPointItem) -> Self {
         Self {
             __state: root_State::__initial,
@@ -33,6 +33,7 @@ impl PointStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn PointDetectedLeft(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::LEFT))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -40,6 +41,7 @@ impl PointStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn PointDetectedRight(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::RIGHT))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -47,14 +49,17 @@ impl PointStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn RouteAuthorizedMoveLeft(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (Some(self.entity.locked_left_by_transits.iter().any(|name| ctx.Route.get(name).unwrap().State == RouteState::PREPARING))).unwrap_or(false)
+        (Some(self.entity.requested_left_by_routes.iter().any(|name| ctx.Route.get(name).unwrap().State == RouteState::PREPARING))).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn RouteAuthorizedMoveRight(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (Some(self.entity.locked_right_by_transits.iter().any(|name| ctx.Route.get(name).unwrap().State == RouteState::PREPARING))).unwrap_or(false)
+        (Some(self.entity.requested_right_by_routes.iter().any(|name| ctx.Route.get(name).unwrap().State == RouteState::PREPARING))).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn PointLockedLeft(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.PointLockLeft.get(&self.entity.name).unwrap().State), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -62,6 +67,7 @@ impl PointStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn PointLockedRight(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.PointLockRight.get(&self.entity.name).unwrap().State), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -70,7 +76,7 @@ impl PointStateMachine {
     }
 }
 
-impl Graph for PointStateMachine {
+impl Graph for PointNominalPositionStateMachine {
     fn evaluate_terms(&mut self, ctx: &EvalContext, now: timestamp) {
         self.PointDetectedLeft_value = self.PointDetectedLeft(ctx, now);
         self.PointDetectedRight_value = self.PointDetectedRight(ctx, now);
@@ -94,45 +100,49 @@ pub enum root_State {
     UNDETERMINED
 }
 
-impl PointStateMachine {
+impl PointNominalPositionStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
         if self.PointDetectedLeft_value {
             self.State = PointState::LEFT;
-                        web_sys::console::log_1(&format!("Point({})=LEFT", self.entity.name).into());
+                        web_sys::console::log_1(&format!("PointNominalPosition({})=LEFT", self.entity.name).into());
             return root_State::LEFT; }
         if self.PointDetectedRight_value {
             self.State = PointState::RIGHT;
-                        web_sys::console::log_1(&format!("Point({})=RIGHT", self.entity.name).into());
+                        web_sys::console::log_1(&format!("PointNominalPosition({})=RIGHT", self.entity.name).into());
             return root_State::RIGHT; }
                     self.State = PointState::UNDETERMINED;
-                    web_sys::console::log_1(&format!("Point({})=UNDETERMINED", self.entity.name).into());
+                    web_sys::console::log_1(&format!("PointNominalPosition({})=UNDETERMINED", self.entity.name).into());
         return root_State::UNDETERMINED;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_LEFT(&mut self, now: timestamp) -> root_State {
         if self.RouteAuthorizedMoveRight_value && !((self.RouteAuthorizedMoveLeft_value || self.PointLockedLeft_value)) {
             self.State = PointState::RIGHT;
-                        web_sys::console::log_1(&format!("Point({})=RIGHT", self.entity.name).into());
+                        web_sys::console::log_1(&format!("PointNominalPosition({})=RIGHT", self.entity.name).into());
             return root_State::RIGHT; }
         root_State::LEFT
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_RIGHT(&mut self, now: timestamp) -> root_State {
         if self.RouteAuthorizedMoveLeft_value && !((self.RouteAuthorizedMoveRight_value || self.PointLockedRight_value)) {
             self.State = PointState::LEFT;
-                        web_sys::console::log_1(&format!("Point({})=LEFT", self.entity.name).into());
+                        web_sys::console::log_1(&format!("PointNominalPosition({})=LEFT", self.entity.name).into());
             return root_State::LEFT; }
         root_State::RIGHT
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_UNDETERMINED(&mut self, now: timestamp) -> root_State {
         if self.RouteAuthorizedMoveLeft_value && !(self.RouteAuthorizedMoveRight_value) {
             self.State = PointState::LEFT;
-                        web_sys::console::log_1(&format!("Point({})=LEFT", self.entity.name).into());
+                        web_sys::console::log_1(&format!("PointNominalPosition({})=LEFT", self.entity.name).into());
             return root_State::LEFT; }
         if self.RouteAuthorizedMoveRight_value && !(self.RouteAuthorizedMoveLeft_value) {
             self.State = PointState::RIGHT;
-                        web_sys::console::log_1(&format!("Point({})=RIGHT", self.entity.name).into());
+                        web_sys::console::log_1(&format!("PointNominalPosition({})=RIGHT", self.entity.name).into());
             return root_State::RIGHT; }
         root_State::UNDETERMINED
     }

@@ -7,7 +7,7 @@ use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::
 #[derive(Clone)]
 pub struct RouteFindingSearchStateMachine {
     __state: root_State,
-    pub entity: EntitiesIseItem,
+    pub entity: EntitiesInfrastructureElementItem,
     pub Check: RouteChecking,
     pub RouteRequested_value: bool,
     pub TerminatesRouteRequested_value: bool,
@@ -20,7 +20,7 @@ pub struct RouteFindingSearchStateMachine {
 }
 
 impl RouteFindingSearchStateMachine {
-    pub fn new(entity: EntitiesIseItem) -> Self {
+    pub fn new(entity: EntitiesInfrastructureElementItem) -> Self {
         Self {
             __state: root_State::__initial,
             entity,
@@ -37,14 +37,17 @@ impl RouteFindingSearchStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn RouteRequested(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.is_start_of_route_admission_check.iter().any(|name| ctx.RouteCheck.get(name).unwrap().State == ActiveInactive::ACTIVE))).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn TerminatesRouteRequested(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.is_end_of_route_admission_check.iter().any(|name| ctx.RouteCheck.get(name).unwrap().State == ActiveInactive::ACTIVE))).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn Checking(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (match (match (Some(self.entity.link_a_left.iter().any(|name| ctx.LinkRTL.get(name).unwrap().State == RouteSearch::SEARCH)), Some(self.entity.link_a_right.iter().any(|name| ctx.LinkLTR.get(name).unwrap().State == RouteSearch::SEARCH))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -64,6 +67,7 @@ impl RouteFindingSearchStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn SettingRoute(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (match (match (Some(self.entity.link_a_left.iter().any(|name| ctx.LinkRTL.get(name).unwrap().State == RouteSearch::SEARCH)), Some(self.entity.link_a_right.iter().any(|name| ctx.LinkLTR.get(name).unwrap().State == RouteSearch::ROUTE_SET))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -83,6 +87,7 @@ impl RouteFindingSearchStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn CheckingFromA(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(self.entity.link_a_left.iter().any(|name| ctx.LinkRTL.get(name).unwrap().State == RouteSearch::SEARCH)), Some(self.entity.link_a_right.iter().any(|name| ctx.LinkLTR.get(name).unwrap().State == RouteSearch::SEARCH))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -90,6 +95,7 @@ impl RouteFindingSearchStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn CheckingFromB(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(self.entity.link_b_left.iter().any(|name| ctx.LinkRTL.get(name).unwrap().State == RouteSearch::SEARCH)), Some(self.entity.link_b_right.iter().any(|name| ctx.LinkLTR.get(name).unwrap().State == RouteSearch::SEARCH))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -97,6 +103,7 @@ impl RouteFindingSearchStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn CheckingFromC(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(self.entity.link_c_left.iter().any(|name| ctx.LinkRTL.get(name).unwrap().State == RouteSearch::SEARCH)), Some(self.entity.link_c_right.iter().any(|name| ctx.LinkLTR.get(name).unwrap().State == RouteSearch::SEARCH))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -104,6 +111,7 @@ impl RouteFindingSearchStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn RouteSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.transits.iter().any(|name| ctx.Route.get(name).unwrap().State != RouteState::RELEASED))).unwrap_or(false)
     }
@@ -142,12 +150,14 @@ pub enum root_State {
 }
 
 impl RouteFindingSearchStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.Check = RouteChecking::INACTIVE;
                     web_sys::console::log_1(&format!("RouteFindingSearch({})=IDLE", self.entity.name).into());
         return root_State::IDLE;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_IDLE(&mut self, now: timestamp) -> root_State {
         if self.CheckingFromA_value {
             self.Check = RouteChecking::CHECK_FROM_A;
@@ -168,6 +178,7 @@ impl RouteFindingSearchStateMachine {
         root_State::IDLE
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_CHECKING_START(&mut self, now: timestamp) -> root_State {
         if self.RouteSet_value {
             self.Check = RouteChecking::ROUTE_SET_FROM_START;
@@ -180,6 +191,7 @@ impl RouteFindingSearchStateMachine {
         root_State::CHECKING_START
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_CHECKING_FROM_A(&mut self, now: timestamp) -> root_State {
         if self.RouteSet_value {
             self.Check = RouteChecking::ROUTE_SET_FROM_A;
@@ -192,6 +204,7 @@ impl RouteFindingSearchStateMachine {
         root_State::CHECKING_FROM_A
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_CHECKING_FROM_B(&mut self, now: timestamp) -> root_State {
         if self.RouteSet_value {
             self.Check = RouteChecking::ROUTE_SET_FROM_B;
@@ -204,6 +217,7 @@ impl RouteFindingSearchStateMachine {
         root_State::CHECKING_FROM_B
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_CHECKING_FROM_C(&mut self, now: timestamp) -> root_State {
         if self.RouteSet_value {
             self.Check = RouteChecking::ROUTE_SET_FROM_C;
@@ -216,6 +230,7 @@ impl RouteFindingSearchStateMachine {
         root_State::CHECKING_FROM_C
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ROUTE_SET_FROM_START(&mut self, now: timestamp) -> root_State {
         if !(self.RouteSet_value) {
             self.Check = RouteChecking::INACTIVE;
@@ -224,6 +239,7 @@ impl RouteFindingSearchStateMachine {
         root_State::ROUTE_SET_FROM_START
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ROUTE_SET_FROM_A(&mut self, now: timestamp) -> root_State {
         if !(self.RouteSet_value) {
             self.Check = RouteChecking::INACTIVE;
@@ -232,6 +248,7 @@ impl RouteFindingSearchStateMachine {
         root_State::ROUTE_SET_FROM_A
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ROUTE_SET_FROM_B(&mut self, now: timestamp) -> root_State {
         if !(self.RouteSet_value) {
             self.Check = RouteChecking::INACTIVE;
@@ -240,6 +257,7 @@ impl RouteFindingSearchStateMachine {
         root_State::ROUTE_SET_FROM_B
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_ROUTE_SET_FROM_C(&mut self, now: timestamp) -> root_State {
         if !(self.RouteSet_value) {
             self.Check = RouteChecking::INACTIVE;

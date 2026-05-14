@@ -15,6 +15,7 @@ impl Transit_SCICCStruct {
             Active: false,
         }
     }
+    #[allow(unused_variables)]
     pub fn complete_cycle(&mut self, ctx: &EvalContext) {
         self.Active = false;
         if (match (Some(ctx.Transit.get(&self.entity.name).unwrap().State), Some(ActiveInactive::ACTIVE)) {

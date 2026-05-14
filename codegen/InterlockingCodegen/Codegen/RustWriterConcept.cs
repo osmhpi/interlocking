@@ -131,7 +131,7 @@ static partial class RustWriter
     lines.Add($"    }}");
 
     // Add complete_cycle method for all interfaces
-    lines.Add($"    pub fn complete_cycle(&mut self, ctx: &EvalContext) {{");
+    lines.Add($"    #[allow(unused_variables)]\n    pub fn complete_cycle(&mut self, ctx: &EvalContext) {{");
     foreach (var input in (iface.Inputs ?? new Dictionary<string, InterfaceInputField>()).Where(x => x.Value.Kind == InterfaceInputFieldKind.Discrete))
     {
       string defaultValue;

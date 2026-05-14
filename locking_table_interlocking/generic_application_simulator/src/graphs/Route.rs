@@ -31,6 +31,7 @@ impl RouteStateMachine {
         }
     }
 
+    #[allow(unused_variables)]
     pub fn RouteRequested(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Route_SCICC.get(&self.entity.name).unwrap().MsgRequestRoute), Some(Triggerable::Triggered(true))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -38,17 +39,20 @@ impl RouteStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn PointsAvailable(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (match (Some(self.entity.request_points_right.iter().all(|name| ctx.Point.get(name).unwrap().State == PointState::RIGHT)), Some(self.entity.request_points_left.iter().all(|name| ctx.Point.get(name).unwrap().State == PointState::LEFT))) {
+        (match (Some(self.entity.request_points_right.iter().all(|name| ctx.PointNominalPosition.get(name).unwrap().State == PointState::RIGHT)), Some(self.entity.request_points_left.iter().all(|name| ctx.PointNominalPosition.get(name).unwrap().State == PointState::LEFT))) {
     (Some(a), Some(b)) => Some(a && b),
     _ => None
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn NoIncompatibleRoutes(&self, ctx: &EvalContext, now: timestamp) -> bool {
         true
     }
 
+    #[allow(unused_variables)]
     pub fn AutomaticReleaseEffective(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.RouteAutomaticRelease.get(&self.entity.name).unwrap().State), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -56,6 +60,7 @@ impl RouteStateMachine {
   }).unwrap_or(false)
     }
 
+    #[allow(unused_variables)]
     pub fn ManualReleaseEffective(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.RouteManualRelease.get(&self.entity.name).unwrap().ManualReleaseRequested), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -88,12 +93,14 @@ pub enum root_State {
 }
 
 impl RouteStateMachine {
+    #[allow(unused_variables)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = RouteState::RELEASED;
                     web_sys::console::log_1(&format!("Route({})=RELEASED", self.entity.name).into());
         return root_State::RELEASED;
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_RELEASED(&mut self, now: timestamp) -> root_State {
         if self.RouteRequested_value {
 
@@ -101,6 +108,7 @@ impl RouteStateMachine {
         root_State::RELEASED
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_SET(&mut self, now: timestamp) -> root_State {
         if self.AutomaticReleaseEffective_value || self.ManualReleaseEffective_value {
             self.State = RouteState::RELEASED;
@@ -109,6 +117,7 @@ impl RouteStateMachine {
         root_State::SET
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_PREPARING(&mut self, now: timestamp) -> root_State {
         if self.PointsAvailable_value && self.NoIncompatibleRoutes_value {
             self.State = RouteState::SET;
@@ -117,6 +126,7 @@ impl RouteStateMachine {
         root_State::PREPARING
     }
 
+    #[allow(unused_variables)]
     fn transition_from_root_c(&mut self, now: timestamp) -> root_State {
         if self.PointsAvailable_value && self.NoIncompatibleRoutes_value {
             self.State = RouteState::SET;

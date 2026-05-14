@@ -1,4 +1,4 @@
-@startuml Point
+@startuml PointNominalPosition
 
 [*] --> LEFT: [1] PointDetectedLeft
 [*] --> RIGHT: [2] PointDetectedRight

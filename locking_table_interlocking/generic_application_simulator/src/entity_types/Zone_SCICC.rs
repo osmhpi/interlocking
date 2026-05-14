@@ -15,6 +15,7 @@ impl Zone_SCICCStruct {
             CurrentOccupancy: OccupancyStatus::VACANT,
         }
     }
+    #[allow(unused_variables)]
     pub fn complete_cycle(&mut self, ctx: &EvalContext) {
         self.CurrentOccupancy = OccupancyStatus::VACANT;
         if (match (Some(ctx.Zone.get(&self.entity.name).unwrap().State), Some(OccupancyStatus::OCCUPIED)) {
