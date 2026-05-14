@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct RouteAutomaticReleaseStateMachine {
     __state: root_State,
     pub entity: EntitiesTransitItem,
@@ -14,6 +15,7 @@ pub struct RouteAutomaticReleaseStateMachine {
     pub TriggerZoneFree_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl RouteAutomaticReleaseStateMachine {
     pub fn new(entity: EntitiesTransitItem) -> Self {
         Self {
@@ -28,6 +30,7 @@ impl RouteAutomaticReleaseStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn RouteIsSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Route.get(&self.entity.name).unwrap().State), Some(RouteState::SET)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -36,11 +39,13 @@ impl RouteAutomaticReleaseStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn OppositeTransitsInactive(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.trigger_zone_opposite_transits.iter().all(|name| ctx.Transit.get(name).unwrap().State == ActiveInactive::INACTIVE))).unwrap_or(true)
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn TriggerZoneFree(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (self.entity.trigger_zone.as_ref().map(|x| ctx.Zone.get(x).unwrap().State), Some(OccupancyStatus::VACANT)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -63,6 +68,7 @@ impl Graph for RouteAutomaticReleaseStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     INACTIVE,
@@ -72,6 +78,7 @@ pub enum root_State {
 
 impl RouteAutomaticReleaseStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = ActiveInactive::INACTIVE;
                     web_sys::console::log_1(&format!("RouteAutomaticRelease({})=INACTIVE", self.entity.name).into());
@@ -79,6 +86,7 @@ impl RouteAutomaticReleaseStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_INACTIVE(&mut self, now: timestamp) -> root_State {
         if self.RouteIsSet_value && self.OppositeTransitsInactive_value && !(self.TriggerZoneFree_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -88,6 +96,7 @@ impl RouteAutomaticReleaseStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_ACTIVE(&mut self, now: timestamp) -> root_State {
         if !(self.RouteIsSet_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -101,6 +110,7 @@ impl RouteAutomaticReleaseStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_EFFECTIVE(&mut self, now: timestamp) -> root_State {
         if !(self.RouteIsSet_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -109,6 +119,7 @@ impl RouteAutomaticReleaseStateMachine {
         root_State::EFFECTIVE
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {

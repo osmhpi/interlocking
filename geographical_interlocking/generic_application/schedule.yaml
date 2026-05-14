@@ -36,8 +36,6 @@ groups:
       graph: LinkLTR
     - entity_type: Link
       graph: LinkRTL
-    - entity_type: Transit
-      graph: RouteMonitoring
   - grouping: by_graph
     entries:
     - entity_type: Transit
@@ -47,7 +45,7 @@ groups:
     - entity_type: Transit
       graph: Route
     - entity_type: Transit
-      graph: RouteControl
+      graph: RouteMonitoring
   - grouping: by_graph
     entries:
     - entity_type: Signal

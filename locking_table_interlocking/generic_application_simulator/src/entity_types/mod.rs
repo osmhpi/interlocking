@@ -1,12 +1,20 @@
 // Auto-generated Rust module for concept-related interfaces
 
+#[allow(non_snake_case)]
 mod Point_SCIP;
+#[allow(non_snake_case)]
 mod Point_SCICC;
+#[allow(non_snake_case)]
 mod Route_SCICC;
+#[allow(non_snake_case)]
 mod Signal_SCICC;
+#[allow(non_snake_case)]
 mod Signal_SCIRBC;
+#[allow(non_snake_case)]
 mod Transit_SCICC;
+#[allow(non_snake_case)]
 mod Zone_SCITDS;
+#[allow(non_snake_case)]
 mod Zone_SCICC;
 
 // Re-export the interfaces for use in other modules

@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct SignalControlStateMachine {
     __state: root_State,
     pub entity: EntitiesSignalItem,
@@ -12,6 +13,7 @@ pub struct SignalControlStateMachine {
     pub RouteOpening_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl SignalControlStateMachine {
     pub fn new(entity: EntitiesSignalItem) -> Self {
         Self {
@@ -24,8 +26,9 @@ impl SignalControlStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn RouteOpening(&self, ctx: &EvalContext, now: timestamp) -> bool {
-        (Some(self.entity.routes_starting_here.iter().any(|name| ctx.RouteControl.get(name).unwrap().State == OpenCloseState::OPEN))).unwrap_or(false)
+        (Some(self.entity.routes_starting_here.iter().any(|name| ctx.RouteMonitoring.get(name).unwrap().State == ActiveInactive::ACTIVE))).unwrap_or(false)
     }
 }
 
@@ -41,6 +44,7 @@ impl Graph for SignalControlStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     CLOSED,
@@ -49,6 +53,7 @@ pub enum root_State {
 
 impl SignalControlStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = OpenCloseState::CLOSED;
                     web_sys::console::log_1(&format!("SignalControl({})=CLOSED", self.entity.name).into());
@@ -56,6 +61,7 @@ impl SignalControlStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_CLOSED(&mut self, now: timestamp) -> root_State {
         if self.RouteOpening_value {
             self.State = OpenCloseState::OPEN;
@@ -65,6 +71,7 @@ impl SignalControlStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_OPEN(&mut self, now: timestamp) -> root_State {
         if !(self.RouteOpening_value) {
             self.State = OpenCloseState::CLOSED;
@@ -73,6 +80,7 @@ impl SignalControlStateMachine {
         root_State::OPEN
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {

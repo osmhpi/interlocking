@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct PointLockLeftStateMachine {
     __state: root_State,
     pub entity: EntitiesPointItem,
@@ -15,6 +16,7 @@ pub struct PointLockLeftStateMachine {
     pub TransitRequestsLock_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl PointLockLeftStateMachine {
     pub fn new(entity: EntitiesPointItem) -> Self {
         Self {
@@ -30,6 +32,7 @@ impl PointLockLeftStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn PointInOppositePosition(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::RIGHT))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -38,16 +41,19 @@ impl PointLockLeftStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn ZoneRequestsLock(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.locked_left_by_zones.iter().any(|name| ctx.Zone.get(name).unwrap().State == OccupancyStatus::OCCUPIED))).unwrap_or(false)
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn PointIsMoving(&self, ctx: &EvalContext, now: timestamp) -> bool {
         false
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn TransitRequestsLock(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.locked_left_by_transits.iter().any(|name| ctx.Transit.get(name).unwrap().State == ActiveInactive::ACTIVE))).unwrap_or(false)
     }
@@ -68,6 +74,7 @@ impl Graph for PointLockLeftStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     NOT_LOCKED,
@@ -76,6 +83,7 @@ pub enum root_State {
 
 impl PointLockLeftStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
         if self.PointInOppositePosition_value {
             self.State = ActiveInactive::INACTIVE;
@@ -87,6 +95,7 @@ impl PointLockLeftStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_NOT_LOCKED(&mut self, now: timestamp) -> root_State {
         if self.ZoneRequestsLock_value || self.PointIsMoving_value || self.TransitRequestsLock_value {
             self.State = ActiveInactive::ACTIVE;
@@ -96,6 +105,7 @@ impl PointLockLeftStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_LOCKED(&mut self, now: timestamp) -> root_State {
         if !(self.ZoneRequestsLock_value) && !(self.PointIsMoving_value) && !(self.TransitRequestsLock_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -104,6 +114,7 @@ impl PointLockLeftStateMachine {
         root_State::LOCKED
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {

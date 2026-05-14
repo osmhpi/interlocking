@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct PointNominalPositionStateMachine {
     __state: root_State,
     pub entity: EntitiesPointItem,
@@ -17,6 +18,7 @@ pub struct PointNominalPositionStateMachine {
     pub PointLockedRight_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl PointNominalPositionStateMachine {
     pub fn new(entity: EntitiesPointItem) -> Self {
         Self {
@@ -34,6 +36,7 @@ impl PointNominalPositionStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn PointDetectedLeft(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::LEFT))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -42,6 +45,7 @@ impl PointNominalPositionStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn PointDetectedRight(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::RIGHT))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -50,16 +54,19 @@ impl PointNominalPositionStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn RouteAuthorizedMoveLeft(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.locked_left_by_transits.iter().any(|name| ctx.Route.get(name).unwrap().State == RouteState::PREPARING))).unwrap_or(false)
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn RouteAuthorizedMoveRight(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.locked_right_by_transits.iter().any(|name| ctx.Route.get(name).unwrap().State == RouteState::PREPARING))).unwrap_or(false)
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn PointLockedLeft(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.PointLockLeft.get(&self.entity.name).unwrap().State), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -68,6 +75,7 @@ impl PointNominalPositionStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn PointLockedRight(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.PointLockRight.get(&self.entity.name).unwrap().State), Some(ActiveInactive::ACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -93,6 +101,7 @@ impl Graph for PointNominalPositionStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     LEFT,
@@ -102,6 +111,7 @@ pub enum root_State {
 
 impl PointNominalPositionStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
         if self.PointDetectedLeft_value {
             self.State = PointState::LEFT;
@@ -117,6 +127,7 @@ impl PointNominalPositionStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_LEFT(&mut self, now: timestamp) -> root_State {
         if self.RouteAuthorizedMoveRight_value && !((self.RouteAuthorizedMoveLeft_value || self.PointLockedLeft_value)) {
             self.State = PointState::RIGHT;
@@ -126,6 +137,7 @@ impl PointNominalPositionStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_RIGHT(&mut self, now: timestamp) -> root_State {
         if self.RouteAuthorizedMoveLeft_value && !((self.RouteAuthorizedMoveRight_value || self.PointLockedRight_value)) {
             self.State = PointState::LEFT;
@@ -135,6 +147,7 @@ impl PointNominalPositionStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_UNDETERMINED(&mut self, now: timestamp) -> root_State {
         if self.RouteAuthorizedMoveLeft_value && !(self.RouteAuthorizedMoveRight_value) {
             self.State = PointState::LEFT;
@@ -147,6 +160,7 @@ impl PointNominalPositionStateMachine {
         root_State::UNDETERMINED
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {

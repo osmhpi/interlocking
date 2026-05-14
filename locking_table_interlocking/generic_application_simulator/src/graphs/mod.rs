@@ -1,18 +1,30 @@
 // Auto-generated Rust module for graphs
 
+#[allow(non_snake_case)]
 mod PointLockLeft;
+#[allow(non_snake_case)]
 mod PointLockRight;
+#[allow(non_snake_case)]
 mod PointMonitoring;
+#[allow(non_snake_case)]
 mod PointNominalPosition;
+#[allow(non_snake_case)]
 mod PointOperation;
+#[allow(non_snake_case)]
 mod RouteAutomaticRelease;
-mod RouteControl;
+#[allow(non_snake_case)]
 mod RouteManualRelease;
+#[allow(non_snake_case)]
 mod RouteMonitoring;
+#[allow(non_snake_case)]
 mod Route;
+#[allow(non_snake_case)]
 mod SignalControl;
+#[allow(non_snake_case)]
 mod Signal;
+#[allow(non_snake_case)]
 mod Transit;
+#[allow(non_snake_case)]
 mod Zone;
 
 // Re-export the state machines for use in other modules
@@ -22,7 +34,6 @@ pub use PointMonitoring::PointMonitoringStateMachine;
 pub use PointNominalPosition::PointNominalPositionStateMachine;
 pub use PointOperation::PointOperationStateMachine;
 pub use RouteAutomaticRelease::RouteAutomaticReleaseStateMachine;
-pub use RouteControl::RouteControlStateMachine;
 pub use RouteManualRelease::RouteManualReleaseStateMachine;
 pub use RouteMonitoring::RouteMonitoringStateMachine;
 pub use Route::RouteStateMachine;

@@ -3,6 +3,7 @@
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, triggerable::Triggerable};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct Signal_SCIRBCStruct {
     pub entity: EntitiesSignalItem,
     pub ApproachLockingActive: Triggerable<bool>, // input

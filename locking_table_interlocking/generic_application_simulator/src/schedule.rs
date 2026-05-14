@@ -4,6 +4,7 @@ use std::collections::HashMap;
 
 use crate::{entity_types::*, configuration_types::Entities, enums::*, eval_context::EvalContext, graph::Graph, graphs::*, timestamp::timestamp};
 
+#[allow(non_snake_case)]
 pub struct Schedule {
     pub PointLockLeft: Vec<PointLockLeftStateMachine>,
     pub PointLockRight: Vec<PointLockRightStateMachine>,
@@ -11,7 +12,6 @@ pub struct Schedule {
     pub PointNominalPosition: Vec<PointNominalPositionStateMachine>,
     pub PointOperation: Vec<PointOperationStateMachine>,
     pub RouteAutomaticRelease: Vec<RouteAutomaticReleaseStateMachine>,
-    pub RouteControl: Vec<RouteControlStateMachine>,
     pub RouteManualRelease: Vec<RouteManualReleaseStateMachine>,
     pub RouteMonitoring: Vec<RouteMonitoringStateMachine>,
     pub Route: Vec<RouteStateMachine>,
@@ -29,6 +29,7 @@ pub struct Schedule {
     pub Zone_SCICC: Vec<Zone_SCICCStruct>,
 }
 
+#[allow(non_snake_case)]
 pub struct ScheduleBuilder {
     PointLockLeft: Vec<PointLockLeftStateMachine>,
     PointLockRight: Vec<PointLockRightStateMachine>,
@@ -36,7 +37,6 @@ pub struct ScheduleBuilder {
     PointNominalPosition: Vec<PointNominalPositionStateMachine>,
     PointOperation: Vec<PointOperationStateMachine>,
     RouteAutomaticRelease: Vec<RouteAutomaticReleaseStateMachine>,
-    RouteControl: Vec<RouteControlStateMachine>,
     RouteManualRelease: Vec<RouteManualReleaseStateMachine>,
     RouteMonitoring: Vec<RouteMonitoringStateMachine>,
     Route: Vec<RouteStateMachine>,
@@ -55,6 +55,7 @@ pub struct ScheduleBuilder {
 }
 
 impl ScheduleBuilder {
+    #[allow(non_snake_case)]
     pub fn new(entities: Entities) -> Self {
         let mut PointLockLeft = Vec::new();
         entities.point.iter().for_each(|x| {
@@ -79,10 +80,6 @@ impl ScheduleBuilder {
         let mut RouteAutomaticRelease = Vec::new();
         entities.route.iter().for_each(|x| {
             RouteAutomaticRelease.push(RouteAutomaticReleaseStateMachine::new(x.clone()));
-        });
-        let mut RouteControl = Vec::new();
-        entities.route.iter().for_each(|x| {
-            RouteControl.push(RouteControlStateMachine::new(x.clone()));
         });
         let mut RouteManualRelease = Vec::new();
         entities.route.iter().for_each(|x| {
@@ -151,7 +148,6 @@ impl ScheduleBuilder {
             PointNominalPosition,
             PointOperation,
             RouteAutomaticRelease,
-            RouteControl,
             RouteManualRelease,
             RouteMonitoring,
             Route,
@@ -178,7 +174,6 @@ impl ScheduleBuilder {
             PointNominalPosition: self.PointNominalPosition,
             PointOperation: self.PointOperation,
             RouteAutomaticRelease: self.RouteAutomaticRelease,
-            RouteControl: self.RouteControl,
             RouteManualRelease: self.RouteManualRelease,
             RouteMonitoring: self.RouteMonitoring,
             Route: self.Route,
@@ -199,6 +194,7 @@ impl ScheduleBuilder {
 }
 
 impl Schedule {
+    #[allow(non_snake_case)]
     fn build_eval_context(&self) -> EvalContext {
         let Point_SCIP_map: HashMap<String, Point_SCIPStruct> =
             self.Point_SCIP.clone().into_iter().map(|iface| (iface.entity.name.clone(), iface)).collect();
@@ -228,8 +224,6 @@ impl Schedule {
             self.PointOperation.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
         let RouteAutomaticRelease_map: HashMap<String, RouteAutomaticReleaseStateMachine> =
             self.RouteAutomaticRelease.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
-        let RouteControl_map: HashMap<String, RouteControlStateMachine> =
-            self.RouteControl.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
         let RouteManualRelease_map: HashMap<String, RouteManualReleaseStateMachine> =
             self.RouteManualRelease.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
         let RouteMonitoring_map: HashMap<String, RouteMonitoringStateMachine> =
@@ -251,7 +245,6 @@ impl Schedule {
             PointNominalPosition: PointNominalPosition_map,
             PointOperation: PointOperation_map,
             RouteAutomaticRelease: RouteAutomaticRelease_map,
-            RouteControl: RouteControl_map,
             RouteManualRelease: RouteManualRelease_map,
             RouteMonitoring: RouteMonitoring_map,
             Route: Route_map,
@@ -318,11 +311,6 @@ impl Schedule {
             let ctx = self.build_eval_context();
             self.RouteMonitoring[i].evaluate_terms(&ctx, now);
             self.RouteMonitoring[i].transition(now);
-        }
-        for i in 0..self.RouteControl.len() {
-            let ctx = self.build_eval_context();
-            self.RouteControl[i].evaluate_terms(&ctx, now);
-            self.RouteControl[i].transition(now);
         }
         for i in 0..self.Signal.len() {
             let ctx = self.build_eval_context();

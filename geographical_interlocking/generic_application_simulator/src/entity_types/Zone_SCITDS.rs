@@ -3,6 +3,7 @@
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, triggerable::Triggerable};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct Zone_SCITDSStruct {
     pub entity: EntitiesZoneItem,
     pub OccupancyStatus: Triggerable<OccupancyStatus>, // input

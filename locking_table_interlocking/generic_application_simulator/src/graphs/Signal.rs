@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct SignalStateMachine {
     __state: root_State,
     pub entity: EntitiesSignalItem,
@@ -12,6 +13,7 @@ pub struct SignalStateMachine {
     pub RouteIsSet_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl SignalStateMachine {
     pub fn new(entity: EntitiesSignalItem) -> Self {
         Self {
@@ -24,6 +26,7 @@ impl SignalStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn RouteIsSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.routes_starting_here.iter().any(|name| ctx.Route.get(name).unwrap().State == RouteState::SET))).unwrap_or(false)
     }
@@ -41,6 +44,7 @@ impl Graph for SignalStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     SIGNAL_NOT_START,
@@ -49,6 +53,7 @@ pub enum root_State {
 
 impl SignalStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = ActiveInactive::INACTIVE;
                     web_sys::console::log_1(&format!("Signal({})=SIGNAL_NOT_START", self.entity.name).into());
@@ -56,6 +61,7 @@ impl SignalStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_SIGNAL_NOT_START(&mut self, now: timestamp) -> root_State {
         if self.RouteIsSet_value {
             self.State = ActiveInactive::ACTIVE;
@@ -65,6 +71,7 @@ impl SignalStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_SIGNAL_IS_START(&mut self, now: timestamp) -> root_State {
         if !(self.RouteIsSet_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -73,6 +80,7 @@ impl SignalStateMachine {
         root_State::SIGNAL_IS_START
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {

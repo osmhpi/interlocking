@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct TransitStateMachine {
     __state: root_State,
     pub entity: EntitiesTransitItem,
@@ -16,6 +17,7 @@ pub struct TransitStateMachine {
     pub RequestedByRoute_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl TransitStateMachine {
     pub fn new(entity: EntitiesTransitItem) -> Self {
         Self {
@@ -32,6 +34,7 @@ impl TransitStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn InitializationTimeoutExpired(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(self.StartInitialization).unwrap_or(timestamp { milliseconds: None }).milliseconds, Some(1000)) {
     (Some(t), Some(d)) => Some(now.milliseconds.unwrap_or(0) >= t + d as u64),
@@ -40,6 +43,7 @@ impl TransitStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn ZoneFree(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Zone.get(&self.entity.underlying_zone).unwrap().State), Some(OccupancyStatus::VACANT)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -48,11 +52,13 @@ impl TransitStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn UpstreamTransitsIdle(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.upstream_transits.iter().all(|name| ctx.Transit.get(name).unwrap().State == ActiveInactive::INACTIVE))).unwrap_or(false)
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn RequestedByRoute(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Route.get(&self.entity.name).unwrap().State), Some(RouteState::SET)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -76,6 +82,7 @@ impl Graph for TransitStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     INITIALIZING,
@@ -85,6 +92,7 @@ pub enum root_State {
 
 impl TransitStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = ActiveInactive::ACTIVE;
             self.StartInitialization = now;
@@ -93,6 +101,7 @@ impl TransitStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_INITIALIZING(&mut self, now: timestamp) -> root_State {
         if self.InitializationTimeoutExpired_value && self.UpstreamTransitsIdle_value && self.ZoneFree_value && !(self.RequestedByRoute_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -102,6 +111,7 @@ impl TransitStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_IDLE(&mut self, now: timestamp) -> root_State {
         if self.RequestedByRoute_value {
             self.State = ActiveInactive::ACTIVE;
@@ -111,6 +121,7 @@ impl TransitStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_ACTIVE(&mut self, now: timestamp) -> root_State {
         if self.UpstreamTransitsIdle_value && self.ZoneFree_value && !(self.RequestedByRoute_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -119,6 +130,7 @@ impl TransitStateMachine {
         root_State::ACTIVE
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {

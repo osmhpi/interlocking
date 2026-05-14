@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct RouteMonitoringStateMachine {
     __state: root_State,
     pub entity: EntitiesTransitItem,
@@ -15,6 +16,7 @@ pub struct RouteMonitoringStateMachine {
     pub MonitoringComplete_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl RouteMonitoringStateMachine {
     pub fn new(entity: EntitiesTransitItem) -> Self {
         Self {
@@ -30,6 +32,7 @@ impl RouteMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn PointsControlled(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(self.entity.requires_point_right.iter().all(|name| ctx.PointMonitoring.get(name).unwrap().Right == ActiveInactive::ACTIVE)), Some(self.entity.requires_point_left.iter().all(|name| ctx.PointMonitoring.get(name).unwrap().Left == ActiveInactive::ACTIVE))) {
     (Some(a), Some(b)) => Some(a && b),
@@ -38,6 +41,7 @@ impl RouteMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn RouteSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Route.get(&self.entity.name).unwrap().State), Some(RouteState::SET)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -46,6 +50,7 @@ impl RouteMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn InverseTransitInactive(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Transit.get(&self.entity.transit_in_opposite_direction).unwrap().State), Some(ActiveInactive::INACTIVE)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -54,6 +59,7 @@ impl RouteMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn MonitoringComplete(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (Some(self.entity.downstream_link_right.iter().any(|name| ctx.LinkLTR.get(name).unwrap().State == RouteSearch::ROUTE_MONITORED)), Some(self.entity.downstream_link_left.iter().any(|name| ctx.LinkRTL.get(name).unwrap().State == RouteSearch::ROUTE_MONITORED))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -89,6 +95,7 @@ impl Graph for RouteMonitoringStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     NOT_CONTROLLED,
@@ -97,6 +104,7 @@ pub enum root_State {
 
 impl RouteMonitoringStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = ActiveInactive::INACTIVE;
                     web_sys::console::log_1(&format!("RouteMonitoring({})=NOT_CONTROLLED", self.entity.name).into());
@@ -104,6 +112,7 @@ impl RouteMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_NOT_CONTROLLED(&mut self, now: timestamp) -> root_State {
         if self.PointsControlled_value && self.RouteSet_value && self.InverseTransitInactive_value && self.MonitoringComplete_value {
             self.State = ActiveInactive::ACTIVE;
@@ -113,6 +122,7 @@ impl RouteMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_CONTROLLED(&mut self, now: timestamp) -> root_State {
         if !(self.PointsControlled_value) || !(self.RouteSet_value) || !(self.InverseTransitInactive_value) || !(self.MonitoringComplete_value) {
             self.State = ActiveInactive::INACTIVE;
@@ -121,6 +131,7 @@ impl RouteMonitoringStateMachine {
         root_State::CONTROLLED
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {

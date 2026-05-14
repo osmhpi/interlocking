@@ -3,6 +3,7 @@
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, triggerable::Triggerable};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct Point_SCIPStruct {
     pub entity: EntitiesPointItem,
     pub DetectedEndPosition: Triggerable<EulynxEndPosition>, // input

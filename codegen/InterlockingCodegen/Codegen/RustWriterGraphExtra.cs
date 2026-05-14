@@ -20,14 +20,19 @@ static partial class RustWriter
     foreach (var graph in graphs)
     {
       var structName = char.ToUpperInvariant(graph.Name[0]) + graph.Name.Substring(1) + "StateMachine";
+    lines.Add("#[allow(non_camel_case_types)]");
       lines.Add($"pub type {graph.Name}_map = HashMap<String, {structName}>;");
     }
     // Add type aliases for each concept-interface pair
     foreach (var (concept, iface) in conceptInterfaces)
     {
+      lines.Add("#[allow(non_camel_case_types)]");
       lines.Add($"pub type {concept}_{iface}_map = HashMap<String, {concept}_{iface}Struct>;");
     }
-    lines.Add("\npub struct EvalContext {");
+    lines.Add("");
+    lines.Add("#[allow(non_snake_case)]");
+    lines.Add("#[allow(unused)]");
+    lines.Add("pub struct EvalContext {");
     foreach (var graph in graphs)
     {
       lines.Add($"    pub {graph.Name}: {graph.Name}_map,");
@@ -58,6 +63,7 @@ static partial class RustWriter
     foreach (var graph in graphs)
     {
       var moduleName = graph.Name;
+      lines.Add("#[allow(non_snake_case)]");
       lines.Add($"mod {moduleName};");
     }
     lines.Add("");

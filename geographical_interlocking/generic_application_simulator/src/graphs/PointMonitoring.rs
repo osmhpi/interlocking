@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct PointMonitoringStateMachine {
     __state: root_State,
     pub entity: EntitiesPointItem,
@@ -16,6 +17,7 @@ pub struct PointMonitoringStateMachine {
     pub CommandedRight_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl PointMonitoringStateMachine {
     pub fn new(entity: EntitiesPointItem) -> Self {
         Self {
@@ -32,6 +34,7 @@ impl PointMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn EndPositionLeftDetected(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::LEFT))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -40,6 +43,7 @@ impl PointMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn EndPositionRightDetected(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Point_SCIP.get(&self.entity.name).unwrap().DetectedEndPosition), Some(Triggerable::Triggered(EulynxEndPosition::RIGHT))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -48,6 +52,7 @@ impl PointMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn CommandedLeft(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.PointNominalPosition.get(&self.entity.name).unwrap().State), Some(PointState::LEFT)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -56,6 +61,7 @@ impl PointMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn CommandedRight(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.PointNominalPosition.get(&self.entity.name).unwrap().State), Some(PointState::RIGHT)) {
     (Some(l), Some(r)) => Some(l == r),
@@ -79,6 +85,7 @@ impl Graph for PointMonitoringStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     CONTROLLED_LEFT,
@@ -88,6 +95,7 @@ pub enum root_State {
 
 impl PointMonitoringStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
         if self.EndPositionLeftDetected_value {
             self.Left = ActiveInactive::ACTIVE;
@@ -106,6 +114,7 @@ impl PointMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_CONTROLLED_LEFT(&mut self, now: timestamp) -> root_State {
         if !(self.EndPositionLeftDetected_value) || !(self.CommandedLeft_value) {
             self.Left = ActiveInactive::INACTIVE;
@@ -116,6 +125,7 @@ impl PointMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_CONTROLLED_RIGHT(&mut self, now: timestamp) -> root_State {
         if !(self.EndPositionRightDetected_value) || !(self.CommandedRight_value) {
             self.Left = ActiveInactive::INACTIVE;
@@ -126,6 +136,7 @@ impl PointMonitoringStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_NOT_CONTROLLED(&mut self, now: timestamp) -> root_State {
         if self.EndPositionLeftDetected_value && self.CommandedLeft_value {
             self.Left = ActiveInactive::ACTIVE;
@@ -140,6 +151,7 @@ impl PointMonitoringStateMachine {
         root_State::NOT_CONTROLLED
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {

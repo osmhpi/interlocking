@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct LinkLTRStateMachine {
     __state: root_State,
     pub entity: EntitiesLinkItem,
@@ -17,6 +18,7 @@ pub struct LinkLTRStateMachine {
     pub IsRouteSetDownstream_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl LinkLTRStateMachine {
     pub fn new(entity: EntitiesLinkItem) -> Self {
         Self {
@@ -34,6 +36,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn IsChecking(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (match (Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_B)), Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_C))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -51,6 +54,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn IsCheckingOpposite(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (match (Some(self.entity.element_right_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_B)), Some(self.entity.element_right_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::CHECK_FROM_C))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -68,6 +72,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn IsAdmit(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (match (Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_B)), Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_C))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -85,6 +90,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn IsAdmitOpposite(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (match (Some(self.entity.element_right_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_B)), Some(self.entity.element_right_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ADMIT_TO_C))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -102,6 +108,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn IsRouteSet(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (match (Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_B)), Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingSearch.get(name).unwrap().Check == RouteChecking::ROUTE_SET_FROM_C))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -119,6 +126,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn IsRouteSetDownstream(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (match (match (match (Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_TO_B)), Some(self.entity.element_left_port_a.iter().any(|name| ctx.RouteFindingResponse.get(name).unwrap().Admit == RouteAdmission::ROUTE_TO_C))) {
     (Some(a), Some(b)) => Some(a || b),
@@ -153,6 +161,7 @@ impl Graph for LinkLTRStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     IDLE,
@@ -164,6 +173,7 @@ pub enum root_State {
 
 impl LinkLTRStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = RouteSearch::INACTIVE;
                     web_sys::console::log_1(&format!("LinkLTR({})=IDLE", self.entity.name).into());
@@ -171,6 +181,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_IDLE(&mut self, now: timestamp) -> root_State {
         if self.IsChecking_value && !(self.IsCheckingOpposite_value) {
             self.State = RouteSearch::SEARCH;
@@ -184,6 +195,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_CHECKING(&mut self, now: timestamp) -> root_State {
         if self.IsRouteSet_value && self.IsAdmitOpposite_value {
             self.State = RouteSearch::ROUTE_SET;
@@ -197,6 +209,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_ADMIT(&mut self, now: timestamp) -> root_State {
         if self.IsRouteSetDownstream_value {
             self.State = RouteSearch::ROUTE_MONITORED;
@@ -210,6 +223,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_ROUTE_SET(&mut self, now: timestamp) -> root_State {
         if !(self.IsRouteSet_value) {
             self.State = RouteSearch::INACTIVE;
@@ -219,6 +233,7 @@ impl LinkLTRStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_ROUTE_MONITORED(&mut self, now: timestamp) -> root_State {
         if !(self.IsRouteSetDownstream_value) {
             self.State = RouteSearch::RESPONSE;
@@ -227,6 +242,7 @@ impl LinkLTRStateMachine {
         root_State::ROUTE_MONITORED
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {

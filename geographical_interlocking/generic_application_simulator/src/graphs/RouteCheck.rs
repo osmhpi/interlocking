@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct RouteCheckStateMachine {
     __state: root_State,
     pub entity: EntitiesRouteItem,
@@ -14,6 +15,7 @@ pub struct RouteCheckStateMachine {
     pub IsTop_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl RouteCheckStateMachine {
     pub fn new(entity: EntitiesRouteItem) -> Self {
         Self {
@@ -28,6 +30,7 @@ impl RouteCheckStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn RouteRequested(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Route_SCICC.get(&self.entity.name).unwrap().MsgRequestRoute), Some(Triggerable::Triggered(true))) {
     (Some(l), Some(r)) => Some(l == r),
@@ -36,6 +39,7 @@ impl RouteCheckStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn IsTop(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (Some(self.entity.all_routes.iter().all(|name| ctx.RouteCheck.get(name).unwrap().Top == ActiveInactive::ACTIVE))).unwrap_or(false)
     }
@@ -54,6 +58,7 @@ impl Graph for RouteCheckStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     INACTIVE,
@@ -63,6 +68,7 @@ pub enum root_State {
 
 impl RouteCheckStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.Top = ActiveInactive::ACTIVE;
             self.State = ActiveInactive::INACTIVE;
@@ -71,6 +77,7 @@ impl RouteCheckStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_INACTIVE(&mut self, now: timestamp) -> root_State {
         if self.RouteRequested_value {
 
@@ -79,6 +86,7 @@ impl RouteCheckStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_WAITING(&mut self, now: timestamp) -> root_State {
         if self.IsTop_value {
             self.Top = ActiveInactive::INACTIVE;
@@ -89,6 +97,7 @@ impl RouteCheckStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_CHECKING(&mut self, now: timestamp) -> root_State {
                     self.Top = ActiveInactive::ACTIVE;
             self.State = ActiveInactive::INACTIVE;
@@ -98,6 +107,7 @@ impl RouteCheckStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_c(&mut self, now: timestamp) -> root_State {
         if self.IsTop_value {
             self.Top = ActiveInactive::INACTIVE;
@@ -110,6 +120,7 @@ impl RouteCheckStateMachine {
         return root_State::WAITING;
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {

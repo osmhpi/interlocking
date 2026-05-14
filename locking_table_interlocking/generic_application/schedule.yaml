@@ -31,8 +31,6 @@ groups:
     entries:
     - entity_type: Route
       graph: RouteMonitoring
-    - entity_type: Route
-      graph: RouteControl
   - grouping: by_graph
     entries:
     - entity_type: Signal

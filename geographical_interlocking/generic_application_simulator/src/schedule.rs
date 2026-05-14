@@ -4,6 +4,7 @@ use std::collections::HashMap;
 
 use crate::{entity_types::*, configuration_types::Entities, enums::*, eval_context::EvalContext, graph::Graph, graphs::*, timestamp::timestamp};
 
+#[allow(non_snake_case)]
 pub struct Schedule {
     pub LinkLTR: Vec<LinkLTRStateMachine>,
     pub LinkRTL: Vec<LinkRTLStateMachine>,
@@ -14,7 +15,6 @@ pub struct Schedule {
     pub PointOperation: Vec<PointOperationStateMachine>,
     pub RouteAutomaticRelease: Vec<RouteAutomaticReleaseStateMachine>,
     pub RouteCheck: Vec<RouteCheckStateMachine>,
-    pub RouteControl: Vec<RouteControlStateMachine>,
     pub RouteFindingResponse: Vec<RouteFindingResponseStateMachine>,
     pub RouteFindingSearch: Vec<RouteFindingSearchStateMachine>,
     pub RouteManualReleaseDispatch: Vec<RouteManualReleaseDispatchStateMachine>,
@@ -35,6 +35,7 @@ pub struct Schedule {
     pub Zone_SCICC: Vec<Zone_SCICCStruct>,
 }
 
+#[allow(non_snake_case)]
 pub struct ScheduleBuilder {
     LinkLTR: Vec<LinkLTRStateMachine>,
     LinkRTL: Vec<LinkRTLStateMachine>,
@@ -45,7 +46,6 @@ pub struct ScheduleBuilder {
     PointOperation: Vec<PointOperationStateMachine>,
     RouteAutomaticRelease: Vec<RouteAutomaticReleaseStateMachine>,
     RouteCheck: Vec<RouteCheckStateMachine>,
-    RouteControl: Vec<RouteControlStateMachine>,
     RouteFindingResponse: Vec<RouteFindingResponseStateMachine>,
     RouteFindingSearch: Vec<RouteFindingSearchStateMachine>,
     RouteManualReleaseDispatch: Vec<RouteManualReleaseDispatchStateMachine>,
@@ -67,6 +67,7 @@ pub struct ScheduleBuilder {
 }
 
 impl ScheduleBuilder {
+    #[allow(non_snake_case)]
     pub fn new(entities: Entities) -> Self {
         let mut LinkLTR = Vec::new();
         entities.link.iter().for_each(|x| {
@@ -103,10 +104,6 @@ impl ScheduleBuilder {
         let mut RouteCheck = Vec::new();
         entities.route.iter().for_each(|x| {
             RouteCheck.push(RouteCheckStateMachine::new(x.clone()));
-        });
-        let mut RouteControl = Vec::new();
-        entities.transit.iter().for_each(|x| {
-            RouteControl.push(RouteControlStateMachine::new(x.clone()));
         });
         let mut RouteFindingResponse = Vec::new();
         entities.infrastructure_element.iter().for_each(|x| {
@@ -190,7 +187,6 @@ impl ScheduleBuilder {
             PointOperation,
             RouteAutomaticRelease,
             RouteCheck,
-            RouteControl,
             RouteFindingResponse,
             RouteFindingSearch,
             RouteManualReleaseDispatch,
@@ -223,7 +219,6 @@ impl ScheduleBuilder {
             PointOperation: self.PointOperation,
             RouteAutomaticRelease: self.RouteAutomaticRelease,
             RouteCheck: self.RouteCheck,
-            RouteControl: self.RouteControl,
             RouteFindingResponse: self.RouteFindingResponse,
             RouteFindingSearch: self.RouteFindingSearch,
             RouteManualReleaseDispatch: self.RouteManualReleaseDispatch,
@@ -247,6 +242,7 @@ impl ScheduleBuilder {
 }
 
 impl Schedule {
+    #[allow(non_snake_case)]
     fn build_eval_context(&self) -> EvalContext {
         let Point_SCIP_map: HashMap<String, Point_SCIPStruct> =
             self.Point_SCIP.clone().into_iter().map(|iface| (iface.entity.name.clone(), iface)).collect();
@@ -282,8 +278,6 @@ impl Schedule {
             self.RouteAutomaticRelease.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
         let RouteCheck_map: HashMap<String, RouteCheckStateMachine> =
             self.RouteCheck.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
-        let RouteControl_map: HashMap<String, RouteControlStateMachine> =
-            self.RouteControl.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
         let RouteFindingResponse_map: HashMap<String, RouteFindingResponseStateMachine> =
             self.RouteFindingResponse.clone().into_iter().map(|m| (m.entity.name.clone(), m)).collect();
         let RouteFindingSearch_map: HashMap<String, RouteFindingSearchStateMachine> =
@@ -314,7 +308,6 @@ impl Schedule {
             PointOperation: PointOperation_map,
             RouteAutomaticRelease: RouteAutomaticRelease_map,
             RouteCheck: RouteCheck_map,
-            RouteControl: RouteControl_map,
             RouteFindingResponse: RouteFindingResponse_map,
             RouteFindingSearch: RouteFindingSearch_map,
             RouteManualReleaseDispatch: RouteManualReleaseDispatch_map,
@@ -396,10 +389,30 @@ impl Schedule {
             self.LinkRTL[i].evaluate_terms(&ctx, now);
             self.LinkRTL[i].transition(now);
         }
-        for i in 0..self.RouteMonitoring.len() {
+        for i in 0..self.RouteFindingSearch.len() {
             let ctx = self.build_eval_context();
-            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
-            self.RouteMonitoring[i].transition(now);
+            self.RouteFindingSearch[i].evaluate_terms(&ctx, now);
+            self.RouteFindingSearch[i].transition(now);
+        }
+        for i in 0..self.RouteFindingResponse.len() {
+            let ctx = self.build_eval_context();
+            self.RouteFindingResponse[i].evaluate_terms(&ctx, now);
+            self.RouteFindingResponse[i].transition(now);
+        }
+        for i in 0..self.RouteManualReleaseDispatch.len() {
+            let ctx = self.build_eval_context();
+            self.RouteManualReleaseDispatch[i].evaluate_terms(&ctx, now);
+            self.RouteManualReleaseDispatch[i].transition(now);
+        }
+        for i in 0..self.LinkLTR.len() {
+            let ctx = self.build_eval_context();
+            self.LinkLTR[i].evaluate_terms(&ctx, now);
+            self.LinkLTR[i].transition(now);
+        }
+        for i in 0..self.LinkRTL.len() {
+            let ctx = self.build_eval_context();
+            self.LinkRTL[i].evaluate_terms(&ctx, now);
+            self.LinkRTL[i].transition(now);
         }
         for i in 0..self.RouteFindingSearch.len() {
             let ctx = self.build_eval_context();
@@ -426,10 +439,30 @@ impl Schedule {
             self.LinkRTL[i].evaluate_terms(&ctx, now);
             self.LinkRTL[i].transition(now);
         }
-        for i in 0..self.RouteMonitoring.len() {
+        for i in 0..self.RouteFindingSearch.len() {
             let ctx = self.build_eval_context();
-            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
-            self.RouteMonitoring[i].transition(now);
+            self.RouteFindingSearch[i].evaluate_terms(&ctx, now);
+            self.RouteFindingSearch[i].transition(now);
+        }
+        for i in 0..self.RouteFindingResponse.len() {
+            let ctx = self.build_eval_context();
+            self.RouteFindingResponse[i].evaluate_terms(&ctx, now);
+            self.RouteFindingResponse[i].transition(now);
+        }
+        for i in 0..self.RouteManualReleaseDispatch.len() {
+            let ctx = self.build_eval_context();
+            self.RouteManualReleaseDispatch[i].evaluate_terms(&ctx, now);
+            self.RouteManualReleaseDispatch[i].transition(now);
+        }
+        for i in 0..self.LinkLTR.len() {
+            let ctx = self.build_eval_context();
+            self.LinkLTR[i].evaluate_terms(&ctx, now);
+            self.LinkLTR[i].transition(now);
+        }
+        for i in 0..self.LinkRTL.len() {
+            let ctx = self.build_eval_context();
+            self.LinkRTL[i].evaluate_terms(&ctx, now);
+            self.LinkRTL[i].transition(now);
         }
         for i in 0..self.RouteFindingSearch.len() {
             let ctx = self.build_eval_context();
@@ -456,10 +489,30 @@ impl Schedule {
             self.LinkRTL[i].evaluate_terms(&ctx, now);
             self.LinkRTL[i].transition(now);
         }
-        for i in 0..self.RouteMonitoring.len() {
+        for i in 0..self.RouteFindingSearch.len() {
             let ctx = self.build_eval_context();
-            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
-            self.RouteMonitoring[i].transition(now);
+            self.RouteFindingSearch[i].evaluate_terms(&ctx, now);
+            self.RouteFindingSearch[i].transition(now);
+        }
+        for i in 0..self.RouteFindingResponse.len() {
+            let ctx = self.build_eval_context();
+            self.RouteFindingResponse[i].evaluate_terms(&ctx, now);
+            self.RouteFindingResponse[i].transition(now);
+        }
+        for i in 0..self.RouteManualReleaseDispatch.len() {
+            let ctx = self.build_eval_context();
+            self.RouteManualReleaseDispatch[i].evaluate_terms(&ctx, now);
+            self.RouteManualReleaseDispatch[i].transition(now);
+        }
+        for i in 0..self.LinkLTR.len() {
+            let ctx = self.build_eval_context();
+            self.LinkLTR[i].evaluate_terms(&ctx, now);
+            self.LinkLTR[i].transition(now);
+        }
+        for i in 0..self.LinkRTL.len() {
+            let ctx = self.build_eval_context();
+            self.LinkRTL[i].evaluate_terms(&ctx, now);
+            self.LinkRTL[i].transition(now);
         }
         for i in 0..self.RouteFindingSearch.len() {
             let ctx = self.build_eval_context();
@@ -486,10 +539,30 @@ impl Schedule {
             self.LinkRTL[i].evaluate_terms(&ctx, now);
             self.LinkRTL[i].transition(now);
         }
-        for i in 0..self.RouteMonitoring.len() {
+        for i in 0..self.RouteFindingSearch.len() {
             let ctx = self.build_eval_context();
-            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
-            self.RouteMonitoring[i].transition(now);
+            self.RouteFindingSearch[i].evaluate_terms(&ctx, now);
+            self.RouteFindingSearch[i].transition(now);
+        }
+        for i in 0..self.RouteFindingResponse.len() {
+            let ctx = self.build_eval_context();
+            self.RouteFindingResponse[i].evaluate_terms(&ctx, now);
+            self.RouteFindingResponse[i].transition(now);
+        }
+        for i in 0..self.RouteManualReleaseDispatch.len() {
+            let ctx = self.build_eval_context();
+            self.RouteManualReleaseDispatch[i].evaluate_terms(&ctx, now);
+            self.RouteManualReleaseDispatch[i].transition(now);
+        }
+        for i in 0..self.LinkLTR.len() {
+            let ctx = self.build_eval_context();
+            self.LinkLTR[i].evaluate_terms(&ctx, now);
+            self.LinkLTR[i].transition(now);
+        }
+        for i in 0..self.LinkRTL.len() {
+            let ctx = self.build_eval_context();
+            self.LinkRTL[i].evaluate_terms(&ctx, now);
+            self.LinkRTL[i].transition(now);
         }
         for i in 0..self.RouteFindingSearch.len() {
             let ctx = self.build_eval_context();
@@ -516,11 +589,6 @@ impl Schedule {
             self.LinkRTL[i].evaluate_terms(&ctx, now);
             self.LinkRTL[i].transition(now);
         }
-        for i in 0..self.RouteMonitoring.len() {
-            let ctx = self.build_eval_context();
-            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
-            self.RouteMonitoring[i].transition(now);
-        }
         for i in 0..self.RouteFindingSearch.len() {
             let ctx = self.build_eval_context();
             self.RouteFindingSearch[i].evaluate_terms(&ctx, now);
@@ -545,131 +613,6 @@ impl Schedule {
             let ctx = self.build_eval_context();
             self.LinkRTL[i].evaluate_terms(&ctx, now);
             self.LinkRTL[i].transition(now);
-        }
-        for i in 0..self.RouteMonitoring.len() {
-            let ctx = self.build_eval_context();
-            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
-            self.RouteMonitoring[i].transition(now);
-        }
-        for i in 0..self.RouteFindingSearch.len() {
-            let ctx = self.build_eval_context();
-            self.RouteFindingSearch[i].evaluate_terms(&ctx, now);
-            self.RouteFindingSearch[i].transition(now);
-        }
-        for i in 0..self.RouteFindingResponse.len() {
-            let ctx = self.build_eval_context();
-            self.RouteFindingResponse[i].evaluate_terms(&ctx, now);
-            self.RouteFindingResponse[i].transition(now);
-        }
-        for i in 0..self.RouteManualReleaseDispatch.len() {
-            let ctx = self.build_eval_context();
-            self.RouteManualReleaseDispatch[i].evaluate_terms(&ctx, now);
-            self.RouteManualReleaseDispatch[i].transition(now);
-        }
-        for i in 0..self.LinkLTR.len() {
-            let ctx = self.build_eval_context();
-            self.LinkLTR[i].evaluate_terms(&ctx, now);
-            self.LinkLTR[i].transition(now);
-        }
-        for i in 0..self.LinkRTL.len() {
-            let ctx = self.build_eval_context();
-            self.LinkRTL[i].evaluate_terms(&ctx, now);
-            self.LinkRTL[i].transition(now);
-        }
-        for i in 0..self.RouteMonitoring.len() {
-            let ctx = self.build_eval_context();
-            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
-            self.RouteMonitoring[i].transition(now);
-        }
-        for i in 0..self.RouteFindingSearch.len() {
-            let ctx = self.build_eval_context();
-            self.RouteFindingSearch[i].evaluate_terms(&ctx, now);
-            self.RouteFindingSearch[i].transition(now);
-        }
-        for i in 0..self.RouteFindingResponse.len() {
-            let ctx = self.build_eval_context();
-            self.RouteFindingResponse[i].evaluate_terms(&ctx, now);
-            self.RouteFindingResponse[i].transition(now);
-        }
-        for i in 0..self.RouteManualReleaseDispatch.len() {
-            let ctx = self.build_eval_context();
-            self.RouteManualReleaseDispatch[i].evaluate_terms(&ctx, now);
-            self.RouteManualReleaseDispatch[i].transition(now);
-        }
-        for i in 0..self.LinkLTR.len() {
-            let ctx = self.build_eval_context();
-            self.LinkLTR[i].evaluate_terms(&ctx, now);
-            self.LinkLTR[i].transition(now);
-        }
-        for i in 0..self.LinkRTL.len() {
-            let ctx = self.build_eval_context();
-            self.LinkRTL[i].evaluate_terms(&ctx, now);
-            self.LinkRTL[i].transition(now);
-        }
-        for i in 0..self.RouteMonitoring.len() {
-            let ctx = self.build_eval_context();
-            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
-            self.RouteMonitoring[i].transition(now);
-        }
-        for i in 0..self.RouteFindingSearch.len() {
-            let ctx = self.build_eval_context();
-            self.RouteFindingSearch[i].evaluate_terms(&ctx, now);
-            self.RouteFindingSearch[i].transition(now);
-        }
-        for i in 0..self.RouteFindingResponse.len() {
-            let ctx = self.build_eval_context();
-            self.RouteFindingResponse[i].evaluate_terms(&ctx, now);
-            self.RouteFindingResponse[i].transition(now);
-        }
-        for i in 0..self.RouteManualReleaseDispatch.len() {
-            let ctx = self.build_eval_context();
-            self.RouteManualReleaseDispatch[i].evaluate_terms(&ctx, now);
-            self.RouteManualReleaseDispatch[i].transition(now);
-        }
-        for i in 0..self.LinkLTR.len() {
-            let ctx = self.build_eval_context();
-            self.LinkLTR[i].evaluate_terms(&ctx, now);
-            self.LinkLTR[i].transition(now);
-        }
-        for i in 0..self.LinkRTL.len() {
-            let ctx = self.build_eval_context();
-            self.LinkRTL[i].evaluate_terms(&ctx, now);
-            self.LinkRTL[i].transition(now);
-        }
-        for i in 0..self.RouteMonitoring.len() {
-            let ctx = self.build_eval_context();
-            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
-            self.RouteMonitoring[i].transition(now);
-        }
-        for i in 0..self.RouteFindingSearch.len() {
-            let ctx = self.build_eval_context();
-            self.RouteFindingSearch[i].evaluate_terms(&ctx, now);
-            self.RouteFindingSearch[i].transition(now);
-        }
-        for i in 0..self.RouteFindingResponse.len() {
-            let ctx = self.build_eval_context();
-            self.RouteFindingResponse[i].evaluate_terms(&ctx, now);
-            self.RouteFindingResponse[i].transition(now);
-        }
-        for i in 0..self.RouteManualReleaseDispatch.len() {
-            let ctx = self.build_eval_context();
-            self.RouteManualReleaseDispatch[i].evaluate_terms(&ctx, now);
-            self.RouteManualReleaseDispatch[i].transition(now);
-        }
-        for i in 0..self.LinkLTR.len() {
-            let ctx = self.build_eval_context();
-            self.LinkLTR[i].evaluate_terms(&ctx, now);
-            self.LinkLTR[i].transition(now);
-        }
-        for i in 0..self.LinkRTL.len() {
-            let ctx = self.build_eval_context();
-            self.LinkRTL[i].evaluate_terms(&ctx, now);
-            self.LinkRTL[i].transition(now);
-        }
-        for i in 0..self.RouteMonitoring.len() {
-            let ctx = self.build_eval_context();
-            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
-            self.RouteMonitoring[i].transition(now);
         }
         for i in 0..self.RouteAutomaticRelease.len() {
             let ctx = self.build_eval_context();
@@ -686,10 +629,10 @@ impl Schedule {
             self.Route[i].evaluate_terms(&ctx, now);
             self.Route[i].transition(now);
         }
-        for i in 0..self.RouteControl.len() {
+        for i in 0..self.RouteMonitoring.len() {
             let ctx = self.build_eval_context();
-            self.RouteControl[i].evaluate_terms(&ctx, now);
-            self.RouteControl[i].transition(now);
+            self.RouteMonitoring[i].evaluate_terms(&ctx, now);
+            self.RouteMonitoring[i].transition(now);
         }
         for i in 0..self.Signal.len() {
             let ctx = self.build_eval_context();

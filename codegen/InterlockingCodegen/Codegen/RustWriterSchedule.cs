@@ -34,6 +34,7 @@ static partial class RustWriter
     string SnakeCase(string s) => string.Concat(s.Select((x, i) => char.IsUpper(x) ? (i > 0 ? "_" : "") + char.ToLowerInvariant(x) : x.ToString()));
 
     // 2. Schedule struct
+    lines.Add("#[allow(non_snake_case)]");
     lines.Add("pub struct Schedule {");
     foreach (var graph in graphs)
       lines.Add($"    pub {graph.Name}: Vec<{PascalCase(graph.Name)}StateMachine>,");
@@ -43,6 +44,7 @@ static partial class RustWriter
     lines.Add("");
 
     // 3. ScheduleBuilder struct
+    lines.Add("#[allow(non_snake_case)]");
     lines.Add("pub struct ScheduleBuilder {");
     foreach (var graph in graphs)
       lines.Add($"    {graph.Name}: Vec<{PascalCase(graph.Name)}StateMachine>,");
@@ -53,6 +55,7 @@ static partial class RustWriter
 
     // 4. ScheduleBuilder::new
     lines.Add("impl ScheduleBuilder {");
+    lines.Add("    #[allow(non_snake_case)]");
     lines.Add("    pub fn new(entities: Entities) -> Self {");
     foreach (var graph in graphs)
     {
@@ -91,6 +94,7 @@ static partial class RustWriter
 
     // Add a Rust function to build EvalContext from &self
     lines.Add("impl Schedule {");
+    lines.Add("    #[allow(non_snake_case)]");
     lines.Add("    fn build_eval_context(&self) -> EvalContext {");
     foreach (var (concept, iface) in conceptInterfaces)
     {

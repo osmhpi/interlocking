@@ -3,6 +3,7 @@
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, triggerable::Triggerable};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct Signal_SCICCStruct {
     pub entity: EntitiesSignalItem,
     pub signal_open: bool, // output

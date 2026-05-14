@@ -3,6 +3,7 @@
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, triggerable::Triggerable};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct Transit_SCICCStruct {
     pub entity: EntitiesTransitItem,
     pub Active: bool, // output

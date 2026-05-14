@@ -5,6 +5,7 @@ use web_sys;
 use crate::{configuration_types::*, enums::*, eval_context::EvalContext, graph::Graph, triggerable::Triggerable, timestamp::timestamp};
 
 #[derive(Clone)]
+#[allow(non_snake_case)]
 pub struct ZoneStateMachine {
     __state: root_State,
     pub entity: EntitiesZoneItem,
@@ -12,6 +13,7 @@ pub struct ZoneStateMachine {
     pub ZoneOccupied_value: bool,
 }
 
+#[allow(non_snake_case)]
 impl ZoneStateMachine {
     pub fn new(entity: EntitiesZoneItem) -> Self {
         Self {
@@ -24,6 +26,7 @@ impl ZoneStateMachine {
     }
 
     #[allow(unused_variables)]
+#[allow(non_snake_case)]
     pub fn ZoneOccupied(&self, ctx: &EvalContext, now: timestamp) -> bool {
         (match (Some(ctx.Zone_SCITDS.get(&self.entity.name).unwrap().OccupancyStatus), Some(Triggerable::Triggered(OccupancyStatus::VACANT))) {
     (Some(l), Some(r)) => Some(l != r),
@@ -44,6 +47,7 @@ impl Graph for ZoneStateMachine {
 
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[allow(non_camel_case_types)]
 pub enum root_State {
     __initial,
     OCCUPIED,
@@ -52,6 +56,7 @@ pub enum root_State {
 
 impl ZoneStateMachine {
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root___initial(&mut self, now: timestamp) -> root_State {
                     self.State = OccupancyStatus::OCCUPIED;
                     web_sys::console::log_1(&format!("Zone({})=OCCUPIED", self.entity.name).into());
@@ -59,6 +64,7 @@ impl ZoneStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_OCCUPIED(&mut self, now: timestamp) -> root_State {
         if !(self.ZoneOccupied_value) {
             self.State = OccupancyStatus::VACANT;
@@ -68,6 +74,7 @@ impl ZoneStateMachine {
     }
 
     #[allow(unused_variables)]
+    #[allow(non_snake_case)]
     fn transition_from_root_VACANT(&mut self, now: timestamp) -> root_State {
         if self.ZoneOccupied_value {
             self.State = OccupancyStatus::OCCUPIED;
@@ -76,6 +83,7 @@ impl ZoneStateMachine {
         root_State::VACANT
     }
 
+    #[allow(non_snake_case)]
     fn transition_root(&mut self, state: root_State, now: timestamp) -> root_State {
         // Performs a state transition if possible
         match state {
