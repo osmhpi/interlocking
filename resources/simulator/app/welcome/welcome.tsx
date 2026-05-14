@@ -1,23 +1,41 @@
 import * as wasm from "interlocking";
+import Trackplan from "./trackplan.svg?react";
 
 import configTxt from "./configuration.json?raw"
 import { useEffect, useState } from "react";
+
+enum OccupancyStatus {
+  OCCUPIED = 0,
+  VACANT = 1,
+}
+
+enum PointPosition {
+  LEFT = 0,
+  RIGHT = 1,
+  NO_END_POSITION = 2,
+  UNINTENDED_POSITION = 3,
+}
+
+enum TransitState {
+  INACTIVE = 0,
+  ACTIVE = 1,
+}
 
 export function Welcome() {
   const [running, setRunning] = useState(false);
   const [i, setI] = useState(0);
   const [config, setConfig] = useState<any>({});
 
-  // Inputs
+  // Inputs to the simulator
   const [pointPositions, setPointPositions] = useState<number[]>([]);
   const [zoneOccupancies, setZoneOccupancies] = useState<number[]>([]);
   const [signalApproachStatuses, setSignalApproachStatuses] = useState<boolean[]>([]);
 
-  // Outputs
+  // Outputs from the simulator
   const [signalStates, setSignalStates] = useState<{ [key: string]: boolean }>({});
-  const [currentZoneOccupancies, setCurrentZoneOccupancies] = useState<{ [key: string]: number }>({});
-  const [currentTransitStates, setCurrentTransitStates] = useState<{ [key: string]: boolean }>({});
-  const [currentPointPositions, setCurrentPointPositions] = useState<{ [key: string]: number }>({});
+  const [currentZoneOccupancies, setCurrentZoneOccupancies] = useState<{ [key: string]: OccupancyStatus }>({});
+  const [currentTransitStates, setCurrentTransitStates] = useState<{ [key: string]: TransitState }>({});
+  const [currentPointPositions, setCurrentPointPositions] = useState<{ [key: string]: PointPosition }>({});
 
   useEffect(() => {
     wasm.init(configTxt);
@@ -65,7 +83,7 @@ export function Welcome() {
     setCurrentPointPositions(prev => ({
       ...prev,
       ...config?.['Point']?.reduce((acc: any, x: any, idx: number) => {
-        acc[x['name']] = wasm.get_point_current_position(idx);
+        acc[x['name']] = wasm.get_point_current_position(idx) as PointPosition;
         return acc;
       }, {})
     }));
@@ -89,7 +107,7 @@ export function Welcome() {
     setCurrentZoneOccupancies(prev => ({
       ...prev,
       ...config?.['Zone']?.reduce((acc: any, x: any, idx: number) => {
-        acc[x['name']] = wasm.get_zone_current_occupancy(idx);
+        acc[x['name']] = wasm.get_zone_current_occupancy(idx) as OccupancyStatus;
         return acc;
       }, {})
     }));
@@ -98,7 +116,7 @@ export function Welcome() {
     setCurrentTransitStates(prev => ({
       ...prev,
       ...config?.['Transit']?.reduce((acc: any, x: any, idx: number) => {
-        acc[x['name']] = wasm.get_transit_status(idx) === 1;
+        acc[x['name']] = wasm.get_transit_status(idx) as TransitState;
         return acc;
       }, {})
     }));
@@ -118,6 +136,108 @@ export function Welcome() {
       return () => clearInterval(interval);
     }
   }, [running]);
+
+  const computePointFill = (currentZoneOccupancies: { [key: string]: OccupancyStatus }, currentTransitStates: { [key: string]: TransitState }, pointName: string) => {
+    const zoneOccupied = currentZoneOccupancies[pointName] === OccupancyStatus.OCCUPIED;
+    const anyTransitActive = currentTransitStates[`${pointName}_L+`] === TransitState.ACTIVE || currentTransitStates[`${pointName}_L-`] === TransitState.ACTIVE || currentTransitStates[`${pointName}_R+`] === TransitState.ACTIVE || currentTransitStates[`${pointName}_R-`] === TransitState.ACTIVE;
+    return zoneOccupied ? 'red' : (anyTransitActive ? 'green' : 'gray');
+  }
+
+  const computePointLeftLegFill = (currentZoneOccupancies: { [key: string]: OccupancyStatus }, currentTransitStates: { [key: string]: TransitState }, pointName: string) => {
+    const zoneOccupied = currentZoneOccupancies[pointName] === OccupancyStatus.OCCUPIED;
+    const anyTransitActive = currentTransitStates[`${pointName}_L+`] === TransitState.ACTIVE || currentTransitStates[`${pointName}_L-`] === TransitState.ACTIVE;
+    return zoneOccupied ? 'red' : (anyTransitActive ? 'green' : 'gray');
+  }
+
+  const computePointRightLegFill = (currentZoneOccupancies: { [key: string]: OccupancyStatus }, currentTransitStates: { [key: string]: TransitState }, pointName: string) => {
+    const zoneOccupied = currentZoneOccupancies[pointName] === OccupancyStatus.OCCUPIED;
+    const anyTransitActive = currentTransitStates[`${pointName}_R+`] === TransitState.ACTIVE || currentTransitStates[`${pointName}_R-`] === TransitState.ACTIVE;
+    return zoneOccupied ? 'red' : (anyTransitActive ? 'green' : 'gray');
+  }
+
+  const computeSectionFill = (currentZoneOccupancies: { [key: string]: OccupancyStatus }, currentTransitStates: { [key: string]: TransitState }, sectionName: string) => {
+    const zoneOccupied = currentZoneOccupancies[sectionName] === OccupancyStatus.OCCUPIED;
+    const anyTransitActive = currentTransitStates[`${sectionName}+`] === TransitState.ACTIVE || currentTransitStates[`${sectionName}-`] === TransitState.ACTIVE;
+    return zoneOccupied ? 'red' : (anyTransitActive ? 'green' : 'gray');
+  }
+
+  useEffect(() => {
+    // Signals
+    const a = document.getElementById('A') as unknown as SVGElement;
+    if (a) {
+      a.style.fill = signalStates['A'] ? 'green' : 'red';
+    }
+
+    const n1 = document.getElementById('N1') as unknown as SVGElement;
+    if (n1) {
+      n1.style.fill = signalStates['N1'] ? 'green' : 'red';
+    }
+
+    const n2 = document.getElementById('N2') as unknown as SVGElement;
+    if (n2) {
+      n2.style.fill = signalStates['N2'] ? 'green' : 'red';
+    }
+
+    // Track sections
+    const g11 = document.getElementById('G11') as unknown as SVGElement;
+    if (g11) {
+      g11.style.fill = computeSectionFill(currentZoneOccupancies, currentTransitStates, 'G11');
+    }
+
+    const g12 = document.getElementById('G12') as unknown as SVGElement;
+    if (g12) {
+      g12.style.fill = computeSectionFill(currentZoneOccupancies, currentTransitStates, 'G12');
+    }
+
+    const g21 = document.getElementById('G21') as unknown as SVGElement;
+    if (g21) {
+      g21.style.fill = computeSectionFill(currentZoneOccupancies, currentTransitStates, 'G21');
+    }
+
+    const gxx = document.getElementById('GXX') as unknown as SVGElement;
+    if (gxx) {
+      gxx.style.fill = 'gray';
+    }
+
+    // Points
+    const w1 = document.getElementById('W1') as unknown as SVGElement;
+    if (w1) {
+      w1.style.fill = computePointFill(currentZoneOccupancies, currentTransitStates, 'W1');
+    }
+    const w1l = document.getElementById('W1L') as unknown as SVGElement;
+    if (w1l) {
+      w1l.style.fill = computePointLeftLegFill(currentZoneOccupancies, currentTransitStates, 'W1');
+      w1l.style.display = currentPointPositions['W1'] === 0 ? 'block' : 'none';
+    }
+    const w1r = document.getElementById('W1R') as unknown as SVGElement;
+    if (w1r) {
+      w1r.style.fill = computePointRightLegFill(currentZoneOccupancies, currentTransitStates, 'W1');
+      w1r.style.display = currentPointPositions['W1'] === 1 ? 'block' : 'none';
+    }
+    const w1l2 = document.getElementById('W1L2') as unknown as SVGElement;
+    if (w1l2) {
+      w1l2.style.fill = computePointLeftLegFill(currentZoneOccupancies, currentTransitStates, 'W1');
+    }
+
+    const w2 = document.getElementById('W2') as unknown as SVGElement;
+    if (w2) {
+      w2.style.fill = computePointFill(currentZoneOccupancies, currentTransitStates, 'W2');
+    }
+    const w2l = document.getElementById('W2L') as unknown as SVGElement;
+    if (w2l) {
+      w2l.style.fill = computePointLeftLegFill(currentZoneOccupancies, currentTransitStates, 'W2');
+      w2l.style.display = currentPointPositions['W2'] === 0 ? 'block' : 'none';
+    }
+    const w2r = document.getElementById('W2R') as unknown as SVGElement;
+    if (w2r) {
+      w2r.style.fill = computePointRightLegFill(currentZoneOccupancies, currentTransitStates, 'W2');
+      w2r.style.display = currentPointPositions['W2'] === 1 ? 'block' : 'none';
+    }
+    const w2l2 = document.getElementById('W2L2') as unknown as SVGElement;
+    if (w2l2) {
+      w2l2.style.fill = computePointLeftLegFill(currentZoneOccupancies, currentTransitStates, 'W2');
+    }
+  }, [currentZoneOccupancies, currentTransitStates, currentPointPositions]);
 
   const toggle = () => {
     setRunning(!running);
@@ -174,143 +294,7 @@ export function Welcome() {
         <header className="flex flex-col items-center gap-9">
           <div className="w-[800px] max-w-[100vw] p-4">
             <div className="rounded-3xl border border-gray-200 p-6 dark:border-gray-700 space-y-4">
-              <svg width="100%" height="100%" viewBox="0 0 653 283" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                  <g transform="matrix(1,0,0,1,-19,-83)">
-                      <g>
-                          <g id="W1" transform="matrix(0.611228,0,0,0.535306,123.941,107.362)" style={{fill: currentZoneOccupancies['W1'] === 1 ? ((currentTransitStates['W1_L+'] || currentTransitStates['W1_L-'] || currentTransitStates['W1_R+'] || currentTransitStates['W1_R-']) ? 'green' : 'gray') : 'red'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="G11" transform="matrix(1.07277,0,0,0.535306,-78.5582,107.362)" style={{fill: currentZoneOccupancies['G11'] === 1 ? ((currentTransitStates['G11+'] || currentTransitStates['G11-']) ? 'green' : 'gray') : 'red'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="G12" transform="matrix(2.32784,0,0,0.535306,108.239,107.362)" style={{fill: currentZoneOccupancies['G12'] === 1 ? ((currentTransitStates['G12+'] || currentTransitStates['G12-']) ? 'green' : 'gray') : 'red'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="W1L2" transform="matrix(0.473274,-0.473274,0.378519,0.378519,101.694,182.17)" style={{fill: currentZoneOccupancies['W1'] === 1 ? ((currentTransitStates['W1_L+'] || currentTransitStates['W1_L-']) ? 'green' : 'gray') : 'red'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="W2L2" transform="matrix(0.473274,-0.473274,0.378519,0.378519,172.404,111.459)" style={{fill: currentZoneOccupancies['W2'] === 1 ? ((currentTransitStates['W2_L+'] || currentTransitStates['W2_L-']) ? 'green' : 'gray') : 'red'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="W1R" transform="matrix(0.334655,0,0,0.535306,240.562,107.362)" style={{fill: currentZoneOccupancies['W1'] === 1 ? ((currentTransitStates['W1_R+'] || currentTransitStates['W1_R-']) ? 'green' : 'gray') : 'red', display: currentPointPositions['W1'] === 1 ? 'block' : 'none'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g transform="matrix(2.67322,0,0,0.535306,-224.956,-98.8697)" style={{fill: 'gray'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="W2" transform="matrix(0.570288,0,0,0.535306,416.805,-98.8697)" style={{fill: currentZoneOccupancies['W2'] === 1 ? ((currentTransitStates['W2_L+'] || currentTransitStates['W2_L-'] || currentTransitStates['W2_R+'] || currentTransitStates['W2_R-']) ? 'green' : 'gray') : 'red'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="G21" transform="matrix(0.768334,0,0,0.535306,483.894,-98.8697)" style={{fill: currentZoneOccupancies['G21'] === 1 ? ((currentTransitStates['G21+'] || currentTransitStates['G21-']) ? 'green' : 'gray') : 'red'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="W2R" transform="matrix(0.334655,0,0,0.535306,388.359,-98.8697)" style={{fill: currentZoneOccupancies['W2'] === 1 ? ((currentTransitStates['W2_R+'] || currentTransitStates['W2_R-']) ? 'green' : 'gray') : 'red', display: currentPointPositions['W2'] === 1 ? 'block' : 'none'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="W1L" transform="matrix(0.236637,-0.236637,0.378519,0.378519,87.9765,195.819)" style={{fill: currentZoneOccupancies['W1'] === 1 ? ((currentTransitStates['W1_L+'] || currentTransitStates['W1_L-']) ? 'green' : 'gray') : 'red', display: currentPointPositions['W1'] === 0 ? 'block' : 'none'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="W2L" transform="matrix(0.236637,-0.236637,0.378519,0.378519,264.716,19.0848)" style={{fill: currentZoneOccupancies['W2'] === 1 ? ((currentTransitStates['W2_L+'] || currentTransitStates['W2_L-']) ? 'green' : 'gray') : 'red', display: currentPointPositions['W2'] === 0 ? 'block' : 'none'}}>
-                              <rect x="91.473" y="388.763" width="149.407" height="37.362"/>
-                          </g>
-                          <g id="A" transform="matrix(1,0,0,1,20.5878,67.1524)" style={{fill: signalStates['A'] ? 'green' : 'red'}}>
-                              <g transform="matrix(0.986792,0,0,0.779456,0.892597,61.4359)">
-                                  <rect x="67.579" y="278.566" width="10.134" height="25.659"/>
-                              </g>
-                              <g transform="matrix(1.97358,0,0,0.779456,-35.7941,61.4359)">
-                                  <rect x="67.579" y="278.566" width="10.134" height="25.659"/>
-                              </g>
-                              <g transform="matrix(0.567835,0,0,0.567835,33.6977,117.547)">
-                                  <circle cx="147.722" cy="301.177" r="17.611"/>
-                              </g>
-                              <g transform="matrix(1.97358,0,0,0.389728,-55.7941,175.001)">
-                                  <rect x="67.579" y="278.566" width="10.134" height="25.659"/>
-                              </g>
-                          </g>
-                          <g id="N2" transform="matrix(1,0,0,1,517.034,67.1524)" style={{fill: signalStates['N2'] ? 'green' : 'red'}}>
-                              <g transform="matrix(0.986792,0,0,0.779456,0.892597,61.4359)">
-                                  <rect x="67.579" y="278.566" width="10.134" height="25.659"/>
-                              </g>
-                              <g transform="matrix(1.97358,0,0,0.779456,-35.7941,61.4359)">
-                                  <rect x="67.579" y="278.566" width="10.134" height="25.659"/>
-                              </g>
-                              <g transform="matrix(0.567835,0,0,0.567835,33.6977,117.547)">
-                                  <circle cx="147.722" cy="301.177" r="17.611"/>
-                              </g>
-                              <g transform="matrix(1.97358,0,0,0.389728,-55.7941,175.001)">
-                                  <rect x="67.579" y="278.566" width="10.134" height="25.659"/>
-                              </g>
-                          </g>
-                          <g id="N1" transform="matrix(1,0,0,1,517.034,-140.367)" style={{fill: signalStates['N1'] ? 'green' : 'red'}}>
-                              <g transform="matrix(0.986792,0,0,0.779456,0.892597,61.4359)">
-                                  <rect x="67.579" y="278.566" width="10.134" height="25.659"/>
-                              </g>
-                              <g transform="matrix(1.97358,0,0,0.779456,-35.7941,61.4359)">
-                                  <rect x="67.579" y="278.566" width="10.134" height="25.659"/>
-                              </g>
-                              <g transform="matrix(0.567835,0,0,0.567835,33.6977,117.547)">
-                                  <circle cx="147.722" cy="301.177" r="17.611"/>
-                              </g>
-                              <g transform="matrix(1.97358,0,0,0.389728,-55.7941,175.001)">
-                                  <rect x="67.579" y="278.566" width="10.134" height="25.659"/>
-                              </g>
-                          </g>
-                          <g transform="matrix(1,0,0,1,-54.9013,58.0328)">
-                              <g transform="matrix(12,0,0,12,222.552,301.98)">
-                              </g>
-                              <text x="214.548px" y="301.98px" style={{fontFamily: 'Arial', fontSize: '12px'}}>A</text>
-                          </g>
-                          <g transform="matrix(1,0,0,1,443.038,58.0679)">
-                              <g transform="matrix(12,0,0,12,229.888,301.98)">
-                              </g>
-                              <text x="214.548px" y="301.98px" style={{fontFamily: 'Arial', fontSize: '12px'}}>N1</text>
-                          </g>
-                          <g transform="matrix(1,0,0,1,64.8995,58.0679)">
-                              <g transform="matrix(12,0,0,12,232.548,301.98)">
-                              </g>
-                              <text x="214.548px" y="301.98px" style={{fontFamily: 'Arial', fontSize: '12px'}}>W1</text>
-                          </g>
-                          <g transform="matrix(1,0,0,1,239.882,-209.893)">
-                              <g transform="matrix(12,0,0,12,232.548,301.98)">
-                              </g>
-                              <text x="214.548px" y="301.98px" style={{fontFamily: 'Arial', fontSize: '12px'}}>W2</text>
-                          </g>
-                          <g transform="matrix(1,0,0,1,442.253,-149.469)">
-                              <g transform="matrix(12,0,0,12,229.888,301.98)">
-                              </g>
-                              <text x="214.548px" y="301.98px" style={{fontFamily: 'Arial', fontSize: '12px'}}>N2</text>
-                          </g>
-                          <g>
-                              <g transform="matrix(0.650136,0,0,0.508144,26.386,196.982)">
-                                  <rect x="145.373" y="233.176" width="46.144" height="39.359" style={{fill: 'white'}}/>
-                              </g>
-                              <g transform="matrix(1,0,0,1,-88.7635,27.7835)">
-                                  <g transform="matrix(12,0,0,12,236.339,301.98)">
-                                  </g>
-                                  <text x="214.548px" y="301.98px" style={{fontFamily: 'Arial', fontSize: '12px'}}>G11</text>
-                              </g>
-                          </g>
-                          <g transform="matrix(1,0,0,1,0,-206.231)">
-                              <g transform="matrix(0.650136,0,0,0.508144,506.959,196.982)">
-                                  <rect x="145.373" y="233.176" width="46.144" height="39.359" style={{fill: 'white'}}/>
-                              </g>
-                              <g transform="matrix(1,0,0,1,391.809,27.7835)">
-                                  <g transform="matrix(12,0,0,12,237.23,301.98)">
-                                  </g>
-                                  <text x="214.548px" y="301.98px" style={{fontFamily: 'Arial', fontSize: '12px'}}>G21</text>
-                              </g>
-                              <g transform="matrix(0.650136,0,0,0.508144,506.959,403.213)">
-                                  <rect x="145.373" y="233.176" width="46.144" height="39.359" style={{fill: 'white'}}/>
-                              </g>
-                              <g transform="matrix(1,0,0,1,391.809,234.015)">
-                                  <g transform="matrix(12,0,0,12,237.23,301.98)">
-                                  </g>
-                                  <text x="214.548px" y="301.98px" style={{fontFamily: 'Arial', fontSize: '12px'}}>G12</text>
-                              </g>
-                          </g>
-                      </g>
-                  </g>
-              </svg>
+              <Trackplan />
             </div>
           </div>
         </header>

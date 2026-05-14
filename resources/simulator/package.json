@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "simulator",
   "private": true,
   "type": "module",
   "scripts": {
@@ -23,9 +23,11 @@
     "@types/node": "^22",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "baseline-browser-mapping": "^2.10.29",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
+    "vite-plugin-svgr": "^5.2.0",
     "vite-plugin-wasm": "^3.5.0",
     "vite-tsconfig-paths": "^5.1.4"
   }

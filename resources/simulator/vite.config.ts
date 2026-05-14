@@ -3,9 +3,10 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import wasm from "vite-plugin-wasm";
+import svgrPlugin from 'vite-plugin-svgr';
 
 export default defineConfig({
-  plugins: [tailwindcss(), reactRouter(), tsconfigPaths(), wasm()],
+  plugins: [tailwindcss(), reactRouter(), tsconfigPaths(), wasm(), svgrPlugin()],
   base: process.env.GH_PAGES ? "/interlocking/locking_table_interlocking/" : "/",
   server: {
     port: 5173,
