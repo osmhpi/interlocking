@@ -80,14 +80,12 @@
   "Route": [
     {
       "name": "A.N1",
-      "start_element_left": "A",
       "all_routes": [
         "A.N1"
       ]
     },
     {
       "name": "A.N2",
-      "start_element_left": "A",
       "all_routes": [
         "A.N2"
       ]

@@ -247,10 +247,6 @@
             "description": "All routes that are part of this station.",
             "minItems": 0
           },
-          "start_element_left": {
-            "type": "string",
-            "description": "The start infrastructure element of the route."
-          },
           "name": {
             "type": "string",
             "description": "The name of the entity instance.",
