@@ -4,7 +4,7 @@
 
 INACTIVE --> ACTIVE: [1] RouteIsSet && OppositeTransitsInactive && !TriggerZoneFree
 ACTIVE --> INACTIVE: [1] !RouteIsSet
-ACTIVE -right-> EFFECTIVE: [1] TriggerZoneFree
+ACTIVE -right-> EFFECTIVE: [2] TriggerZoneFree
 EFFECTIVE -up-> INACTIVE: [1] !RouteIsSet
 
 INACTIVE: State = ActiveInactive::INACTIVE
